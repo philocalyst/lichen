@@ -285,6 +285,8 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
             fs::write(&comment_tokens_path, "")?;
         }
     }
+    let comment_char = get_comment_char("lua", &comment_tokens_path);
+
     let license = apply_comments(license, comment_char.unwrap());
 
     let blacklist = generate_blacklist(target.unwrap(), exclude_pattern?);
@@ -310,7 +312,7 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn get_comment_char(extension: &str, path: &str) -> Result<String, Box<dyn std::error::Error>> {
+fn get_comment_char(extension: &str, path: &PathBuf) -> Result<String, Box<dyn std::error::Error>> {
     // Open and read the JSON file
     let file = File::open(path)?;
     let reader = BufReader::new(file);
