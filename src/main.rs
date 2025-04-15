@@ -261,40 +261,11 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
 
     let license = strip_metadata(data);
 
-    let comment_char = get_comment_char(
-        "lua",
-        "/Users/philocalyst/Projects/lichen/comment_tokens.json",
-    );
-    let resources_directory =
-        if let Some(proj_dirs) = ProjectDirs::from("com", "philocalyst", "lichen") {
-            proj_dirs
-            // Lin: /home/alice/.config/barapp
-            // Win: C:\Users\Alice\AppData\Roaming\Foo Corp\Bar App\config
-            // Mac: /Users/Alice/Library/Application Support/com.Foo-Corp.Bar-App
-        } else {
-            panic!("Could not determine project directory");
-        };
+    let blacklist = generate_blacklist(&target, exclude_pattern?);
 
-    let resources_directory = resources_directory.data_dir();
-    let comment_tokens_path = resources_directory.join("comment-tokens.json");
+    let working_files = get_valid_files(&target, &blacklist.unwrap());
 
-    println!("{:?}", comment_tokens_path);
-
-    if !resources_directory.try_exists()? {
-        fs::create_dir(resources_directory)?;
-        if !comment_tokens_path.try_exists()? {
-            fs::write(&comment_tokens_path, "")?;
-        }
-    }
-    let comment_char = get_comment_char("lua", &comment_tokens_path);
-
-    let license = apply_comments(license, comment_char.unwrap());
-
-    let blacklist = generate_blacklist(target.unwrap(), exclude_pattern?);
-
-    println!("{:?}", blacklist);
-
-    // prepend_file(&license.into_bytes(), "src/main.rs");
+    prepend_files(&license, working_files);
 
     // TODO: Implement actual license application logic.
     // - Find relevant files (e.g., walk the current directory).
@@ -313,9 +284,18 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn get_comment_char(extension: &str, path: &PathBuf) -> Result<String, Box<dyn std::error::Error>> {
-    // Open and read the JSON file
-    let file = File::open(path)?;
+fn prepend_files(license: &String, paths: Vec<PathBuf>) {
+    for path in paths {
+        let comment_char = if let Some(ext) = path.extension() {
+            get_comment_char(ext.to_str().unwrap_or(""))
+        } else {
+            get_comment_char("")
+        };
+        let license = apply_comments(license, comment_char.unwrap());
+        prepend_file(&license, path);
+    }
+}
+
     let reader = BufReader::new(file);
     let data: serde_json::Value = serde_json::from_reader(reader)?;
 
