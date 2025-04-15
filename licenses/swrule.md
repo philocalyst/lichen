@@ -1,0 +1,10 @@
+---
+spdxID: swrule
+name: swrule License
+osiApproved: false
+listVersionAdded: 3.22
+crossRefs: 
+  - "https://ctan.math.utah.edu/ctan/tex-archive/macros/generic/misc/swrule.sty"
+---
+
+The style package is copyrighted but may be used and extended in any way, as long as a pointer to the original author is maintained. The author is not liable for any problem that may or may not result from using this package. Use at your own risk.

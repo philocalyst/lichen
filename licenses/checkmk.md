@@ -1,0 +1,14 @@
+---
+spdxID: checkmk
+name: Checkmk License
+osiApproved: false
+listVersionAdded: 3.19
+crossRefs: 
+  - "https://github.com/libcheck/check/blob/master/checkmk/checkmk.in"
+---
+
+**Copyright (c) 2006, 2010 Micah Cowan**
+
+Redistribution of this program in any form, with or without modifications, is permitted, provided that the above copyright is retained in distributions of this program in source form.
+
+(This is a free, non-copyleft license compatible with pretty much any other free or proprietary license, including the GPL. It's essentially a scaled-down version of the "modified" BSD license.)

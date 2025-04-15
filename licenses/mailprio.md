@@ -1,0 +1,14 @@
+---
+spdxID: mailprio
+name: mailprio License
+osiApproved: false
+listVersionAdded: 3.23
+crossRefs: 
+  - "https://fossies.org/linux/sendmail/contrib/mailprio"
+---
+
+Copyright 1994, 1996, Tony Sanders {{sanders@earth.com}}
+
+Rights are hereby granted to download, use, modify, sell, copy, and redistribute this software so long as the original copyright notice and this list of conditions remain intact and modified versions are noted as such.
+
+I would also very much appreciate it if you could send me a copy of any changes you make so I can possibly integrate them into my version.
