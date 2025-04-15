@@ -1,5 +1,6 @@
 use clap::{Args, Parser, Subcommand};
 use clap_verbosity_flag::{InfoLevel, Verbosity};
+use directories::{self, BaseDirs, ProjectDirs};
 use regex;
 use serde_json;
 use std::error::Error;
@@ -199,7 +200,10 @@ fn seek_license(license_dir: &str, license_name: &String) -> Option<PathBuf> {
     found_path
 }
 
-fn generate_blacklist(target: PathBuf, reg_pattern: regex::Regex) -> std::io::Result<Vec<PathBuf>> {
+fn generate_blacklist(
+    target: &PathBuf,
+    reg_pattern: regex::Regex,
+) -> std::io::Result<Vec<PathBuf>> {
     let mut blacklist: Vec<PathBuf> = Vec::new();
 
     for entry in walkdir::WalkDir::new(&target)
@@ -215,7 +219,7 @@ fn generate_blacklist(target: PathBuf, reg_pattern: regex::Regex) -> std::io::Re
     Ok(blacklist)
 }
 
-fn get_valid_files(target: PathBuf, blacklist: Vec<PathBuf>) -> std::io::Result<()> {
+fn get_valid_files(target: &PathBuf, blacklist: &Vec<PathBuf>) -> std::io::Result<()> {
     let walker = walkdir::WalkDir::new(target).into_iter();
     for entry in walker.filter_entry(|e| !blacklist.iter().any(|path| path == e.path())) {
         let entry = entry?;
@@ -232,7 +236,7 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
         .license
         .ok_or("License name is required via CLI or config")?;
     let exclude_pattern = regex::Regex::new(&args.exclude.unwrap());
-    let target = args.target;
+    let target = args.target.unwrap();
 
     log::info!("Applying license header: {}", license_name);
     log::info!("In-place modification: {}", args.in_place);
