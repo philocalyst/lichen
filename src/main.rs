@@ -232,11 +232,13 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
     let license = strip_metadata(data);
 
     let comment_char = get_comment_char(
-        "rs",
+        "lua",
         "/Users/philocalyst/Projects/lichen/comment_tokens.json",
     );
 
-    let license = apply_comments(license, "//".to_string());
+    println!("{:?}", comment_char);
+
+    let license = apply_comments(license, comment_char.unwrap());
 
     // prepend_file(&license.into_bytes(), "src/main.rs");
 
@@ -259,30 +261,44 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn get_comment_char(extention: &str, path: &str) -> Result<(), Box<dyn Error>> {
-    let mut comment_char: &str;
-    let file = File::open(path).unwrap();
-
+fn get_comment_char(extension: &str, path: &str) -> Result<String, Box<dyn std::error::Error>> {
+    // Open and read the JSON file
+    let file = File::open(path)?;
     let reader = BufReader::new(file);
+    let data: serde_json::Value = serde_json::from_reader(reader)?;
 
-    let data: serde_json::Value = serde_json::from_reader(reader).unwrap();
-    if let Some(languages_map) = data.as_object() {
-        for (index, language_details) in languages_map.iter() {
-            println!("{:?}", language_details);
-            if let Some(details_map) = language_details.as_object() {
-                if let Some(token_str) = details_map.get("comment_token") {
-                    return (token_str.as_str().unwrap());
-                    println!("  Comment Token: {}", token_str.as_str().unwrap());
-                } else {
-                    println!("  Comment Token: (Not specified or not a string)");
+    // Check if data is an object (expected)
+    let languages_map = data
+        .as_object()
+        .ok_or_else(|| "JSON data is not a top-level object".to_string())?;
+
+    // Iterate through the languages
+    for (_, language_details) in languages_map {
+        // Check if this language has the target extension
+        if let Some(file_types) = language_details.get("file_types") {
+            if let Some(file_types_array) = file_types.as_array() {
+                // Check if the provided extention is in the file_types array for the language
+                let has_extension = file_types_array
+                    .iter()
+                    .any(|ext| ext.as_str().map_or(false, |s| s == extension));
+
+                if has_extension {
+                    // Get comment toeken for the language
+                    if let Some(token_value) = language_details.get("comment_token") {
+                        if let Some(token_str) = token_value.as_str() {
+                            return Ok(token_str.to_string());
+                        }
+                    }
+
+                    // If no comment token but extension matches return an error
+                    return Err("Language found but has no comment token".into());
                 }
             }
         }
-    } else {
-        eprintln!("Error: The provided JSON data is not a top-level object.");
     }
 
-    Ok(())
+    // If no matching language is found
+    Err("No language found for the given extension".into())
 }
 
 fn apply_comments(license: String, com_char: String) -> String {
