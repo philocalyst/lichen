@@ -219,13 +219,14 @@ fn generate_blacklist(
     Ok(blacklist)
 }
 
-fn get_valid_files(target: &PathBuf, blacklist: &Vec<PathBuf>) -> std::io::Result<()> {
+fn get_valid_files(target: &PathBuf, blacklist: &Vec<PathBuf>) -> Vec<PathBuf> {
+    let mut response = Vec::new();
     let walker = walkdir::WalkDir::new(target).into_iter();
     for entry in walker.filter_entry(|e| !blacklist.iter().any(|path| path == e.path())) {
-        let entry = entry?;
-        println!("{}", entry.path().display());
+        let entry = entry.unwrap().into_path();
+        response.push(entry);
     }
-    Ok(())
+    response
 }
 
 fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
