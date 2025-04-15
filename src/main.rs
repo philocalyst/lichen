@@ -264,9 +264,27 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
         "lua",
         "/Users/philocalyst/Projects/lichen/comment_tokens.json",
     );
+    let resources_directory =
+        if let Some(proj_dirs) = ProjectDirs::from("com", "philocalyst", "lichen") {
+            proj_dirs
+            // Lin: /home/alice/.config/barapp
+            // Win: C:\Users\Alice\AppData\Roaming\Foo Corp\Bar App\config
+            // Mac: /Users/Alice/Library/Application Support/com.Foo-Corp.Bar-App
+        } else {
+            panic!("Could not determine project directory");
+        };
 
-    println!("{:?}", comment_char);
+    let resources_directory = resources_directory.data_dir();
+    let comment_tokens_path = resources_directory.join("comment-tokens.json");
 
+    println!("{:?}", comment_tokens_path);
+
+    if !resources_directory.try_exists()? {
+        fs::create_dir(resources_directory)?;
+        if !comment_tokens_path.try_exists()? {
+            fs::write(&comment_tokens_path, "")?;
+        }
+    }
     let license = apply_comments(license, comment_char.unwrap());
 
     let blacklist = generate_blacklist(target.unwrap(), exclude_pattern?);
