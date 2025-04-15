@@ -127,6 +127,9 @@ fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
     let mut found_path: Option<PathBuf> = None; // Variable to store the path if found
 
     match fs::read_dir(search_dir) {
+fn seek_license(license_dir: &str, license_name: &String) -> Option<PathBuf> {
+    let mut found_path: Option<PathBuf> = None; // Variable to store the path if found
+    match fs::read_dir(license_dir) {
         Ok(entries) => {
             // Iterate through the directory entries
             for entry_result in entries {
@@ -152,39 +155,10 @@ fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
             }
         }
         Err(e) => {
-            eprintln!("Error: Could not read directory '{}': {}", search_dir, e);
+            eprintln!("Error: Could not read directory '{}': {}", license_dir, e);
         }
     }
-    let license_path = if let Some(path) = found_path {
-        path
-    } else {
-        eprintln!(
-            "License file '{}' not found in directory '{}'.",
-            license_name, search_dir
-        );
-        process::exit(1);
-    };
-
-    match fs::copy(license_path, "LICENSE.md") {
-        Err(error) => {
-            eprintln!("{error}")
-        }
-        Ok(_val) => (), // TODO: Logging
-    };
-
-    // TODO: Implement actual license generation logic.
-    // - Fetch license template based on `license_name`.
-    // - Fill in placeholders (author, year).
-    // - Write to a LICENSE file (or stdout if passed through pipe).
-
-    println!(
-        "Placeholder: Would generate license '{}' for year {} by {:?}",
-        license_name,
-        year,
-        authors.unwrap_or_default()
-    );
-
-    Ok(())
+    found_path
 }
 
 fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
@@ -202,6 +176,19 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
         log::info!("Excluding patterns: {:?}", patterns);
         // TODO: Add regex
     }
+
+    let search_dir = "licenses";
+    let found_path: Option<PathBuf> = seek_license(search_dir, &license_name); // Variable to store the path if found
+
+    let license_path = if let Some(path) = found_path {
+        path
+    } else {
+        eprintln!(
+            "License file '{}' not found in directory '{}'.",
+            license_name, search_dir
+        );
+        process::exit(1);
+    };
 
     // TODO: Implement actual license application logic.
     // - Find relevant files (e.g., walk the current directory).
