@@ -1,8 +1,12 @@
 use clap::{Args, Parser, Subcommand};
 use clap_verbosity_flag::{InfoLevel, Verbosity};
-use std::fs;
+use serde_json;
+use std::error::Error;
+use std::fs::{self, File, read_to_string};
+use std::io::{self, BufReader, Read, Write};
 use std::path::Path;
 use std::path::PathBuf;
+use std::process;
 use std::process::ExitCode;
 use tempfile::NamedTempFile;
 
@@ -105,7 +109,6 @@ fn main() -> ExitCode {
 // ▰▰▰ SUBCOMMAND LOGIC ▰▰▰ //
 
 fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
-    use std::process;
     log::debug!("Running Gen command with args: {:?}", args);
 
     // TODO: Config parsing
@@ -124,10 +127,42 @@ fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
     log::info!("Year: {}", year);
 
     let search_dir = "licenses";
-    let mut found_path: Option<PathBuf> = None; // Variable to store the path if found
+    let found_path: Option<PathBuf> = seek_license(search_dir, &license_name); // Variable to store the path if found
+
+    let license_file = "LICENSE.md";
+
+    let license_path = if let Some(path) = found_path {
+        path
+    } else {
+        eprintln!(
+            "License file '{}' not found in directory '{}'.",
+            license_name, search_dir
+        );
+        process::exit(1);
+    };
+
+    let license = read_to_string(license_path).unwrap();
+    let data: Vec<char> = license.chars().collect();
+
     let license = strip_metadata(data);
 
-    match fs::read_dir(search_dir) {
+    println!("{}", license);
+
+    // TODO: Implement actual license generation logic.
+    // - Fetch license template based on `license_name`.
+    // - Fill in placeholders (author, year).
+    // - Write to a LICENSE file (or stdout if passed through pipe).
+
+    println!(
+        "Placeholder: Would generate license '{}' for year {} by {:?}",
+        license_name,
+        year,
+        authors.unwrap_or_default()
+    );
+
+    Ok(())
+}
+
 fn seek_license(license_dir: &str, license_name: &String) -> Option<PathBuf> {
     let mut found_path: Option<PathBuf> = None; // Variable to store the path if found
     match fs::read_dir(license_dir) {
@@ -191,6 +226,20 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
         process::exit(1);
     };
 
+    let license = read_to_string(license_path).unwrap();
+    let data: Vec<char> = license.chars().collect();
+
+    let license = strip_metadata(data);
+
+    let comment_char = get_comment_char(
+        "rs",
+        "/Users/philocalyst/Projects/lichen/comment_tokens.json",
+    );
+
+    let license = apply_comments(license, "//".to_string());
+
+    // prepend_file(&license.into_bytes(), "src/main.rs");
+
     // TODO: Implement actual license application logic.
     // - Find relevant files (e.g., walk the current directory).
     // - Filter files based on `exclude_patterns`.
@@ -208,6 +257,40 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
     );
 
     Ok(())
+}
+
+fn get_comment_char(extention: &str, path: &str) -> Result<(), Box<dyn Error>> {
+    let mut comment_char: &str;
+    let file = File::open(path).unwrap();
+
+    let reader = BufReader::new(file);
+
+    let data: serde_json::Value = serde_json::from_reader(reader).unwrap();
+    if let Some(languages_map) = data.as_object() {
+        for (index, language_details) in languages_map.iter() {
+            println!("{:?}", language_details);
+            if let Some(details_map) = language_details.as_object() {
+                if let Some(token_str) = details_map.get("comment_token") {
+                    return (token_str.as_str().unwrap());
+                    println!("  Comment Token: {}", token_str.as_str().unwrap());
+                } else {
+                    println!("  Comment Token: (Not specified or not a string)");
+                }
+            }
+        }
+    } else {
+        eprintln!("Error: The provided JSON data is not a top-level object.");
+    }
+
+    Ok(())
+}
+
+fn apply_comments(license: String, com_char: String) -> String {
+    let mut response = String::new();
+    for line in license.split('\n') {
+        response.push_str(&format!("{}{}\n", com_char, line));
+    }
+    response
 }
 
 fn strip_metadata(data: Vec<char>) -> String {
