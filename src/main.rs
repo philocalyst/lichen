@@ -296,7 +296,29 @@ fn prepend_files(license: &String, paths: Vec<PathBuf>) {
     }
 }
 
+fn get_comment_char(extension: &str) -> Result<String, Box<dyn std::error::Error>> {
+    let resources_directory =
+        if let Some(proj_dirs) = ProjectDirs::from("com", "philocalyst", "lichen") {
+            proj_dirs
+            // Lin: /home/alice/.config/barapp
+            // Win: C:\Users\Alice\AppData\Roaming\Foo Corp\Bar App\config
+            // Mac: /Users/Alice/Library/Application Support/com.Foo-Corp.Bar-App
+        } else {
+            panic!("Could not determine project directory");
+        };
+
+    let resources_directory = resources_directory.data_dir();
+    let comment_tokens_path = resources_directory.join("comment-tokens.json");
+
+    if !resources_directory.try_exists()? {
+        fs::create_dir(resources_directory)?;
+        if !comment_tokens_path.try_exists()? {
+            fs::write(&comment_tokens_path, "")?;
+        }
+    }
+    let file = File::open(comment_tokens_path)?;
     let reader = BufReader::new(file);
+    // Open and read the JSON file
     let data: serde_json::Value = serde_json::from_reader(reader)?;
 
     // Check if data is an object (expected)
@@ -323,14 +345,14 @@ fn prepend_files(license: &String, paths: Vec<PathBuf>) {
                     }
 
                     // If no comment token but extension matches return an error
-                    return Err("Language found but has no comment token".into());
+                    return Ok("#".to_string());
                 }
             }
         }
     }
 
     // If no matching language is found
-    Err("No language found for the given extension".into())
+    Ok("#".to_string())
 }
 
 fn apply_comments(license: String, com_char: String) -> String {
