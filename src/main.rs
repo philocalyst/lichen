@@ -355,7 +355,7 @@ fn get_comment_char(extension: &str) -> Result<String, Box<dyn std::error::Error
     Ok("#".to_string())
 }
 
-fn apply_comments(license: String, com_char: String) -> String {
+fn apply_comments(license: &String, com_char: String) -> String {
     let mut response = String::new();
     for line in license.split('\n') {
         response.push_str(&format!("{}{}\n", com_char, line));
@@ -415,7 +415,7 @@ fn strip_metadata(data: Vec<char>) -> String {
     result
 }
 
-fn prepend_file<P: AsRef<Path>>(data: &[u8], file_path: P) -> io::Result<()> {
+fn prepend_file<P: AsRef<Path>>(license: &String, file_path: P) -> io::Result<()> {
     // Create a temporary file in the same directory for better cross-device moves
     let dir = file_path
         .as_ref()
@@ -424,7 +424,7 @@ fn prepend_file<P: AsRef<Path>>(data: &[u8], file_path: P) -> io::Result<()> {
     let mut tmp = NamedTempFile::new_in(dir)?;
 
     // Write the data to prepend
-    tmp.write_all(data)?;
+    tmp.write_all(license.as_bytes())?;
 
     // Open source file, read its contents, and write to the temp file
     let mut src_content = Vec::new();
