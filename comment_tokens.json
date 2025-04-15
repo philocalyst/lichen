@@ -1,0 +1,1163 @@
+{
+  "rust": {
+    "comment_token": "//",
+    "block_comment_tokens": [
+      {
+        "start": "/*",
+        "end": "*/"
+      },
+      {
+        "start": "/**",
+        "end": "*/"
+      },
+      {
+        "start": "/*!",
+        "end": "*/"
+      }
+    ]
+  },
+  "sway": {
+    "comment_token": "//"
+  },
+  "toml": {
+    "comment_token": "#"
+  },
+  "awk": {
+    "comment_token": "#"
+  },
+  "protobuf": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "textproto": {
+    "comment_token": "#"
+  },
+  "elixir": {
+    "comment_token": "#"
+  },
+  "fish": {
+    "comment_token": "#"
+  },
+  "mint": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "mojo": {
+    "comment_token": "#"
+  },
+  "janet": {
+    "comment_token": "#"
+  },
+  "jsonc": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "json5": {
+    "comment_token": "//"
+  },
+  "c": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "cpp": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "crystal": {
+    "comment_token": "#"
+  },
+  "c-sharp": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "cel": {
+    "comment_token": "//"
+  },
+  "spicedb": {
+    "comment_token": "//"
+  },
+  "go": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "gomod": {
+    "comment_token": "//"
+  },
+  "gotmpl": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "gowork": {
+    "comment_token": "//"
+  },
+  "javascript": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "jsx": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "typescript": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "typespec": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "tsx": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "css": {
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "scss": {
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "html": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    }
+  },
+  "python": {
+    "comment_token": "#"
+  },
+  "nickel": {
+    "comment_token": "#"
+  },
+  "nix": {
+    "comment_token": "#"
+  },
+  "ruby": {
+    "comment_token": "#"
+  },
+  "bash": {
+    "comment_token": "#"
+  },
+  "php": {
+    "comment_token": "//",
+    "block_comment_tokens": [
+      {
+        "start": "/**",
+        "end": "*/"
+      },
+      {
+        "start": "/*",
+        "end": "*/"
+      }
+    ]
+  },
+  "twig": {
+    "block_comment_tokens": {
+      "start": "{#",
+      "end": "#}"
+    }
+  },
+  "latex": {
+    "comment_token": "%"
+  },
+  "bibtex": {
+    "comment_token": "%"
+  },
+  "lean": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "/-",
+      "end": "-/"
+    }
+  },
+  "lpf": {
+    "comment_token": "#"
+  },
+  "julia": {
+    "comment_token": "#",
+    "block_comment_tokens": {
+      "start": "#=",
+      "end": "=#"
+    }
+  },
+  "java": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "smali": {
+    "comment_token": "#"
+  },
+  "ledger": {
+    "comment_token": ";"
+  },
+  "beancount": {
+    "comment_token": ";"
+  },
+  "ocaml": {
+    "block_comment_tokens": {
+      "start": "(*",
+      "end": "*)"
+    }
+  },
+  "ocaml-interface": {
+    "comment_token": "(**)",
+    "block_comment_tokens": {
+      "start": "(*",
+      "end": "*)"
+    }
+  },
+  "dune": {
+    "comment_token": ";"
+  },
+  "lua": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "--[[",
+      "end": "--]]"
+    }
+  },
+  "teal": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "--[[",
+      "end": "--]]"
+    }
+  },
+  "svelte": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "vue": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    }
+  },
+  "yaml": {
+    "comment_token": "#"
+  },
+  "nestedtext": {
+    "comment_token": "#"
+  },
+  "haskell": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "{-",
+      "end": "-}"
+    }
+  },
+  "haskell-persistent": {
+    "comment_token": "--"
+  },
+  "purescript": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "{-",
+      "end": "-}"
+    }
+  },
+  "zig": {
+    "comment_token": "//"
+  },
+  "prolog": {
+    "comment_token": "%",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "tsq": {
+    "comment_token": ";"
+  },
+  "cmake": {
+    "comment_token": "#",
+    "block_comment_tokens": {
+      "start": "#[[",
+      "end": "]]"
+    }
+  },
+  "make": {
+    "comment_token": "#"
+  },
+  "glsl": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "perl": {
+    "comment_token": "#"
+  },
+  "racket": {
+    "comment_token": ";",
+    "block_comment_tokens": {
+      "start": "#|",
+      "end": "|#"
+    }
+  },
+  "common-lisp": {
+    "comment_token": ";"
+  },
+  "wesl": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "wgsl": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "llvm": {
+    "comment_token": ";"
+  },
+  "llvm-mir": {
+    "comment_token": ";"
+  },
+  "llvm-mir-yaml": {
+    "comment_token": "#"
+  },
+  "tablegen": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "markdown": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    }
+  },
+  "djot": {
+    "block_comment_tokens": {
+      "start": "{%",
+      "end": "%}"
+    }
+  },
+  "dart": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "scala": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "dockerfile": {
+    "comment_token": "#"
+  },
+  "docker-compose": {
+    "comment_token": "#"
+  },
+  "git-commit": {
+    "comment_token": "#"
+  },
+  "diff": {
+    "comment_token": "#"
+  },
+  "git-rebase": {
+    "comment_token": "#"
+  },
+  "git-config": {
+    "comment_token": "#"
+  },
+  "git-attributes": {
+    "comment_token": "#"
+  },
+  "git-ignore": {
+    "comment_token": "#"
+  },
+  "graphql": {
+    "comment_token": "#",
+    "block_comment_tokens": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    }
+  },
+  "elm": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "{-",
+      "end": "-}"
+    }
+  },
+  "iex": {
+    "comment_token": "#"
+  },
+  "rescript": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "erlang": {
+    "comment_token": "%%"
+  },
+  "kotlin": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "hcl": {
+    "comment_token": "#",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "tfvars": {
+    "comment_token": "#",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "solidity": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "gleam": {
+    "comment_token": "//"
+  },
+  "ron": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "robot": {
+    "comment_token": "#"
+  },
+  "r": {
+    "comment_token": "#"
+  },
+  "rmarkdown": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    }
+  },
+  "swift": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "erb": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    }
+  },
+  "ejs": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    }
+  },
+  "eex": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    }
+  },
+  "heex": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    }
+  },
+  "sql": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "gdscript": {
+    "comment_token": "#"
+  },
+  "godot-resource": {
+    "comment_token": ";"
+  },
+  "nu": {
+    "comment_token": "#"
+  },
+  "vala": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "hare": {
+    "comment_token": "//"
+  },
+  "devicetree": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "cairo": {
+    "comment_token": "//"
+  },
+  "cpon": {
+    "comment_token": "//"
+  },
+  "odin": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "meson": {
+    "comment_token": "#"
+  },
+  "sshclientconfig": {
+    "comment_token": "#"
+  },
+  "scheme": {
+    "comment_token": ";"
+  },
+  "v": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "verilog": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "openscad": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "prisma": {
+    "comment_token": "//"
+  },
+  "clojure": {
+    "comment_token": ";"
+  },
+  "starlark": {
+    "comment_token": "#"
+  },
+  "elvish": {
+    "comment_token": "#"
+  },
+  "idris": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "{-",
+      "end": "-}"
+    }
+  },
+  "fortran": {
+    "comment_token": "!"
+  },
+  "ungrammar": {
+    "comment_token": "//"
+  },
+  "dot": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "cue": {
+    "comment_token": "//"
+  },
+  "slint": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "task": {
+    "comment_token": "#"
+  },
+  "esdl": {
+    "comment_token": "#"
+  },
+  "pascal": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "{",
+      "end": "}"
+    }
+  },
+  "sml": {
+    "block_comment_tokens": {
+      "start": "(*",
+      "end": "*)"
+    }
+  },
+  "jsonnet": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "ada": {
+    "comment_token": "--"
+  },
+  "astro": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    }
+  },
+  "bass": {
+    "comment_token": ";"
+  },
+  "wat": {
+    "comment_token": ";;",
+    "block_comment_tokens": {
+      "start": "(;",
+      "end": ";)"
+    }
+  },
+  "wast": {
+    "comment_token": ";;",
+    "block_comment_tokens": {
+      "start": "(;",
+      "end": ";)"
+    }
+  },
+  "d": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "vhs": {
+    "comment_token": "#"
+  },
+  "kdl": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "xml": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    }
+  },
+  "wit": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "env": {
+    "comment_token": "#"
+  },
+  "ini": {
+    "comment_token": "#"
+  },
+  "inko": {
+    "comment_token": "#"
+  },
+  "bicep": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "qml": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "mermaid": {
+    "comment_token": "%%"
+  },
+  "matlab": {
+    "comment_token": "%"
+  },
+  "ponylang": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "dhall": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "{-",
+      "end": "-}"
+    }
+  },
+  "sage": {
+    "comment_token": "#"
+  },
+  "msbuild": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    }
+  },
+  "hosts": {
+    "comment_token": "#"
+  },
+  "uxntal": {
+    "block_comment_tokens": {
+      "start": "(",
+      "end": ")"
+    }
+  },
+  "yuck": {
+    "comment_token": ";"
+  },
+  "prql": {
+    "comment_token": "#"
+  },
+  "po": {
+    "comment_token": "#"
+  },
+  "nasm": {
+    "comment_token": ";"
+  },
+  "gas": {
+    "comment_token": "#"
+  },
+  "rst": {
+    "comment_token": ".."
+  },
+  "capnp": {
+    "comment_token": "#"
+  },
+  "smithy": {
+    "comment_token": "//"
+  },
+  "vhdl": {
+    "comment_token": "--"
+  },
+  "rego": {
+    "comment_token": "#"
+  },
+  "nim": {
+    "comment_token": "#",
+    "block_comment_tokens": {
+      "start": "#[",
+      "end": "]#"
+    }
+  },
+  "cabal": {
+    "comment_token": "--"
+  },
+  "hurl": {
+    "comment_token": "#"
+  },
+  "markdoc": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    }
+  },
+  "opencl": {
+    "comment_token": "//"
+  },
+  "just": {
+    "comment_token": "#"
+  },
+  "gn": {
+    "comment_token": "#"
+  },
+  "blueprint": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "forth": {
+    "comment_token": "\\"
+  },
+  "fsharp": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "(*",
+      "end": "*)"
+    }
+  },
+  "t32": {
+    "comment_token": ";"
+  },
+  "webc": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    }
+  },
+  "typst": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "nunjucks": {
+    "block_comment_tokens": {
+      "start": "{#",
+      "end": "#}"
+    }
+  },
+  "jinja": {
+    "block_comment_tokens": {
+      "start": "{#",
+      "end": "#}"
+    }
+  },
+  "jjdescription": {
+    "comment_token": "JJ:"
+  },
+  "jq": {
+    "comment_token": "#"
+  },
+  "unison": {
+    "comment_token": "--"
+  },
+  "agda": {
+    "comment_token": "--"
+  },
+  "templ": {
+    "comment_token": "//"
+  },
+  "dbml": {
+    "comment_token": ";"
+  },
+  "bitbake": {
+    "comment_token": "#"
+  },
+  "hoon": {
+    "comment_token": "::"
+  },
+  "hocon": {
+    "comment_token": "#"
+  },
+  "koka": {
+    "comment_token": "//"
+  },
+  "tact": {
+    "comment_token": "//"
+  },
+  "pkl": {
+    "comment_token": "//"
+  },
+  "groovy": {
+    "comment_token": "//"
+  },
+  "fidl": {
+    "comment_token": "//"
+  },
+  "powershell": {
+    "comment_token": "#",
+    "block_comment_tokens": {
+      "start": "<#",
+      "end": "#>"
+    }
+  },
+  "ld": {
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "hyprlang": {
+    "comment_token": "#"
+  },
+  "tcl": {
+    "comment_token": "#"
+  },
+  "supercollider": {
+    "comment_token": "//"
+  },
+  "pkgbuild": {
+    "comment_token": "#"
+  },
+  "helm": {
+    "comment_token": "#"
+  },
+  "glimmer": {
+    "block_comment_tokens": {
+      "start": "{{!",
+      "end": "}}"
+    }
+  },
+  "ohm": {
+    "comment_token": "//",
+    "block_comment_tokens": [
+      {
+        "start": "/*",
+        "end": "*/"
+      },
+      {
+        "start": "/**",
+        "end": "*/"
+      }
+    ]
+  },
+  "earthfile": {
+    "comment_token": "#"
+  },
+  "adl": {
+    "comment_token": "//"
+  },
+  "ldif": {
+    "comment_token": "#"
+  },
+  "xtc": {
+    "comment_token": ";"
+  },
+  "move": {
+    "comment_token": "//"
+  },
+  "pest": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "elisp": {
+    "comment_token": ";"
+  },
+  "gjs": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "gts": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "gherkin": {
+    "comment_token": "#"
+  },
+  "thrift": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "circom": {
+    "comment_token": "//"
+  },
+  "snakemake": {
+    "comment_token": "#"
+  },
+  "cylc": {
+    "comment_token": "#"
+  },
+  "quint": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "spade": {
+    "comment_token": "//",
+    "block_comment_tokens": [
+      {
+        "start": "/*",
+        "end": "*/"
+      },
+      {
+        "start": "/**",
+        "end": "*/"
+      }
+    ]
+  },
+  "amber": {
+    "comment_token": "//"
+  },
+  "koto": {
+    "comment_token": "#",
+    "block_comment_tokens": [
+      "#-",
+      "-#"
+    ]
+  },
+  "gpr": {
+    "comment_token": "--"
+  },
+  "vento": {
+    "block_comment_tokens": {
+      "start": "{{#",
+      "end": "#}}"
+    }
+  },
+  "nginx": {
+    "comment_token": "#"
+  },
+  "codeql": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "gren": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "{-",
+      "end": "-}"
+    }
+  },
+  "ghostty": {
+    "comment_token": "#"
+  },
+  "tera": {
+    "block_comment_tokens": [
+      {
+        "start": "{#",
+        "end": "#}"
+      },
+      {
+        "start": "{#-",
+        "end": "-#}"
+      },
+      {
+        "start": "{#",
+        "end": "-#}"
+      },
+      {
+        "start": "{#-",
+        "end": "#}"
+      }
+    ]
+  },
+  "fga": {
+    "comment_token": "#"
+  },
+  "yara": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "ink": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    }
+  },
+  "sourcepawn": {
+    "comment_token": "//"
+  },
+  "tlaplus": {
+    "comment_token": "\\*",
+    "block_comment_tokens": {
+      "start": "(*",
+      "end": "*)"
+    }
+  },
+  "werk": {
+    "comment_token": "#"
+  },
+  "debian": {
+    "comment_token": "#"
+  }
+}
