@@ -1,8 +1,10 @@
 use clap::{Args, Parser, Subcommand};
 use clap_verbosity_flag::{InfoLevel, Verbosity};
 use std::fs;
+use std::path::Path;
 use std::path::PathBuf;
 use std::process::ExitCode;
+use tempfile::NamedTempFile;
 
 /// A rust-license management cli tool and library
 #[derive(Parser, Debug)]
@@ -216,6 +218,28 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
         args.in_place,
         exclude_patterns.unwrap_or_default()
     );
+
+    Ok(())
+}
+
+fn prepend_file<P: AsRef<Path>>(data: &[u8], file_path: P) -> io::Result<()> {
+    // Create a temporary file in the same directory for better cross-device moves
+    let dir = file_path
+        .as_ref()
+        .parent()
+        .unwrap_or_else(|| Path::new("."));
+    let mut tmp = NamedTempFile::new_in(dir)?;
+
+    // Write the data to prepend
+    tmp.write_all(data)?;
+
+    // Open source file, read its contents, and write to the temp file
+    let mut src_content = Vec::new();
+    File::open(&file_path)?.read_to_end(&mut src_content)?;
+    tmp.write_all(&src_content)?;
+
+    // Atomically replace the original file with the temporary file
+    tmp.persist(file_path)?;
 
     Ok(())
 }
