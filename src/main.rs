@@ -1,5 +1,6 @@
 use clap::{Args, Parser, Subcommand};
 use clap_verbosity_flag::{InfoLevel, Verbosity};
+use markdown_rs;
 use std::path::PathBuf;
 use std::process::ExitCode;
 
