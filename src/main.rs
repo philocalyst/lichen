@@ -215,6 +215,15 @@ fn generate_blacklist(target: PathBuf, reg_pattern: regex::Regex) -> std::io::Re
     Ok(blacklist)
 }
 
+fn get_valid_files(target: PathBuf, blacklist: Vec<PathBuf>) -> std::io::Result<()> {
+    let walker = walkdir::WalkDir::new(target).into_iter();
+    for entry in walker.filter_entry(|e| !blacklist.iter().any(|path| path == e.path())) {
+        let entry = entry?;
+        println!("{}", entry.path().display());
+    }
+    Ok(())
+}
+
 fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
     log::debug!("Running Apply command with args: {:?}", args);
 
@@ -223,6 +232,7 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
         .license
         .ok_or("License name is required via CLI or config")?;
     let exclude_pattern = regex::Regex::new(&args.exclude.unwrap());
+    let target = args.target;
 
     log::info!("Applying license header: {}", license_name);
     log::info!("In-place modification: {}", args.in_place);
