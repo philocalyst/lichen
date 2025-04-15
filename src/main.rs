@@ -125,6 +125,7 @@ fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
 
     let search_dir = "licenses";
     let mut found_path: Option<PathBuf> = None; // Variable to store the path if found
+    let license = strip_metadata(data);
 
     match fs::read_dir(search_dir) {
 fn seek_license(license_dir: &str, license_name: &String) -> Option<PathBuf> {
@@ -207,6 +208,58 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
     );
 
     Ok(())
+}
+
+fn strip_metadata(data: Vec<char>) -> String {
+    let mut result = String::new();
+
+    // If the string is too short to contain metadata, safe to return early.
+    if data.len() < 6 {
+        // Minimum: "---\n---"
+        return data.iter().collect();
+    }
+
+    // If the document starts with "---" it has metadata.
+    if data.len() >= 3 && data[0] == '-' && data[1] == '-' && data[2] == '-' {
+        // Look for the closing "---"
+        let mut i = 3;
+        let mut line_start = true;
+        let mut found_closing = false;
+
+        while i < data.len() - 2 {
+            if line_start && data[i] == '-' && data[i + 1] == '-' && data[i + 2] == '-' {
+                // Found closing "---", skip past it
+                i += 3;
+                found_closing = true;
+                break;
+            }
+
+            // Track if we're at the start of a new line
+            line_start = data[i] == '\n';
+            i += 1;
+        }
+
+        // If we found both opening and closing markers, append everything after
+        if found_closing {
+            // Skip any whitespace after the closing ---
+            while i < data.len()
+                && (data[i] == '\n' || data[i] == '\r' || data[i] == ' ' || data[i] == '\t')
+            {
+                i += 1;
+            }
+
+            // Append the rest of the content
+            result.extend(data[i..].iter());
+        } else {
+            // If no closing marker was found, return the original string
+            return data.iter().collect();
+        }
+    } else {
+        // No metadata block detected, return the original string
+        return data.iter().collect();
+    }
+
+    result
 }
 
 fn prepend_file<P: AsRef<Path>>(data: &[u8], file_path: P) -> io::Result<()> {
