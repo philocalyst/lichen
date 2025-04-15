@@ -1,6 +1,6 @@
 use clap::{Args, Parser, Subcommand};
 use clap_verbosity_flag::{InfoLevel, Verbosity};
-use markdown_rs;
+use std::fs;
 use std::path::PathBuf;
 use std::process::ExitCode;
 
@@ -103,6 +103,7 @@ fn main() -> ExitCode {
 // ▰▰▰ SUBCOMMAND LOGIC ▰▰▰ //
 
 fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
+    use std::process;
     log::debug!("Running Gen command with args: {:?}", args);
 
     // TODO: Config parsing
@@ -116,9 +117,58 @@ fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
 
     log::info!("Generating license: {}", license_name);
     if let Some(ref authors_vec) = authors {
-        log::info!("Authors: {}", authors_vec.join(", "));
+        log::info!("Authors: {}", authors_vec.join(", ")); // Fill author field
     }
     log::info!("Year: {}", year);
+
+    let search_dir = "licenses";
+    let mut found_path: Option<PathBuf> = None; // Variable to store the path if found
+
+    match fs::read_dir(search_dir) {
+        Ok(entries) => {
+            // Iterate through the directory entries
+            for entry_result in entries {
+                match entry_result {
+                    Ok(entry) => {
+                        let path = entry.path();
+                        // Check if it's a file and if the filename matches
+                        if path.is_file() {
+                            // Get the filename and remove extention
+                            if let Some(filename_osstr) = path.with_extension("").file_name() {
+                                if filename_osstr.to_str().unwrap() == license_name {
+                                    // Found the file :) Store path and break.
+                                    found_path = Some(path);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    Err(e) => {
+                        eprintln!("Warning: Could not read directory entry: {}", e);
+                    }
+                }
+            }
+        }
+        Err(e) => {
+            eprintln!("Error: Could not read directory '{}': {}", search_dir, e);
+        }
+    }
+    let license_path = if let Some(path) = found_path {
+        path
+    } else {
+        eprintln!(
+            "License file '{}' not found in directory '{}'.",
+            license_name, search_dir
+        );
+        process::exit(1);
+    };
+
+    match fs::copy(license_path, "LICENSE.md") {
+        Err(error) => {
+            eprintln!("{error}")
+        }
+        Ok(_val) => (), // TODO: Logging
+    };
 
     // TODO: Implement actual license generation logic.
     // - Fetch license template based on `license_name`.
