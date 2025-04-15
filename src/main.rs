@@ -1,5 +1,6 @@
 use clap::{Args, Parser, Subcommand};
 use clap_verbosity_flag::{InfoLevel, Verbosity};
+use regex;
 use serde_json;
 use std::error::Error;
 use std::fs::{self, File, read_to_string};
@@ -9,6 +10,7 @@ use std::path::PathBuf;
 use std::process;
 use std::process::ExitCode;
 use tempfile::NamedTempFile;
+use walkdir;
 
 /// A rust-license management cli tool and library
 #[derive(Parser, Debug)]
@@ -59,7 +61,7 @@ struct ApplyArgs {
 
     /// Comma-separated list of regex patterns for files/directories to exclude.
     #[arg(short, long, value_delimiter = ',')]
-    exclude: Option<Vec<String>>,
+    exclude: Option<String>,
 
     #[arg(default_value = ".")]
     target: Option<PathBuf>,
@@ -197,6 +199,22 @@ fn seek_license(license_dir: &str, license_name: &String) -> Option<PathBuf> {
     found_path
 }
 
+fn generate_blacklist(target: PathBuf, reg_pattern: regex::Regex) -> std::io::Result<Vec<PathBuf>> {
+    let mut blacklist: Vec<PathBuf> = Vec::new();
+
+    for entry in walkdir::WalkDir::new(&target)
+        .into_iter()
+        .filter_map(Result::ok)
+    {
+        let path = entry.path().to_owned();
+        if reg_pattern.is_match(&path.to_string_lossy()) {
+            blacklist.push(path);
+        }
+    }
+
+    Ok(blacklist)
+}
+
 fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
     log::debug!("Running Apply command with args: {:?}", args);
 
@@ -204,14 +222,11 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
     let license_name = args
         .license
         .ok_or("License name is required via CLI or config")?;
-    let exclude_patterns = args.exclude;
+    let exclude_pattern = regex::Regex::new(&args.exclude.unwrap());
 
     log::info!("Applying license header: {}", license_name);
     log::info!("In-place modification: {}", args.in_place);
-    if let Some(ref patterns) = exclude_patterns {
-        log::info!("Excluding patterns: {:?}", patterns);
-        // TODO: Add regex
-    }
+    log::info!("Excluding pattern: {:?}", exclude_pattern);
 
     let search_dir = "licenses";
     let found_path: Option<PathBuf> = seek_license(search_dir, &license_name); // Variable to store the path if found
@@ -240,6 +255,10 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
 
     let license = apply_comments(license, comment_char.unwrap());
 
+    let blacklist = generate_blacklist(target.unwrap(), exclude_pattern?);
+
+    println!("{:?}", blacklist);
+
     // prepend_file(&license.into_bytes(), "src/main.rs");
 
     // TODO: Implement actual license application logic.
@@ -252,10 +271,8 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
     //   - If `in_place` is false, copy file to a 'licensed/' dir and prepend header there.
 
     println!(
-        "Placeholder: Would apply license '{}' header. In-place: {}. Exclude: {:?}",
-        license_name,
-        args.in_place,
-        exclude_patterns.unwrap_or_default()
+        "Placeholder: Would apply license '{}' header. In-place: {}. Exclude: ",
+        license_name, args.in_place
     );
 
     Ok(())
