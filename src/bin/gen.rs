@@ -78,8 +78,8 @@ fn main() -> std::io::Result<()> {
                             '7' => stem_with_replacements.push_str("Seven"),
                             '8' => stem_with_replacements.push_str("Eight"),
                             '9' => stem_with_replacements.push_str("Nine"),
+                            '+' => stem_with_replacements.push_str("Plus"),
                             '.' => stem_with_replacements.push_str("Dot"),
-                            // Keep other characters, including delimiters like '-' or '_'
                             _ => stem_with_replacements.push(c),
                         }
                     }
