@@ -228,8 +228,8 @@ def xml_to_markdown(xml_filepath):
     metadata['spdxID'] = license_element.get('licenseId', 'N/A')
     metadata['name'] = license_element.get('name', 'N/A')
     osi_approved_str = license_element.get('isOsiApproved', 'unknown').lower()
-    if osi_approved_str == 'true': metadata['osiApproved'] = True
-    elif osi_approved_str == 'false': metadata['osiApproved'] = False
+    if osi_approved_str == 'true': metadata['osiApproved'] = "true"
+    elif osi_approved_str == 'false': metadata['osiApproved'] = "false"
     else: metadata['osiApproved'] = 'unknown'
     metadata['listVersionAdded'] = license_element.get('listVersionAdded', 'Unknown')
     cross_refs_list = []
