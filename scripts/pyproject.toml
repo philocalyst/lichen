@@ -1,0 +1,10 @@
+[project]
+name = "parse_spdx"
+version = "0.1.0"
+description = "Parse spdx files into markdown and txt"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "click>=8.1.8",
+    "halo>=0.0.31",
+]
