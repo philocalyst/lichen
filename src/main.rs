@@ -229,7 +229,7 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
 
     let working_files = get_valid_files(&target, &blacklist.unwrap());
 
-    prepend_files(&license_content, working_files);
+    license_files(&license_content, working_files);
 
     // TODO: Implement actual license application logic.
     // - Find relevant files (e.g., walk the current directory).
@@ -249,15 +249,7 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn prepend_files(license: &String, paths: Vec<PathBuf>) {
-    for path in paths {
-        let comment_char = if let Some(ext) = path.extension() {
-            get_comment_char(ext.to_str().unwrap_or(""))
-        } else {
-            get_comment_char("")
-        };
-        let license = apply_comments(license, comment_char.unwrap());
-        prepend_file(&license, path);
+fn license_files(license: &String, paths: Vec<PathBuf>) {
     }
 }
 
@@ -370,7 +362,7 @@ fn strip_metadata(data: Vec<char>) -> String {
     result
 }
 
-fn prepend_file<P: AsRef<Path>>(license: &String, file_path: P) -> io::Result<()> {
+fn license_file<P: AsRef<Path>>(license: &String, file_path: P) -> io::Result<()> {
     // Create a temporary file in the same directory for better cross-device moves
     let dir = file_path
         .as_ref()
