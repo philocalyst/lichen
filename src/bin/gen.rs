@@ -152,6 +152,10 @@ fn main() -> std::io::Result<()> {
     let is_osi_match_arms = license_details.iter().map(|(variant, _, is_osi)| {
         quote! { Self::#variant => #is_osi }
     });
+    let from_str_match_arms = license_details.iter().map(|(variant, filename, _)| {
+        // Match against parsed filename (SPDX ID)
+        quote! { #filename => Ok(Self::#variant), }
+    });
 
     // Retrive just the variant idents for the iter() method
     let variant_idents = license_details.iter().map(|(variant, _, _)| variant);
@@ -163,10 +167,14 @@ fn main() -> std::io::Result<()> {
         #[allow(non_camel_case_types)] // Still useful for edge cases
         pub enum License {
             #( #variants ),* }
+        #[derive(Debug, Clone, PartialEq, Eq)]
+        pub struct ParseLicenseError;
+
+        impl std::error::Error for ParseLicenseError {}
 
         impl License {
             /// Returns the original filename of the license (e.g., "Apache-2.0.md").
-            pub fn name(&self) -> &'static str {
+            pub fn spdx_id(&self) -> &'static str {
                 match self {
                     #( #name_match_arms ),* }
             }
@@ -183,7 +191,23 @@ fn main() -> std::io::Result<()> {
             }
         }
 
-        // Optional: FromStr, Display implementations...
+        impl std::fmt::Display for License {
+            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                // Delegate formatting to the name() method which returns the original filename
+                write!(f, "{}", self.spdx_id())
+            }
+        impl std::str::FromStr for License {
+            type Err = ParseLicenseError;
+
+            fn from_str(s: &str) -> Result<Self, Self::Err> {
+                match s {
+                    // Open up those match arms
+                    #( #from_str_match_arms )*
+                    // If no match, throw error
+                    _ => Err(ParseLicenseError),
+                }
+            }
+        }
     };
 
     fs::write(&generated_file_path, generated_code.to_string())?;
