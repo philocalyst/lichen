@@ -2,7 +2,7 @@
 spdxID: HPND-INRIA-IMAG
 name: |
   Historical Permission Notice and Disclaimer    - INRIA-IMAG variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/ppp-project/ppp/blob/master/pppd/ipv6cp.c#L75-L83"

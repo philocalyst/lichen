@@ -1,7 +1,7 @@
 ---
 spdxID: CC-BY-4.0
 name: Creative Commons Attribution 4.0 International
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://creativecommons.org/licenses/by/4.0/legalcode"

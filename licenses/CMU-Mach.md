@@ -1,7 +1,7 @@
 ---
 spdxID: CMU-Mach
 name: CMU Mach License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://www.cs.cmu.edu/~410/licenses.html"

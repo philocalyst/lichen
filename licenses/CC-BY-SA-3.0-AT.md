@@ -1,7 +1,7 @@
 ---
 spdxID: CC-BY-SA-3.0-AT
 name: Creative Commons Attribution Share Alike 3.0 Austria
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.10
 crossRefs: 
   - "https://creativecommons.org/licenses/by-sa/3.0/at/legalcode"

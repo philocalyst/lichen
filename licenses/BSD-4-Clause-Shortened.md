@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-4-Clause-Shortened
 name: BSD 4 Clause Shortened
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.12
 crossRefs: 
   - "https://metadata.ftp-master.debian.org/changelogs//main/a/arpwatch/arpwatch_2.1a15-7_copyright"

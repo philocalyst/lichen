@@ -1,7 +1,7 @@
 ---
 spdxID: w3m
 name: w3m License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://github.com/tats/w3m/blob/master/COPYING"

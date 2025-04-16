@@ -1,7 +1,7 @@
 ---
 spdxID: LPPL-1.3c
 name: LaTeX Project Public License v1.3c
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.latex-project.org/lppl/lppl-1-3c.txt"

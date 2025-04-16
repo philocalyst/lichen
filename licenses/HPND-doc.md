@@ -2,7 +2,7 @@
 spdxID: HPND-doc
 name: |
   Historical Permission Notice and Disclaimer - documentation variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://gitlab.freedesktop.org/xorg/lib/libxext/-/blob/master/COPYING?ref_type=heads#L185-197"

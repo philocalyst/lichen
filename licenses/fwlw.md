@@ -1,7 +1,7 @@
 ---
 spdxID: fwlw
 name: fwlw License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://mirrors.nic.cz/tex-archive/macros/latex/contrib/fwlw/README"

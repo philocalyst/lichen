@@ -1,7 +1,7 @@
 ---
 spdxID: python-ldap
 name: Python ldap License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://github.com/python-ldap/python-ldap/blob/main/LICENCE"

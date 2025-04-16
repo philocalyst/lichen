@@ -1,7 +1,7 @@
 ---
 spdxID: xlock
 name: xlock License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://fossies.org/linux/tiff/contrib/ras/ras2tif.c"

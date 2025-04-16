@@ -1,7 +1,7 @@
 ---
 spdxID: GPL-3.0-only
 name: GNU General Public License v3.0 only
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://www.gnu.org/licenses/gpl-3.0-standalone.html"

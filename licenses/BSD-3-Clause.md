@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-3-Clause
 name: BSD 3-Clause "New" or "Revised" License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/BSD-3-Clause"

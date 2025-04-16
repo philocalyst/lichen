@@ -1,7 +1,7 @@
 ---
 spdxID: CNRI-Jython
 name: CNRI Jython License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.0rc3
 crossRefs: 
   - "http://www.jython.org/license.html"

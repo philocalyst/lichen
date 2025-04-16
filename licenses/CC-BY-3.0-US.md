@@ -1,7 +1,7 @@
 ---
 spdxID: CC-BY-3.0-US
 name: Creative Commons Attribution 3.0 United States
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.11
 crossRefs: 
   - "https://creativecommons.org/licenses/by/3.0/us/legalcode"

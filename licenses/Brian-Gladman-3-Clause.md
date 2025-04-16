@@ -1,7 +1,7 @@
 ---
 spdxID: Brian-Gladman-3-Clause
 name: Brian Gladman 3-Clause License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://github.com/SWI-Prolog/packages-clib/blob/master/sha1/brg_endian.h"

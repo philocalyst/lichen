@@ -1,7 +1,7 @@
 ---
 spdxID: OCLC-2.0
 name: OCLC Research Public License 2.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.oclc.org/research/activities/software/license/v2final.htm"

@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-3-Clause-No-Nuclear-License-2014
 name: BSD 3-Clause No Nuclear License 2014
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.5
 crossRefs: 
   - "https://java.net/projects/javaeetutorial/pages/BerkeleyLicense"

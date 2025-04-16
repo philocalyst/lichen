@@ -1,7 +1,7 @@
 ---
 spdxID: Cornell-Lossless-JPEG
 name: Cornell Lossless JPEG License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://android.googlesource.com/platform/external/dng_sdk/+/refs/heads/master/source/dng_lossless_jpeg.cpp#16"

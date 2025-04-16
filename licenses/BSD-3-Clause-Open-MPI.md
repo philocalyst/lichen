@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-3-Clause-Open-MPI
 name: BSD 3-Clause Open MPI variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.6
 crossRefs: 
   - "https://www.open-mpi.org/community/license.php"

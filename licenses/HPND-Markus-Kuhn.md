@@ -2,7 +2,7 @@
 spdxID: HPND-Markus-Kuhn
 name: |
   Historical Permission Notice and Disclaimer - Markus Kuhn variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://www.cl.cam.ac.uk/~mgk25/ucs/wcwidth.c"

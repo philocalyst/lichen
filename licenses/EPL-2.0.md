@@ -1,7 +1,7 @@
 ---
 spdxID: EPL-2.0
 name: Eclipse Public License 2.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 2.7
 crossRefs: 
   - "https://www.eclipse.org/legal/epl-2.0"

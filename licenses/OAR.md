@@ -1,7 +1,7 @@
 ---
 spdxID: OAR
 name: OAR License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.24.0
 crossRefs: 
   - "https://sourceware.org/git/?p=newlib-cygwin.git;a=blob;f=newlib/libc/string/strsignal.c;hb=HEAD#l35"

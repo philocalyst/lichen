@@ -1,7 +1,7 @@
 ---
 spdxID: OLFL-1.3
 name: Open Logistics Foundation License Version 1.3
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 3.21
 crossRefs: 
   - "https://openlogisticsfoundation.org/licenses/"

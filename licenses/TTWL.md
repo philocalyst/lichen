@@ -1,7 +1,7 @@
 ---
 spdxID: TTWL
 name: Text-Tabs+Wrap License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/TTWL"

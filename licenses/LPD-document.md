@@ -1,7 +1,7 @@
 ---
 spdxID: LPD-document
 name: LPD Documentation License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/Cyan4973/xxHash/blob/dev/doc/xxhash_spec.md"

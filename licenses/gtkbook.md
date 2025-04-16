@@ -1,7 +1,7 @@
 ---
 spdxID: gtkbook
 name: gtkbook License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/slogan621/gtkbook"

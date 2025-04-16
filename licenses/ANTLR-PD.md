@@ -1,7 +1,7 @@
 ---
 spdxID: ANTLR-PD
 name: ANTLR Software Rights Notice
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.antlr2.org/license.html"

@@ -1,7 +1,7 @@
 ---
 spdxID: PHP-3.0
 name: PHP License v3.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.php.net/license/3_0.txt"

@@ -1,7 +1,7 @@
 ---
 spdxID: ASWF-Digital-Assets-1.1
 name: ASWF Digital Assets License 1.1
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.21
 crossRefs: 
   - "https://github.com/AcademySoftwareFoundation/foundation/blob/main/digital_assets/aswf_digital_assets_license_v1.1.txt"

@@ -1,7 +1,7 @@
 ---
 spdxID: DocBook-Schema
 name: DocBook Schema License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.25.0
 crossRefs: 
   - "https://github.com/docbook/xslt10-stylesheets/blob/efd62655c11cc8773708df7a843613fa1e932bf8/xsl/assembly/schema/docbook51b7.rnc"

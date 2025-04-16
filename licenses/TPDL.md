@@ -1,7 +1,7 @@
 ---
 spdxID: TPDL
 name: Time::ParseDate License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://metacpan.org/pod/Time::ParseDate#LICENSE"

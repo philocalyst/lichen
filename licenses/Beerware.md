@@ -1,7 +1,7 @@
 ---
 spdxID: Beerware
 name: Beerware License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/Beerware"

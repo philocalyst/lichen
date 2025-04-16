@@ -1,7 +1,7 @@
 ---
 spdxID: CC-PDM-1.0
 name: Creative    Commons Public Domain Mark 1.0 Universal
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.26.0
 crossRefs: 
   - "https://creativecommons.org/publicdomain/mark/1.0/"

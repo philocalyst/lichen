@@ -1,7 +1,7 @@
 ---
 spdxID: InnoSetup
 name: Inno Setup License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.26.0
 crossRefs: 
   - "https://github.com/jrsoftware/issrc/blob/HEAD/license.txt"

@@ -1,7 +1,7 @@
 ---
 spdxID: IBM-pibs
 name: IBM PowerPC Initialization and Boot Software
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.19
 crossRefs: 
   - "http://git.denx.de/?p=u-boot.git;a=blob;f=arch/powerpc/cpu/ppc4xx/miiphy.c;h=297155fdafa064b955e53e9832de93bfb0cfb85b;hb=9fab4bf4cc077c21e43941866f3f2c196f28670d"

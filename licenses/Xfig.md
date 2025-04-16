@@ -1,7 +1,7 @@
 ---
 spdxID: Xfig
 name: Xfig License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.21
 crossRefs: 
   - "https://github.com/Distrotech/transfig/blob/master/transfig/transfig.c"

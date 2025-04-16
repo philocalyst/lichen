@@ -1,7 +1,7 @@
 ---
 spdxID: CFITSIO
 name: CFITSIO License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://heasarc.gsfc.nasa.gov/docs/software/fitsio/c/f_user/node9.html"

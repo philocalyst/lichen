@@ -1,7 +1,7 @@
 ---
 spdxID: SGI-OpenGL
 name: SGI OpenGL License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://gitlab.freedesktop.org/mesa/glw/-/blob/master/README?ref_type=heads"

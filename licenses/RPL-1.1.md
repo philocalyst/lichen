@@ -1,7 +1,7 @@
 ---
 spdxID: RPL-1.1
 name: Reciprocal Public License 1.1
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 1.18
 crossRefs: 
   - "https://opensource.org/licenses/RPL-1.1"

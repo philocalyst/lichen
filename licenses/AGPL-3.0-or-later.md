@@ -1,7 +1,7 @@
 ---
 spdxID: AGPL-3.0-or-later
 name: GNU Affero General Public License v3.0 or later
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://www.gnu.org/licenses/agpl.txt"

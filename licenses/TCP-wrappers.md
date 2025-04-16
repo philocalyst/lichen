@@ -1,7 +1,7 @@
 ---
 spdxID: TCP-wrappers
 name: TCP Wrappers License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.6
 crossRefs: 
   - "http://rc.quest.com/topics/openssh/license.php#tcpwrappers"

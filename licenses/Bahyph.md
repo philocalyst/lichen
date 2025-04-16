@@ -1,7 +1,7 @@
 ---
 spdxID: Bahyph
 name: Bahyph License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/Bahyph"

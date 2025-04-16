@@ -1,7 +1,7 @@
 ---
 spdxID: CC-BY-2.5-AU
 name: Creative Commons Attribution 2.5 Australia
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.14
 crossRefs: 
   - "https://creativecommons.org/licenses/by/2.5/au/legalcode"

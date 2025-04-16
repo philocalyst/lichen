@@ -1,7 +1,7 @@
 ---
 spdxID: RPL-1.5
 name: Reciprocal Public License 1.5
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/RPL-1.5"

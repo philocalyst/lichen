@@ -1,7 +1,7 @@
 ---
 spdxID: radvd
 name: radvd License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/radvd-project/radvd/blob/master/COPYRIGHT"

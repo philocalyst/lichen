@@ -1,7 +1,7 @@
 ---
 spdxID: Giftware
 name: Giftware License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "http://liballeg.org/license.html#allegro-4-the-giftware-license"

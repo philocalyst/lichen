@@ -1,7 +1,7 @@
 ---
 spdxID: SWL
 name: Scheme Widget Library (SWL) Software License Agreement
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/SWL"

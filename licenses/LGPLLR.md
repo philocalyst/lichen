@@ -1,7 +1,7 @@
 ---
 spdxID: LGPLLR
 name: Lesser General Public License For Linguistic Resources
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.1
 crossRefs: 
   - "http://www-igm.univ-mlv.fr/~unitex/lgpllr.html"

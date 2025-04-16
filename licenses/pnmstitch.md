@@ -1,7 +1,7 @@
 ---
 spdxID: pnmstitch
 name: pnmstitch License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://sourceforge.net/p/netpbm/code/HEAD/tree/super_stable/editor/pnmstitch.c#l2"

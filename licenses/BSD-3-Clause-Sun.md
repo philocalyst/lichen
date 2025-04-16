@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-3-Clause-Sun
 name: BSD 3-Clause Sun Microsystems
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://github.com/xmlark/msv/blob/b9316e2f2270bc1606952ea4939ec87fbba157f3/xsdlib/src/main/java/com/sun/msv/datatype/regexp/InternalImpl.java"

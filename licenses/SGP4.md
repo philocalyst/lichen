@@ -1,7 +1,7 @@
 ---
 spdxID: SGP4
 name: SGP4 Permission Notice
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.21
 crossRefs: 
   - "https://celestrak.org/publications/AIAA/2006-6753/faq.php"

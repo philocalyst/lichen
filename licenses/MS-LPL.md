@@ -1,7 +1,7 @@
 ---
 spdxID: MS-LPL
 name: Microsoft Limited Public License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.18
 crossRefs: 
   - "https://www.openhub.net/licenses/mslpl"

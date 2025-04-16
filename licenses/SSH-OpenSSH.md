@@ -1,7 +1,7 @@
 ---
 spdxID: SSH-OpenSSH
 name: SSH OpenSSH license
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.7
 crossRefs: 
   - "https://github.com/openssh/openssh-portable/blob/1b11ea7c58cd5c59838b5fa574cd456d6047b2d4/LICENCE#L10"

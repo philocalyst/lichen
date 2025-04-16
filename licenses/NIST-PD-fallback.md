@@ -1,7 +1,7 @@
 ---
 spdxID: NIST-PD-fallback
 name: NIST Public Domain Notice with license fallback
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.10
 crossRefs: 
   - "https://github.com/usnistgov/jsip/blob/59700e6926cbe96c5cdae897d9a7d2656b42abe3/LICENSE"

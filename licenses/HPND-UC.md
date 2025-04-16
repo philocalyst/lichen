@@ -2,7 +2,7 @@
 spdxID: HPND-UC
 name: |
   Historical Permission Notice and Disclaimer - University of California variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://core.tcl-lang.org/tk/file?name=compat/unistd.h"

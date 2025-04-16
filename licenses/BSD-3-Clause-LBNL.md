@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-3-Clause-LBNL
 name: Lawrence Berkeley National Labs BSD variant license
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/LBNLBSD"

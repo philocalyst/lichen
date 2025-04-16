@@ -1,7 +1,7 @@
 ---
 spdxID: MPL-2.0-no-copyleft-exception
 name: Mozilla Public License 2.0 (no copyleft exception)
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://www.mozilla.org/MPL/2.0/"

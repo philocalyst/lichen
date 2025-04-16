@@ -1,7 +1,7 @@
 ---
 spdxID: ZPL-2.1
 name: Zope Public License 2.1
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://old.zope.org/Resources/ZPL/"

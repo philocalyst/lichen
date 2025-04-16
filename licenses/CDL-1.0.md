@@ -1,7 +1,7 @@
 ---
 spdxID: CDL-1.0
 name: Common Documentation License 1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.13
 crossRefs: 
   - "http://www.opensource.apple.com/cdl/"

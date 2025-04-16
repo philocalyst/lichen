@@ -2,7 +2,7 @@
 spdxID: HPND-sell-MIT-disclaimer-xserver
 name: |
   Historical Permission Notice and Disclaimer - sell xserver variant with MIT disclaimer
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://gitlab.freedesktop.org/xorg/xserver/-/blob/master/COPYING?ref_type=heads#L1781"

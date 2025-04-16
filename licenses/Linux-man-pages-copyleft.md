@@ -1,7 +1,7 @@
 ---
 spdxID: Linux-man-pages-copyleft
 name: Linux man-pages Copyleft
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.15
 crossRefs: 
   - "https://www.kernel.org/doc/man-pages/licenses.html"

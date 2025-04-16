@@ -1,7 +1,7 @@
 ---
 spdxID: ClArtistic
 name: Clarified Artistic License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://gianluca.dellavedova.org/2011/01/03/clarified-artistic-license/"

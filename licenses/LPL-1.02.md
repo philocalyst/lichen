@@ -1,7 +1,7 @@
 ---
 spdxID: LPL-1.02
 name: Lucent Public License v1.02
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://plan9.bell-labs.com/plan9/license.html"

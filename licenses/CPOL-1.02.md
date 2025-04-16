@@ -1,7 +1,7 @@
 ---
 spdxID: CPOL-1.02
 name: Code Project Open License 1.02
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.18
 crossRefs: 
   - "http://www.codeproject.com/info/cpol10.aspx"

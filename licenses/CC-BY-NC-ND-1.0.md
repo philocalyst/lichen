@@ -2,7 +2,7 @@
 spdxID: CC-BY-NC-ND-1.0
 name: |
   Creative Commons Attribution Non Commercial No Derivatives 1.0 Generic
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://creativecommons.org/licenses/by-nd-nc/1.0/legalcode"

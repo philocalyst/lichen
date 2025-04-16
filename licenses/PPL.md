@@ -1,7 +1,7 @@
 ---
 spdxID: PPL
 name: Peer Production License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.24.0
 crossRefs: 
   - "https://wiki.p2pfoundation.net/Peer_Production_License"

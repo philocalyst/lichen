@@ -1,7 +1,7 @@
 ---
 spdxID: LiLiQ-P-1.1
 name: Licence Libre du Québec – Permissive version 1.1
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 2.4
 crossRefs: 
   - "https://forge.gouv.qc.ca/licence/fr/liliq-v1-1/"

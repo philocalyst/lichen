@@ -1,7 +1,7 @@
 ---
 spdxID: Artistic-1.0-cl8
 name: Artistic License 1.0 w/clause 8
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 1.19
 crossRefs: 
   - "https://opensource.org/licenses/Artistic-1.0"

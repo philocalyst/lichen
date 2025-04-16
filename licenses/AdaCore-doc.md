@@ -1,7 +1,7 @@
 ---
 spdxID: AdaCore-doc
 name: AdaCore Doc License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://github.com/AdaCore/xmlada/blob/master/docs/index.rst"

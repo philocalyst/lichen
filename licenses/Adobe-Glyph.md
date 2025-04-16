@@ -1,7 +1,7 @@
 ---
 spdxID: Adobe-Glyph
 name: Adobe Glyph List License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/MIT#AdobeGlyph"

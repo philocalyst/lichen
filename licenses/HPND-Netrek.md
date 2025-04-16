@@ -1,7 +1,7 @@
 ---
 spdxID: HPND-Netrek
 name: Historical Permission Notice and Disclaimer - Netrek variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.25.0
 ---
 

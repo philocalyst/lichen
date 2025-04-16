@@ -1,7 +1,7 @@
 ---
 spdxID: SISSL
 name: Sun Industry Standards Source License v1.1
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 1.17
 crossRefs: 
   - "http://www.openoffice.org/licenses/sissl_license.html"

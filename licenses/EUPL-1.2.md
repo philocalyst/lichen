@@ -1,7 +1,7 @@
 ---
 spdxID: EUPL-1.2
 name: European Union Public License 1.2
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 2.7
 crossRefs: 
   - "https://joinup.ec.europa.eu/page/eupl-text-11-12"

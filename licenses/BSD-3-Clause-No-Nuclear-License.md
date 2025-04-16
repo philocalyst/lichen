@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-3-Clause-No-Nuclear-License
 name: BSD 3-Clause No Nuclear License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.5
 crossRefs: 
   - "http://download.oracle.com/otn-pub/java/licenses/bsd.txt"

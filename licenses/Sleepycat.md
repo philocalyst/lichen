@@ -1,7 +1,7 @@
 ---
 spdxID: Sleepycat
 name: Sleepycat License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/Sleepycat"

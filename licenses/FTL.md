@@ -1,7 +1,7 @@
 ---
 spdxID: FTL
 name: Freetype Project License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.17
 crossRefs: 
   - "http://freetype.fis.uniroma2.it/FTL.TXT"

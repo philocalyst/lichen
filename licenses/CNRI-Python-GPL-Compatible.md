@@ -1,7 +1,7 @@
 ---
 spdxID: CNRI-Python-GPL-Compatible
 name: CNRI Python Open Source GPL Compatible License Agreement
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.python.org/download/releases/1.6.1/download_win/"

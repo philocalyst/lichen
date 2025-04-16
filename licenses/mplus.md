@@ -1,7 +1,7 @@
 ---
 spdxID: mplus
 name: mplus Font License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.17
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing:Mplus?rd=Licensing/mplus"

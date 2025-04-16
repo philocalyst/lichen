@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-1-Clause
 name: BSD 1-Clause License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 2.7
 crossRefs: 
   - "https://svnweb.freebsd.org/base/head/include/ifaddrs.h?revision=326823"

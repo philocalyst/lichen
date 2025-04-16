@@ -1,7 +1,7 @@
 ---
 spdxID: VOSTROM
 name: VOSTROM Public License for Open Source
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/VOSTROM"

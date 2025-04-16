@@ -1,7 +1,7 @@
 ---
 spdxID: OGL-UK-1.0
 name: Open Government Licence v1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.3
 crossRefs: 
   - "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/1/"

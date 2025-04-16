@@ -2,7 +2,7 @@
 spdxID: HPND-Fenneberg-Livingston
 name: |
   Historical Permission Notice and Disclaimer - Fenneberg-Livingston variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/FreeRADIUS/freeradius-client/blob/master/COPYRIGHT#L32"

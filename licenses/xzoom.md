@@ -1,7 +1,7 @@
 ---
 spdxID: xzoom
 name: xzoom License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.24.0
 crossRefs: 
   - "https://metadata.ftp-master.debian.org/changelogs//main/x/xzoom/xzoom_0.3-27_copyright"

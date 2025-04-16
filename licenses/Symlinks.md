@@ -1,7 +1,7 @@
 ---
 spdxID: Symlinks
 name: Symlinks License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://www.mail-archive.com/debian-bugs-rc@lists.debian.org/msg11494.html"

@@ -1,7 +1,7 @@
 ---
 spdxID: FreeBSD-DOC
 name: FreeBSD Documentation License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.12
 crossRefs: 
   - "https://www.freebsd.org/copyright/freebsd-doc-license/"

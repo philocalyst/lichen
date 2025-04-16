@@ -1,7 +1,7 @@
 ---
 spdxID: NPL-1.1
 name: Netscape Public License v1.1
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.17
 crossRefs: 
   - "http://www.mozilla.org/MPL/NPL/1.1/"

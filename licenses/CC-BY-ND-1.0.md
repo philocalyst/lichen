@@ -1,7 +1,7 @@
 ---
 spdxID: CC-BY-ND-1.0
 name: Creative Commons Attribution No Derivatives 1.0 Generic
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://creativecommons.org/licenses/by-nd/1.0/legalcode"

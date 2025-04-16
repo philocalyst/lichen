@@ -1,7 +1,7 @@
 ---
 spdxID: SunPro
 name: SunPro License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://github.com/freebsd/freebsd-src/blob/main/lib/msun/src/e_acosh.c"

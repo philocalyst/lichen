@@ -1,7 +1,7 @@
 ---
 spdxID: Vim
 name: Vim License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "http://vimdoc.sourceforge.net/htmldoc/uganda.html"

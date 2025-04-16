@@ -1,7 +1,7 @@
 ---
 spdxID: EPICS
 name: EPICS Open License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.10
 crossRefs: 
   - "https://epics.anl.gov/license/open.php"

@@ -1,7 +1,7 @@
 ---
 spdxID: threeparttable
 name: threeparttable License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.24.0
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/Threeparttable"

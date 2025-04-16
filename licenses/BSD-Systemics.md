@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-Systemics
 name: Systemics BSD variant license
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://metacpan.org/release/DPARIS/Crypt-DES-2.07/source/COPYRIGHT"

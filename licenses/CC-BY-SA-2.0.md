@@ -1,7 +1,7 @@
 ---
 spdxID: CC-BY-SA-2.0
 name: Creative Commons Attribution Share Alike 2.0 Generic
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://creativecommons.org/licenses/by-sa/2.0/legalcode"

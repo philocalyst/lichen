@@ -1,7 +1,7 @@
 ---
 spdxID: HIDAPI
 name: HIDAPI License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.25.0
 crossRefs: 
   - "https://github.com/signal11/hidapi/blob/master/LICENSE-orig.txt"

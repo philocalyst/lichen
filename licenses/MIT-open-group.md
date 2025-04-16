@@ -1,7 +1,7 @@
 ---
 spdxID: MIT-open-group
 name: MIT Open Group variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.11
 crossRefs: 
   - "https://gitlab.freedesktop.org/xorg/app/iceauth/-/blob/master/COPYING"

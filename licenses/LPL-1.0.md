@@ -1,7 +1,7 @@
 ---
 spdxID: LPL-1.0
 name: Lucent Public License Version 1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/LPL-1.0"

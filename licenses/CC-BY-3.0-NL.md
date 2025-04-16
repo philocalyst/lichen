@@ -1,7 +1,7 @@
 ---
 spdxID: CC-BY-3.0-NL
 name: Creative Commons Attribution 3.0 Netherlands
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://creativecommons.org/licenses/by/3.0/nl/legalcode"

@@ -1,7 +1,7 @@
 ---
 spdxID: Artistic-2.0
 name: Artistic License 2.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.perlfoundation.org/artistic_license_2_0"

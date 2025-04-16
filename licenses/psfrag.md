@@ -1,7 +1,7 @@
 ---
 spdxID: psfrag
 name: psfrag License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/psfrag"

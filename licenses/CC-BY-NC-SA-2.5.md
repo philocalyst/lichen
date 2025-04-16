@@ -2,7 +2,7 @@
 spdxID: CC-BY-NC-SA-2.5
 name: |
   Creative Commons Attribution Non Commercial Share Alike 2.5 Generic
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://creativecommons.org/licenses/by-nc-sa/2.5/legalcode"

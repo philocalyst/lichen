@@ -1,7 +1,7 @@
 ---
 spdxID: AFL-3.0
 name: Academic Free License v3.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.rosenlaw.com/AFL3.0.htm"

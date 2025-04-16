@@ -1,7 +1,7 @@
 ---
 spdxID: JSON
 name: JSON License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.17
 crossRefs: 
   - "http://www.json.org/license.html"

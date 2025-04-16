@@ -1,7 +1,7 @@
 ---
 spdxID: FSFAP
 name: FSF All Permissive License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.4
 crossRefs: 
   - "https://www.gnu.org/prep/maintain/html_node/License-Notices-for-Other-Files.html"

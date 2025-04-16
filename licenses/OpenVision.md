@@ -1,7 +1,7 @@
 ---
 spdxID: OpenVision
 name: OpenVision License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/krb5/krb5/blob/krb5-1.21.2-final/NOTICE#L66-L98"

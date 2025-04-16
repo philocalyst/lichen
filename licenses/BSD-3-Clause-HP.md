@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-3-Clause-HP
 name: Hewlett-Packard BSD variant license
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://github.com/zdohnal/hplip/blob/master/COPYING#L939"

@@ -1,7 +1,7 @@
 ---
 spdxID: Unicode-TOU
 name: Unicode Terms of Use
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "http://web.archive.org/web/20140704074106/http://www.unicode.org/copyright.html"

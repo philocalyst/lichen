@@ -1,7 +1,7 @@
 ---
 spdxID: Catharon
 name: Catharon License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.24.0
 crossRefs: 
   - "https://github.com/scummvm/scummvm/blob/v2.8.0/LICENSES/CatharonLicense.txt"

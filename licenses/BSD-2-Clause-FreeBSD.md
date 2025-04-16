@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-2-Clause-FreeBSD
 name: BSD 2-Clause FreeBSD License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.freebsd.org/copyright/freebsd-license.html"

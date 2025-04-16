@@ -2,7 +2,7 @@
 spdxID: HPND-MIT-disclaimer
 name: |
   Historical Permission Notice and Disclaimer with MIT disclaimer
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://metacpan.org/release/NLNETLABS/Net-DNS-SEC-1.22/source/LICENSE"

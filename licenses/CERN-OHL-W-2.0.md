@@ -1,7 +1,7 @@
 ---
 spdxID: CERN-OHL-W-2.0
 name: CERN Open Hardware Licence Version 2 - Weakly Reciprocal
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 3.9
 crossRefs: 
   - "https://www.ohwr.org/project/cernohl/wikis/Documents/CERN-OHL-version-2"

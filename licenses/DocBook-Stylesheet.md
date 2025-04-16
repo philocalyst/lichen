@@ -1,7 +1,7 @@
 ---
 spdxID: DocBook-Stylesheet
 name: DocBook Stylesheet License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.26.0
 crossRefs: 
   - "http://www.docbook.org/xml/5.0/docbook-5.0.zip"

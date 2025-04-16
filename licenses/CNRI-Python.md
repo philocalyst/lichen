@@ -1,7 +1,7 @@
 ---
 spdxID: CNRI-Python
 name: CNRI Python License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/CNRI-Python"

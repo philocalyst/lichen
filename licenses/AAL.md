@@ -1,7 +1,7 @@
 ---
 spdxID: AAL
 name: Attribution Assurance License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/attribution"

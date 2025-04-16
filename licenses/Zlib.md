@@ -1,7 +1,7 @@
 ---
 spdxID: Zlib
 name: zlib License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.zlib.net/zlib_license.html"

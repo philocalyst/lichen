@@ -1,7 +1,7 @@
 ---
 spdxID: CC-PDDC
 name: Creative Commons Public Domain Dedication and Certification
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.6
 crossRefs: 
   - "https://creativecommons.org/licenses/publicdomain/"

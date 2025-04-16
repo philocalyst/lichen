@@ -1,7 +1,7 @@
 ---
 spdxID: ANTLR-PD-fallback
 name: ANTLR Software Rights Notice with license fallback
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.11
 crossRefs: 
   - "http://www.antlr2.org/license.html"

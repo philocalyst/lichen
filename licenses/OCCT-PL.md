@@ -1,7 +1,7 @@
 ---
 spdxID: OCCT-PL
 name: Open CASCADE Technology Public License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.3
 crossRefs: 
   - "http://www.opencascade.com/content/occt-public-license"

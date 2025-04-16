@@ -1,7 +1,7 @@
 ---
 spdxID: Sun-PPP
 name: Sun PPP License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/ppp-project/ppp/blob/master/pppd/eap.c#L7-L16"

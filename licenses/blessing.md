@@ -1,7 +1,7 @@
 ---
 spdxID: blessing
 name: SQLite Blessing
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.6
 crossRefs: 
   - "https://www.sqlite.org/src/artifact/e33a4df7e32d742a?ln=4-9"

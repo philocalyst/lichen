@@ -1,7 +1,7 @@
 ---
 spdxID: Intel-ACPI
 name: Intel ACPI Software License Agreement
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/Intel_ACPI_Software_License_Agreement"

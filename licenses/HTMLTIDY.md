@@ -1,7 +1,7 @@
 ---
 spdxID: HTMLTIDY
 name: HTML Tidy License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.11
 crossRefs: 
   - "https://github.com/htacg/tidy-html5/blob/next/README/LICENSE.md"

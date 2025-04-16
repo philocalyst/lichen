@@ -1,7 +1,7 @@
 ---
 spdxID: SMAIL-GPL
 name: SMAIL General Public License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.26.0
 crossRefs: 
   - "https://sources.debian.org/copyright/license/debianutils/4.11.2/"

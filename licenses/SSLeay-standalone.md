@@ -1,7 +1,7 @@
 ---
 spdxID: SSLeay-standalone
 name: SSLeay License - standalone
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://www.tq-group.com/filedownloads/files/software-license-conditions/OriginalSSLeay/OriginalSSLeay.pdf"

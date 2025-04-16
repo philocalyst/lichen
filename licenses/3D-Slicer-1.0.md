@@ -1,7 +1,7 @@
 ---
 spdxID: 3D-Slicer-1.0
 name: 3D Slicer License v1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.24.0
 crossRefs: 
   - "https://slicer.org/LICENSE"

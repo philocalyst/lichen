@@ -1,7 +1,7 @@
 ---
 spdxID: Rdisc
 name: Rdisc License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/Rdisc_License"

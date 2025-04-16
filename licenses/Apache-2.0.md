@@ -1,7 +1,7 @@
 ---
 spdxID: Apache-2.0
 name: Apache License 2.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://www.apache.org/licenses/LICENSE-2.0"

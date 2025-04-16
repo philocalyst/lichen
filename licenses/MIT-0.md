@@ -1,7 +1,7 @@
 ---
 spdxID: MIT-0
 name: MIT No Attribution
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://github.com/aws/mit-0"

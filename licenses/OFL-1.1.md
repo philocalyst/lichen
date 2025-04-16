@@ -1,7 +1,7 @@
 ---
 spdxID: OFL-1.1
 name: SIL Open Font License 1.1
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://scripts.sil.org/cms/scripts/page.php?item_id=OFL_web"

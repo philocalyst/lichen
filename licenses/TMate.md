@@ -1,7 +1,7 @@
 ---
 spdxID: TMate
 name: TMate Open Source License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "http://svnkit.com/license.html"

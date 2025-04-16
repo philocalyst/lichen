@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-3-Clause-Attribution
 name: BSD with attribution
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/BSD_with_Attribution"

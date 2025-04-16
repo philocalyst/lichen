@@ -1,7 +1,7 @@
 ---
 spdxID: Sendmail
 name: Sendmail License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.2
 crossRefs: 
   - "http://www.sendmail.com/pdfs/open_source/sendmail_license.pdf"

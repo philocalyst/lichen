@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-Advertising-Acknowledgement
 name: BSD Advertising Acknowledgement License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://github.com/python-excel/xlrd/blob/master/LICENSE#L33"

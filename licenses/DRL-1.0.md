@@ -1,7 +1,7 @@
 ---
 spdxID: DRL-1.0
 name: Detection Rule License 1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.12
 crossRefs: 
   - "https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md"

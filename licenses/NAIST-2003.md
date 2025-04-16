@@ -1,7 +1,7 @@
 ---
 spdxID: NAIST-2003
 name: Nara Institute of Science and Technology License (2003)
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.12
 crossRefs: 
   - "https://enterprise.dejacode.com/licenses/public/naist-2003/#license-text"

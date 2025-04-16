@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-4-Clause
 name: BSD 4-Clause "Original" or "Old" License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://directory.fsf.org/wiki/License:BSD_4Clause"

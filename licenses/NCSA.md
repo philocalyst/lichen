@@ -1,7 +1,7 @@
 ---
 spdxID: NCSA
 name: University of Illinois/NCSA Open Source License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://otm.illinois.edu/uiuc_openSource"

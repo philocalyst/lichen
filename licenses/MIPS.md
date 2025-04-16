@@ -1,7 +1,7 @@
 ---
 spdxID: MIPS
 name: MIPS License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.26.0
 crossRefs: 
   - "https://sourceware.org/cgit/binutils-gdb/tree/include/coff/sym.h#n11"

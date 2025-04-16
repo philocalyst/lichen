@@ -1,7 +1,7 @@
 ---
 spdxID: SchemeReport
 name: Scheme Language Report License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.16
 notes: |
   Code derived from the document "Revised Report on

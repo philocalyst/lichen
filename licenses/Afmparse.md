@@ -1,7 +1,7 @@
 ---
 spdxID: Afmparse
 name: Afmparse License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/Afmparse"

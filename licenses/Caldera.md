@@ -1,7 +1,7 @@
 ---
 spdxID: Caldera
 name: Caldera License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "http://www.lemis.com/grog/UNIX/ancient-source-all.pdf"

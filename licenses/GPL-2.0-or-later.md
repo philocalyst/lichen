@@ -1,7 +1,7 @@
 ---
 spdxID: GPL-2.0-or-later
 name: GNU General Public License v2.0 or later
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html"

@@ -1,7 +1,7 @@
 ---
 spdxID: Pixar
 name: Pixar License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/PixarAnimationStudios/OpenSubdiv/raw/v3_5_0/LICENSE.txt"

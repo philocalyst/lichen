@@ -1,7 +1,7 @@
 ---
 spdxID: IJG-short
 name: Independent JPEG Group License - short
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://sourceforge.net/p/xmedcon/code/ci/master/tree/libs/ljpg/"

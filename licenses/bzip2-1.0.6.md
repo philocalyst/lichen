@@ -1,7 +1,7 @@
 ---
 spdxID: bzip2-1.0.6
 name: bzip2 and libbzip2 License v1.0.6
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://sourceware.org/git/?p=bzip2.git;a=blob;f=LICENSE;hb=bzip2-1.0.6"

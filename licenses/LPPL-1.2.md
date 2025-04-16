@@ -1,7 +1,7 @@
 ---
 spdxID: LPPL-1.2
 name: LaTeX Project Public License v1.2
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.latex-project.org/lppl/lppl-1-2.txt"

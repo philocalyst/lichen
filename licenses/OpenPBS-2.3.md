@@ -1,7 +1,7 @@
 ---
 spdxID: OpenPBS-2.3
 name: OpenPBS v2.3 Software License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://github.com/adaptivecomputing/torque/blob/master/PBS_License.txt"

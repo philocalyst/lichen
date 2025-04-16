@@ -1,7 +1,7 @@
 ---
 spdxID: APSL-2.0
 name: Apple Public Source License 2.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.opensource.apple.com/license/apsl/"

@@ -1,7 +1,7 @@
 ---
 spdxID: OPUBL-1.0
 name: Open Publication License v1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.14
 crossRefs: 
   - "http://opencontent.org/openpub/"

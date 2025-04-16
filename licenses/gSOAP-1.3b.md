@@ -1,7 +1,7 @@
 ---
 spdxID: gSOAP-1.3b
 name: gSOAP Public License v1.3b
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.cs.fsu.edu/~engelen/license.html"

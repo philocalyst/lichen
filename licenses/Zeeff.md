@@ -1,7 +1,7 @@
 ---
 spdxID: Zeeff
 name: Zeeff License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "ftp://ftp.tin.org/pub/news/utils/newsx/newsx-1.6.tar.gz"

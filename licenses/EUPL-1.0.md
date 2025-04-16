@@ -1,7 +1,7 @@
 ---
 spdxID: EUPL-1.0
 name: European Union Public License 1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://ec.europa.eu/idabc/en/document/7330.html"

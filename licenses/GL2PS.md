@@ -1,7 +1,7 @@
 ---
 spdxID: GL2PS
 name: GL2PS License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "http://www.geuz.org/gl2ps/COPYING.GL2PS"

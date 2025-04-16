@@ -1,7 +1,7 @@
 ---
 spdxID: X11-distribute-modifications-variant
 name: X11 License Distribution Modification Variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.16
 crossRefs: 
   - "https://github.com/mirror/ncurses/blob/master/COPYING"

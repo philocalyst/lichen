@@ -2,7 +2,7 @@
 spdxID: CC-BY-NC-SA-2.0-DE
 name: |
   Creative Commons Attribution Non Commercial Share Alike 2.0 Germany
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://creativecommons.org/licenses/by-nc-sa/2.0/de/legalcode"

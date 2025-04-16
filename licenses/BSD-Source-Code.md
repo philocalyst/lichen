@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-Source-Code
 name: BSD Source Code Attribution
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.5
 crossRefs: 
   - "https://github.com/robbiehanson/CocoaHTTPServer/blob/master/LICENSE.txt"

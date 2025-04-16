@@ -1,7 +1,7 @@
 ---
 spdxID: Naumen
 name: Naumen Public License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/Naumen"

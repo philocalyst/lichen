@@ -1,7 +1,7 @@
 ---
 spdxID: GD
 name: GD License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.12
 crossRefs: 
   - "https://libgd.github.io/manuals/2.3.0/files/license-txt.html"

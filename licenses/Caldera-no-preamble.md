@@ -1,7 +1,7 @@
 ---
 spdxID: Caldera-no-preamble
 name: Caldera License (without preamble)
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://github.com/apache/apr/blob/trunk/LICENSE#L298C6-L298C29"

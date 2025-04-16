@@ -1,7 +1,7 @@
 ---
 spdxID: CMU-Mach-nodoc
 name: CMU    Mach - no notices-in-documentation variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/krb5/krb5/blob/krb5-1.21.2-final/NOTICE#L718-L728"

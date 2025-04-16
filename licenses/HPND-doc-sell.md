@@ -2,7 +2,7 @@
 spdxID: HPND-doc-sell
 name: |
   Historical Permission Notice and Disclaimer - documentation sell variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://gitlab.freedesktop.org/xorg/lib/libxtst/-/blob/master/COPYING?ref_type=heads#L108-117"

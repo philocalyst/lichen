@@ -1,7 +1,7 @@
 ---
 spdxID: Linux-man-pages-copyleft-var
 name: Linux man-pages Copyleft Variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.21
 crossRefs: 
   - "https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/man2/set_mempolicy.2#n5"

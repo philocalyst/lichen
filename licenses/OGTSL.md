@@ -1,7 +1,7 @@
 ---
 spdxID: OGTSL
 name: Open Group Test Suite License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.opengroup.org/testing/downloads/The_Open_Group_TSL.txt"

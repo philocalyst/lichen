@@ -1,7 +1,7 @@
 ---
 spdxID: Minpack
 name: Minpack License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.18
 crossRefs: 
   - "http://www.netlib.org/minpack/disclaimer"

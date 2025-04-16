@@ -1,7 +1,7 @@
 ---
 spdxID: FDK-AAC
 name: Fraunhofer FDK AAC Codec Library
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.15
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/FDK-AAC"

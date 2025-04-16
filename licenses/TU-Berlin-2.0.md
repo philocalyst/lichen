@@ -1,7 +1,7 @@
 ---
 spdxID: TU-Berlin-2.0
 name: Technische Universitaet Berlin License 2.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.2
 crossRefs: 
   - "https://github.com/CorsixTH/deps/blob/fd339a9f526d1d9c9f01ccf39e438a015da50035/licences/libgsm.txt"

@@ -1,7 +1,7 @@
 ---
 spdxID: SugarCRM-1.1.3
 name: SugarCRM Public License v1.1.3
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.sugarcrm.com/crm/SPL"

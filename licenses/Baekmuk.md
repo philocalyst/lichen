@@ -1,7 +1,7 @@
 ---
 spdxID: Baekmuk
 name: Baekmuk License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.17
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing:Baekmuk?rd=Licensing/Baekmuk"

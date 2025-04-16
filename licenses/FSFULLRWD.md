@@ -2,7 +2,7 @@
 spdxID: FSFULLRWD
 name: |
   FSF Unlimited License (With License Retention and Warranty Disclaimer)
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.19
 crossRefs: 
   - "https://lists.gnu.org/archive/html/autoconf/2012-04/msg00061.html"

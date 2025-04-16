@@ -1,7 +1,7 @@
 ---
 spdxID: Boehm-GC-without-fee
 name: Boehm-Demers-Weiser GC License (without fee)
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.26.0
 crossRefs: 
   - "https://github.com/MariaDB/server/blob/11.6/libmysqld/lib_sql.cc"

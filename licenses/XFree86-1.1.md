@@ -1,7 +1,7 @@
 ---
 spdxID: XFree86-1.1
 name: XFree86 License 1.1
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.xfree86.org/current/LICENSE4.html"

@@ -1,7 +1,7 @@
 ---
 spdxID: Frameworx-1.0
 name: Frameworx Open License 1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/Frameworx-1.0"

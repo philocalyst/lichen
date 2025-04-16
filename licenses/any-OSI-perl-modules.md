@@ -1,7 +1,7 @@
 ---
 spdxID: any-OSI-perl-modules
 name: Any OSI License - Perl Modules
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.26.0
 crossRefs: 
   - "https://metacpan.org/release/JUERD/Exporter-Tidy-0.09/view/Tidy.pm#LICENSE"

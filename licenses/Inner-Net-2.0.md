@@ -1,7 +1,7 @@
 ---
 spdxID: Inner-Net-2.0
 name: Inner Net License v2.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.21
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/Inner_Net_License"

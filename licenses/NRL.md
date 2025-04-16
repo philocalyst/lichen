@@ -1,7 +1,7 @@
 ---
 spdxID: NRL
 name: NRL License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "http://web.mit.edu/network/isakmp/nrllicense.html"

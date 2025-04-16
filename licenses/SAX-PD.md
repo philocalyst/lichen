@@ -1,7 +1,7 @@
 ---
 spdxID: SAX-PD
 name: Sax Public Domain Notice
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.saxproject.org/copying.html"

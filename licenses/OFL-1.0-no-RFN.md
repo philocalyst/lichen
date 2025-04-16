@@ -1,7 +1,7 @@
 ---
 spdxID: OFL-1.0-no-RFN
 name: SIL Open Font License 1.0 with no Reserved Font Name
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.8
 crossRefs: 
   - "http://scripts.sil.org/cms/scripts/page.php?item_id=OFL10_web"

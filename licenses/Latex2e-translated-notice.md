@@ -1,7 +1,7 @@
 ---
 spdxID: Latex2e-translated-notice
 name: Latex2e with translated notice permission
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.21
 crossRefs: 
   - "https://git.savannah.gnu.org/cgit/indent.git/tree/doc/indent.texi?id=a74c6b4ee49397cf330b333da1042bffa60ed14f#n74"

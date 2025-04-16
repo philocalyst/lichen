@@ -1,7 +1,7 @@
 ---
 spdxID: generic-xts
 name: Generic XTS License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.26.0
 crossRefs: 
   - "https://github.com/mhogomchungu/zuluCrypt/blob/master/external_libraries/tcplay/generic_xts.c"

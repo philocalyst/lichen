@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-3-Clause-No-Nuclear-Warranty
 name: BSD 3-Clause No Nuclear Warranty
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.5
 crossRefs: 
   - "https://jogamp.org/git/?p=gluegen.git;a=blob_plain;f=LICENSE.txt"

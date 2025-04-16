@@ -1,7 +1,7 @@
 ---
 spdxID: EFL-2.0
 name: Eiffel Forum License v2.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.eiffel-nice.org/license/eiffel-forum-license-2.html"

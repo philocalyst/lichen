@@ -1,7 +1,7 @@
 ---
 spdxID: Unicode-DFS-2015
 name: Unicode License Agreement - Data Files and Software (2015)
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.6
 crossRefs: 
   - "https://web.archive.org/web/20151224134844/http://unicode.org/copyright.html"

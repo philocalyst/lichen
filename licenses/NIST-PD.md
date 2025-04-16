@@ -1,7 +1,7 @@
 ---
 spdxID: NIST-PD
 name: NIST Public Domain Notice
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.10
 crossRefs: 
   - "https://github.com/tcheneau/simpleRPL/blob/e645e69e38dd4e3ccfeceb2db8cba05b7c2e0cd3/LICENSE.txt"

@@ -2,7 +2,7 @@
 spdxID: HPND-UC-export-US
 name: |
   Historical Permission Notice and Disclaimer - University of California, US export warning
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.24.0
 crossRefs: 
   - "https://github.com/RTimothyEdwards/magic/blob/master/LICENSE"

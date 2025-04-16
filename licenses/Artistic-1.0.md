@@ -1,7 +1,7 @@
 ---
 spdxID: Artistic-1.0
 name: Artistic License 1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/Artistic-1.0"

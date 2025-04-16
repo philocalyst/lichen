@@ -1,7 +1,7 @@
 ---
 spdxID: TGPPL-1.0
 name: Transitive Grace Period Public Licence 1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/TGPPL"

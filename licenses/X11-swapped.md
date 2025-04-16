@@ -1,7 +1,7 @@
 ---
 spdxID: X11-swapped
 name: X11 swapped final paragraphs
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.25.0
 crossRefs: 
   - "https://github.com/fedeinthemix/chez-srfi/blob/master/srfi/LICENSE"

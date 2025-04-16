@@ -1,7 +1,7 @@
 ---
 spdxID: Intel
 name: Intel Open Source License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 1.17
 crossRefs: 
   - "https://opensource.org/licenses/Intel"

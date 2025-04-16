@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-2-Clause-NetBSD
 name: BSD 2-Clause NetBSD License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.netbsd.org/about/redistribution.html#default"

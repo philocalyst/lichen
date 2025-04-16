@@ -1,7 +1,7 @@
 ---
 spdxID: ODC-By-1.0
 name: Open Data Commons Attribution License v1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.2
 crossRefs: 
   - "https://opendatacommons.org/licenses/by/1.0/"

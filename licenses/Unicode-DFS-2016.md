@@ -1,7 +1,7 @@
 ---
 spdxID: Unicode-DFS-2016
 name: Unicode License Agreement - Data Files and Software (2016)
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 2.6
 crossRefs: 
   - "https://www.unicode.org/license.txt"

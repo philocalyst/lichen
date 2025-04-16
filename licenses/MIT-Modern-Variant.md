@@ -1,7 +1,7 @@
 ---
 spdxID: MIT-Modern-Variant
 name: MIT License Modern Variant
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 3.12
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing:MIT#Modern_Variants"

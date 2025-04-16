@@ -1,7 +1,7 @@
 ---
 spdxID: NASA-1.3
 name: NASA Open Source Agreement 1.3
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://ti.arc.nasa.gov/opensource/nosa/"

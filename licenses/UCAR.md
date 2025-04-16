@@ -1,7 +1,7 @@
 ---
 spdxID: UCAR
 name: UCAR License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://github.com/Unidata/UDUNITS-2/blob/master/COPYRIGHT"

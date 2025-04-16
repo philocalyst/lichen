@@ -1,7 +1,7 @@
 ---
 spdxID: ssh-keyscan
 name: ssh-keyscan License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://github.com/openssh/openssh-portable/blob/master/LICENCE#L82"

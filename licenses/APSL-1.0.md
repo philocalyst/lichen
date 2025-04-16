@@ -1,7 +1,7 @@
 ---
 spdxID: APSL-1.0
 name: Apple Public Source License 1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/Apple_Public_Source_License_1.0"

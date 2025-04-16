@@ -1,7 +1,7 @@
 ---
 spdxID: COIL-1.0
 name: Copyfree Open Innovation License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.15
 crossRefs: 
   - "https://coil.apotheon.org/plaintext/01.0.txt"

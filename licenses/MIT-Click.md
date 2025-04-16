@@ -1,7 +1,7 @@
 ---
 spdxID: MIT-Click
 name: MIT Click License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.26.0
 crossRefs: 
   - "https://github.com/kohler/t1utils/blob/master/LICENSE"

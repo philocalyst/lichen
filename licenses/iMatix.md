@@ -1,7 +1,7 @@
 ---
 spdxID: iMatix
 name: iMatix Standard Function Library Agreement
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "http://legacy.imatix.com/html/sfl/sfl4.htm#license"

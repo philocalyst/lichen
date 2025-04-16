@@ -1,7 +1,7 @@
 ---
 spdxID: Arphic-1999
 name: Arphic Public License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.17
 crossRefs: 
   - "http://ftp.gnu.org/gnu/non-gnu/chinese-fonts-truetype/LICENSE"

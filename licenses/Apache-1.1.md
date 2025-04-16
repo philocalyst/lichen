@@ -1,7 +1,7 @@
 ---
 spdxID: Apache-1.1
 name: Apache License 1.1
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://apache.org/licenses/LICENSE-1.1"

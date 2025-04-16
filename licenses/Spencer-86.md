@@ -1,7 +1,7 @@
 ---
 spdxID: Spencer-86
 name: Spencer License 86
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.1
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/Henry_Spencer_Reg-Ex_Library_License"

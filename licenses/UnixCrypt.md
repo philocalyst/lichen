@@ -1,7 +1,7 @@
 ---
 spdxID: UnixCrypt
 name: UnixCrypt License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.21
 crossRefs: 
   - "https://foss.heptapod.net/python-libs/passlib/-/blob/branch/stable/LICENSE#L70"

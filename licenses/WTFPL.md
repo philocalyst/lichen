@@ -1,7 +1,7 @@
 ---
 spdxID: WTFPL
 name: Do What The F*ck You Want To Public License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.17
 crossRefs: 
   - "http://www.wtfpl.net/about/"

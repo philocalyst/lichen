@@ -1,7 +1,7 @@
 ---
 spdxID: TORQUE-1.1
 name: TORQUE v2.5+ Software License v1.1
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/TORQUEv1.1"

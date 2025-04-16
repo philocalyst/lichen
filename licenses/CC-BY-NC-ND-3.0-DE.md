@@ -2,7 +2,7 @@
 spdxID: CC-BY-NC-ND-3.0-DE
 name: |
   Creative Commons Attribution Non Commercial No Derivatives 3.0 Germany
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.14
 crossRefs: 
   - "https://creativecommons.org/licenses/by-nc-nd/3.0/de/legalcode"

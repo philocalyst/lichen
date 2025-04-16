@@ -1,7 +1,7 @@
 ---
 spdxID: IPL-1.0
 name: IBM Public License v1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/IPL-1.0"

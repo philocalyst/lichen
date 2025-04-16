@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-Attribution-HPND-disclaimer
 name: BSD with Attribution and HPND disclaimer
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://github.com/cyrusimap/cyrus-sasl/blob/master/COPYING"

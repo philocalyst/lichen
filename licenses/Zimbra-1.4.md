@@ -1,7 +1,7 @@
 ---
 spdxID: Zimbra-1.4
 name: Zimbra Public License v1.4
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.zimbra.com/legal/zimbra-public-license-1-4"

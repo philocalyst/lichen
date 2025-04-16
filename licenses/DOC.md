@@ -1,7 +1,7 @@
 ---
 spdxID: DOC
 name: DOC License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "http://www.cs.wustl.edu/~schmidt/ACE-copying.html"

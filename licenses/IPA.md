@@ -1,7 +1,7 @@
 ---
 spdxID: IPA
 name: IPA Font License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/IPA"

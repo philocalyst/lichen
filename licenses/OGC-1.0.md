@@ -1,7 +1,7 @@
 ---
 spdxID: OGC-1.0
 name: OGC Software License, Version 1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.9
 crossRefs: 
   - "https://www.ogc.org/ogc/software/1.0"

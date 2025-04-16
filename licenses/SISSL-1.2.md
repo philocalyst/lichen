@@ -1,7 +1,7 @@
 ---
 spdxID: SISSL-1.2
 name: Sun Industry Standards Source License v1.2
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.19
 crossRefs: 
   - "http://gridscheduler.sourceforge.net/Gridengine_SISSL_license.html"

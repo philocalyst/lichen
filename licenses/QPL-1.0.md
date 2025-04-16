@@ -1,7 +1,7 @@
 ---
 spdxID: QPL-1.0
 name: Q Public License 1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://doc.qt.nokia.com/3.3/license.html"

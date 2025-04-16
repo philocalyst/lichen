@@ -1,7 +1,7 @@
 ---
 spdxID: Kastrup
 name: Kastrup License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://ctan.math.utah.edu/ctan/tex-archive/macros/generic/kastrup/binhex.dtx"

@@ -1,7 +1,7 @@
 ---
 spdxID: Cronyx
 name: Cronyx License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://gitlab.freedesktop.org/xorg/font/alias/-/blob/master/COPYING"

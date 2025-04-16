@@ -1,7 +1,7 @@
 ---
 spdxID: CC-BY-SA-3.0-IGO
 name: Creative Commons Attribution-ShareAlike 3.0 IGO
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.21
 crossRefs: 
   - "https://creativecommons.org/licenses/by-sa/3.0/igo/legalcode"

@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-2-Clause-Darwin
 name: BSD 2-Clause - Ian Darwin variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/file/file/blob/master/COPYING"

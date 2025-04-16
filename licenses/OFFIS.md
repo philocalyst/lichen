@@ -1,7 +1,7 @@
 ---
 spdxID: OFFIS
 name: OFFIS License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://sourceforge.net/p/xmedcon/code/ci/master/tree/libs/dicom/README"

@@ -1,7 +1,7 @@
 ---
 spdxID: CryptoSwift
 name: CryptoSwift License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.27.0
 crossRefs: 
   - "https://github.com/krzyzanowskim/CryptoSwift/blob/main/LICENSE"

@@ -1,7 +1,7 @@
 ---
 spdxID: LZMA-SDK-9.11-to-9.20
 name: LZMA SDK License (versions 9.11 to 9.20)
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.18
 crossRefs: 
   - "https://www.7-zip.org/sdk.html"

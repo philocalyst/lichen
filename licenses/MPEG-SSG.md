@@ -1,7 +1,7 @@
 ---
 spdxID: MPEG-SSG
 name: MPEG Software Simulation
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://sourceforge.net/p/netpbm/code/HEAD/tree/super_stable/converter/ppm/ppmtompeg/jrevdct.c#l1189"

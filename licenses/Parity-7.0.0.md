@@ -1,7 +1,7 @@
 ---
 spdxID: Parity-7.0.0
 name: The Parity Public License 7.0.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.9
 crossRefs: 
   - "https://paritylicense.com/versions/7.0.0.html"

@@ -1,7 +1,7 @@
 ---
 spdxID: SCEA
 name: SCEA Shared Source License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "http://research.scea.com/scea_shared_source_license.html"

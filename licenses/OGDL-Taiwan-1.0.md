@@ -1,7 +1,7 @@
 ---
 spdxID: OGDL-Taiwan-1.0
 name: Taiwan Open Government Data License, version 1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.12
 crossRefs: 
   - "https://data.gov.tw/license"

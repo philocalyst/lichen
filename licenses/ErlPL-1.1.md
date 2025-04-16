@@ -1,7 +1,7 @@
 ---
 spdxID: ErlPL-1.1
 name: Erlang Public License v1.1
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.erlang.org/EPLICENSE"

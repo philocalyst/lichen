@@ -1,7 +1,7 @@
 ---
 spdxID: BitTorrent-1.0
 name: BitTorrent Open Source License v1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.17
 crossRefs: 
   - "http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/licenses/BitTorrent?r1=1.1&r2=1.1.1.1&diff_format=s"

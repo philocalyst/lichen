@@ -1,7 +1,7 @@
 ---
 spdxID: UPL-1.0
 name: Universal Permissive License v1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 2.1
 crossRefs: 
   - "https://opensource.org/licenses/UPL"

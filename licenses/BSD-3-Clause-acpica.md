@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-3-Clause-acpica
 name: BSD 3-Clause acpica variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/acpica/acpica/blob/master/source/common/acfileio.c#L119"

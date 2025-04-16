@@ -1,7 +1,7 @@
 ---
 spdxID: ODbL-1.0
 name: Open Data Commons Open Database License v1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.opendatacommons.org/licenses/odbl/1.0/"

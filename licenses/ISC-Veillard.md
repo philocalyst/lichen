@@ -1,7 +1,7 @@
 ---
 spdxID: ISC-Veillard
 name: ISC Veillard variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://raw.githubusercontent.com/GNOME/libxml2/4c2e7c651f6c2f0d1a74f350cbda95f7df3e7017/hash.c"

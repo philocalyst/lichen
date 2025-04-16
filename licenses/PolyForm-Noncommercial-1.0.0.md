@@ -1,7 +1,7 @@
 ---
 spdxID: PolyForm-Noncommercial-1.0.0
 name: PolyForm Noncommercial License 1.0.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.9
 crossRefs: 
   - "https://polyformproject.org/licenses/noncommercial/1.0.0"

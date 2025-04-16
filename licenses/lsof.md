@@ -1,7 +1,7 @@
 ---
 spdxID: lsof
 name: lsof License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://github.com/lsof-org/lsof/blob/master/COPYING"

@@ -1,7 +1,7 @@
 ---
 spdxID: libpng-2.0
 name: PNG Reference Library version 2
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.5
 crossRefs: 
   - "http://www.libpng.org/pub/png/src/libpng-LICENSE.txt"

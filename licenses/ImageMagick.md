@@ -1,7 +1,7 @@
 ---
 spdxID: ImageMagick
 name: ImageMagick License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "http://www.imagemagick.org/script/license.php"

@@ -1,7 +1,7 @@
 ---
 spdxID: mailprio
 name: mailprio License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://fossies.org/linux/sendmail/contrib/mailprio"

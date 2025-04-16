@@ -2,7 +2,7 @@
 spdxID: CC-BY-NC-ND-3.0-IGO
 name: |
   Creative Commons Attribution Non Commercial No Derivatives 3.0 IGO
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.10
 crossRefs: 
   - "https://creativecommons.org/licenses/by-nc-nd/3.0/igo/legalcode"

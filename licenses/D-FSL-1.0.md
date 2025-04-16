@@ -1,7 +1,7 @@
 ---
 spdxID: D-FSL-1.0
 name: Deutsche Freie Software Lizenz
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.18
 crossRefs: 
   - "http://www.dipp.nrw.de/d-fsl/lizenzen/"

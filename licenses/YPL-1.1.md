@@ -1,7 +1,7 @@
 ---
 spdxID: YPL-1.1
 name: Yahoo! Public License v1.1
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.zimbra.com/license/yahoo_public_license_1.1.html"

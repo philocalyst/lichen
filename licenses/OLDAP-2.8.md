@@ -1,7 +1,7 @@
 ---
 spdxID: OLDAP-2.8
 name: Open LDAP Public License v2.8
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.openldap.org/software/release/license.html"

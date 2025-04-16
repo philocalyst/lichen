@@ -1,7 +1,7 @@
 ---
 spdxID: McPhee-slideshow
 name: McPhee Slideshow License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://mirror.las.iastate.edu/tex-archive/graphics/metapost/contrib/macros/slideshow/slideshow.mp"

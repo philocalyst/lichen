@@ -1,7 +1,7 @@
 ---
 spdxID: Artistic-1.0-Perl
 name: Artistic License 1.0 (Perl)
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 1.19
 crossRefs: 
   - "http://dev.perl.org/licenses/artistic.html"

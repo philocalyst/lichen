@@ -1,7 +1,7 @@
 ---
 spdxID: Ubuntu-font-1.0
 name: Ubuntu Font Licence v1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.25.0
 crossRefs: 
   - "https://ubuntu.com/legal/font-licence"

@@ -1,7 +1,7 @@
 ---
 spdxID: MulanPSL-2.0
 name: Mulan Permissive Software License, Version 2
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 3.9
 crossRefs: 
   - "https://license.coscl.org.cn/MulanPSL2"

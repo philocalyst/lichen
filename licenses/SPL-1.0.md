@@ -1,7 +1,7 @@
 ---
 spdxID: SPL-1.0
 name: Sun Public License v1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/SPL-1.0"

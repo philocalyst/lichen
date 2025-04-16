@@ -1,7 +1,7 @@
 ---
 spdxID: Glide
 name: 3dfx Glide License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "http://www.users.on.net/~triforce/glidexp/COPYING.txt"

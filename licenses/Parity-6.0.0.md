@@ -1,7 +1,7 @@
 ---
 spdxID: Parity-6.0.0
 name: The Parity Public License 6.0.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.6
 crossRefs: 
   - "https://paritylicense.com/versions/6.0.0.html"

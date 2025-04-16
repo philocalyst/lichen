@@ -1,7 +1,7 @@
 ---
 spdxID: Bitstream-Vera
 name: Bitstream Vera Font License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.17
 crossRefs: 
   - "https://web.archive.org/web/20080207013128/http://www.gnome.org/fonts/"

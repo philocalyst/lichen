@@ -1,7 +1,7 @@
 ---
 spdxID: CDLA-Permissive-2.0
 name: Community Data License Agreement Permissive 2.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.14
 crossRefs: 
   - "https://cdla.dev/permissive-2-0"

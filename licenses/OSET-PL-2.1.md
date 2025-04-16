@@ -1,7 +1,7 @@
 ---
 spdxID: OSET-PL-2.1
 name: OSET Public License version 2.1
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 2.4
 crossRefs: 
   - "http://www.osetfoundation.org/public-license"

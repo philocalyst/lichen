@@ -1,7 +1,7 @@
 ---
 spdxID: CUA-OPL-1.0
 name: CUA Office Public License v1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/CUA-OPL-1.0"

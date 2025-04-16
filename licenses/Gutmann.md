@@ -1,7 +1,7 @@
 ---
 spdxID: Gutmann
 name: Gutmann License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.24.0
 crossRefs: 
   - "https://www.cs.auckland.ac.nz/~pgut001/dumpasn1.c"

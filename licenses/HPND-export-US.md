@@ -1,7 +1,7 @@
 ---
 spdxID: HPND-export-US
 name: HPND with US Government export control warning
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://www.kermitproject.org/ck90.html#source"

@@ -1,7 +1,7 @@
 ---
 spdxID: Lucida-Bitmap-Fonts
 name: Lucida Bitmap Fonts License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://gitlab.freedesktop.org/xorg/font/bh-100dpi/-/blob/master/COPYING?ref_type=heads"

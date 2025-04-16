@@ -1,7 +1,7 @@
 ---
 spdxID: Graphics-Gems
 name: Graphics Gems License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://github.com/erich666/GraphicsGems/blob/master/LICENSE.md"

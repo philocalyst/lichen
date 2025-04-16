@@ -1,7 +1,7 @@
 ---
 spdxID: CC-BY-3.0
 name: Creative Commons Attribution 3.0 Unported
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://creativecommons.org/licenses/by/3.0/legalcode"

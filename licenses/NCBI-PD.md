@@ -1,7 +1,7 @@
 ---
 spdxID: NCBI-PD
 name: NCBI Public Domain Notice
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.24.0
 crossRefs: 
   - "https://github.com/ncbi/sra-tools/blob/e8e5b6af4edc460156ad9ce5902d0779cffbf685/LICENSE"

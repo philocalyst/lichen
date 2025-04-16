@@ -1,7 +1,7 @@
 ---
 spdxID: BitTorrent-1.1
 name: BitTorrent Open Source License v1.1
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.17
 crossRefs: 
   - "http://directory.fsf.org/wiki/License:BitTorrentOSL1.1"

@@ -1,7 +1,7 @@
 ---
 spdxID: 0BSD
 name: BSD Zero Clause License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 2.2
 crossRefs: 
   - "http://landley.net/toybox/license.html"

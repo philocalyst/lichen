@@ -1,7 +1,7 @@
 ---
 spdxID: SimPL-2.0
 name: Simple Public License 2.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/SimPL-2.0"

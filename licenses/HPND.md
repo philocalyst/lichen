@@ -1,7 +1,7 @@
 ---
 spdxID: HPND
 name: Historical Permission Notice and Disclaimer
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/HPND"

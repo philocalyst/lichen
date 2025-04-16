@@ -1,7 +1,7 @@
 ---
 spdxID: Adobe-Utopia
 name: Adobe Utopia Font License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://gitlab.freedesktop.org/xorg/font/adobe-utopia-100dpi/-/blob/master/COPYING?ref_type=heads"

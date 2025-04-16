@@ -1,7 +1,7 @@
 ---
 spdxID: NOSL
 name: Netizen Open Source License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.17
 crossRefs: 
   - "http://bits.netizen.com.au/licenses/NOSL/nosl.txt"

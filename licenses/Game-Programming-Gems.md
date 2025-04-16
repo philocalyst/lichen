@@ -1,7 +1,7 @@
 ---
 spdxID: Game-Programming-Gems
 name: Game Programming Gems License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.27.0
 crossRefs: 
   - "https://github.com/OGRECave/ogre/blob/master/OgreMain/include/OgreSingleton.h#L28C3-L35C46"

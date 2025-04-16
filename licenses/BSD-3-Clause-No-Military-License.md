@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-3-Clause-No-Military-License
 name: BSD 3-Clause No Military License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.13
 crossRefs: 
   - "https://gitlab.syncad.com/hive/dhive/-/blob/master/LICENSE"

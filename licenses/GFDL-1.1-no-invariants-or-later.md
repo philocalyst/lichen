@@ -1,7 +1,7 @@
 ---
 spdxID: GFDL-1.1-no-invariants-or-later
 name: GNU Free Documentation License v1.1 or later - no invariants
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://www.gnu.org/licenses/old-licenses/fdl-1.1.txt"

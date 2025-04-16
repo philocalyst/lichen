@@ -1,7 +1,7 @@
 ---
 spdxID: VSL-1.0
 name: Vovida Software License v1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/VSL-1.0"

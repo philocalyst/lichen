@@ -1,7 +1,7 @@
 ---
 spdxID: BlueOak-1.0.0
 name: Blue Oak Model License 1.0.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 3.6
 crossRefs: 
   - "https://blueoakcouncil.org/license/1.0.0"

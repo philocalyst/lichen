@@ -1,7 +1,7 @@
 ---
 spdxID: Widget-Workshop
 name: Widget Workshop License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.21
 crossRefs: 
   - "https://github.com/novnc/noVNC/blob/master/core/crypto/des.js#L24"

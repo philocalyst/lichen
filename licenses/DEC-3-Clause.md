@@ -1,7 +1,7 @@
 ---
 spdxID: DEC-3-Clause
 name: DEC 3-Clause License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://gitlab.freedesktop.org/xorg/xserver/-/blob/master/COPYING?ref_type=heads#L239"

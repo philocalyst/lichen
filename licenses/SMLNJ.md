@@ -1,7 +1,7 @@
 ---
 spdxID: SMLNJ
 name: Standard ML of New Jersey License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.17
 crossRefs: 
   - "https://www.smlnj.org/license.html"

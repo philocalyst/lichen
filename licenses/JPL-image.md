@@ -1,7 +1,7 @@
 ---
 spdxID: JPL-image
 name: JPL Image Use Policy
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://www.jpl.nasa.gov/jpl-image-use-policy"

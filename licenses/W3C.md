@@ -1,7 +1,7 @@
 ---
 spdxID: W3C
 name: W3C Software Notice and License (2002-12-31)
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.w3.org/Consortium/Legal/2002/copyright-software-20021231.html"

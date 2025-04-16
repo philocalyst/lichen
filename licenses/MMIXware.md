@@ -1,7 +1,7 @@
 ---
 spdxID: MMIXware
 name: MMIXware License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://gitlab.lrz.de/mmix/mmixware/-/blob/master/boilerplate.w"

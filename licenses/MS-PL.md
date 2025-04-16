@@ -1,7 +1,7 @@
 ---
 spdxID: MS-PL
 name: Microsoft Public License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.microsoft.com/opensource/licenses.mspx"

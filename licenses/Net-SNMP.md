@@ -1,7 +1,7 @@
 ---
 spdxID: Net-SNMP
 name: Net-SNMP License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.6
 crossRefs: 
   - "http://net-snmp.sourceforge.net/about/license.html"

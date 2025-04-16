@@ -1,7 +1,7 @@
 ---
 spdxID: DocBook-DTD
 name: DocBook DTD License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.27.0
 crossRefs: 
   - "http://www.docbook.org/xml/simple/1.1/docbook-simple-1.1.zip"

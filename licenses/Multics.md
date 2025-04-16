@@ -1,7 +1,7 @@
 ---
 spdxID: Multics
 name: Multics License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/Multics"

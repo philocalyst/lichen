@@ -1,7 +1,7 @@
 ---
 spdxID: URT-RLE
 name: Utah Raster Toolkit Run Length Encoded License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://sourceforge.net/p/netpbm/code/HEAD/tree/super_stable/converter/other/pnmtorle.c"

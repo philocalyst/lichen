@@ -1,7 +1,7 @@
 ---
 spdxID: PolyForm-Small-Business-1.0.0
 name: PolyForm Small Business License 1.0.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.9
 crossRefs: 
   - "https://polyformproject.org/licenses/small-business/1.0.0"

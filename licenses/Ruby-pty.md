@@ -1,7 +1,7 @@
 ---
 spdxID: Ruby-pty
 name: Ruby pty extension license
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.25.0
 crossRefs: 
   - "https://github.com/ruby/ruby/blob/9f6deaa6888a423720b4b127b5314f0ad26cc2e6/ext/pty/pty.c#L775-L786"

@@ -1,7 +1,7 @@
 ---
 spdxID: metamail
 name: metamail License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://github.com/Dual-Life/mime-base64/blob/master/Base64.xs#L12"

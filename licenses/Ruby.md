@@ -1,7 +1,7 @@
 ---
 spdxID: Ruby
 name: Ruby License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://www.ruby-lang.org/en/about/license.txt"

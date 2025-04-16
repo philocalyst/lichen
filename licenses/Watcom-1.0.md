@@ -1,7 +1,7 @@
 ---
 spdxID: Watcom-1.0
 name: Sybase Open Watcom Public License 1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/Watcom-1.0"

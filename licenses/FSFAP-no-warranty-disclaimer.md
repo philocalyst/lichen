@@ -1,7 +1,7 @@
 ---
 spdxID: FSFAP-no-warranty-disclaimer
 name: FSF All Permissive License (without Warranty)
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://git.savannah.gnu.org/cgit/wget.git/tree/util/trunc.c?h=v1.21.3&id=40747a11e44ced5a8ac628a41f879ced3e2ebce9#n6"

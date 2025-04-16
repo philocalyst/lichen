@@ -1,7 +1,7 @@
 ---
 spdxID: man2html
 name: man2html License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.27.0
 crossRefs: 
   - "http://primates.ximian.com/~flucifredi/man/man-1.6g.tar.gz"

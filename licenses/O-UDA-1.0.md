@@ -1,7 +1,7 @@
 ---
 spdxID: O-UDA-1.0
 name: Open Use of Data Agreement v1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.9
 crossRefs: 
   - "https://github.com/microsoft/Open-Use-of-Data-Agreement/blob/v1.0/O-UDA-1.0.md"

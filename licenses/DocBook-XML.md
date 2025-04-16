@@ -1,7 +1,7 @@
 ---
 spdxID: DocBook-XML
 name: DocBook XML License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.25.0
 crossRefs: 
   - "https://github.com/docbook/xslt10-stylesheets/blob/efd62655c11cc8773708df7a843613fa1e932bf8/xsl/COPYING#L27"

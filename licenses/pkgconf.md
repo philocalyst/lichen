@@ -1,7 +1,7 @@
 ---
 spdxID: pkgconf
 name: pkgconf License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.24.0
 crossRefs: 
   - "https://github.com/pkgconf/pkgconf/blob/master/cli/main.c#L8"

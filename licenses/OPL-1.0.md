@@ -1,7 +1,7 @@
 ---
 spdxID: OPL-1.0
 name: Open Public License v1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.17
 crossRefs: 
   - "http://old.koalateam.com/jackaroo/OPL_1_0.TXT"

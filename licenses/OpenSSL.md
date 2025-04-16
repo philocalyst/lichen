@@ -1,7 +1,7 @@
 ---
 spdxID: OpenSSL
 name: OpenSSL License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.openssl.org/source/license.html"

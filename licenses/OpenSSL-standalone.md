@@ -1,7 +1,7 @@
 ---
 spdxID: OpenSSL-standalone
 name: OpenSSL License - standalone
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://library.netapp.com/ecm/ecm_download_file/ECMP1196395"

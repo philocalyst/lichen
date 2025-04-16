@@ -1,7 +1,7 @@
 ---
 spdxID: RPSL-1.0
 name: RealNetworks Public Source License v1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://helixcommunity.org/content/rpsl"

@@ -1,7 +1,7 @@
 ---
 spdxID: EPL-1.0
 name: Eclipse Public License 1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.eclipse.org/legal/epl-v10.html"

@@ -1,7 +1,7 @@
 ---
 spdxID: ICU
 name: ICU License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 2.0rc3
 crossRefs: 
   - "http://source.icu-project.org/repos/icu/icu/trunk/license.html"

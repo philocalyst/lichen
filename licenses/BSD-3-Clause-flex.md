@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-3-Clause-flex
 name: BSD 3-Clause Flex variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://github.com/westes/flex/blob/master/COPYING"

@@ -1,7 +1,7 @@
 ---
 spdxID: xkeyboard-config-Zinoviev
 name: xkeyboard-config Zinoviev License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/blob/master/COPYING?ref_type=heads#L178"

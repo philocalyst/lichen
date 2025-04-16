@@ -1,7 +1,7 @@
 ---
 spdxID: GCR-docs
 name: Gnome GCR Documentation License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/GNOME/gcr/blob/master/docs/COPYING"

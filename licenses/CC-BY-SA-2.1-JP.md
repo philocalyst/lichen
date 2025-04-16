@@ -1,7 +1,7 @@
 ---
 spdxID: CC-BY-SA-2.1-JP
 name: Creative Commons Attribution Share Alike 2.1 Japan
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.12
 crossRefs: 
   - "https://creativecommons.org/licenses/by-sa/2.1/jp/legalcode"

@@ -1,7 +1,7 @@
 ---
 spdxID: Unlicense
 name: The Unlicense
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 1.19
 crossRefs: 
   - "https://unlicense.org/"

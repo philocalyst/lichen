@@ -1,7 +1,7 @@
 ---
 spdxID: CPAL-1.0
 name: Common Public Attribution License 1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/CPAL-1.0"

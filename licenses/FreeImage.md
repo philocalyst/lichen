@@ -1,7 +1,7 @@
 ---
 spdxID: FreeImage
 name: FreeImage Public License v1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://freeimage.sourceforge.net/freeimage-license.txt"

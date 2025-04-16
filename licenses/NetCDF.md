@@ -1,7 +1,7 @@
 ---
 spdxID: NetCDF
 name: NetCDF license
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "http://www.unidata.ucar.edu/software/netcdf/copyright.html"

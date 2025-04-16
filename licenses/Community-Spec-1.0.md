@@ -1,7 +1,7 @@
 ---
 spdxID: Community-Spec-1.0
 name: Community Specification License 1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.15
 crossRefs: 
   - "https://github.com/CommunitySpecification/1.0/blob/master/1._Community_Specification_License-v1.md"

@@ -1,7 +1,7 @@
 ---
 spdxID: TTYP0
 name: TTYP0 License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://people.mpi-inf.mpg.de/~uwe/misc/uw-ttyp0/"

@@ -1,7 +1,7 @@
 ---
 spdxID: curl
 name: curl License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.3
 crossRefs: 
   - "https://github.com/bagder/curl/blob/master/COPYING"

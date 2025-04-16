@@ -1,7 +1,7 @@
 ---
 spdxID: HPND-sell-variant-MIT-disclaimer-rev
 name: HPND sell variant with MIT disclaimer - reverse
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.24.0
 crossRefs: 
   - "https://github.com/sigmavirus24/x11-ssh-askpass/blob/master/dynlist.c"

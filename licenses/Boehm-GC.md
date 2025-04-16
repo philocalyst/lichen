@@ -1,7 +1,7 @@
 ---
 spdxID: Boehm-GC
 name: Boehm-Demers-Weiser GC License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.21
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing:MIT#Another_Minimal_variant_(found_in_libatomic_ops)"

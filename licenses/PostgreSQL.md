@@ -1,7 +1,7 @@
 ---
 spdxID: PostgreSQL
 name: PostgreSQL License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.postgresql.org/about/licence"

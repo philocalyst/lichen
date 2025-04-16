@@ -1,7 +1,7 @@
 ---
 spdxID: LGPL-2.0
 name: GNU Library General Public License v2 only
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://www.gnu.org/licenses/old-licenses/lgpl-2.0-standalone.html"

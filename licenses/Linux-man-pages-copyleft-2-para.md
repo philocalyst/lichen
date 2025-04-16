@@ -1,7 +1,7 @@
 ---
 spdxID: Linux-man-pages-copyleft-2-para
 name: Linux man-pages Copyleft - 2 paragraphs
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.21
 crossRefs: 
   - "https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/man2/move_pages.2#n5"

@@ -1,7 +1,7 @@
 ---
 spdxID: OLDAP-2.6
 name: Open LDAP Public License v2.6
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.17
 crossRefs: 
   - "http://www.openldap.org/devel/gitweb.cgi?p=openldap.git;a=blob;f=LICENSE;hb=1cae062821881f41b73012ba816434897abf4205"

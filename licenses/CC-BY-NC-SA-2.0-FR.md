@@ -2,7 +2,7 @@
 spdxID: CC-BY-NC-SA-2.0-FR
 name: |
   Creative Commons Attribution-NonCommercial-ShareAlike 2.0 France
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://creativecommons.org/licenses/by-nc-sa/2.0/fr/legalcode"

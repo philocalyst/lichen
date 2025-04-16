@@ -1,7 +1,7 @@
 ---
 spdxID: UMich-Merit
 name: Michigan/Merit Networks License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://github.com/radcli/radcli/blob/master/COPYRIGHT#L64"

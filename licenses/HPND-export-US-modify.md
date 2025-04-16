@@ -2,7 +2,7 @@
 spdxID: HPND-export-US-modify
 name: |
   HPND with US Government export control warning and modification rqmt
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://github.com/krb5/krb5/blob/krb5-1.21.2-final/NOTICE#L1157-L1182"

@@ -1,7 +1,7 @@
 ---
 spdxID: TrustedQSL
 name: TrustedQSL License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.26.0
 crossRefs: 
   - "https://sourceforge.net/p/trustedqsl/tqsl/ci/master/tree/LICENSE.txt"

@@ -1,7 +1,7 @@
 ---
 spdxID: CrystalStacker
 name: CrystalStacker License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.2
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing:CrystalStacker?rd=Licensing/CrystalStacker"

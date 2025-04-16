@@ -1,7 +1,7 @@
 ---
 spdxID: Unicode-3.0
 name: Unicode License v3
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://www.unicode.org/license.txt"

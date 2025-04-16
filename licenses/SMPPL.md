@@ -1,7 +1,7 @@
 ---
 spdxID: SMPPL
 name: Secure Messaging Protocol Public License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.4
 crossRefs: 
   - "https://github.com/dcblake/SMP/blob/master/Documentation/License.txt"

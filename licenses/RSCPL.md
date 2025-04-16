@@ -1,7 +1,7 @@
 ---
 spdxID: RSCPL
 name: Ricoh Source Code Public License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://wayback.archive.org/web/20060715140826/http://www.risource.org/RPL/RPL-1.0A.shtml"

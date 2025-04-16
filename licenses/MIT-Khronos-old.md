@@ -1,7 +1,7 @@
 ---
 spdxID: MIT-Khronos-old
 name: MIT Khronos - old variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.24.0
 crossRefs: 
   - "https://github.com/KhronosGroup/SPIRV-Cross/blob/main/LICENSES/LicenseRef-KhronosFreeUse.txt"

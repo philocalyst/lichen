@@ -1,7 +1,7 @@
 ---
 spdxID: TCL
 name: TCL/TK License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "http://www.tcl.tk/software/tcltk/license.html"

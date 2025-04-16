@@ -1,7 +1,7 @@
 ---
 spdxID: HPND-export2-US
 name: HPND with US Government export control and 2 disclaimers
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.24.0
 crossRefs: 
   - "https://github.com/krb5/krb5/blob/krb5-1.21.2-final/NOTICE#L111-L133"

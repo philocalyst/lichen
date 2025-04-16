@@ -1,7 +1,7 @@
 ---
 spdxID: AMDPLPA
 name: AMD's plpa_map.c License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/AMD_plpa_map_License"

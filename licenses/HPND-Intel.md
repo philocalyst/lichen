@@ -1,7 +1,7 @@
 ---
 spdxID: HPND-Intel
 name: Historical Permission Notice and Disclaimer - Intel variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.24.0
 crossRefs: 
   - "https://sourceware.org/git/?p=newlib-cygwin.git;a=blob;f=newlib/libc/machine/i960/memcpy.S;hb=HEAD"

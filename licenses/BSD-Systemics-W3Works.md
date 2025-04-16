@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-Systemics-W3Works
 name: Systemics W3Works BSD variant license
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://metacpan.org/release/DPARIS/Crypt-Blowfish-2.14/source/COPYRIGHT#L7"

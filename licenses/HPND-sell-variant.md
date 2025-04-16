@@ -1,7 +1,7 @@
 ---
 spdxID: HPND-sell-variant
 name: Historical Permission Notice and Disclaimer - sell variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.5
 crossRefs: 
   - "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/net/sunrpc/auth_gss/gss_generic_token.c?h=v4.19"

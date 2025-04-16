@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-2-Clause
 name: BSD 2-Clause "Simplified" License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/BSD-2-Clause"

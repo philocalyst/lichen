@@ -1,7 +1,7 @@
 ---
 spdxID: checkmk
 name: Checkmk License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.19
 crossRefs: 
   - "https://github.com/libcheck/check/blob/master/checkmk/checkmk.in"

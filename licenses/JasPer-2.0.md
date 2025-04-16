@@ -1,7 +1,7 @@
 ---
 spdxID: JasPer-2.0
 name: JasPer License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "http://www.ece.uvic.ca/~mdadams/jasper/LICENSE"

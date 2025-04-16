@@ -1,7 +1,7 @@
 ---
 spdxID: Martin-Birgmeier
 name: Martin Birgmeier License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://github.com/Perl/perl5/blob/blead/util.c#L6136"

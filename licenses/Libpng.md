@@ -1,7 +1,7 @@
 ---
 spdxID: Libpng
 name: libpng License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.libpng.org/pub/png/src/libpng-LICENSE.txt"

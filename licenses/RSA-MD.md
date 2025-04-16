@@ -1,7 +1,7 @@
 ---
 spdxID: RSA-MD
 name: RSA Message-Digest License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.0rc3
 crossRefs: 
   - "http://www.faqs.org/rfcs/rfc1321.html"

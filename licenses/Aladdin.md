@@ -1,7 +1,7 @@
 ---
 spdxID: Aladdin
 name: Aladdin Free Public License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://pages.cs.wisc.edu/~ghost/doc/AFPL/6.01/Public.htm"

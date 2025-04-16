@@ -1,7 +1,7 @@
 ---
 spdxID: SNIA
 name: SNIA Public License 1.1
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/SNIA_Public_License"

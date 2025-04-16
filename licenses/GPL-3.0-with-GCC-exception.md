@@ -2,7 +2,7 @@
 spdxID: GPL-3.0-with-GCC-exception
 name: |
   GNU General Public License v3.0 w/GCC Runtime Library exception
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://www.gnu.org/licenses/gcc-exception-3.1.html"

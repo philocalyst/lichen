@@ -1,7 +1,7 @@
 ---
 spdxID: bcrypt-Solar-Designer
 name: bcrypt Solar Designer License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/bcrypt-ruby/bcrypt-ruby/blob/master/ext/mri/crypt_blowfish.c"

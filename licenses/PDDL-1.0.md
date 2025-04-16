@@ -1,7 +1,7 @@
 ---
 spdxID: PDDL-1.0
 name: Open Data Commons Public Domain Dedication & License 1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://opendatacommons.org/licenses/pddl/1.0/"

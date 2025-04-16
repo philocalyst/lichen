@@ -1,7 +1,7 @@
 ---
 spdxID: LAL-1.3
 name: Licence Art Libre 1.3
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://artlibre.org/"

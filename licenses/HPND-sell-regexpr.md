@@ -2,7 +2,7 @@
 spdxID: HPND-sell-regexpr
 name: |
   Historical Permission Notice and Disclaimer - sell regexpr variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://gitlab.com/bacula-org/bacula/-/blob/Branch-11.0/bacula/LICENSE-FOSS?ref_type=heads#L245"

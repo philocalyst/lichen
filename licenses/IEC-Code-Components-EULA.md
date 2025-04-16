@@ -1,7 +1,7 @@
 ---
 spdxID: IEC-Code-Components-EULA
 name: IEC    Code Components End-user licence agreement
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://www.iec.ch/webstore/custserv/pdf/CC-EULA.pdf"

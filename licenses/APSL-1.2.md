@@ -1,7 +1,7 @@
 ---
 spdxID: APSL-1.2
 name: Apple Public Source License 1.2
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.samurajdata.se/opensource/mirror/licenses/apsl.php"

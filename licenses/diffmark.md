@@ -1,7 +1,7 @@
 ---
 spdxID: diffmark
 name: diffmark license
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/diffmark"

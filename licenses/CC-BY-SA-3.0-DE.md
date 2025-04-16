@@ -1,7 +1,7 @@
 ---
 spdxID: CC-BY-SA-3.0-DE
 name: Creative Commons Attribution Share Alike 3.0 Germany
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.14
 crossRefs: 
   - "https://creativecommons.org/licenses/by-sa/3.0/de/legalcode"

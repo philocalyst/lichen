@@ -1,7 +1,7 @@
 ---
 spdxID: OSL-3.0
 name: Open Software License 3.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://web.archive.org/web/20120101081418/http://rosenlaw.com:80/OSL3.0.htm"

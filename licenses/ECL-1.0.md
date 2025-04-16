@@ -1,7 +1,7 @@
 ---
 spdxID: ECL-1.0
 name: Educational Community License v1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/ECL-1.0"

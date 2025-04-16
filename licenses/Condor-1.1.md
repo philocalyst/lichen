@@ -1,7 +1,7 @@
 ---
 spdxID: Condor-1.1
 name: Condor Public License v1.1
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.17
 crossRefs: 
   - "http://research.cs.wisc.edu/condor/license.html#condor"

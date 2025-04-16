@@ -1,7 +1,7 @@
 ---
 spdxID: ECL-2.0
 name: Educational Community License v2.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/ECL-2.0"

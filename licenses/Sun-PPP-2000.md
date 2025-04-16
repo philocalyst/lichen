@@ -1,7 +1,7 @@
 ---
 spdxID: Sun-PPP-2000
 name: Sun PPP License (2000)
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.24.0
 crossRefs: 
   - "https://github.com/ppp-project/ppp/blob/master/modules/ppp_ahdlc.c#L7-L19"

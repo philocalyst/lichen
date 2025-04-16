@@ -1,7 +1,7 @@
 ---
 spdxID: CECILL-C
 name: CeCILL-C Free Software License Agreement
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html"

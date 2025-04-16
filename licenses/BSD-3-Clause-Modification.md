@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-3-Clause-Modification
 name: BSD 3-Clause Modification
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.12
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing:BSD#Modification_Variant"

@@ -1,7 +1,7 @@
 ---
 spdxID: AGPL-1.0
 name: Affero General Public License v1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.18
 crossRefs: 
   - "http://www.affero.org/oagpl.html"

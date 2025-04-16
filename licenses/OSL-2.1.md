@@ -1,7 +1,7 @@
 ---
 spdxID: OSL-2.1
 name: Open Software License 2.1
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://web.archive.org/web/20050212003940/http://www.rosenlaw.com/osl21.htm"

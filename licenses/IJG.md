@@ -1,7 +1,7 @@
 ---
 spdxID: IJG
 name: Independent JPEG Group License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.17
 crossRefs: 
   - "http://dev.w3.org/cvsweb/Amaya/libjpeg/Attic/README?rev=1.2"

@@ -1,7 +1,7 @@
 ---
 spdxID: GFDL-1.2-or-later
 name: GNU Free Documentation License v1.2 or later
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://www.gnu.org/licenses/old-licenses/fdl-1.2.txt"

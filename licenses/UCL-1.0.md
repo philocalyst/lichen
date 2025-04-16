@@ -1,7 +1,7 @@
 ---
 spdxID: UCL-1.0
 name: Upstream Compatibility License v1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 3.7
 crossRefs: 
   - "https://opensource.org/licenses/UCL-1.0"

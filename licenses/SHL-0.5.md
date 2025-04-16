@@ -1,7 +1,7 @@
 ---
 spdxID: SHL-0.5
 name: Solderpad Hardware License v0.5
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://solderpad.org/licenses/SHL-0.5/"

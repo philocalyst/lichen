@@ -1,7 +1,7 @@
 ---
 spdxID: OGL-Canada-2.0
 name: Open Government Licence - Canada
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.7
 crossRefs: 
   - "https://open.canada.ca/en/open-government-licence-canada"

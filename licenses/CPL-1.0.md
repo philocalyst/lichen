@@ -1,7 +1,7 @@
 ---
 spdxID: CPL-1.0
 name: Common Public License 1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/CPL-1.0"

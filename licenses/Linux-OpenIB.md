@@ -1,7 +1,7 @@
 ---
 spdxID: Linux-OpenIB
 name: Linux Kernel Variant of OpenIB.org license
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/infiniband/core/sa.h"

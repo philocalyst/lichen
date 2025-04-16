@@ -1,7 +1,7 @@
 ---
 spdxID: Interbase-1.0
 name: Interbase Public License v1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.2
 crossRefs: 
   - "https://web.archive.org/web/20060319014854/http://info.borland.com/devsupport/interbase/opensource/IPL.html"

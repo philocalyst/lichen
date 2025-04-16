@@ -1,7 +1,7 @@
 ---
 spdxID: MPL-1.0
 name: Mozilla Public License 1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.mozilla.org/MPL/MPL-1.0.html"

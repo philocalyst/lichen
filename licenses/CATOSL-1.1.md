@@ -1,7 +1,7 @@
 ---
 spdxID: CATOSL-1.1
 name: Computer Associates Trusted Open Source License 1.1
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/CATOSL-1.1"

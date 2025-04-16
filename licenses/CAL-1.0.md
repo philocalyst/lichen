@@ -1,7 +1,7 @@
 ---
 spdxID: CAL-1.0
 name: Cryptographic Autonomy License 1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 3.9
 crossRefs: 
   - "http://cryptographicautonomylicense.com/license-text.html"

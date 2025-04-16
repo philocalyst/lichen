@@ -1,7 +1,7 @@
 ---
 spdxID: CDDL-1.1
 name: Common Development and Distribution License 1.1
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://glassfish.java.net/public/CDDL+GPL_1_1.html"

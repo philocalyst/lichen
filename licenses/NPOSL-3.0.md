@@ -1,7 +1,7 @@
 ---
 spdxID: NPOSL-3.0
 name: Non-Profit Open Software License 3.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/NOSL3.0"

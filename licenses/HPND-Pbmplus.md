@@ -2,7 +2,7 @@
 spdxID: HPND-Pbmplus
 name: |
   Historical Permission Notice and Disclaimer - Pbmplus variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://sourceforge.net/p/netpbm/code/HEAD/tree/super_stable/netpbm.c#l8"

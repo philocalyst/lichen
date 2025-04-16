@@ -1,7 +1,7 @@
 ---
 spdxID: LiLiQ-Rplus-1.1
 name: Licence Libre du Québec – Réciprocité forte version 1.1
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 2.4
 crossRefs: 
   - "https://www.forge.gouv.qc.ca/participez/licence-logicielle/licence-libre-du-quebec-liliq-en-francais/licence-libre-du-quebec-reciprocite-forte-liliq-r-v1-1/"

@@ -1,7 +1,7 @@
 ---
 spdxID: Elastic-2.0
 name: Elastic License 2.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.16
 crossRefs: 
   - "https://www.elastic.co/licensing/elastic-license"

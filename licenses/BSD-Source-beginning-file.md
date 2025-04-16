@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-Source-beginning-file
 name: BSD Source Code Attribution - beginning of file variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/lattera/freebsd/blob/master/sys/cam/cam.c#L4"

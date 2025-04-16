@@ -1,7 +1,7 @@
 ---
 spdxID: LGPL-3.0-or-later
 name: GNU Lesser General Public License v3.0 or later
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://www.gnu.org/licenses/lgpl-3.0-standalone.html"

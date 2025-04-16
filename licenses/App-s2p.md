@@ -1,7 +1,7 @@
 ---
 spdxID: App-s2p
 name: App::s2p License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.16
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/App-s2p"

@@ -1,7 +1,7 @@
 ---
 spdxID: TU-Berlin-1.0
 name: Technische Universitaet Berlin License 1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.2
 crossRefs: 
   - "https://github.com/swh/ladspa/blob/7bf6f3799fdba70fda297c2d8fd9f526803d9680/gsm/COPYRIGHT"

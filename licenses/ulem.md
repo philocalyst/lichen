@@ -1,7 +1,7 @@
 ---
 spdxID: ulem
 name: ulem License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://mirrors.ctan.org/macros/latex/contrib/ulem/README"

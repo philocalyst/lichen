@@ -2,7 +2,7 @@
 spdxID: CC-BY-SA-2.0-UK
 name: |
   Creative Commons Attribution Share Alike 2.0 England and Wales
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.11
 crossRefs: 
   - "https://creativecommons.org/licenses/by-sa/2.0/uk/legalcode"

@@ -1,7 +1,7 @@
 ---
 spdxID: MirOS
 name: The MirOS Licence
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://opensource.org/licenses/MirOS"

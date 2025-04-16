@@ -1,7 +1,7 @@
 ---
 spdxID: NLOD-2.0
 name: Norwegian Licence for Open Government Data (NLOD) 2.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.14
 crossRefs: 
   - "http://data.norge.no/nlod/en/2.0"

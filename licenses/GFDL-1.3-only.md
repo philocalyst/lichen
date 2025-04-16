@@ -1,7 +1,7 @@
 ---
 spdxID: GFDL-1.3-only
 name: GNU Free Documentation License v1.3 only
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://www.gnu.org/licenses/fdl-1.3.txt"

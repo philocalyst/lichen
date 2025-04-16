@@ -1,7 +1,7 @@
 ---
 spdxID: Mackerras-3-Clause
 name: Mackerras 3-Clause License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/ppp-project/ppp/blob/master/pppd/chap_ms.c#L6-L28"

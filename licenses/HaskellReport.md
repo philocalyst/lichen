@@ -1,7 +1,7 @@
 ---
 spdxID: HaskellReport
 name: Haskell Language Report License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/Haskell_Language_Report_License"

@@ -1,7 +1,7 @@
 ---
 spdxID: QPL-1.0-INRIA-2004
 name: Q Public License 1.0 - INRIA 2004 variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://github.com/maranget/hevea/blob/master/LICENSE"

@@ -1,7 +1,7 @@
 ---
 spdxID: SSPL-1.0
 name: Server Side Public License, v 1
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.6
 crossRefs: 
   - "https://www.mongodb.com/licensing/server-side-public-license"

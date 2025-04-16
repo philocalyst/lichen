@@ -1,7 +1,7 @@
 ---
 spdxID: libselinux-1.0
 name: libselinux public domain notice
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.8
 crossRefs: 
   - "https://github.com/SELinuxProject/selinux/blob/master/libselinux/LICENSE"

@@ -1,7 +1,7 @@
 ---
 spdxID: MIT-Wu
 name: MIT Tom Wu Variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://github.com/chromium/octane/blob/master/crypto.js"

@@ -1,7 +1,7 @@
 ---
 spdxID: Brian-Gladman-2-Clause
 name: Brian Gladman 2-Clause License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/krb5/krb5/blob/krb5-1.21.2-final/NOTICE#L140-L156"

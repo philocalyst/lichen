@@ -1,7 +1,7 @@
 ---
 spdxID: Adobe-2006
 name: Adobe Systems Incorporated Source Code License Agreement
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/AdobeLicense"

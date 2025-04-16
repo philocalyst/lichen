@@ -1,7 +1,7 @@
 ---
 spdxID: Imlib2
 name: Imlib2 License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.17
 crossRefs: 
   - "http://trac.enlightenment.org/e/browser/trunk/imlib2/COPYING"

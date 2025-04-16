@@ -1,7 +1,7 @@
 ---
 spdxID: FSFUL
 name: FSF Unlimited License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/FSF_Unlimited_License"

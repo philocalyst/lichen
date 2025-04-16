@@ -1,7 +1,7 @@
 ---
 spdxID: any-OSI
 name: Any OSI License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.24.0
 crossRefs: 
   - "https://metacpan.org/pod/Exporter::Tidy#LICENSE"

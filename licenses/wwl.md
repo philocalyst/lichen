@@ -1,7 +1,7 @@
 ---
 spdxID: wwl
 name: WWL License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.26.0
 crossRefs: 
   - "http://www.db.net/downloads/wwl+db-1.3.tgz"

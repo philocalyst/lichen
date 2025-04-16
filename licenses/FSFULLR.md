@@ -1,7 +1,7 @@
 ---
 spdxID: FSFULLR
 name: FSF Unlimited License (with License Retention)
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/FSF_Unlimited_License#License_Retention_Variant"

@@ -1,7 +1,7 @@
 ---
 spdxID: MS-RL
 name: Microsoft Reciprocal License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.microsoft.com/opensource/licenses.mspx"

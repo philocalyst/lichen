@@ -1,7 +1,7 @@
 ---
 spdxID: C-UDA-1.0
 name: Computational Use of Data Agreement v1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.12
 crossRefs: 
   - "https://github.com/microsoft/Computational-Use-of-Data-Agreement/blob/master/C-UDA-1.0.md"

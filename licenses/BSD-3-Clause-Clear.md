@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-3-Clause-Clear
 name: BSD 3-Clause Clear License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.17
 crossRefs: 
   - "http://labs.metacarta.com/license-explanation.html#license"

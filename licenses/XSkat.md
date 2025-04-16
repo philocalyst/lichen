@@ -1,7 +1,7 @@
 ---
 spdxID: XSkat
 name: XSkat License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/XSkat_License"

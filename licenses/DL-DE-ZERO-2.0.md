@@ -1,7 +1,7 @@
 ---
 spdxID: DL-DE-ZERO-2.0
 name: Data licence Germany – zero – version 2.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://www.govdata.de/dl-de/zero-2-0"

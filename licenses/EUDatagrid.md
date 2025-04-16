@@ -1,7 +1,7 @@
 ---
 spdxID: EUDatagrid
 name: EU DataGrid Software License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://eu-datagrid.web.cern.ch/eu-datagrid/license.html"

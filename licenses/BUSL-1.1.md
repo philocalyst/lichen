@@ -1,7 +1,7 @@
 ---
 spdxID: BUSL-1.1
 name: Business Source License 1.1
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.11
 crossRefs: 
   - "https://mariadb.com/bsl11/"

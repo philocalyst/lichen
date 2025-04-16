@@ -1,7 +1,7 @@
 ---
 spdxID: libutil-David-Nugent
 name: libutil David Nugent License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.19
 crossRefs: 
   - "http://web.mit.edu/freebsd/head/lib/libutil/login_ok.3"

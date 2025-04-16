@@ -1,7 +1,7 @@
 ---
 spdxID: Sendmail-8.23
 name: Sendmail License 8.23
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://www.proofpoint.com/sites/default/files/sendmail-license.pdf"

@@ -1,7 +1,7 @@
 ---
 spdxID: Jam
 name: Jam License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 3.16
 crossRefs: 
   - "https://www.boost.org/doc/libs/1_35_0/doc/html/jam.html"

@@ -1,7 +1,7 @@
 ---
 spdxID: AFL-2.1
 name: Academic Free License v2.1
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://opensource.linux-mirror.org/licenses/afl-2.1.txt"

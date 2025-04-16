@@ -1,7 +1,7 @@
 ---
 spdxID: Mackerras-3-Clause-acknowledgment
 name: Mackerras 3-Clause - acknowledgment variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/ppp-project/ppp/blob/master/pppd/auth.c#L6-L28"

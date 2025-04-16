@@ -1,7 +1,7 @@
 ---
 spdxID: ThirdEye
 name: ThirdEye License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.26.0
 crossRefs: 
   - "https://sourceware.org/cgit/binutils-gdb/tree/include/coff/symconst.h#n11"

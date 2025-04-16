@@ -1,7 +1,7 @@
 ---
 spdxID: AMPAS
 name: Academy of Motion Picture Arts and Sciences BSD
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/BSD#AMPASBSD"

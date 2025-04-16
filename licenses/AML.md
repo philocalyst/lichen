@@ -1,7 +1,7 @@
 ---
 spdxID: AML
 name: Apple MIT License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/Apple_MIT_License"

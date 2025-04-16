@@ -1,7 +1,7 @@
 ---
 spdxID: SGI-B-1.0
 name: SGI Free Software License B v1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.17
 crossRefs: 
   - "http://oss.sgi.com/projects/FreeB/SGIFreeSWLicB.1.0.html"

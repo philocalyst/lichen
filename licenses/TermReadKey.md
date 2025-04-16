@@ -1,7 +1,7 @@
 ---
 spdxID: TermReadKey
 name: TermReadKey License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.21
 crossRefs: 
   - "https://github.com/jonathanstowe/TermReadKey/blob/master/README#L9-L10"

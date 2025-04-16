@@ -1,7 +1,7 @@
 ---
 spdxID: HPND-DEC
 name: Historical Permission Notice and Disclaimer - DEC variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://gitlab.freedesktop.org/xorg/app/xkbcomp/-/blob/master/COPYING?ref_type=heads#L69"

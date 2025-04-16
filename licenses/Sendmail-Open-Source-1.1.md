@@ -1,7 +1,7 @@
 ---
 spdxID: Sendmail-Open-Source-1.1
 name: Sendmail Open Source License v1.1
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.26.0
 crossRefs: 
   - "https://github.com/trusteddomainproject/OpenDMARC/blob/master/LICENSE.Sendmail"

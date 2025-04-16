@@ -1,7 +1,7 @@
 ---
 spdxID: APSL-1.1
 name: Apple Public Source License 1.1
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.opensource.apple.com/source/IOSerialFamily/IOSerialFamily-7/APPLE_LICENSE"

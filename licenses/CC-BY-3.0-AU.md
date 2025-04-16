@@ -1,7 +1,7 @@
 ---
 spdxID: CC-BY-3.0-AU
 name: Creative Commons Attribution 3.0 Australia
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://creativecommons.org/licenses/by/3.0/au/legalcode"

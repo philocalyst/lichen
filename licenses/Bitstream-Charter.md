@@ -1,7 +1,7 @@
 ---
 spdxID: Bitstream-Charter
 name: Bitstream Charter Font License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/Charter#License_Text"

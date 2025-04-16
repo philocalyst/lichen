@@ -1,7 +1,7 @@
 ---
 spdxID: LOOP
 name: Common Lisp LOOP License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://gitlab.com/embeddable-common-lisp/ecl/-/blob/develop/src/lsp/loop.lsp"

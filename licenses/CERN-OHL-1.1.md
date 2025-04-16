@@ -1,7 +1,7 @@
 ---
 spdxID: CERN-OHL-1.1
 name: CERN Open Hardware Licence v1.1
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.5
 crossRefs: 
   - "https://www.ohwr.org/project/licenses/wikis/cern-ohl-v1.1"

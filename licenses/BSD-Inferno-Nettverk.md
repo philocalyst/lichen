@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-Inferno-Nettverk
 name: BSD-Inferno-Nettverk
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://www.inet.no/dante/LICENSE"

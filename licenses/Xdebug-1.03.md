@@ -1,7 +1,7 @@
 ---
 spdxID: Xdebug-1.03
 name: Xdebug License v 1.03
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.21
 crossRefs: 
   - "https://github.com/xdebug/xdebug/blob/master/LICENSE"

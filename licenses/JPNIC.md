@@ -1,7 +1,7 @@
 ---
 spdxID: JPNIC
 name: Japan Network Information Center License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.5
 crossRefs: 
   - "https://gitlab.isc.org/isc-projects/bind9/blob/master/COPYRIGHT#L366"

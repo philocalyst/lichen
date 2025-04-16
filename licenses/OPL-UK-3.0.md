@@ -1,7 +1,7 @@
 ---
 spdxID: OPL-UK-3.0
 name: United    Kingdom Open Parliament Licence v3.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.21
 crossRefs: 
   - "https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/"

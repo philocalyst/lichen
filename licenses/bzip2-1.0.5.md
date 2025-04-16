@@ -1,7 +1,7 @@
 ---
 spdxID: bzip2-1.0.5
 name: bzip2 and libbzip2 License v1.0.5
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://sourceware.org/bzip2/1.0.5/bzip2-manual-1.0.5.html"

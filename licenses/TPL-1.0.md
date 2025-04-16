@@ -1,7 +1,7 @@
 ---
 spdxID: TPL-1.0
 name: THOR Public License 1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing:ThorPublicLicense"

@@ -1,7 +1,7 @@
 ---
 spdxID: RHeCos-1.1
 name: Red Hat eCos Public License v1.1
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://ecos.sourceware.org/old-license.html"

@@ -1,7 +1,7 @@
 ---
 spdxID: Fair
 name: Fair License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://web.archive.org/web/20150926120323/http://fairlicense.org/"

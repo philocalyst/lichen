@@ -1,7 +1,7 @@
 ---
 spdxID: Hippocratic-2.1
 name: Hippocratic License 2.1
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.9
 crossRefs: 
   - "https://firstdonoharm.dev/version/2/1/license.html"

@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-2-Clause-Views
 name: BSD 2-Clause with views sentence
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.10
 crossRefs: 
   - "http://www.freebsd.org/copyright/freebsd-license.html"

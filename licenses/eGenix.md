@@ -1,7 +1,7 @@
 ---
 spdxID: eGenix
 name: eGenix.com Public License 1.1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "http://www.egenix.com/products/eGenix.com-Public-License-1.1.0.pdf"

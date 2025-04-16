@@ -1,7 +1,7 @@
 ---
 spdxID: Clips
 name: Clips License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://github.com/DrItanium/maya/blob/master/LICENSE.CLIPS"

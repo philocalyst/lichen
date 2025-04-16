@@ -1,7 +1,7 @@
 ---
 spdxID: Info-ZIP
 name: Info-ZIP License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.3
 crossRefs: 
   - "http://www.info-zip.org/license.html"

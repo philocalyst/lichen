@@ -2,7 +2,7 @@
 spdxID: HPND-export-US-acknowledgement
 name: |
   HPND with US Government export control warning and acknowledgment
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.24.0
 crossRefs: 
   - "https://github.com/krb5/krb5/blob/krb5-1.21.2-final/NOTICE#L831-L852"

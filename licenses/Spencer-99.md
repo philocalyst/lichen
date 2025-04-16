@@ -1,7 +1,7 @@
 ---
 spdxID: Spencer-99
 name: Spencer License 99
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 2.1
 crossRefs: 
   - "http://www.opensource.apple.com/source/tcl/tcl-5/tcl/generic/regfronts.c"

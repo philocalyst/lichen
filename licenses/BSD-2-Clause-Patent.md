@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-2-Clause-Patent
 name: BSD-2-Clause Plus Patent License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: 2.7
 crossRefs: 
   - "https://opensource.org/licenses/BSDplusPatent"

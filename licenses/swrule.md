@@ -1,7 +1,7 @@
 ---
 spdxID: swrule
 name: swrule License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://ctan.math.utah.edu/ctan/tex-archive/macros/generic/misc/swrule.sty"

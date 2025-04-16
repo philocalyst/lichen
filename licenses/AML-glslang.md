@@ -1,7 +1,7 @@
 ---
 spdxID: AML-glslang
 name: AML glslang variant License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/KhronosGroup/glslang/blob/main/LICENSE.txt#L949"

@@ -1,7 +1,7 @@
 ---
 spdxID: SL
 name: SL License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.22
 crossRefs: 
   - "https://github.com/mtoyoda/sl/blob/master/LICENSE"

@@ -1,7 +1,7 @@
 ---
 spdxID: TAPR-OHL-1.0
 name: TAPR Open Hardware License v1.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.5
 crossRefs: 
   - "https://www.tapr.org/OHL"

@@ -1,7 +1,7 @@
 ---
 spdxID: Knuth-CTAN
 name: Knuth CTAN License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.19
 crossRefs: 
   - "https://ctan.org/license/knuth"

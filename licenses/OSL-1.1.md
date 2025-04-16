@@ -1,7 +1,7 @@
 ---
 spdxID: OSL-1.1
 name: Open Software License 1.1
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/OSL1.1"

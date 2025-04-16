@@ -1,7 +1,7 @@
 ---
 spdxID: etalab-2.0
 name: Etalab Open License 2.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.7
 crossRefs: 
   - "https://github.com/DISIC/politique-de-contribution-open-source/blob/master/LICENSE.pdf"

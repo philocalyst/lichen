@@ -1,7 +1,7 @@
 ---
 spdxID: softSurfer
 name: softSurfer License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/mm2/Little-CMS/blob/master/src/cmssm.c#L207"

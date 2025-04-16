@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-4-Clause-UC
 name: BSD-4-Clause (University of California-Specific)
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.freebsd.org/copyright/license.html"

@@ -1,7 +1,7 @@
 ---
 spdxID: BSL-1.0
 name: Boost Software License 1.0
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "http://www.boost.org/LICENSE_1_0.txt"

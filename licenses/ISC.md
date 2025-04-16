@@ -1,7 +1,7 @@
 ---
 spdxID: ISC
 name: ISC License
-osiApproved: true
+osiApproved: "true"
 listVersionAdded: Unknown
 crossRefs: 
   - "https://www.isc.org/licenses/"

@@ -1,7 +1,7 @@
 ---
 spdxID: OML
 name: Open Market License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/Open_Market_License"

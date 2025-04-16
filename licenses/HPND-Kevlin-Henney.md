@@ -2,7 +2,7 @@
 spdxID: HPND-Kevlin-Henney
 name: |
   Historical Permission Notice and Disclaimer - Kevlin Henney variant
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.23
 crossRefs: 
   - "https://github.com/mruby/mruby/blob/83d12f8d52522cdb7c8cc46fad34821359f453e6/mrbgems/mruby-dir/src/Win/dirent.c#L127-L140"

@@ -1,7 +1,7 @@
 ---
 spdxID: BSD-4.3TAHOE
 name: BSD 4.3 TAHOE License
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.20
 crossRefs: 
   - "https://github.com/389ds/389-ds-base/blob/main/ldap/include/sysexits-compat.h#L15"

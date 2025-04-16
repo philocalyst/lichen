@@ -1,7 +1,7 @@
 ---
 spdxID: NTP-0
 name: NTP No Attribution
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.8
 crossRefs: 
   - "https://github.com/tytso/e2fsprogs/blob/master/lib/et/et_name.c"

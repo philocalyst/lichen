@@ -1,7 +1,7 @@
 ---
 spdxID: zlib-acknowledgement
 name: zlib/libpng License with Acknowledgement
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://fedoraproject.org/wiki/Licensing/ZlibWithAcknowledgement"

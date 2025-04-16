@@ -1,7 +1,7 @@
 ---
 spdxID: Zend-2.0
 name: Zend License v2.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 1.20
 crossRefs: 
   - "https://web.archive.org/web/20130517195954/http://www.zend.com/license/2_00.txt"

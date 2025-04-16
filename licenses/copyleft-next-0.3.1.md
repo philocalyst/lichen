@@ -1,7 +1,7 @@
 ---
 spdxID: copyleft-next-0.3.1
 name: copyleft-next 0.3.1
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.3
 crossRefs: 
   - "https://github.com/copyleft-next/copyleft-next/blob/master/Releases/copyleft-next-0.3.1"

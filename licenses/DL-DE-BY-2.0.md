@@ -1,7 +1,7 @@
 ---
 spdxID: DL-DE-BY-2.0
 name: Data licence Germany – attribution – version 2.0
-osiApproved: false
+osiApproved: "false"
 listVersionAdded: 3.16
 crossRefs: 
   - "https://www.govdata.de/dl-de/by-2-0"
