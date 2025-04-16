@@ -60,7 +60,7 @@ struct ApplyArgs {
     /// Name of the license header to apply (e.g., MIT, Apache-2.0).
     /// Required, but can be read from config if not provided via CLI.
     #[arg()] // Positional argument
-    license: Option<String>, // Made optional here to allow config fallback later
+    license: Option<License>, // Made optional here to allow config fallback later
 
     /// Apply headers in-place, modifying original files.
     /// If not set, creates copies in a 'licensed/' directory (or similar).
@@ -228,16 +228,15 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
         process::exit(1);
     };
 
-    let license = read_to_string(license_path).unwrap();
-    let data: Vec<char> = license.chars().collect();
-
-    let license = strip_metadata(data);
+    let license_path: PathBuf = get_license_path(&license, "txt");
 
     let blacklist = generate_blacklist(&target, exclude_pattern?);
 
+    let license_content = fs::read_to_string(license_path).unwrap();
+
     let working_files = get_valid_files(&target, &blacklist.unwrap());
 
-    prepend_files(&license, working_files);
+    prepend_files(&license_content, working_files);
 
     // TODO: Implement actual license application logic.
     // - Find relevant files (e.g., walk the current directory).
@@ -250,7 +249,8 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
 
     println!(
         "Placeholder: Would apply license '{}' header. In-place: {}. Exclude: ",
-        license_name, args.in_place
+        license.spdx_id(),
+        args.in_place
     );
 
     Ok(())
