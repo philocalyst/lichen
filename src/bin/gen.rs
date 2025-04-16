@@ -118,7 +118,6 @@ fn main() -> std::io::Result<()> {
                     let variant_ident = format_ident!("{}", final_ident_string);
 
                     // --- End Modification ---
-
                     let is_osi = tokio::runtime::Runtime::new().unwrap().block_on(async {
                         match is_osi(&path).await {
                             Ok(val) => val,
@@ -140,12 +139,22 @@ fn main() -> std::io::Result<()> {
 
     // --- Generate Code using quote! (No changes needed here from previous version) ---
 
+    let variants_with_attrs = license_details.iter().map(|(variant, filename, _)| {
+        quote! {
+            #[value(name = #filename)] // Original SPDX id
+            #variant
+        }
+    });
+
     let name_match_arms = license_details.iter().map(|(variant, filename, _)| {
         quote! { Self::#variant => #filename }
     });
     let is_osi_match_arms = license_details.iter().map(|(variant, _, is_osi)| {
         quote! { Self::#variant => #is_osi }
     });
+
+    // Retrive just the variant idents for the iter() method
+    let variant_idents = license_details.iter().map(|(variant, _, _)| variant);
 
     let generated_code = quote! {
         #![allow(clippy::all)]
@@ -168,10 +177,10 @@ fn main() -> std::io::Result<()> {
                     #( #is_osi_match_arms ),* }
             }
 
-            // Optional: Iterator
-            // pub fn iter() -> impl Iterator<Item = Self> {
-            //     [ #( Self::#variants ),* ].iter().copied()
-            // }
+            /// Returns an iterator over all available license variants.
+            pub fn iter() -> impl Iterator<Item = Self> {
+                 [ #( Self::#variant_idents ),* ].iter().copied()
+            }
         }
 
         // Optional: FromStr, Display implementations...
