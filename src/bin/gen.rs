@@ -163,12 +163,19 @@ fn main() -> std::io::Result<()> {
     let generated_code = quote! {
         #![allow(clippy::all)]
 
-        #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-        #[allow(non_camel_case_types)] // Still useful for edge cases
+        #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, clap::ValueEnum)]
         pub enum License {
-            #( #variants ),* }
+             #( #variants_with_attrs ),*
+        }
+
         #[derive(Debug, Clone, PartialEq, Eq)]
         pub struct ParseLicenseError;
+
+        impl std::fmt::Display for ParseLicenseError {
+            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                write!(f, "Provided string does not match any known license filename")
+            }
+        }
 
         impl std::error::Error for ParseLicenseError {}
 
@@ -196,6 +203,8 @@ fn main() -> std::io::Result<()> {
                 // Delegate formatting to the name() method which returns the original filename
                 write!(f, "{}", self.spdx_id())
             }
+        }
+
         impl std::str::FromStr for License {
             type Err = ParseLicenseError;
 
