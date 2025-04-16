@@ -118,6 +118,27 @@ fn main() -> ExitCode {
 
 // ▰▰▰ SUBCOMMAND LOGIC ▰▰▰ //
 
+fn get_data_dir() -> PathBuf {
+    let resources_directory =
+        if let Some(proj_dirs) = ProjectDirs::from("com", "philocalyst", "lichen") {
+            proj_dirs
+            // Lin: /home/alice/.config/barapp
+            // Win: C:\Users\Alice\AppData\Roaming\Foo Corp\Bar App\config
+            // Mac: /Users/Alice/Library/Application Support/com.Foo-Corp.Bar-App
+        } else {
+            panic!("Could not determine project directory");
+        };
+
+    resources_directory.data_dir().to_path_buf()
+}
+
+fn get_license_path(license: &License, extension: &str) -> PathBuf {
+    let resources_directory = get_data_dir();
+    let path = resources_directory.join("licenses").join(license.spdx_id());
+    let path_str = format!("{}.{}", path.to_string_lossy(), extension);
+    PathBuf::from(path_str)
+}
+
 fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
     log::debug!("Running Gen command with args: {:?}", args);
 
@@ -130,7 +151,7 @@ fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
         .year
         .unwrap_or_else(|| chrono::Utc::now().format("%Y").to_string().parse().unwrap());
 
-    let extention = if args.markdown { "md" } else { "txt" };
+    let extension = if args.markdown { "md" } else { "txt" };
 
     log::info!("Generating license: {}", license);
     if let Some(ref authors_vec) = authors {
@@ -138,22 +159,7 @@ fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
     }
     log::info!("Year: {}", year);
 
-    // Search through the licenses directory for the matching spdx ID
-    let resources_directory =
-        if let Some(proj_dirs) = ProjectDirs::from("com", "philocalyst", "lichen") {
-            proj_dirs
-            // Lin: /home/alice/.config/barapp
-            // Win: C:\Users\Alice\AppData\Roaming\Foo Corp\Bar App\config
-            // Mac: /Users/Alice/Library/Application Support/com.Foo-Corp.Bar-App
-        } else {
-            panic!("Could not determine project directory");
-        };
-
-    let resources_directory = resources_directory.data_dir();
-    let license_path = resources_directory
-        .join("license")
-        .join(license.spdx_id())
-        .with_extension(extention);
+    let license_path = get_license_path(&license, extension);
 
     let mut output_file =
         PathBuf::from_str("LICENSE").expect("No IOCreation happens here, so impossible to fail");
@@ -205,28 +211,15 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
     log::debug!("Running Apply command with args: {:?}", args);
 
     // TODO: Add config loading
-    let license_name = args
+    let license = args
         .license
         .ok_or("License name is required via CLI or config")?;
     let exclude_pattern = regex::Regex::new(&args.exclude.unwrap());
     let target = args.target.unwrap();
 
-    log::info!("Applying license header: {}", license_name);
+    log::info!("Applying license header: {}", license.spdx_id());
     log::info!("In-place modification: {}", args.in_place);
     log::info!("Excluding pattern: {:?}", exclude_pattern);
-
-    let search_dir = "licenses";
-    let found_path: Option<PathBuf> = seek_license(search_dir, &license_name); // Variable to store the path if found
-
-    let license_path = if let Some(path) = found_path {
-        path
-    } else {
-        eprintln!(
-            "License file '{}' not found in directory '{}'.",
-            license_name, search_dir
-        );
-        process::exit(1);
-    };
 
     let license_path: PathBuf = get_license_path(&license, "txt");
 
@@ -269,17 +262,7 @@ fn prepend_files(license: &String, paths: Vec<PathBuf>) {
 }
 
 fn get_comment_char(extension: &str) -> Result<String, Box<dyn std::error::Error>> {
-    let resources_directory =
-        if let Some(proj_dirs) = ProjectDirs::from("com", "philocalyst", "lichen") {
-            proj_dirs
-            // Lin: /home/alice/.config/barapp
-            // Win: C:\Users\Alice\AppData\Roaming\Foo Corp\Bar App\config
-            // Mac: /Users/Alice/Library/Application Support/com.Foo-Corp.Bar-App
-        } else {
-            panic!("Could not determine project directory");
-        };
-
-    let resources_directory = resources_directory.data_dir();
+    let resources_directory = get_data_dir();
     let comment_tokens_path = resources_directory.join("comment-tokens.json");
 
     if !resources_directory.try_exists()? {
