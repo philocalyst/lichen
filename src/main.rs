@@ -11,6 +11,8 @@ use std::path::PathBuf;
 use std::process;
 use std::process::ExitCode;
 use tempfile::NamedTempFile;
+mod license;
+use license::License;
 use walkdir;
 
 /// A rust-license management cli tool and library
@@ -37,7 +39,7 @@ enum Commands {
 #[derive(Args, Debug)]
 struct GenArgs {
     #[arg()]
-    license: Option<String>, // Made optional here to allow config fallback later
+    license: Option<License>, // Made optional here to allow config fallback later
 
     /// Author names (comma-separated).
     #[arg(short, long, value_delimiter = ',')]
@@ -115,7 +117,7 @@ fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
     log::debug!("Running Gen command with args: {:?}", args);
 
     // TODO: Config parsing
-    let license_name = args
+    let license = args
         .license
         .ok_or("License name is required via CLI or config")?;
     let authors = args.author; //.or_else(|| /* get from config */);
@@ -123,14 +125,15 @@ fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
         .year
         .unwrap_or_else(|| chrono::Utc::now().format("%Y").to_string().parse().unwrap());
 
-    log::info!("Generating license: {}", license_name);
+    log::info!("Generating license: {}", license);
     if let Some(ref authors_vec) = authors {
         log::info!("Authors: {}", authors_vec.join(", ")); // Fill author field
     }
     log::info!("Year: {}", year);
 
+    // Search through the licenses directory for the matching spdx ID
     let search_dir = "licenses";
-    let found_path: Option<PathBuf> = seek_license(search_dir, &license_name); // Variable to store the path if found
+    let found_path: Option<PathBuf> = seek_license(search_dir, license.spdx_id()); // Variable to store the path if found
 
     let license_file = "LICENSE.md";
 
@@ -139,7 +142,7 @@ fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
     } else {
         eprintln!(
             "License file '{}' not found in directory '{}'.",
-            license_name, search_dir
+            license, search_dir
         );
         process::exit(1);
     };
@@ -158,7 +161,7 @@ fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
 
     println!(
         "Placeholder: Would generate license '{}' for year {} by {:?}",
-        license_name,
+        license,
         year,
         authors.unwrap_or_default()
     );
@@ -166,7 +169,7 @@ fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn seek_license(license_dir: &str, license_name: &String) -> Option<PathBuf> {
+fn seek_license(license_dir: &str, license_name: &str) -> Option<PathBuf> {
     let mut found_path: Option<PathBuf> = None; // Variable to store the path if found
     match fs::read_dir(license_dir) {
         Ok(entries) => {
