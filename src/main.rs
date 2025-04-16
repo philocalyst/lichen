@@ -10,6 +10,7 @@ use std::path::Path;
 use std::path::PathBuf;
 use std::process;
 use std::process::ExitCode;
+use std::str::FromStr;
 use tempfile::NamedTempFile;
 mod license;
 use license::License;
@@ -44,6 +45,10 @@ struct GenArgs {
     /// Author names (comma-separated).
     #[arg(short, long, value_delimiter = ',')]
     author: Option<Vec<String>>,
+
+    // Whether or not to use a markdown license, defaults to true
+    #[arg(long, default_value_t = true)]
+    markdown: bool,
 
     /// Year for the license (defaults to current year if blank).
     #[arg(short, long)]
@@ -125,6 +130,8 @@ fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
         .year
         .unwrap_or_else(|| chrono::Utc::now().format("%Y").to_string().parse().unwrap());
 
+    let extention = if args.markdown { "md" } else { "txt" };
+
     log::info!("Generating license: {}", license);
     if let Some(ref authors_vec) = authors {
         log::info!("Authors: {}", authors_vec.join(", ")); // Fill author field
@@ -132,75 +139,37 @@ fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
     log::info!("Year: {}", year);
 
     // Search through the licenses directory for the matching spdx ID
-    let search_dir = "licenses";
-    let found_path: Option<PathBuf> = seek_license(search_dir, license.spdx_id()); // Variable to store the path if found
+    let resources_directory =
+        if let Some(proj_dirs) = ProjectDirs::from("com", "philocalyst", "lichen") {
+            proj_dirs
+            // Lin: /home/alice/.config/barapp
+            // Win: C:\Users\Alice\AppData\Roaming\Foo Corp\Bar App\config
+            // Mac: /Users/Alice/Library/Application Support/com.Foo-Corp.Bar-App
+        } else {
+            panic!("Could not determine project directory");
+        };
 
-    let license_file = "LICENSE.md";
+    let resources_directory = resources_directory.data_dir();
+    let license_path = resources_directory
+        .join("license")
+        .join(license.spdx_id())
+        .with_extension(extention);
 
-    let license_path = if let Some(path) = found_path {
-        path
-    } else {
-        eprintln!(
-            "License file '{}' not found in directory '{}'.",
-            license, search_dir
-        );
-        process::exit(1);
-    };
+    let mut output_file =
+        PathBuf::from_str("LICENSE").expect("No IOCreation happens here, so impossible to fail");
 
-    let license = read_to_string(license_path).unwrap();
-    let data: Vec<char> = license.chars().collect();
+    if extention == "md" {
+        output_file.set_extension("md");
+    } // Without the file extention most programs just read as text...
 
-    let license = strip_metadata(data);
-
-    println!("{}", license);
+    fs::copy(license_path, output_file)?;
 
     // TODO: Implement actual license generation logic.
     // - Fetch license template based on `license_name`.
     // - Fill in placeholders (author, year).
     // - Write to a LICENSE file (or stdout if passed through pipe).
 
-    println!(
-        "Placeholder: Would generate license '{}' for year {} by {:?}",
-        license,
-        year,
-        authors.unwrap_or_default()
-    );
-
     Ok(())
-}
-
-fn seek_license(license_dir: &str, license_name: &str) -> Option<PathBuf> {
-    let mut found_path: Option<PathBuf> = None; // Variable to store the path if found
-    match fs::read_dir(license_dir) {
-        Ok(entries) => {
-            // Iterate through the directory entries
-            for entry_result in entries {
-                match entry_result {
-                    Ok(entry) => {
-                        let path = entry.path();
-                        // Check if it's a file and if the filename matches
-                        if path.is_file() {
-                            // Get the filename and remove extention
-                            if let Some(filename_osstr) = path.with_extension("").file_name() {
-                                if filename_osstr.to_str().unwrap() == license_name {
-                                    // Found the file :) Store path and break.
-                                    found_path = Some(path);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    Err(e) => {
-                        eprintln!("Warning: Could not read directory entry: {}", e);
-                    }
-                }
-            }
-        }
-        Err(e) => {
-            eprintln!("Error: Could not read directory '{}': {}", license_dir, e);
-        }
-    }
-    found_path
 }
 
 fn generate_blacklist(
