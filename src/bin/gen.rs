@@ -1,22 +1,47 @@
 use heck::ToUpperCamelCase; // Keep this for non-acronym parts
+use metadata_gen::extract_and_prepare_metadata;
 use quote::{format_ident, quote};
 use std::{env, fs, io::Write, path::PathBuf};
+use tokio;
 
 // --- Configuration (same as before) ---
 const LICENSE_DIR: &str = "licenses";
-const OSI_APPROVED_FILENAMES: &[&str] = &[
-    "MIT.md",
-    "Apache-2.0.md",
-    "GPL-3.0-only.md",
-    "AGPL-3.0-only.md", // Example including an acronym
-                        // Add other OSI approved filenames exactly as they appear in the licenses directory
-                        // e.g., "BSD-3-Clause.md",
-];
 // --- End Configuration ---
 
 // Helper function to check if a string slice consists entirely of uppercase ASCII letters
 fn is_all_caps_acronym(s: &str) -> bool {
     !s.is_empty() && s.chars().all(|c| c.is_ascii_uppercase())
+}
+
+async fn is_osi(license_path: &PathBuf) -> Result<bool, Box<dyn std::error::Error>> {
+    use metadata_gen::utils::async_extract_metadata_from_file;
+
+    // Extract metadata from the provided license_path instead of the hardcoded path
+    let (metadata, _, _) =
+        async_extract_metadata_from_file(&license_path.to_string_lossy().to_string()).await?;
+
+    // Check if osiApproved is in the metadata and return its value
+    if let Some(osi_status) = metadata.get("osiApproved") {
+        if osi_status != "unknown" {
+            // Check for edge case where there is no decision.
+            if osi_status
+                .trim()
+                .parse::<bool>()
+                .expect("Should include osi approved key in meta")
+                == true
+            // Convert the value to bool
+            {
+                Ok(true)
+            } else {
+                Ok(false)
+            }
+        } else {
+            Ok(false) // If marked unknown, safe to say it's not OSI in a way that you could trust.
+        }
+    } else {
+        // If osiApproved key is nonexistent, assume false.
+        Ok(false)
+    }
 }
 
 fn main() -> std::io::Result<()> {
@@ -94,8 +119,12 @@ fn main() -> std::io::Result<()> {
 
                     // --- End Modification ---
 
-                    let is_osi = OSI_APPROVED_FILENAMES.contains(&file_name_str.as_str());
-
+                    let is_osi = tokio::runtime::Runtime::new().unwrap().block_on(async {
+                        match is_osi(&path).await {
+                            Ok(val) => val,
+                            Err(_) => false, // Handle any errors by defaulting to false
+                        }
+                    });
                     variants.push(variant_ident.clone()); // Collect idents for enum definition
                     // Store the ORIGINAL filename string along with the generated variant ident and OSI status
                     license_details.push((variant_ident, file_name_str, is_osi));
