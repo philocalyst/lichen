@@ -164,7 +164,7 @@ fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
     let mut output_file =
         PathBuf::from_str("LICENSE").expect("No IOCreation happens here, so impossible to fail");
 
-    if extention == "md" {
+    if extension == "md" {
         output_file.set_extension("md");
     } // Without the file extention most programs just read as text...
 
