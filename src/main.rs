@@ -179,35 +179,18 @@ fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn generate_blacklist(
-    target: &PathBuf,
-    reg_pattern: regex::Regex,
-) -> std::io::Result<Vec<PathBuf>> {
-    let mut blacklist: Vec<PathBuf> = Vec::new();
-    for entry in walkdir::WalkDir::new(&target)
-        .into_iter()
-        .filter_map(Result::ok)
-    {
-        let path = entry.path().to_owned();
-        if reg_pattern.is_match(&path.to_string_lossy()) {
-            blacklist.push(path);
-        }
-    }
-    Ok(blacklist)
-}
-
-fn get_valid_files(target: &PathBuf, reg_pattern: regex::Regex) -> std::io::Result<Vec<PathBuf>> {
-    // Generate blacklist internally
-    let blacklist = generate_blacklist(target, reg_pattern)?;
-
+fn get_valid_files(target: &PathBuf, reg_pattern: regex::Regex) -> Vec<PathBuf> {
     let mut response = Vec::new();
     let walker = walkdir::WalkDir::new(target).into_iter();
-    for entry in walker.filter_entry(|e| !blacklist.iter().any(|path| path == e.path())) {
-        let entry = entry.unwrap().into_path();
-        response.push(entry);
+
+    // Filter entries directly using the regex pattern
+    for entry in walker.filter_entry(|e| !reg_pattern.is_match(&e.path().to_string_lossy())) {
+        if let Ok(entry) = entry {
+            response.push(entry.into_path());
+        }
     }
 
-    Ok(response)
+    response
 }
 
 fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
