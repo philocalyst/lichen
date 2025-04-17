@@ -71,8 +71,9 @@ struct ApplyArgs {
     #[arg(short, long, value_delimiter = ',')]
     exclude: Option<String>,
 
-    #[arg(default_value = ".")]
-    target: Option<PathBuf>,
+    /// Files or directories to process. Defaults to current directory if none specified.
+    #[arg(num_args = 1.., default_value = ".")]
+    target: Vec<PathBuf>,
 }
 
 #[derive(Args, Debug)]
@@ -183,7 +184,6 @@ fn generate_blacklist(
     reg_pattern: regex::Regex,
 ) -> std::io::Result<Vec<PathBuf>> {
     let mut blacklist: Vec<PathBuf> = Vec::new();
-
     for entry in walkdir::WalkDir::new(&target)
         .into_iter()
         .filter_map(Result::ok)
@@ -193,18 +193,21 @@ fn generate_blacklist(
             blacklist.push(path);
         }
     }
-
     Ok(blacklist)
 }
 
-fn get_valid_files(target: &PathBuf, blacklist: &Vec<PathBuf>) -> Vec<PathBuf> {
+fn get_valid_files(target: &PathBuf, reg_pattern: regex::Regex) -> std::io::Result<Vec<PathBuf>> {
+    // Generate blacklist internally
+    let blacklist = generate_blacklist(target, reg_pattern)?;
+
     let mut response = Vec::new();
     let walker = walkdir::WalkDir::new(target).into_iter();
     for entry in walker.filter_entry(|e| !blacklist.iter().any(|path| path == e.path())) {
         let entry = entry.unwrap().into_path();
         response.push(entry);
     }
-    response
+
+    Ok(response)
 }
 
 fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
@@ -214,8 +217,8 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
     let license = args
         .license
         .ok_or("License name is required via CLI or config")?;
-    let exclude_pattern = regex::Regex::new(&args.exclude.unwrap());
-    let target = args.target.unwrap();
+    let exclude_pattern = regex::Regex::new(&args.exclude.unwrap()).unwrap();
+    let target = args.target;
 
     log::info!("Applying license header: {}", license.spdx_id());
     log::info!("In-place modification: {}", args.in_place);
@@ -223,11 +226,9 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
 
     let license_path: PathBuf = get_license_path(&license, "txt");
 
-    let blacklist = generate_blacklist(&target, exclude_pattern?);
-
     let license_content = fs::read_to_string(license_path).unwrap();
 
-    let working_files = get_valid_files(&target, &blacklist.unwrap());
+    let working_files = get_valid_files(&target, exclude_pattern);
 
     license_files(&license_content, working_files);
 
