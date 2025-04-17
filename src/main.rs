@@ -235,55 +235,37 @@ pub fn get_valid_files(
 
         let walker = WalkDir::new(target).into_iter();
 
-        if let Some(reg_pattern) = possible_reg_pattern {
-            // Filter entries directly using the regex pattern
-            for entry_result in
-                walker.filter_entry(|e| !reg_pattern.is_match(&e.path().to_string_lossy()))
-            {
-                match entry_result {
-                    Ok(entry) => {
-                        let path = entry.into_path();
+        let filtered_walker = walker.filter_entry(|e| {
+            possible_reg_pattern
+                .as_ref()
+                .map_or(true, |regex| !regex.is_match(&e.path().to_string_lossy()))
+        });
 
-                        // Check for duplicates
-                        if !seen_paths.insert(path.clone()) {
-                            warn!("Duplicate path found and ignored: {}", path.display());
-                            continue;
-                        }
+        for entry_result in filtered_walker {
+            match entry_result {
+                Ok(entry) => {
+                    let path = entry.into_path();
 
+                    if seen_paths.insert(path.clone()) {
                         response.push(path);
-                    }
-                    Err(err) => {
-                        // Log the error but continue processing
-                        error!("Error accessing entry: {}", err);
+                    } else {
+                        warn!("Duplicate path found and ignored: {}", path.display());
                     }
                 }
-            }
-        } else {
-            // Filter entries directly using the regex pattern
-            for entry_result in walker {
-                match entry_result {
-                    Ok(entry) => {
-                        let path = entry.into_path();
-
-                        // Check for duplicates
-                        if !seen_paths.insert(path.clone()) {
-                            warn!("Duplicate path found and ignored: {}", path.display());
-                            continue;
-                        }
-
-                        response.push(path);
+                Err(err) => {
+                    if let Some(path) = err.path() {
+                        error!("Error accessing entry {}: {}", path.display(), err);
+                    } else {
+                        error!("Error during directory walk: {}", err);
                     }
-                    Err(err) => {
-                        // Log the error but continue processing
-                        error!("Error accessing entry: {}", err);
-                    }
+                    return Err(FileProcessingError::WalkdirError(err));
                 }
             }
         }
     }
 
     if response.is_empty() {
-        warn!("No valid files found in the provided paths");
+        warn!("No valid files found matching the criteria in the provided paths.");
     }
 
     Ok(response)
