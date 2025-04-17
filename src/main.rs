@@ -35,14 +35,19 @@ use license::License;
 pub enum FileProcessingError {
     /// An I/O error occurred.
     IoError(std::io::Error),
+
     /// An error occurred while walking a directory.
     WalkdirError(walkdir::Error),
+
     /// An invalid path was encountered.
     InvalidPath(String),
+
     /// Failed to parse JSON data.
     JsonError(serde_json::Error),
+
     /// Could not determine project directories.
     ProjectDirsError(String),
+
     /// Generic error message.
     Msg(String),
 }
@@ -194,7 +199,45 @@ struct InitArgs {
     path: Option<PathBuf>,
 }
 
-// ▰▰▰ Main Application Logic ▰▰▰ //
+// ▰▰▰ Custom Structs ▰▰▰ //
+
+#[derive(Debug, Clone)]
+enum CommentToken {
+    Line(String),
+    Block {
+        start: String,
+        end: String,
+    },
+    Both {
+        line: String,
+        start: String,
+        end: String,
+    },
+}
+
+impl CommentToken {
+    // Bootstrap off of into string functions to fill fields
+    fn line(tok: impl Into<String>) -> Self {
+        CommentToken::Line(tok.into())
+    }
+
+    fn block(start: impl Into<String>, end: impl Into<String>) -> Self {
+        CommentToken::Block {
+            start: start.into(),
+            end: end.into(),
+        }
+    }
+
+    fn both(line: impl Into<String>, start: impl Into<String>, end: impl Into<String>) -> Self {
+        CommentToken::Both {
+            line: line.into(),
+            start: start.into(),
+            end: end.into(),
+        }
+    }
+}
+
+// ▰▰▰ Main application logic ▰▰▰ //
 
 #[tokio::main]
 async fn main() -> ExitCode {
@@ -741,7 +784,7 @@ pub async fn apply_headers_to_files(
 ///
 /// A `Result` containing the comment token `String` or a `FileProcessingError`.
 /// Defaults to "#" if the extension is not found or the JSON is malformed/missing.
-fn get_comment_char(extension: &str) -> Result<String, FileProcessingError> {
+fn get_comment_char(extension: &str) -> Result<CommentToken, FileProcessingError> {
     trace!(
         "Looking up comment character for extension: '{}'",
         extension
@@ -779,14 +822,14 @@ fn get_comment_char(extension: &str) -> Result<String, FileProcessingError> {
     let data: serde_json::Value = match serde_json::from_reader(reader) {
         Ok(value) => value,
         Err(e) => {
-            error!(
+            warn!(
                 "Failed to parse JSON from '{}': {}. Defaulting comment token to '#'.",
                 comment_tokens_path.display(),
                 e
             );
             // Return default instead of erroring out completely
-            return Ok("#".to_string());
-            // Or return Err(e.into()); if parsing failure should stop the process
+            // Strong feelings about this... Don't know if this is a sensible default.
+            return Ok(CommentToken::Line(String::from("#")));
         }
     };
 
@@ -808,7 +851,8 @@ fn get_comment_char(extension: &str) -> Result<String, FileProcessingError> {
         "Searching for extension '{}' in parsed JSON data.",
         extension
     );
-    // Iterate through the language definitions in the JSON
+
+    // Iterate through all of the language definitions
     for (_language_name, language_details) in languages_map {
         // Check if this language definition has 'file_types'
         if let Some(file_types_val) = language_details.get("file_types") {
@@ -832,7 +876,7 @@ fn get_comment_char(extension: &str) -> Result<String, FileProcessingError> {
                                 "Found comment token '{}' for extension '{}'.",
                                 token_str, extension
                             );
-                            return Ok(token_str.to_string());
+                            return Ok(CommentToken::Line(String::from(token_str)));
                         } else {
                             warn!(
                                 "'comment_token' found for extension '{}' but is not a string. Defaulting to '#'.",
@@ -846,7 +890,7 @@ fn get_comment_char(extension: &str) -> Result<String, FileProcessingError> {
                         );
                     }
                     // If extension matched but token wasn't found or valid, default
-                    return Ok("#".to_string());
+                    return Ok(CommentToken::Line(String::from("#")));
                 }
             }
         }
@@ -858,7 +902,7 @@ fn get_comment_char(extension: &str) -> Result<String, FileProcessingError> {
         extension,
         comment_tokens_path.display()
     );
-    Ok("#".to_string())
+    return Ok(CommentToken::Line(String::from("#")));
 }
 
 /// Formats the raw license header text by prepending the comment character to each line.
