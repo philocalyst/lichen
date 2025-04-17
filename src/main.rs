@@ -13,7 +13,7 @@ use std::process::ExitCode;
 
 // External crate imports
 use clap::{Args, ColorChoice, Parser, Subcommand};
-use clap_verbosity_flag::{InfoLevel, Verbosity};
+use clap_verbosity_flag::{InfoLevel, TraceLevel, Verbosity};
 use directories::ProjectDirs;
 use futures::stream::{self, StreamExt};
 use jiff::civil::Date;
@@ -137,7 +137,7 @@ struct Cli {
     command: Commands,
 
     #[command(flatten)]
-    verbose: Verbosity<InfoLevel>,
+    verbose: Verbosity<TraceLevel>,
 }
 
 #[derive(Subcommand, Debug)]
