@@ -5,7 +5,7 @@ use regex;
 use serde_json;
 use std::error::Error;
 use std::fs::{self, File, read_to_string};
-use std::io::{self, BufReader, Read, Write};
+use std::io::{self, BufReader, Read, Seek, Write};
 use std::path::Path;
 use std::path::PathBuf;
 use std::process;
@@ -329,7 +329,7 @@ fn license_files(license: &String, paths: Vec<PathBuf>) -> io::Result<()> {
         let license = apply_license_header(&license, comment_char.unwrap());
         // Append the SOT (Start of Text, ^B) control character (ASCII 2) to the license header
         // This marks the end of the header and is used as a mechanism to determine whether or not a header has already been applied.
-        license_file(&license, path)?;
+        prepend_file(&license, path)?;
     }
     Ok(())
 }
@@ -383,18 +383,17 @@ fn get_comment_char(extension: &str) -> Result<String, Box<dyn std::error::Error
     Ok("#".to_string())
 }
 
-fn apply_license_header(license: &String, com_char: String) -> String {
+fn apply_license_header(license: &String, commment_char: String) -> String {
     let mut response = String::new();
     let lines: Vec<&str> = license.split('\n').collect();
     let line_count = lines.len();
 
     for (i, line) in lines.iter().enumerate() {
-        response.push_str(&format!("{} {}", com_char, line));
+        response.push_str(&format!("{} {}", commment_char, line));
         if i < line_count - 1 {
             response.push('\n');
         } else {
             response.push(2 as char);
-            response.push_str("\n");
             response.push_str("\n");
         }
     }
@@ -453,7 +452,7 @@ fn strip_metadata(data: Vec<char>) -> String {
     result
 }
 
-fn license_file<P: AsRef<Path>>(license: &String, file_path: P) -> io::Result<()> {
+fn prepend_file<P: AsRef<Path>>(license: &String, file_path: P) -> io::Result<()> {
     // Create a temporary file in the same directory for better cross-device moves
     let dir = file_path
         .as_ref()
@@ -461,17 +460,49 @@ fn license_file<P: AsRef<Path>>(license: &String, file_path: P) -> io::Result<()
         .unwrap_or_else(|| Path::new("."));
     let mut tmp = NamedTempFile::new_in(dir)?;
 
-    // Write the data to prepend
-    tmp.write_all(license.as_bytes())?;
-
-    // Open source file, read its contents, and write to the temp file
+    // Read the source file content
     let mut src_content = Vec::new();
     File::open(&file_path)?.read_to_end(&mut src_content)?;
+
+    // Check if the file has content and starts with a shebang line
+    if !src_content.is_empty() {
+        // Look for a shebang line at the beginning
+        let has_shebang = src_content.starts_with(b"#!");
+
+        if has_shebang {
+            // Find the end of the shebang line (newline)
+            if let Some(newline_pos) = src_content.iter().position(|&c| c == b'\n') {
+                // Write the shebang line to the temp file
+                tmp.write_all(&src_content[0..=newline_pos])?;
+
+                // Write a newline seperator
+                tmp.write(b"\n")?;
+
+                // Write the license after the shebang
+                tmp.write_all(license.as_bytes())?;
+
+                // Write the rest of the file content
+                tmp.write_all(&src_content[newline_pos + 1..])?;
+
+                // Atomically replace the original file with the temporary file
+                tmp.persist(file_path)?;
+                return Ok(());
+            }
+        }
+    }
+
+    // If no shebang or couldn't properly process it, retreat to regular prepending
+    // Reset the temp file position to the beginning
+    tmp.rewind()?;
+
+    // Write the license first
+    tmp.write_all(license.as_bytes())?;
+
+    // Write the entire source content
     tmp.write_all(&src_content)?;
 
     // Atomically replace the original file with the temporary file
     tmp.persist(file_path)?;
-
     Ok(())
 }
 
