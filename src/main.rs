@@ -182,6 +182,11 @@ struct ApplyArgs {
     #[arg(short, long, action = clap::ArgAction::SetTrue)]
     in_place: bool,
 
+    /// When applying headers, which kind of comment token the user *wants*
+    /// Completely possible line or block doesn't exist, in which case it falls back to the other.
+    #[arg(long, action = clap::ArgAction::SetTrue)]
+    prefer_block: bool,
+
     /// Regex pattern for files/directories to exclude. Applied during directory traversal.
     #[arg(short, long)] // Removed value_delimiter, regex parsing handles it
     exclude: Option<Regex>,
@@ -204,15 +209,7 @@ struct InitArgs {
 #[derive(Debug, Clone)]
 enum CommentToken {
     Line(String),
-    Block {
-        start: String,
-        end: String,
-    },
-    Both {
-        line: String,
-        start: String,
-        end: String,
-    },
+    Block { start: String, end: String },
 }
 
 impl CommentToken {
@@ -223,14 +220,6 @@ impl CommentToken {
 
     fn block(start: impl Into<String>, end: impl Into<String>) -> Self {
         CommentToken::Block {
-            start: start.into(),
-            end: end.into(),
-        }
-    }
-
-    fn both(line: impl Into<String>, start: impl Into<String>, end: impl Into<String>) -> Self {
-        CommentToken::Both {
-            line: line.into(),
             start: start.into(),
             end: end.into(),
         }
@@ -562,6 +551,7 @@ async fn run_apply(args: ApplyArgs) -> Result<(), FileProcessingError> {
         .ok_or("License SPDX ID is required via CLI or config for 'apply' command")?;
     let exclude_pattern = &args.exclude;
     let targets = &args.target;
+    let preference = args.prefer_block;
     let in_place = args.in_place;
     // ---
 
@@ -627,7 +617,7 @@ async fn run_apply(args: ApplyArgs) -> Result<(), FileProcessingError> {
             "Applying license headers in-place to {} files...",
             files_to_process.len()
         );
-        apply_headers_to_files(&license_header_content, &files_to_process, 50).await?;
+        apply_headers_to_files(&license_header_content, &files_to_process, 50, preference).await?;
     } else {
         // TODO: Implement copying files to a 'licensed/' directory and applying headers there.
         error!(
@@ -665,6 +655,7 @@ pub async fn apply_headers_to_files(
     header_content: &str,
     paths: &[PathBuf],
     max_concurrency: usize,
+    prefers_block: bool,
 ) -> Result<(), FileProcessingError> {
     use tokio::fs;
 
@@ -730,8 +721,12 @@ pub async fn apply_headers_to_files(
                 };
 
                 // |5| Format header with the comment, then prepend.
-                let formatted =
-                    format_header_with_comments(&header_content, &comment_char, HEADER_MARKER);
+                let formatted = format_header_with_comments(
+                    &header_content,
+                    &comment_char,
+                    prefers_block,
+                    HEADER_MARKER,
+                );
                 let new_text = formatted + &content;
 
                 if let Err(e) = fs::write(&path, new_text).await {
@@ -784,12 +779,14 @@ pub async fn apply_headers_to_files(
 ///
 /// A `Result` containing the comment token `String` or a `FileProcessingError`.
 /// Defaults to "#" if the extension is not found or the JSON is malformed/missing.
-fn get_comment_char(extension: &str) -> Result<CommentToken, FileProcessingError> {
+fn get_comment_char(extension: &str) -> Result<Vec<CommentToken>, FileProcessingError> {
     trace!(
         "Looking up comment character for extension: '{}'",
         extension
     );
     let comment_tokens_path = get_comment_tokens_path()?;
+    // collect all tokens here
+    let mut tokens = Vec::new();
 
     // --- Ensure Data Directory and File Exist ---
     // This check might be slightly redundant if get_data_dir succeeded, but ensures the json exists.
@@ -822,14 +819,14 @@ fn get_comment_char(extension: &str) -> Result<CommentToken, FileProcessingError
     let data: serde_json::Value = match serde_json::from_reader(reader) {
         Ok(value) => value,
         Err(e) => {
-            warn!(
+            error!(
                 "Failed to parse JSON from '{}': {}. Defaulting comment token to '#'.",
                 comment_tokens_path.display(),
                 e
             );
-            // Return default instead of erroring out completely
-            // Strong feelings about this... Don't know if this is a sensible default.
-            return Ok(CommentToken::Line(String::from("#")));
+            return Err(FileProcessingError::InvalidPath(
+                "In the languages JSON".to_string(),
+            ));
         }
     };
 
@@ -869,28 +866,58 @@ fn get_comment_char(extension: &str) -> Result<CommentToken, FileProcessingError
                         "Found matching extension '{}' under language entry.",
                         extension
                     );
-                    // Extension matches, now find the 'comment_token'
-                    if let Some(token_value) = language_details.get("comment_token") {
-                        if let Some(token_str) = token_value.as_str() {
-                            debug!(
-                                "Found comment token '{}' for extension '{}'.",
-                                token_str, extension
-                            );
-                            return Ok(CommentToken::Line(String::from(token_str)));
-                        } else {
-                            warn!(
-                                "'comment_token' found for extension '{}' but is not a string. Defaulting to '#'.",
+                    // 1) try to parse the single-line comment
+                    if let Some(val) = language_details.get("comment_token") {
+                        match val.as_str() {
+                            Some(s) => {
+                                debug!("Found comment_token='{}' for extension '{}'", s, extension);
+                                tokens.push(CommentToken::Line(s.to_owned()));
+                            }
+                            None => warn!(
+                                "'comment_token' for extension '{}' is not a string, skipping",
                                 extension
-                            );
+                            ),
                         }
-                    } else {
-                        warn!(
-                            "Extension '{}' matched, but no 'comment_token' field found for its language entry. Defaulting to '#'.",
-                            extension
-                        );
                     }
-                    // If extension matched but token wasn't found or valid, default
-                    return Ok(CommentToken::Line(String::from("#")));
+
+                    // 2) try to parse all block-comment tokens
+                    if let Some(val) = language_details.get("block_comment_tokens") {
+                        match val.as_array() {
+                            Some(arr) => {
+                                for entry in arr {
+                                    let start = entry
+                                        .get("start")
+                                        .and_then(|v| v.as_str())
+                                        .map(ToOwned::to_owned);
+                                    let end = entry
+                                        .get("end")
+                                        .and_then(|v| v.as_str())
+                                        .map(ToOwned::to_owned);
+
+                                    match (start, end) {
+                                        (Some(start), Some(end)) => {
+                                            debug!(
+                                                "Found block_comment_tokens {{ start='{}', end='{}' }} \
+                             for extension '{}'",
+                                                start, end, extension
+                                            );
+                                            tokens.push(CommentToken::Block { start, end });
+                                        }
+                                        _ => warn!(
+                                            "Malformed block_comment_tokens entry for extension '{}', \
+                         expected {{ start: string, end: string }}, skipping",
+                                            extension
+                                        ),
+                                    }
+                                }
+                            }
+                            None => warn!(
+                                "'block_comment_tokens' for extension '{}' is not an array, skipping",
+                                extension
+                            ),
+                        }
+                    }
+                    return Ok(tokens);
                 }
             }
         }
@@ -902,7 +929,8 @@ fn get_comment_char(extension: &str) -> Result<CommentToken, FileProcessingError
         extension,
         comment_tokens_path.display()
     );
-    return Ok(CommentToken::Line(String::from("#")));
+    tokens.push(CommentToken::Line(String::from("#")));
+    return Ok(tokens);
 }
 
 /// Formats the raw license header text by prepending the comment character to each line.
@@ -917,35 +945,73 @@ fn get_comment_char(extension: &str) -> Result<CommentToken, FileProcessingError
 /// A `String` containing the formatted header, ready to be prepended.
 fn format_header_with_comments(
     header_content: &str,
-    comment_token: &str,
+    comment_tokens: &Vec<CommentToken>,
+    prefers_block: bool,
     seperator: char,
 ) -> String {
-    trace!("Formatting header with comment token: '{}'", comment_token);
-    let mut formatted_header = String::new();
-    let lines: Vec<&str> = header_content.trim_end().split('\n').collect(); // Trim trailing newline before splitting
-    let line_count = lines.len();
+    trace!(
+        "Determing comment token from these options: '{:?}'",
+        comment_tokens
+    );
 
-    for (i, line) in lines.iter().enumerate() {
-        formatted_header.push_str(comment_token);
-        formatted_header.push(' '); // Add space after comment token
-        formatted_header.push_str(line);
-        if i < line_count - 1 {
-            formatted_header.push('\n');
+    let mut it = comment_tokens.into_iter();
+
+    // Attempt to find preferred variant
+    let comment_token = if prefers_block {
+        it.find(|ct| matches!(ct, CommentToken::Block { .. }))
+    } else {
+        it.find(|ct| matches!(ct, CommentToken::Line(_)))
+    }
+    // If it's not found, fallback to whatever is remaining
+    .or_else(|| {
+        if prefers_block {
+            it.find(|ct| matches!(ct, CommentToken::Line(_)))
         } else {
-            formatted_header.push(seperator);
-            formatted_header.push_str("\n");
+            it.find(|ct| matches!(ct, CommentToken::Block { .. }))
         }
-        trace!(
-            "Formatted line {}: {}",
-            i + 1,
-            formatted_header.lines().last().unwrap_or("")
-        );
+    })
+    .unwrap(); // Panic if no tokens were found?
+
+    trace!(
+        "Formatting header with comment token: '{:?}'",
+        comment_token
+    );
+
+    let mut formatted_header = String::new();
+
+    match comment_token {
+        CommentToken::Line(tok) => {
+            let lines: Vec<&str> = header_content.trim_end().split('\n').collect(); // Trim trailing newline before splitting
+            let line_count = lines.len();
+
+            for (i, line) in lines.iter().enumerate() {
+                formatted_header.push_str(tok);
+                formatted_header.push(' '); // Add space after comment token
+                formatted_header.push_str(line);
+                if i < line_count - 1 {
+                    formatted_header.push('\n');
+                } else {
+                    formatted_header.push(seperator);
+                    formatted_header.push_str("\n");
+                }
+                trace!(
+                    "Formatted line {}: {}",
+                    i + 1,
+                    formatted_header.lines().last().unwrap_or("")
+                );
+            }
+        }
+        CommentToken::Block { start, end } => {
+            formatted_header.push_str(start);
+            formatted_header.push('\n'); // You want some distance between block comments
+            formatted_header.push_str(header_content);
+            formatted_header.push('\n'); // You want some distance between block comments
+            formatted_header.push_str(end);
+            formatted_header.push('\n'); // Padding
+        }
     }
 
-    debug!(
-        "Header formatting complete. Result has {} lines.",
-        line_count
-    );
+    debug!("Header formatting complete");
     formatted_header // The final marker character is added in prepend_header_to_file
 }
 
