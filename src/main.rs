@@ -16,6 +16,46 @@ mod license;
 use license::License;
 use walkdir;
 
+use log::{error, warn};
+use regex::Regex;
+use std::collections::HashSet;
+use std::fmt;
+use walkdir::WalkDir;
+
+// Custom error type for file processing
+#[derive(Debug)]
+pub enum FileProcessingError {
+    IoError(std::io::Error),
+    WalkdirError(walkdir::Error),
+    InvalidPath(String),
+}
+
+// General boilerplate for the error implementation 🥱
+
+impl fmt::Display for FileProcessingError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            FileProcessingError::IoError(err) => write!(f, "IO error: {}", err),
+            FileProcessingError::WalkdirError(err) => write!(f, "Directory walk error: {}", err),
+            FileProcessingError::InvalidPath(path) => write!(f, "Invalid path: {}", path),
+        }
+    }
+}
+
+impl Error for FileProcessingError {}
+
+impl From<std::io::Error> for FileProcessingError {
+    fn from(err: std::io::Error) -> Self {
+        FileProcessingError::IoError(err)
+    }
+}
+
+impl From<walkdir::Error> for FileProcessingError {
+    fn from(err: walkdir::Error) -> Self {
+        FileProcessingError::WalkdirError(err)
+    }
+}
+
 /// A rust-license management cli tool and library
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -179,18 +219,51 @@ fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn get_valid_files(target: &PathBuf, reg_pattern: regex::Regex) -> Vec<PathBuf> {
+pub fn get_valid_files(
+    targets: &Vec<PathBuf>,
+    reg_pattern: Regex,
+) -> Result<Vec<PathBuf>, FileProcessingError> {
     let mut response = Vec::new();
-    let walker = walkdir::WalkDir::new(target).into_iter();
+    let mut seen_paths = HashSet::new();
 
-    // Filter entries directly using the regex pattern
-    for entry in walker.filter_entry(|e| !reg_pattern.is_match(&e.path().to_string_lossy())) {
-        if let Ok(entry) = entry {
-            response.push(entry.into_path());
+    for target in targets {
+        if !target.exists() {
+            return Err(FileProcessingError::InvalidPath(
+                target.to_string_lossy().to_string(),
+            ));
+        }
+
+        let walker = WalkDir::new(target).into_iter();
+
+        // Filter entries directly using the regex pattern
+        for entry_result in
+            walker.filter_entry(|e| !reg_pattern.is_match(&e.path().to_string_lossy()))
+        {
+            match entry_result {
+                Ok(entry) => {
+                    let path = entry.into_path();
+
+                    // Check for duplicates
+                    if !seen_paths.insert(path.clone()) {
+                        warn!("Duplicate path found and ignored: {}", path.display());
+                        continue;
+                    }
+
+                    response.push(path);
+                }
+                Err(err) => {
+                    // Log the error but continue processing
+                    error!("Error accessing entry: {}", err);
+                }
+            }
         }
     }
 
-    response
+    if response.is_empty() {
+        warn!("No valid files found in the provided paths");
+    }
+
+    Ok(response)
 }
 
 fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
@@ -211,9 +284,9 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
 
     let license_content = fs::read_to_string(license_path).unwrap();
 
-    let working_files = get_valid_files(&target, exclude_pattern);
+    let working_files = get_valid_files(&target, exclude_pattern)?;
 
-    license_files(&license_content, working_files);
+    license_files(&license_content, working_files)?;
 
     // TODO: Implement actual license application logic.
     // - Find relevant files (e.g., walk the current directory).
