@@ -657,17 +657,16 @@ pub async fn apply_headers_to_files(
     max_concurrency: usize,
     prefers_block: bool,
 ) -> Result<(), FileProcessingError> {
+    use std::sync::Arc;
     use tokio::fs;
-
     debug!("Starting to apply headers to {} files.", paths.len());
 
     // Marker for end of header (SOT)
     const HEADER_MARKER: char = '\x02';
 
-    // Store header content in an Arc for memory safe access 🔒
+    // Share header content safely across tasks
     let header_content = Arc::new(header_content.to_string());
 
-    // Prepare the stream of file‐paths
     let results = stream::iter(paths.to_owned())
         .map(|path| {
             let header_content = header_content.clone();
@@ -678,14 +677,14 @@ pub async fn apply_headers_to_files(
 
                 debug!("Processing file: '{}'", path.display());
 
-                // |1| Directories cannot be written to, skip.
+                // |1| Directories cannot be written to skip.
                 if path.is_dir() {
                     warn!("Skipping directory: '{}'", path.display());
                     skipped += 1;
                     return (applied, skipped, errors);
                 }
 
-                // |2| Read the contents of each string into content
+                // |2| Read file content as string, to string.
                 let content = match fs::read_to_string(&path).await {
                     Ok(c) => c,
                     Err(e) => {
@@ -695,7 +694,7 @@ pub async fn apply_headers_to_files(
                     }
                 };
 
-                // |3| Check for the existence of a header marker
+                // |3| Skip if header marker already present
                 if content.contains(HEADER_MARKER) {
                     info!(
                         "Already contains header marker, skipping '{}'",
@@ -705,7 +704,7 @@ pub async fn apply_headers_to_files(
                     return (applied, skipped, errors);
                 }
 
-                // |4| Determine comment style
+                // |4| Find comment token for extention
                 let ext = path.extension().and_then(|s| s.to_str()).unwrap_or("");
                 let comment_char = match get_comment_char(ext) {
                     Ok(tok) => tok,
@@ -720,27 +719,60 @@ pub async fn apply_headers_to_files(
                     }
                 };
 
-                // |5| Format header with the comment, then prepend.
+                // |5| Header formatting
                 let formatted = format_header_with_comments(
                     &header_content,
                     &comment_char,
                     prefers_block,
                     HEADER_MARKER,
                 );
-                let new_text = formatted + &content;
 
-                if let Err(e) = fs::write(&path, new_text).await {
-                    error!("Failed to write header to '{}': {}", path.display(), e);
-                    errors += 1;
+                // |6| Shebang handling
+                let (shebang, rest) = if content.starts_with("#!") {
+                    if let Some(pos) = content.find('\n') {
+                        let (sb, rem) = content.split_at(pos + 1);
+                        (Some(sb), rem)
+                    } else {
+                        // The whole file is a shebang??
+                        (Some(content.as_str()), "")
+                    }
                 } else {
-                    info!("Applied header to '{}'", path.display());
-                    applied += 1;
+                    (None, content.as_str())
+                };
+
+                // |7| Create buffer for text and write to it
+                let mut new_text = String::with_capacity(
+                    shebang.map_or(0, |s| s.len()) +
+                    formatted.len() +
+                    1 + // newline after header
+                    rest.len(),
+                );
+                if let Some(sb) = shebang {
+                    new_text.push_str(sb);
+                    // ENSURE a blank line after shebang (pretty!)
+                    new_text.push('\n');
+                }
+                new_text.push_str(&formatted);
+
+                // Separate the header from the rest of the code
+                new_text.push('\n');
+                new_text.push_str(rest);
+
+                // |8| Write the rest
+                match fs::write(&path, new_text).await {
+                    Ok(_) => {
+                        info!("Applied header to '{}'", path.display());
+                        applied += 1;
+                    }
+                    Err(e) => {
+                        error!("Failed to write header to '{}': {}", path.display(), e);
+                        errors += 1;
+                    }
                 }
 
                 (applied, skipped, errors)
             }
         })
-        // Concurrency knobs
         .buffer_unordered(max_concurrency)
         .collect::<Vec<_>>()
         .await;
@@ -748,7 +780,6 @@ pub async fn apply_headers_to_files(
     // Aggregate results
     let (applied, skipped, errors) = results
         .into_iter()
-        // Accumulates the components
         .fold((0usize, 0usize, 0usize), |(a0, s0, e0), (a1, s1, e1)| {
             (a0 + a1, s0 + s1, e0 + e1)
         });
@@ -954,23 +985,27 @@ fn format_header_with_comments(
         comment_tokens
     );
 
-    let mut it = comment_tokens.into_iter();
-
     // Attempt to find preferred variant
-    let comment_token = if prefers_block {
-        it.find(|ct| matches!(ct, CommentToken::Block { .. }))
-    } else {
-        it.find(|ct| matches!(ct, CommentToken::Line(_)))
-    }
-    // If it's not found, fallback to whatever is remaining
-    .or_else(|| {
-        if prefers_block {
-            it.find(|ct| matches!(ct, CommentToken::Line(_)))
-        } else {
-            it.find(|ct| matches!(ct, CommentToken::Block { .. }))
-        }
-    })
-    .unwrap(); // Panic if no tokens were found?
+    let comment_token = comment_tokens
+        .iter()
+        .find(|ct| {
+            if prefers_block {
+                matches!(ct, CommentToken::Block { .. })
+            } else {
+                matches!(ct, CommentToken::Line(_))
+            }
+        })
+        .or_else(|| {
+            // Falback if preferred not found
+            comment_tokens.iter().find(|ct| {
+                if prefers_block {
+                    matches!(ct, CommentToken::Line(_))
+                } else {
+                    matches!(ct, CommentToken::Block { .. })
+                }
+            })
+        })
+        .unwrap();
 
     trace!(
         "Formatting header with comment token: '{:?}'",
@@ -985,7 +1020,7 @@ fn format_header_with_comments(
             let line_count = lines.len();
 
             for (i, line) in lines.iter().enumerate() {
-                formatted_header.push_str(tok);
+                formatted_header.push_str(&tok);
                 formatted_header.push(' '); // Add space after comment token
                 formatted_header.push_str(line);
                 if i < line_count - 1 {
@@ -1002,11 +1037,12 @@ fn format_header_with_comments(
             }
         }
         CommentToken::Block { start, end } => {
-            formatted_header.push_str(start);
+            formatted_header.push_str(&start);
             formatted_header.push('\n'); // You want some distance between block comments
             formatted_header.push_str(header_content);
             formatted_header.push('\n'); // You want some distance between block comments
-            formatted_header.push_str(end);
+            formatted_header.push_str(&end);
+            formatted_header.push(seperator); // Mark
             formatted_header.push('\n'); // Padding
         }
     }
@@ -1024,125 +1060,6 @@ fn strip_metadata(data: Vec<char>) -> String {
     result
 }
 */
-
-/// Prepends the formatted license header (and a marker) to the specified file.
-/// Uses a temporary file and atomic rename for safety. Handles shebangs correctly.
-///
-/// # Arguments
-///
-/// * `formatted_header`: The license header, already formatted with comment tokens and newlines.
-/// * `header_marker`: The character to append after the header as a marker (e.g., SOT char).
-/// * `file_path`: The path to the file to modify.
-///
-/// # Returns
-///
-/// An `io::Result<()>` indicating success or failure.
-fn prepend_header_to_file<P: AsRef<Path>>(formatted_header: &str, file_path: P) -> io::Result<()> {
-    let file_path = file_path.as_ref();
-    debug!("Prepending header to file: '{}'", file_path.display());
-
-    // Create a temporary file in the same directory to ensure atomic rename works across devices.
-    let parent_dir = file_path.parent().unwrap_or_else(|| Path::new("."));
-    trace!(
-        "Creating temporary file in directory: '{}'",
-        parent_dir.display()
-    );
-    let mut temp_file = NamedTempFile::new_in(parent_dir)?;
-    let temp_path_display = temp_file.path().display().to_string(); // Capture path for logging before potential close
-    debug!("Temporary file created: '{}'", temp_path_display);
-
-    // Read the original file content
-    trace!("Reading original content from '{}'", file_path.display());
-    let mut original_content = Vec::new();
-    File::open(file_path)?.read_to_end(&mut original_content)?;
-    trace!("Read {} bytes from original file.", original_content.len());
-
-    // --- Handle Shebang ---
-    let mut shebang_line: Option<&[u8]> = None;
-    let mut content_after_shebang: &[u8] = &original_content;
-
-    if original_content.starts_with(b"#!") {
-        debug!("Shebang detected in '{}'", file_path.display());
-        // Find the first newline character
-        if let Some(newline_pos) = original_content.iter().position(|&c| c == b'\n') {
-            shebang_line = Some(&original_content[0..=newline_pos]); // Include the newline
-            content_after_shebang = &original_content[newline_pos + 1..];
-            trace!(
-                "Extracted shebang ({} bytes). Remaining content starts after position {}.",
-                shebang_line.unwrap().len(),
-                newline_pos
-            );
-        } else {
-            // Shebang detected but no newline? Treat the whole file as the shebang line.
-            warn!(
-                "Shebang detected in '{}' but no newline found. Treating entire file as shebang.",
-                file_path.display()
-            );
-            shebang_line = Some(&original_content);
-            content_after_shebang = &[]; // No content after shebang
-        }
-    } else {
-        trace!("No shebang detected in '{}'.", file_path.display());
-    }
-    // ---
-
-    // --- Write to Temporary File ---
-    trace!("Writing content to temporary file '{}'", temp_path_display);
-
-    // 1. Write Shebang (if present)
-    if let Some(shebang) = shebang_line {
-        trace!("Writing shebang to temp file.");
-        temp_file.write_all(shebang)?;
-        // Add an extra padding newline for separation
-        temp_file.write_all(b"\n")?;
-    }
-
-    // 2. Write Formatted License Header
-    trace!("Writing formatted license header to temp file.");
-    temp_file.write_all(formatted_header.as_bytes())?;
-
-    // 3. Write Separator Newline after marker (important!)
-    temp_file.write_all(b"\n")?;
-
-    // 4. Write the rest of the original content
-    trace!(
-        "Writing remaining original content ({} bytes) to temp file.",
-        content_after_shebang.len()
-    );
-    temp_file.write_all(content_after_shebang)?;
-
-    trace!(
-        "Finished writing to temporary file '{}'.",
-        temp_path_display
-    );
-    // ---
-
-    // --- Atomically Replace Original File ---
-    debug!(
-        "Persisting temporary file '{}' over original file '{}'",
-        temp_path_display,
-        file_path.display()
-    );
-    // tempfile::persist handles the atomic rename/replace operation.
-    if let Err(persist_error) = temp_file.persist(file_path) {
-        error!(
-            "Failed to persist temporary file '{}' to '{}': {}",
-            temp_path_display,
-            file_path.display(),
-            persist_error.error
-        );
-        // The temporary file might still exist, drop it to attempt deletion.
-        drop(persist_error.file); // Explicitly drop the file from the error
-        return Err(persist_error.error); // Return the original IO error
-    }
-    // ---
-
-    debug!(
-        "Successfully prepended header and replaced original file '{}'",
-        file_path.display()
-    );
-    Ok(())
-}
 
 /// Handles the `init` command logic (currently a placeholder).
 fn run_init(args: InitArgs) -> Result<(), FileProcessingError> {
