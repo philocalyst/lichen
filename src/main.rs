@@ -897,7 +897,7 @@ fn get_comment_char(extension: &str) -> Result<Vec<CommentToken>, FileProcessing
                         "Found matching extension '{}' under language entry.",
                         extension
                     );
-                    // 1) try to parse the single-line comment
+                    // |1| try to parse the single-line comment
                     if let Some(val) = language_details.get("comment_token") {
                         match val.as_str() {
                             Some(s) => {
@@ -911,41 +911,31 @@ fn get_comment_char(extension: &str) -> Result<Vec<CommentToken>, FileProcessing
                         }
                     }
 
-                    // 2) try to parse all block-comment tokens
+                    // |2| try to parse all block-comment tokens
                     if let Some(val) = language_details.get("block_comment_tokens") {
-                        match val.as_array() {
-                            Some(arr) => {
-                                for entry in arr {
-                                    let start = entry
-                                        .get("start")
-                                        .and_then(|v| v.as_str())
-                                        .map(ToOwned::to_owned);
-                                    let end = entry
-                                        .get("end")
-                                        .and_then(|v| v.as_str())
-                                        .map(ToOwned::to_owned);
+                        // make sure it's an object
+                        if let Some(obj) = val.as_object() {
+                            // Rip out the expected keys
+                            let start = obj
+                                .get("start")
+                                .and_then(|v| v.as_str())
+                                .expect("`block_comment_tokens.start` must be a string")
+                                .to_string();
+                            let end = obj
+                                .get("end")
+                                .and_then(|v| v.as_str())
+                                .expect("`block_comment_tokens.end` must be a string")
+                                .to_string();
 
-                                    match (start, end) {
-                                        (Some(start), Some(end)) => {
-                                            debug!(
-                                                "Found block_comment_tokens {{ start='{}', end='{}' }} \
-                             for extension '{}'",
-                                                start, end, extension
-                                            );
-                                            tokens.push(CommentToken::Block { start, end });
-                                        }
-                                        _ => warn!(
-                                            "Malformed block_comment_tokens entry for extension '{}', \
-                         expected {{ start: string, end: string }}, skipping",
-                                            extension
-                                        ),
-                                    }
-                                }
-                            }
-                            None => warn!(
-                                "'block_comment_tokens' for extension '{}' is not an array, skipping",
-                                extension
-                            ),
+                            // Have the start/end pair
+                            debug!(
+                                "Block comments start with `{}` and end with `{}`",
+                                start, end
+                            );
+
+                            tokens.push(CommentToken::Block { start, end });
+                        } else {
+                            warn!("`block_comment_tokens` is not an object");
                         }
                     }
                     return Ok(tokens);
