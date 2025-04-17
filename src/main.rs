@@ -387,7 +387,7 @@ fn get_comment_char(extension: &str) -> Result<String, Box<dyn std::error::Error
 fn apply_comments(license: &String, com_char: String) -> String {
     let mut response = String::new();
     for line in license.split('\n') {
-        response.push_str(&format!("{}{}\n", com_char, line));
+        response.push_str(&format!("{} {}\n", com_char, line));
     }
     response
 }
