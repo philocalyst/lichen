@@ -715,6 +715,7 @@ pub async fn apply_headers_to_files(
                             e
                         );
                         errors += 1;
+                        skipped += 1;
                         return (applied, skipped, errors);
                     }
                 };
@@ -938,7 +939,13 @@ fn get_comment_char(extension: &str) -> Result<Vec<CommentToken>, FileProcessing
                             warn!("`block_comment_tokens` is not an object");
                         }
                     }
-                    return Ok(tokens);
+                    if tokens.len() > 0 {
+                        return Ok(tokens);
+                    } else {
+                        return Err(FileProcessingError::Msg(
+                            "Language has no comment char".to_string(),
+                        ));
+                    }
                 }
             }
         }
@@ -995,7 +1002,7 @@ fn format_header_with_comments(
                 }
             })
         })
-        .unwrap();
+        .expect("This function should not be called with an empty array");
 
     trace!(
         "Formatting header with comment token: '{:?}'",
