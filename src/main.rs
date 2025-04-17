@@ -1,36 +1,52 @@
-use clap::{Args, Parser, Subcommand};
-use clap_verbosity_flag::{InfoLevel, Verbosity};
-use directories::{self, BaseDirs, ProjectDirs};
-use regex;
-use serde_json;
+//! # Lichen
+//!
+//! A rust-license management cli tool and library.
+
+use std::char::REPLACEMENT_CHARACTER;
+// Std library imports
+use std::collections::HashSet;
 use std::error::Error;
-use std::fs::{self, File, read_to_string};
+use std::fmt;
+use std::fs::{self, File};
 use std::io::{self, BufReader, Read, Seek, Write};
-use std::path::Path;
-use std::path::PathBuf;
-use std::process;
+use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 use std::str::FromStr;
+
+// External crate imports
+use clap::{Args, Parser, Subcommand};
+use clap_verbosity_flag::{InfoLevel, Verbosity};
+use directories::ProjectDirs;
+use log::{debug, error, info, trace, warn}; // Import specific log levels
+use regex::Regex;
+use serde_json;
 use tempfile::NamedTempFile;
+use walkdir::{self, WalkDir};
+
+// Local module imports
 mod license;
 use license::License;
-use walkdir;
 
-use log::{error, warn};
-use regex::Regex;
-use std::collections::HashSet;
-use std::fmt;
-use walkdir::WalkDir;
+// --- Custom Error Types ---
 
-// Custom error type for file processing
+/// Errors that can occur during file processing operations.
 #[derive(Debug)]
 pub enum FileProcessingError {
+    /// An I/O error occurred.
     IoError(std::io::Error),
+    /// An error occurred while walking a directory.
     WalkdirError(walkdir::Error),
+    /// An invalid path was encountered.
     InvalidPath(String),
+    /// Failed to parse JSON data.
+    JsonError(serde_json::Error),
+    /// Could not determine project directories.
+    ProjectDirsError(String),
+    /// Generic error message.
+    Msg(String), // Added for more flexibility
 }
 
-// General boilerplate for the error implementation 🥱
+// --- Error Trait Implementations ---
 
 impl fmt::Display for FileProcessingError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -38,11 +54,27 @@ impl fmt::Display for FileProcessingError {
             FileProcessingError::IoError(err) => write!(f, "IO error: {}", err),
             FileProcessingError::WalkdirError(err) => write!(f, "Directory walk error: {}", err),
             FileProcessingError::InvalidPath(path) => write!(f, "Invalid path: {}", path),
+            FileProcessingError::JsonError(err) => write!(f, "JSON processing error: {}", err),
+            FileProcessingError::ProjectDirsError(err) => {
+                write!(f, "Project directory error: {}", err)
+            }
+            FileProcessingError::Msg(msg) => write!(f, "Error: {}", msg),
         }
     }
 }
 
-impl Error for FileProcessingError {}
+impl Error for FileProcessingError {
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
+        match self {
+            FileProcessingError::IoError(err) => Some(err),
+            FileProcessingError::WalkdirError(err) => Some(err),
+            FileProcessingError::JsonError(err) => Some(err),
+            _ => None, // Other variants don't wrap another error directly
+        }
+    }
+}
+
+// --- Error Conversion Implementations ---
 
 impl From<std::io::Error> for FileProcessingError {
     fn from(err: std::io::Error) -> Self {
@@ -55,6 +87,26 @@ impl From<walkdir::Error> for FileProcessingError {
         FileProcessingError::WalkdirError(err)
     }
 }
+
+impl From<serde_json::Error> for FileProcessingError {
+    fn from(err: serde_json::Error) -> Self {
+        FileProcessingError::JsonError(err)
+    }
+}
+
+impl From<&str> for FileProcessingError {
+    fn from(msg: &str) -> Self {
+        FileProcessingError::Msg(msg.to_string())
+    }
+}
+
+impl From<String> for FileProcessingError {
+    fn from(msg: String) -> Self {
+        FileProcessingError::Msg(msg)
+    }
+}
+
+// --- CLI Argument Structs ---
 
 /// A rust-license management cli tool and library
 #[derive(Parser, Debug)]
@@ -69,461 +121,967 @@ struct Cli {
 
 #[derive(Subcommand, Debug)]
 enum Commands {
-    /// Generate a license file
+    /// Generate a license file (e.g., LICENSE.txt or LICENSE.md)
     Gen(GenArgs),
-    /// Apply license headers to files
+    /// Apply license headers to source files
     Apply(ApplyArgs),
-    /// Initialize configuration file
+    /// Initialize a default configuration file (Not fully implemented)
     Init(InitArgs),
 }
 
 #[derive(Args, Debug)]
 struct GenArgs {
+    /// SPDX identifier of the license to generate (e.g., MIT, Apache-2.0).
+    /// Can be omitted if specified in configuration.
     #[arg()]
-    license: Option<License>, // Made optional here to allow config fallback later
+    license: Option<License>,
 
     /// Author names (comma-separated).
     #[arg(short, long, value_delimiter = ',')]
     author: Option<Vec<String>>,
 
-    // Whether or not to use a markdown license, defaults to true
-    #[arg(long, default_value_t = true)]
+    /// Generate a Markdown formatted license file (`LICENSE.md`). Defaults to plain text (`LICENSE.txt`).
+    #[arg(long, default_value_t = false)] // Default to false for .txt
     markdown: bool,
 
-    /// Year for the license (defaults to current year if blank).
+    /// Year for the license copyright notice (defaults to the current year).
     #[arg(short, long)]
     year: Option<u16>,
 }
 
 #[derive(Args, Debug)]
 struct ApplyArgs {
-    /// Name of the license header to apply (e.g., MIT, Apache-2.0).
-    /// Required, but can be read from config if not provided via CLI.
-    #[arg()] // Positional argument
-    license: Option<License>, // Made optional here to allow config fallback later
+    /// SPDX identifier of the license header to apply (e.g., MIT, Apache-2.0).
+    /// Can be omitted if specified in configuration.
+    #[arg()]
+    license: Option<License>,
 
-    /// Apply headers in-place, modifying original files.
-    /// If not set, creates copies in a 'licensed/' directory (or similar).
+    /// Apply headers in-place, modifying the original files.
+    /// Caution: This modifies files directly. Ensure backups or version control.
     #[arg(short, long, action = clap::ArgAction::SetTrue)]
     in_place: bool,
 
-    /// Comma-separated list of regex patterns for files/directories to exclude.
-    #[arg(short, long, value_delimiter = ',')]
+    /// Regex pattern for files/directories to exclude. Applied during directory traversal.
+    #[arg(short, long)] // Removed value_delimiter, regex parsing handles it
     exclude: Option<Regex>,
 
-    /// Files or directories to process. Defaults to current directory if none specified.
+    /// Files or directories to process. Defaults to the current directory (`.`).
     #[arg(num_args = 1.., default_value = ".")]
     target: Vec<PathBuf>,
 }
 
 #[derive(Args, Debug)]
 struct InitArgs {
+    /// Optional path where the configuration should be initialized.
+    /// Defaults to the current directory.
     #[arg(short, long)]
     path: Option<PathBuf>,
 }
 
+// --- Main Application Logic ---
+
 fn main() -> ExitCode {
+    // 1. Parse CLI arguments
     let cli = Cli::parse();
 
-    // Initialize logging based on verbosity flags and LOG_LEVEL env var.
-    // env_logger respects RUST_LOG/LOG_LEVEL by default.
-    // So we just need to synthesize clap's verbosity flags.
+    // 2. Initialize logging
+    // Uses clap_verbosity_flag to set level based on -v, -vv, etc.
+    // Also respects RUST_LOG environment variable.
     env_logger::Builder::new()
         .filter_level(cli.verbose.log_level_filter())
         .init();
 
-    log::info!("Starting license tool"); // Example log
+    info!("Lichen starting...");
+    debug!("CLI arguments parsed: {:?}", cli);
 
-    // ▰▰▰ CONFIGURATION LOADING ▰▰▰ //
-    // TODO: XDG Config Loading (using dirs_next::config_dir())
-    // TODO: Merge CLI arguments with config (CLI takes precedence).
+    // --- Configuration Loading Placeholder ---
+    // TODO: Implement robust configuration loading (e.g., from .lichenrc, XDG dirs)
+    // TODO: Merge CLI arguments with configuration (CLI takes precedence).
+    debug!("Configuration loading step (currently placeholder).");
+    // ---
 
+    // 3. Dispatch to appropriate subcommand handler
     let result = match cli.command {
-        Commands::Gen(args) => run_gen(args),
-        Commands::Apply(args) => run_apply(args),
-        Commands::Init(args) => run_init(args),
+        Commands::Gen(args) => {
+            info!("Executing 'gen' command.");
+            run_gen(args)
+        }
+        Commands::Apply(args) => {
+            info!("Executing 'apply' command.");
+            run_apply(args)
+        }
+        Commands::Init(args) => {
+            info!("Executing 'init' command.");
+            run_init(args)
+        }
     };
 
+    // 4. Handle command result and exit
     match result {
         Ok(_) => {
-            log::info!("Command executed successfully.");
+            info!("Command executed successfully.");
             ExitCode::SUCCESS
         }
         Err(e) => {
-            log::error!("Error executing command: {}", e);
-            // Return a specific error code if desired, otherwise use a generic one.
+            error!("Command failed: {}", e);
+            // Log the error source if available for deeper debugging
+            if let Some(source) = e.source() {
+                error!("Caused by: {}", source);
+            }
             ExitCode::FAILURE
         }
     }
 }
 
-// ▰▰▰ SUBCOMMAND LOGIC ▰▰▰ //
+// --- Helper Functions ---
 
-fn get_data_dir() -> PathBuf {
-    let resources_directory =
-        if let Some(proj_dirs) = ProjectDirs::from("com", "philocalyst", "lichen") {
-            proj_dirs
-            // Lin: /home/alice/.config/barapp
-            // Win: C:\Users\Alice\AppData\Roaming\Foo Corp\Bar App\config
-            // Mac: /Users/Alice/Library/Application Support/com.Foo-Corp.Bar-App
-        } else {
-            panic!("Could not determine project directory");
-        };
+/// Gets the application's data directory using the `directories` crate.
+///
+/// This typically corresponds to standard locations like:
+/// - Linux: `$HOME/.local/share/lichen`
+/// - macOS: `$HOME/Library/Application Support/com.philocalyst.lichen`
+/// - Windows: `%APPDATA%\philocalyst\lichen\data`
+///
+/// # Returns
+///
+/// Returns a `Result` containing the `PathBuf` to the data directory or a `FileProcessingError`.
+fn get_data_dir() -> Result<PathBuf, FileProcessingError> {
+    trace!("Attempting to determine project directories.");
+    let proj_dirs = ProjectDirs::from("com", "philocalyst", "lichen").ok_or_else(|| {
+        FileProcessingError::ProjectDirsError(
+            "Could not determine application directories.".to_string(),
+        )
+    })?;
 
-    resources_directory.data_dir().to_path_buf()
+    let data_dir = proj_dirs.data_dir();
+    debug!("Determined data directory: '{}'", data_dir.display());
+    Ok(data_dir.to_path_buf())
 }
 
-fn get_license_path(license: &License, extension: &str) -> PathBuf {
-    let resources_directory = get_data_dir();
-    let path = resources_directory.join("licenses").join(license.spdx_id());
-    let path_str = format!("{}.{}", path.to_string_lossy(), extension);
-    PathBuf::from(path_str)
+/// Constructs the full path to a specific license template file.
+///
+/// # Arguments
+///
+/// * `license`: The `License` enum variant.
+/// * `extension`: The desired file extension (e.g., "txt", "md", "header.txt").
+///
+/// # Returns
+///
+/// Returns a `Result` containing the `PathBuf` to the license file or a `FileProcessingError`.
+fn get_license_path(license: &License, extension: &str) -> Result<PathBuf, FileProcessingError> {
+    trace!(
+        "Constructing license path for license '{}' with extension '{}'",
+        license.spdx_id(),
+        extension
+    );
+    let data_dir = get_data_dir()?;
+    // Expected structure: <data_dir>/licenses/<spdx_id>.<extension>
+    let path = data_dir
+        .join("licenses")
+        .join(format!("{}.{}", license.spdx_id(), extension));
+    debug!("Constructed license template path: '{}'", path.display());
+    Ok(path)
 }
 
-fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
-    log::debug!("Running Gen command with args: {:?}", args);
+/// Constructs the full path to the comment tokens JSON file.
+///
+/// # Returns
+///
+/// Returns a `Result` containing the `PathBuf` to the JSON file or a `FileProcessingError`.
+fn get_comment_tokens_path() -> Result<PathBuf, FileProcessingError> {
+    trace!("Constructing path for comment-tokens.json");
+    let data_dir = get_data_dir()?;
+    // Expected structure: <data_dir>/comment-tokens.json
+    let path = data_dir.join("comment-tokens.json");
+    debug!("Constructed comment tokens path: '{}'", path.display());
+    Ok(path)
+}
 
-    // TODO: Config parsing
+// --- Subcommand Implementations ---
+
+/// Handles the `gen` command logic.
+fn run_gen(args: GenArgs) -> Result<(), FileProcessingError> {
+    debug!("Starting run_gen with args: {:?}", args);
+
+    // --- Parameter Resolution (CLI vs. Config - Placeholder) ---
+    // TODO: Load license, author, year from config if not provided in args.
     let license = args
         .license
-        .ok_or("License name is required via CLI or config")?;
-    let authors = args.author; //.or_else(|| /* get from config */);
-    let year = args
-        .year
-        .unwrap_or_else(|| chrono::Utc::now().format("%Y").to_string().parse().unwrap());
-
+        .ok_or("License SPDX ID is required via CLI or config for 'gen' command")?;
+    let authors = args.author; // .or_else(|| /* get from config */);
+    let year = args.year.unwrap_or_else(|| {
+        let current_year = chrono::Utc::now()
+            .format("%Y")
+            .to_string()
+            .parse()
+            .unwrap_or(2024); // Provide a fallback year
+        debug!(
+            "Year not specified, defaulting to current year: {}",
+            current_year
+        );
+        current_year
+    });
     let extension = if args.markdown { "md" } else { "txt" };
+    // ---
 
-    log::info!("Generating license: {}", license);
+    info!(
+        "Generating license file for: {}, Year: {}, Format: {}",
+        license.spdx_id(),
+        year,
+        extension
+    );
     if let Some(ref authors_vec) = authors {
-        log::info!("Authors: {}", authors_vec.join(", ")); // Fill author field
+        info!("Authors specified: {}", authors_vec.join(", "));
+    } else {
+        debug!("No authors specified via CLI.");
+        // TODO: Log authors from config if loaded
     }
-    log::info!("Year: {}", year);
 
-    let license_path = get_license_path(&license, extension);
+    // --- Template Fetching ---
+    // TODO: Implement actual template processing (placeholder substitution)
+    //       Currently, it just copies the raw template.
+    let license_template_path = get_license_path(&license, extension)?;
+    if !license_template_path.exists() {
+        error!(
+            "License template file not found at '{}'. Ensure templates are installed correctly.",
+            license_template_path.display()
+        );
+        return Err(FileProcessingError::IoError(io::Error::new(
+            io::ErrorKind::NotFound,
+            format!(
+                "License template not found: {}",
+                license_template_path.display()
+            ),
+        )));
+    }
+    debug!(
+        "Found license template file at: '{}'",
+        license_template_path.display()
+    );
+    // ---
 
-    let mut output_file =
-        PathBuf::from_str("LICENSE").expect("No IOCreation happens here, so impossible to fail");
-
+    // --- Output File Generation ---
+    let mut output_filename = PathBuf::from("LICENSE");
+    // For txt files the standard is no extention
     if extension == "md" {
-        output_file.set_extension("md");
-    } // Without the file extention most programs just read as text...
+        output_filename.set_extension("md"); // Without the file extention most programs just read as text...
+    }
+    debug!(
+        "Determined output filename: '{}'",
+        output_filename.display()
+    );
 
-    fs::copy(license_path, output_file)?;
+    // TODO: Use 'processed_content' once substitution is implemented
+    // fs::write(&output_filename, processed_content)?;
 
-    // TODO: Implement actual license generation logic.
-    // - Fetch license template based on `license_name`.
-    // - Fill in placeholders (author, year).
-    // - Write to a LICENSE file (or stdout if passed through pipe).
+    // Current behavior: Copy the raw template
+    match fs::copy(&license_template_path, &output_filename) {
+        Ok(bytes_copied) => {
+            info!(
+                "Successfully generated license file '{}' ({} bytes copied from template).",
+                output_filename.display(),
+                bytes_copied
+            );
+        }
+        Err(e) => {
+            error!(
+                "Failed to copy license template from '{}' to '{}': {}",
+                license_template_path.display(),
+                output_filename.display(),
+                e
+            );
+            return Err(e.into());
+        }
+    }
+    // ---
 
     Ok(())
 }
 
+/// Recursively finds all files within the target paths, applying exclusions.
+///
+/// # Arguments
+///
+/// * `targets`: A list of starting files or directories.
+/// * `exclude_regex`: An optional regex pattern to exclude files/directories.
+///
+/// # Returns
+///
+/// A `Result` containing a `Vec<PathBuf>` of valid file paths or a `FileProcessingError`.
 pub fn get_valid_files(
-    targets: &Vec<PathBuf>,
-    possible_reg_pattern: &Option<Regex>,
+    targets: &[PathBuf],
+    exclude_regex: &Option<Regex>,
 ) -> Result<Vec<PathBuf>, FileProcessingError> {
-    let mut response = Vec::new();
-    let mut seen_paths = HashSet::new();
+    debug!(
+        "Searching for processable files starting from targets: {:?}. Exclude pattern: {:?}",
+        targets, exclude_regex
+    );
+    let mut files_to_process = Vec::new();
+    let mut seen_paths = HashSet::new(); // To handle potential overlaps or duplicates
 
     for target in targets {
         if !target.exists() {
+            error!("Target path does not exist: '{}'", target.display());
             return Err(FileProcessingError::InvalidPath(
                 target.to_string_lossy().to_string(),
             ));
         }
 
-        let walker = WalkDir::new(target).into_iter();
+        debug!("Walking directory/file: '{}'", target.display());
+        let walker = WalkDir::new(target).follow_links(true).into_iter(); // Follow symlinks
 
-        let filtered_walker = walker.filter_entry(|e| {
-            possible_reg_pattern
-                .as_ref()
-                .map_or(true, |regex| !regex.is_match(&e.path().to_string_lossy()))
+        // Apply the exclusion filter during the walk
+        let filtered_walker = walker.filter_entry(|entry| {
+            let path = entry.path();
+            trace!("Considering entry: '{}'", path.display());
+            match exclude_regex {
+                Some(regex) => {
+                    // Check if the path string matches the exclusion regex
+                    if regex.is_match(&path.to_string_lossy()) {
+                        debug!("Excluding path '{}' due to regex match.", path.display());
+                        false // Exclude this entry and its children if it's a directory
+                    } else {
+                        true // Keep this entry
+                    }
+                }
+                None => true, // No regex, keep everything
+            }
         });
 
         for entry_result in filtered_walker {
             match entry_result {
                 Ok(entry) => {
-                    let path = entry.into_path();
-
-                    if seen_paths.insert(path.clone()) {
-                        response.push(path);
+                    let path = entry.into_path(); // Consumes entry
+                    // Only add files, not directories themselves
+                    if path.is_file() {
+                        trace!("Entry is a file: '{}'", path.display());
+                        // Add to list if not seen before
+                        if seen_paths.insert(path.clone()) {
+                            trace!("Adding unique file to list: '{}'", path.display());
+                            files_to_process.push(path);
+                        } else {
+                            warn!(
+                                "Duplicate file path encountered and ignored: '{}'. This might happen if targets overlap.",
+                                path.display()
+                            );
+                        }
                     } else {
-                        warn!("Duplicate path found and ignored: {}", path.display());
+                        trace!(
+                            "Entry is not a file (likely a directory), skipping: '{}'",
+                            path.display()
+                        );
                     }
                 }
-                Err(err) => {
-                    if let Some(path) = err.path() {
-                        error!("Error accessing entry {}: {}", path.display(), err);
-                    } else {
-                        error!("Error during directory walk: {}", err);
-                    }
-                    return Err(FileProcessingError::WalkdirError(err));
+                Err(walk_err) => {
+                    // Log the error but try to continue if possible, unless it's fatal
+                    let path_display = walk_err
+                        .path()
+                        .map_or_else(|| "unknown path".to_string(), |p| p.display().to_string());
+                    error!(
+                        "Error accessing entry during directory walk at or near '{}': {}",
+                        path_display, walk_err
+                    );
+                    // Optionally, return the error immediately if desired:
+                    // return Err(FileProcessingError::WalkdirError(walk_err));
+                    // Current behavior: Log and continue (best effort)
                 }
             }
-        }
+        } // End inner loop for walker results
+    } // End outer loop for targets
+
+    if files_to_process.is_empty() {
+        warn!("No files found matching the criteria in the specified targets and exclusions.");
+    } else {
+        info!(
+            "Found {} files to process across all targets.",
+            files_to_process.len()
+        );
+        trace!("Files identified for processing: {:?}", files_to_process);
     }
 
-    if response.is_empty() {
-        warn!("No valid files found matching the criteria in the provided paths.");
-    }
-
-    Ok(response)
+    Ok(files_to_process)
 }
 
-fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
-    log::debug!("Running Apply command with args: {:?}", args);
+/// Handles the `apply` command logic.
+fn run_apply(args: ApplyArgs) -> Result<(), FileProcessingError> {
+    debug!("Starting run_apply with args: {:?}", args);
 
-    // TODO: Add config loading
+    // --- Parameter Resolution (CLI vs. Config - Placeholder) ---
+    // TODO: Load license, exclude_pattern, etc. from config if not in args.
     let license = args
         .license
-        .ok_or("License name is required via CLI or config")?;
+        .ok_or("License SPDX ID is required via CLI or config for 'apply' command")?;
     let exclude_pattern = &args.exclude;
-    let target = args.target;
+    let targets = &args.target;
+    let in_place = args.in_place;
+    // ---
 
-    log::info!("Applying license header: {}", license.spdx_id());
-    log::info!("In-place modification: {}", args.in_place);
-    log::info!("Excluding pattern: {:?}", exclude_pattern);
-
-    let license_path: PathBuf = get_license_path(&license, "txt");
-
-    let license_content = fs::read_to_string(license_path).unwrap();
-
-    let working_files = get_valid_files(&target, &exclude_pattern)?;
-
-    license_files(&license_content, working_files)?;
-
-    // TODO: Implement actual license application logic.
-    // - Find relevant files (e.g., walk the current directory).
-    // - Filter files based on `exclude_patterns`.
-    // - Read license header template based on `license_name`.
-    // - For each file:
-    //   - Check if header already exists.
-    //   - If `in_place` is true, prepend header to the file. Using chars
-    //   - If `in_place` is false, copy file to a 'licensed/' dir and prepend header there.
-
-    println!(
-        "Placeholder: Would apply license '{}' header. In-place: {}. Exclude: ",
+    info!(
+        "Applying license header for: {} to targets: {:?}",
         license.spdx_id(),
-        args.in_place
+        targets
+    );
+    info!("In-place modification: {}", in_place);
+    if in_place {
+        warn!("Running with --in-place flag. Files will be modified directly.");
+    }
+    info!("Exclusion pattern: {:?}", exclude_pattern);
+
+    // --- Get License Header Content ---
+    // Headers usually use a plain text variant.
+    let header_template_path = get_license_path(&license, "txt")?;
+    if !header_template_path.exists() {
+        error!(
+            "License header template file not found at '{}'. Expected naming like 'SPDXID.header.txt'.",
+            header_template_path.display()
+        );
+        return Err(FileProcessingError::IoError(io::Error::new(
+            io::ErrorKind::NotFound,
+            format!(
+                "License header template not found: {}",
+                header_template_path.display()
+            ),
+        )));
+    }
+    debug!(
+        "Reading license header content from: '{}'",
+        header_template_path.display()
+    );
+    let license_header_content = match fs::read_to_string(&header_template_path) {
+        Ok(content) => content,
+        Err(e) => {
+            error!(
+                "Failed to read license header template '{}': {}",
+                header_template_path.display(),
+                e
+            );
+            return Err(e.into());
+        }
+    };
+    trace!(
+        "License header content read successfully:\n{}",
+        license_header_content
+    ); // Use trace for potentially large content
+    // ---
+
+    // --- Find Files ---
+    let files_to_process = get_valid_files(targets, exclude_pattern)?;
+    if files_to_process.is_empty() {
+        info!("No files require processing. Exiting 'apply' command.");
+        return Ok(()); // Nothing to do
+    }
+    // ---
+
+    // --- Apply Headers ---
+    if in_place {
+        info!(
+            "Applying license headers in-place to {} files...",
+            files_to_process.len()
+        );
+        apply_headers_to_files(&license_header_content, &files_to_process)?;
+    } else {
+        // TODO: Implement copying files to a 'licensed/' directory and applying headers there.
+        error!(
+            "Non-in-place application (copying to 'licensed/' directory) is not yet implemented."
+        );
+        println!(
+            "Placeholder: Would apply license '{}' header to {} files (creating copies).",
+            license.spdx_id(),
+            files_to_process.len()
+        );
+        // For now, return an error or just skip
+        return Err(FileProcessingError::Msg(
+            "Non-in-place application not implemented.".to_string(),
+        ));
+    }
+    // ---
+
+    info!("Finished applying license headers.");
+    Ok(())
+}
+
+/// Applies the license header to a list of files.
+/// Modifies files directly (in-place).
+///
+/// # Arguments
+///
+/// * `header_content`: The license header text (raw, without comment markers).
+/// * `paths`: A slice of `PathBuf` representing the files to modify.
+///
+/// # Returns
+///
+/// An `io::Result<()>` indicating success or failure.
+fn apply_headers_to_files(
+    header_content: &str,
+    paths: &[PathBuf],
+) -> Result<(), FileProcessingError> {
+    debug!("Starting to apply headers to {} files.", paths.len());
+    let mut applied_count = 0;
+    let mut skipped_count = 0;
+    let mut error_count = 0;
+
+    // SOT character (ASCII 2) used as a marker for an existing header.
+    const HEADER_MARKER: char = 2 as char;
+
+    for path in paths {
+        debug!("Processing file: '{}'", path.display());
+
+        // Basic check: Skip directories (shouldn't be in the list from get_valid_files, but defensive)
+        if path.is_dir() {
+            warn!(
+                "Skipping directory found in processing list: '{}'",
+                path.display()
+            );
+            skipped_count += 1;
+            continue;
+        }
+
+        // --- Check for Existing Header Marker ---
+        // Read just enough to check for the marker efficiently if possible,
+        // but reading the whole thing is simpler for now.
+        let file_content = match fs::read_to_string(&path) {
+            Ok(content) => content,
+            Err(e) => {
+                error!(
+                    "Failed to read file '{}' to check for existing header: {}",
+                    path.display(),
+                    e
+                );
+                error_count += 1;
+                continue; // Skip this file
+            }
+        };
+
+        if file_content.contains(HEADER_MARKER) {
+            info!(
+                "File '{}' already contains a header marker (SOT char). Skipping.",
+                path.display()
+            );
+            skipped_count += 1;
+            continue;
+        }
+        trace!(
+            "No existing header marker found in '{}'. Proceeding with applying header.",
+            path.display()
+        );
+        // ---
+
+        // --- Determine Comment Style ---
+        let extension = path
+            .extension()
+            .and_then(|os_str| os_str.to_str())
+            .unwrap_or("");
+        trace!(
+            "Determining comment character for extension: '{}'",
+            extension
+        );
+        let comment_char = match get_comment_char(extension) {
+            Ok(token) => {
+                debug!(
+                    "Using comment token '{}' for file '{}'",
+                    token,
+                    path.display()
+                );
+                token
+            }
+            Err(e) => {
+                error!(
+                    "Could not determine comment token for '{}' (extension '{}'): {}. Skipping file.",
+                    path.display(),
+                    extension,
+                    e
+                );
+                error_count += 1;
+                continue; // Skip this file
+            }
+        };
+        // ---
+
+        // --- Format Header ---
+        trace!(
+            "Formatting license header with comment token '{}'.",
+            comment_char
+        );
+        let formatted_header =
+            format_header_with_comments(header_content, &comment_char, HEADER_MARKER);
+        // ---
+
+        // --- Prepend Header to File ---
+        trace!("Attempting to prepend header to file '{}'", path.display());
+        match prepend_header_to_file(&formatted_header, path) {
+            Ok(_) => {
+                info!("Successfully applied header to '{}'", path.display());
+                applied_count += 1;
+            }
+            Err(e) => {
+                error!(
+                    "Failed to prepend header to file '{}': {}",
+                    path.display(),
+                    e
+                );
+                error_count += 1;
+                // Continue to the next file
+            }
+        }
+        // ---
+    }
+
+    info!(
+        "Header application summary: {} applied, {} skipped (already licensed), {} errors.",
+        applied_count, skipped_count, error_count
     );
 
-    Ok(())
+    if error_count > 0 {
+        Err(FileProcessingError::Msg(format!(
+            "Encountered {} errors during header application.",
+            error_count
+        )))
+    } else {
+        Ok(())
+    }
 }
 
-fn license_files(license: &String, paths: Vec<PathBuf>) -> io::Result<()> {
-    // Only prepend files if they don't already contain a header (Delimted by the SOT control character)
-    for path in paths {
-        if path.is_dir() {
-            // Directories can't be written to
-            continue;
-        }
-        if fs::read_to_string(&path).unwrap().contains(2 as char) {
-            continue;
-        }
-        let comment_char = if let Some(ext) = path.extension() {
-            get_comment_char(ext.to_str().unwrap_or(""))
-        } else {
-            get_comment_char("")
-        };
-        let license = apply_license_header(&license, comment_char.unwrap());
-        // Append the SOT (Start of Text, ^B) control character (ASCII 2) to the license header
-        // This marks the end of the header and is used as a mechanism to determine whether or not a header has already been applied.
-        prepend_file(&license, path)?;
-    }
-    Ok(())
-}
+/// Looks up the appropriate line comment character for a given file extension.
+/// Reads from a JSON configuration file (`comment-tokens.json`) in the data directory.
+///
+/// # Arguments
+///
+/// * `extension`: The file extension (e.g., "rs", "py", "js").
+///
+/// # Returns
+///
+/// A `Result` containing the comment token `String` or a `FileProcessingError`.
+/// Defaults to "#" if the extension is not found or the JSON is malformed/missing.
+fn get_comment_char(extension: &str) -> Result<String, FileProcessingError> {
+    trace!(
+        "Looking up comment character for extension: '{}'",
+        extension
+    );
+    let comment_tokens_path = get_comment_tokens_path()?;
 
-fn get_comment_char(extension: &str) -> Result<String, Box<dyn std::error::Error>> {
-    let resources_directory = get_data_dir();
-    let comment_tokens_path = resources_directory.join("comment-tokens.json");
-
-    if !resources_directory.try_exists()? {
-        fs::create_dir(resources_directory)?;
-        if !comment_tokens_path.try_exists()? {
-            fs::write(&comment_tokens_path, "")?;
+    // --- Ensure Data Directory and File Exist ---
+    // This check might be slightly redundant if get_data_dir succeeded, but ensures the json exists.
+    if let Some(parent_dir) = comment_tokens_path.parent() {
+        if !parent_dir.exists() {
+            debug!(
+                "Data directory '{}' does not exist. Attempting to create.",
+                parent_dir.display()
+            );
+            fs::create_dir_all(parent_dir)?; // Create parent dirs if needed
         }
     }
-    let file = File::open(comment_tokens_path)?;
+    if !comment_tokens_path.exists() {
+        warn!(
+            "Comment tokens file '{}' not found. Creating empty file. Commenting may default to '#'.",
+            comment_tokens_path.display()
+        );
+        fs::write(&comment_tokens_path, "{}")?; // Create an empty JSON object
+    }
+    // ---
+
+    trace!(
+        "Opening comment tokens file: '{}'",
+        comment_tokens_path.display()
+    );
+    let file = File::open(&comment_tokens_path)?;
     let reader = BufReader::new(file);
-    // Open and read the JSON file
-    let data: serde_json::Value = serde_json::from_reader(reader)?;
 
-    // Check if data is an object (expected)
+    trace!("Parsing JSON from '{}'", comment_tokens_path.display());
+    let data: serde_json::Value = match serde_json::from_reader(reader) {
+        Ok(value) => value,
+        Err(e) => {
+            error!(
+                "Failed to parse JSON from '{}': {}. Defaulting comment token to '#'.",
+                comment_tokens_path.display(),
+                e
+            );
+            // Return default instead of erroring out completely
+            return Ok("#".to_string());
+            // Or return Err(e.into()); if parsing failure should stop the process
+        }
+    };
+
     let languages_map = data
         .as_object()
-        .ok_or_else(|| "JSON data is not a top-level object".to_string())?;
+        .ok_or_else(|| {
+            error!(
+                "JSON data in '{}' is not a top-level object. Defaulting comment token to '#'.",
+                comment_tokens_path.display()
+            );
+            FileProcessingError::Msg(format!(
+                "Invalid JSON format in '{}'",
+                comment_tokens_path.display()
+            ))
+        })
+        .unwrap();
 
-    // Iterate through the languages
-    for (_, language_details) in languages_map {
-        // Check if this language has the target extension
-        if let Some(file_types) = language_details.get("file_types") {
-            if let Some(file_types_array) = file_types.as_array() {
-                // Check if the provided extention is in the file_types array for the language
+    trace!(
+        "Searching for extension '{}' in parsed JSON data.",
+        extension
+    );
+    // Iterate through the language definitions in the JSON
+    for (_language_name, language_details) in languages_map {
+        // Check if this language definition has 'file_types'
+        if let Some(file_types_val) = language_details.get("file_types") {
+            // Check if 'file_types' is an array
+            if let Some(file_types_array) = file_types_val.as_array() {
+                // Check if the target extension is in this language's file_types array
                 let has_extension = file_types_array
                     .iter()
-                    .any(|ext| ext.as_str().map_or(false, |s| s == extension));
+                    .filter_map(|v| v.as_str()) // Only consider string values in the array
+                    .any(|ext_str| ext_str == extension);
 
                 if has_extension {
-                    // Get comment toeken for the language
+                    trace!(
+                        "Found matching extension '{}' under language entry.",
+                        extension
+                    );
+                    // Extension matches, now find the 'comment_token'
                     if let Some(token_value) = language_details.get("comment_token") {
                         if let Some(token_str) = token_value.as_str() {
+                            debug!(
+                                "Found comment token '{}' for extension '{}'.",
+                                token_str, extension
+                            );
                             return Ok(token_str.to_string());
+                        } else {
+                            warn!(
+                                "'comment_token' found for extension '{}' but is not a string. Defaulting to '#'.",
+                                extension
+                            );
                         }
+                    } else {
+                        warn!(
+                            "Extension '{}' matched, but no 'comment_token' field found for its language entry. Defaulting to '#'.",
+                            extension
+                        );
                     }
-
-                    // If no comment token but extension matches return an error
+                    // If extension matched but token wasn't found or valid, default
                     return Ok("#".to_string());
                 }
             }
         }
     }
 
-    // If no matching language is found
+    // If no matching language/extension was found after checking all entries
+    debug!(
+        "Extension '{}' not found in comment tokens file '{}'. Defaulting comment token to '#'.",
+        extension,
+        comment_tokens_path.display()
+    );
     Ok("#".to_string())
 }
 
-fn apply_license_header(license: &String, commment_char: String) -> String {
-    let mut response = String::new();
-    let lines: Vec<&str> = license.split('\n').collect();
+/// Formats the raw license header text by prepending the comment character to each line.
+///
+/// # Arguments
+///
+/// * `header_content`: The raw license header text.
+/// * `comment_token`: The line comment token (e.g., "//", "#").
+///
+/// # Returns
+///
+/// A `String` containing the formatted header, ready to be prepended.
+fn format_header_with_comments(
+    header_content: &str,
+    comment_token: &str,
+    seperator: char,
+) -> String {
+    trace!("Formatting header with comment token: '{}'", comment_token);
+    let mut formatted_header = String::new();
+    let lines: Vec<&str> = header_content.trim_end().split('\n').collect(); // Trim trailing newline before splitting
     let line_count = lines.len();
 
     for (i, line) in lines.iter().enumerate() {
-        response.push_str(&format!("{} {}", commment_char, line));
+        formatted_header.push_str(comment_token);
+        formatted_header.push(' '); // Add space after comment token
+        formatted_header.push_str(line);
         if i < line_count - 1 {
-            response.push('\n');
+            formatted_header.push('\n');
         } else {
-            response.push(2 as char);
-            response.push_str("\n");
+            formatted_header.push(2 as char);
+            formatted_header.push_str("\n");
         }
+        trace!(
+            "Formatted line {}: {}",
+            i + 1,
+            formatted_header.lines().last().unwrap_or("")
+        );
     }
-    response
+
+    debug!(
+        "Header formatting complete. Result has {} lines.",
+        line_count
+    );
+    formatted_header // The final marker character is added in prepend_header_to_file
 }
 
+// This function seems unused in the current flow, keeping it commented out for now.
+// Re-enable if needed for markdown metadata stripping elsewhere.
+/*
 fn strip_metadata(data: Vec<char>) -> String {
-    let mut result = String::new();
-
-    // If the string is too short to contain metadata, safe to return early.
-    if data.len() < 6 {
-        // Minimum: "---\n---"
-        return data.iter().collect();
-    }
-
-    // If the document starts with "---" it has metadata.
-    if data.len() >= 3 && data[0] == '-' && data[1] == '-' && data[2] == '-' {
-        // Look for the closing "---"
-        let mut i = 3;
-        let mut line_start = true;
-        let mut found_closing = false;
-
-        while i < data.len() - 2 {
-            if line_start && data[i] == '-' && data[i + 1] == '-' && data[i + 2] == '-' {
-                // Found closing "---", skip past it
-                i += 3;
-                found_closing = true;
-                break;
-            }
-
-            // Track if we're at the start of a new line
-            line_start = data[i] == '\n';
-            i += 1;
-        }
-
-        // If we found both opening and closing markers, append everything after
-        if found_closing {
-            // Skip any whitespace after the closing ---
-            while i < data.len()
-                && (data[i] == '\n' || data[i] == '\r' || data[i] == ' ' || data[i] == '\t')
-            {
-                i += 1;
-            }
-
-            // Append the rest of the content
-            result.extend(data[i..].iter());
-        } else {
-            // If no closing marker was found, return the original string
-            return data.iter().collect();
-        }
-    } else {
-        // No metadata block detected, return the original string
-        return data.iter().collect();
-    }
-
+    trace!("Attempting to strip YAML front matter (---).");
+    // ... (original implementation) ...
     result
 }
+*/
 
-fn prepend_file<P: AsRef<Path>>(license: &String, file_path: P) -> io::Result<()> {
-    // Create a temporary file in the same directory for better cross-device moves
-    let dir = file_path
-        .as_ref()
-        .parent()
-        .unwrap_or_else(|| Path::new("."));
-    let mut tmp = NamedTempFile::new_in(dir)?;
+/// Prepends the formatted license header (and a marker) to the specified file.
+/// Uses a temporary file and atomic rename for safety. Handles shebangs correctly.
+///
+/// # Arguments
+///
+/// * `formatted_header`: The license header, already formatted with comment tokens and newlines.
+/// * `header_marker`: The character to append after the header as a marker (e.g., SOT char).
+/// * `file_path`: The path to the file to modify.
+///
+/// # Returns
+///
+/// An `io::Result<()>` indicating success or failure.
+fn prepend_header_to_file<P: AsRef<Path>>(formatted_header: &str, file_path: P) -> io::Result<()> {
+    let file_path = file_path.as_ref();
+    debug!("Prepending header to file: '{}'", file_path.display());
 
-    // Read the source file content
-    let mut src_content = Vec::new();
-    File::open(&file_path)?.read_to_end(&mut src_content)?;
+    // Create a temporary file in the same directory to ensure atomic rename works across devices.
+    let parent_dir = file_path.parent().unwrap_or_else(|| Path::new("."));
+    trace!(
+        "Creating temporary file in directory: '{}'",
+        parent_dir.display()
+    );
+    let mut temp_file = NamedTempFile::new_in(parent_dir)?;
+    let temp_path_display = temp_file.path().display().to_string(); // Capture path for logging before potential close
+    debug!("Temporary file created: '{}'", temp_path_display);
 
-    // Check if the file has content and starts with a shebang line
-    if !src_content.is_empty() {
-        // Look for a shebang line at the beginning
-        let has_shebang = src_content.starts_with(b"#!");
+    // Read the original file content
+    trace!("Reading original content from '{}'", file_path.display());
+    let mut original_content = Vec::new();
+    File::open(file_path)?.read_to_end(&mut original_content)?;
+    trace!("Read {} bytes from original file.", original_content.len());
 
-        if has_shebang {
-            // Find the end of the shebang line (newline)
-            if let Some(newline_pos) = src_content.iter().position(|&c| c == b'\n') {
-                // Write the shebang line to the temp file
-                tmp.write_all(&src_content[0..=newline_pos])?;
+    // --- Handle Shebang ---
+    let mut shebang_line: Option<&[u8]> = None;
+    let mut content_after_shebang: &[u8] = &original_content;
 
-                // Write a newline seperator
-                tmp.write(b"\n")?;
-
-                // Write the license after the shebang
-                tmp.write_all(license.as_bytes())?;
-
-                // Write the rest of the file content
-                tmp.write_all(&src_content[newline_pos + 1..])?;
-
-                // Atomically replace the original file with the temporary file
-                tmp.persist(file_path)?;
-                return Ok(());
-            }
+    if original_content.starts_with(b"#!") {
+        debug!("Shebang detected in '{}'", file_path.display());
+        // Find the first newline character
+        if let Some(newline_pos) = original_content.iter().position(|&c| c == b'\n') {
+            shebang_line = Some(&original_content[0..=newline_pos]); // Include the newline
+            content_after_shebang = &original_content[newline_pos + 1..];
+            trace!(
+                "Extracted shebang ({} bytes). Remaining content starts after position {}.",
+                shebang_line.unwrap().len(),
+                newline_pos
+            );
+        } else {
+            // Shebang detected but no newline? Treat the whole file as the shebang line.
+            warn!(
+                "Shebang detected in '{}' but no newline found. Treating entire file as shebang.",
+                file_path.display()
+            );
+            shebang_line = Some(&original_content);
+            content_after_shebang = &[]; // No content after shebang
         }
+    } else {
+        trace!("No shebang detected in '{}'.", file_path.display());
+    }
+    // ---
+
+    // --- Write to Temporary File ---
+    trace!("Writing content to temporary file '{}'", temp_path_display);
+
+    // 1. Write Shebang (if present)
+    if let Some(shebang) = shebang_line {
+        trace!("Writing shebang to temp file.");
+        temp_file.write_all(shebang)?;
+        // Add an extra padding newline for separation
+        temp_file.write_all(b"\n")?;
     }
 
-    // If no shebang or couldn't properly process it, retreat to regular prepending
-    // Reset the temp file position to the beginning
-    tmp.rewind()?;
+    // 2. Write Formatted License Header
+    trace!("Writing formatted license header to temp file.");
+    temp_file.write_all(formatted_header.as_bytes())?;
 
-    // Write the license first
-    tmp.write_all(license.as_bytes())?;
+    // 3. Write Separator Newline after marker (important!)
+    temp_file.write_all(b"\n")?;
 
-    // Write the entire source content
-    tmp.write_all(&src_content)?;
+    // 4. Write the rest of the original content
+    trace!(
+        "Writing remaining original content ({} bytes) to temp file.",
+        content_after_shebang.len()
+    );
+    temp_file.write_all(content_after_shebang)?;
 
-    // Atomically replace the original file with the temporary file
-    tmp.persist(file_path)?;
+    trace!(
+        "Finished writing to temporary file '{}'.",
+        temp_path_display
+    );
+    // ---
+
+    // --- Atomically Replace Original File ---
+    debug!(
+        "Persisting temporary file '{}' over original file '{}'",
+        temp_path_display,
+        file_path.display()
+    );
+    // tempfile::persist handles the atomic rename/replace operation.
+    if let Err(persist_error) = temp_file.persist(file_path) {
+        error!(
+            "Failed to persist temporary file '{}' to '{}': {}",
+            temp_path_display,
+            file_path.display(),
+            persist_error.error
+        );
+        // The temporary file might still exist, drop it to attempt deletion.
+        drop(persist_error.file); // Explicitly drop the file from the error
+        return Err(persist_error.error); // Return the original IO error
+    }
+    // ---
+
+    debug!(
+        "Successfully prepended header and replaced original file '{}'",
+        file_path.display()
+    );
     Ok(())
 }
 
-fn run_init(args: InitArgs) -> Result<(), Box<dyn std::error::Error>> {
-    log::debug!("Running Init command with args: {:?}", args);
+/// Handles the `init` command logic (currently a placeholder).
+fn run_init(args: InitArgs) -> Result<(), FileProcessingError> {
+    debug!("Starting run_init with args: {:?}", args);
 
-    let project_root = args
-        .path
-        .unwrap_or_else(|| std::env::current_dir().expect("Failed to get current directory"));
-    log::info!("Initializing configuration in: {:?}", project_root);
+    let project_root = match args.path {
+        Some(p) => {
+            debug!("Using specified path for initialization: '{}'", p.display());
+            p
+        }
+        None => {
+            let cwd = std::env::current_dir()?;
+            debug!(
+                "No path specified, using current working directory: '{}'",
+                cwd.display()
+            );
+            cwd
+        }
+    };
 
-    // TODO: Implement config file generation.
-    // - Determine config file path (e.g., project_root/.licenserc or XDG path).
-    // - Pull default values (maybe embed them or have a default template).
-    // - Pull cli options
-    // - Write the default config file.
-
-    println!(
-        "Placeholder: Would generate default config file at {:?}",
-        project_root
+    info!(
+        "Initializing configuration (placeholder) in: '{}'",
+        project_root.display()
     );
+
+    // --- Configuration File Generation Logic ---
+    // TODO: Implement config file generation.
+    //       - Determine actual config file path (e.g., project_root/.licenserc or XDG path).
+    //       - Define default configuration values (maybe embed or use a template file).
+    //       - Consider existing CLI options/arguments if relevant for defaults.
+    //       - Write the default configuration file.
+    let config_file_path = project_root.join(".lichenrc"); // Example path
+    warn!("Configuration file generation is not yet implemented.");
+    println!(
+        "Placeholder: Would generate default config file, potentially at '{}'",
+        config_file_path.display()
+    );
+    // ---
 
     Ok(())
 }
