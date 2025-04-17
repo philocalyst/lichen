@@ -250,22 +250,28 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn license_files(license: &String, paths: Vec<PathBuf>) {
-    if !license.contains(2 as char) {
-        // Only prepend files if they don't already contain a header (Delimted by the SOT control character)
-        for path in paths {
-            let comment_char = if let Some(ext) = path.extension() {
-                get_comment_char(ext.to_str().unwrap_or(""))
-            } else {
-                get_comment_char("")
-            };
-            let mut license = apply_comments(license, comment_char.unwrap());
-            // Append the SOT (Start of Text, ^B) control character (ASCII 2) to the license header
-            // This marks the end of the header and is used as a mechanism to determine whether or not a header has already been applied.
-            license.push(2 as char);
-            license_file(&license, path);
+fn license_files(license: &String, paths: Vec<PathBuf>) -> io::Result<()> {
+    // Only prepend files if they don't already contain a header (Delimted by the SOT control character)
+    for path in paths {
+        if path.is_dir() {
+            // Directories can't be written to
+            continue;
         }
+        if fs::read_to_string(&path).unwrap().contains(2 as char) {
+            continue;
+        }
+        let comment_char = if let Some(ext) = path.extension() {
+            get_comment_char(ext.to_str().unwrap_or(""))
+        } else {
+            get_comment_char("")
+        };
+        let mut license = apply_comments(license, comment_char.unwrap());
+        // Append the SOT (Start of Text, ^B) control character (ASCII 2) to the license header
+        // This marks the end of the header and is used as a mechanism to determine whether or not a header has already been applied.
+        license.push(2 as char);
+        license_file(&license, path)?;
     }
+    Ok(())
 }
 
 fn get_comment_char(extension: &str) -> Result<String, Box<dyn std::error::Error>> {
