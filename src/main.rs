@@ -2,16 +2,14 @@
 //!
 //! A rust-license management cli tool and library.
 
-use std::char::REPLACEMENT_CHARACTER;
 // Std library imports
 use std::collections::HashSet;
 use std::error::Error;
 use std::fmt;
 use std::fs::{self, File};
-use std::io::{self, BufReader, Read, Seek, Write};
+use std::io::{self, BufReader, Read, Write};
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
-use std::str::FromStr;
 
 // External crate imports
 use clap::{Args, Parser, Subcommand};
@@ -899,7 +897,7 @@ fn format_header_with_comments(
         if i < line_count - 1 {
             formatted_header.push('\n');
         } else {
-            formatted_header.push(2 as char);
+            formatted_header.push(seperator);
             formatted_header.push_str("\n");
         }
         trace!(
