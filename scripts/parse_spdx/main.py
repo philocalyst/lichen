@@ -405,7 +405,7 @@ def generate_output(xml_filepath, output_format):
 
 # --- Click Command ---
 
-@click.command()
+@click.command(context_settings={"help_option_names": ["-h", "--help"]})
 @click.option('--input-dir', '-i',
               type=click.Path(exists=True, file_okay=False, dir_okay=True, readable=True),
               default='.', show_default=True,
