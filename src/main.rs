@@ -15,6 +15,7 @@ use std::process::ExitCode;
 use clap::{Args, ColorChoice, Parser, Subcommand};
 use clap_verbosity_flag::{InfoLevel, Verbosity};
 use directories::ProjectDirs;
+use jiff::civil::Date;
 use log::{debug, error, info, trace, warn}; // Import specific log levels
 use regex::Regex;
 use serde_json;
@@ -106,6 +107,15 @@ impl From<String> for FileProcessingError {
 
 // --- CLI Argument Structs ---
 
+fn parse_year_to_date(s: &str) -> Result<Date, String> {
+    // Parse the provided string as a signed 16‑bit year
+    let year: i16 = s
+        .parse()
+        .map_err(|e| format!("invalid year `{}`: {}", s, e))?;
+    // Build a date from the Janurary first of that year (Happy new years!)
+    Date::new(year, 1, 1).map_err(|e| format!("invalid date: {}", e))
+}
+
 use clap::builder::styling;
 const STYLES: styling::Styles = styling::Styles::styled()
     .header(styling::AnsiColor::Green.on_default().bold())
@@ -149,8 +159,8 @@ struct GenArgs {
     markdown: bool,
 
     /// Year for the license copyright notice (defaults to the current year).
-    #[arg(short, long)]
-    year: Option<i16>,
+    #[arg(short, long, value_parser = parse_year_to_date)]
+    year: Option<Date>,
 }
 
 #[derive(Args, Debug)]
@@ -313,10 +323,7 @@ fn run_gen(args: GenArgs) -> Result<(), FileProcessingError> {
         .license
         .ok_or("License SPDX ID is required via CLI or config for 'gen' command")?;
     let authors = args.author; // .or_else(|| /* get from config */);
-    let year = args.year.unwrap_or_else(|| {
-        let today = jiff::Zoned::now();
-        today.year()
-    });
+    let year = args.year.unwrap_or_else(|| jiff::Zoned::now().date()); // Fallback to todays date
     let extension = if args.markdown { "md" } else { "txt" };
     // ---
 
