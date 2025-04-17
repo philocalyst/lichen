@@ -7,21 +7,19 @@ use std::collections::HashSet;
 use std::error::Error;
 use std::fmt;
 use std::fs::{self, File};
-use std::io::{self, BufReader, Read, Write};
-use std::path::{Path, PathBuf};
+use std::io::{self, BufReader};
+use std::path::PathBuf;
 use std::process::ExitCode;
 
 // External crate imports
 use clap::{Args, ColorChoice, Parser, Subcommand};
-use clap_verbosity_flag::{InfoLevel, TraceLevel, Verbosity};
+use clap_verbosity_flag::{InfoLevel, Verbosity};
 use directories::ProjectDirs;
 use futures::stream::{self, StreamExt};
 use jiff::civil::Date;
 use log::{debug, error, info, trace, warn}; // Import specific log levels
 use regex::Regex;
 use serde_json;
-use std::sync::Arc;
-use tempfile::NamedTempFile;
 use walkdir::{self, WalkDir};
 
 // Local module imports
@@ -137,7 +135,7 @@ struct Cli {
     command: Commands,
 
     #[command(flatten)]
-    verbose: Verbosity<TraceLevel>,
+    verbose: Verbosity<InfoLevel>,
 }
 
 #[derive(Subcommand, Debug)]
@@ -210,20 +208,6 @@ struct InitArgs {
 enum CommentToken {
     Line(String),
     Block { start: String, end: String },
-}
-
-impl CommentToken {
-    // Bootstrap off of into string functions to fill fields
-    fn line(tok: impl Into<String>) -> Self {
-        CommentToken::Line(tok.into())
-    }
-
-    fn block(start: impl Into<String>, end: impl Into<String>) -> Self {
-        CommentToken::Block {
-            start: start.into(),
-            end: end.into(),
-        }
-    }
 }
 
 // ▰▰▰ Main application logic ▰▰▰ //
