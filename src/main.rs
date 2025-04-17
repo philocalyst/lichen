@@ -15,10 +15,12 @@ use std::process::ExitCode;
 use clap::{Args, ColorChoice, Parser, Subcommand};
 use clap_verbosity_flag::{InfoLevel, Verbosity};
 use directories::ProjectDirs;
+use futures::stream::{self, StreamExt};
 use jiff::civil::Date;
 use log::{debug, error, info, trace, warn}; // Import specific log levels
 use regex::Regex;
 use serde_json;
+use std::sync::Arc;
 use tempfile::NamedTempFile;
 use walkdir::{self, WalkDir};
 
@@ -26,7 +28,7 @@ use walkdir::{self, WalkDir};
 mod license;
 use license::License;
 
-// --- Custom Error Types ---
+// ▰▰▰ Custom Error Types ▰▰▰ //
 
 /// Errors that can occur during file processing operations.
 #[derive(Debug)]
@@ -42,10 +44,10 @@ pub enum FileProcessingError {
     /// Could not determine project directories.
     ProjectDirsError(String),
     /// Generic error message.
-    Msg(String), // Added for more flexibility
+    Msg(String),
 }
 
-// --- Error Trait Implementations ---
+// ▰▰▰ Error Trait Implementations ▰▰▰ //
 
 impl fmt::Display for FileProcessingError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -73,7 +75,7 @@ impl Error for FileProcessingError {
     }
 }
 
-// --- Error Conversion Implementations ---
+// ▰▰▰ Error Conversion Implementations ▰▰▰ //
 
 impl From<std::io::Error> for FileProcessingError {
     fn from(err: std::io::Error) -> Self {
@@ -105,7 +107,7 @@ impl From<String> for FileProcessingError {
     }
 }
 
-// --- CLI Argument Structs ---
+// ▰▰▰ CLI Argument Structs ▰▰▰ //
 
 fn parse_year_to_date(s: &str) -> Result<Date, String> {
     // Parse the provided string as a signed 16‑bit year
@@ -192,9 +194,10 @@ struct InitArgs {
     path: Option<PathBuf>,
 }
 
-// --- Main Application Logic ---
+// ▰▰▰ Main Application Logic ▰▰▰ //
 
-fn main() -> ExitCode {
+#[tokio::main]
+async fn main() -> ExitCode {
     // 1. Parse CLI arguments
     let cli = Cli::parse();
 
@@ -222,7 +225,7 @@ fn main() -> ExitCode {
         }
         Commands::Apply(args) => {
             info!("Executing 'apply' command.");
-            run_apply(args)
+            run_apply(args).await
         }
         Commands::Init(args) => {
             info!("Executing 'init' command.");
@@ -247,7 +250,7 @@ fn main() -> ExitCode {
     }
 }
 
-// --- Helper Functions ---
+// ▰▰▰ Helper functions ▰▰▰ //
 
 /// Gets the application's data directory using the `directories` crate.
 ///
@@ -363,7 +366,7 @@ fn run_gen(args: GenArgs) -> Result<(), FileProcessingError> {
     );
     // ---
 
-    // --- Output File Generation ---
+    // ▰▰▰ Output File Generation ▰▰▰ //
     let mut output_filename = PathBuf::from("LICENSE");
     // For txt files the standard is no extention
     if extension == "md" {
@@ -506,7 +509,7 @@ pub fn get_valid_files(
 }
 
 /// Handles the `apply` command logic.
-fn run_apply(args: ApplyArgs) -> Result<(), FileProcessingError> {
+async fn run_apply(args: ApplyArgs) -> Result<(), FileProcessingError> {
     debug!("Starting run_apply with args: {:?}", args);
 
     // --- Parameter Resolution (CLI vs. Config - Placeholder) ---
@@ -581,7 +584,7 @@ fn run_apply(args: ApplyArgs) -> Result<(), FileProcessingError> {
             "Applying license headers in-place to {} files...",
             files_to_process.len()
         );
-        apply_headers_to_files(&license_header_content, &files_to_process)?;
+        apply_headers_to_files(&license_header_content, &files_to_process, 50).await?;
     } else {
         // TODO: Implement copying files to a 'licensed/' directory and applying headers there.
         error!(
@@ -610,134 +613,117 @@ fn run_apply(args: ApplyArgs) -> Result<(), FileProcessingError> {
 ///
 /// * `header_content`: The license header text (raw, without comment markers).
 /// * `paths`: A slice of `PathBuf` representing the files to modify.
+/// * `max_concurrency` A usize that declares the number of files to work on in concert
 ///
 /// # Returns
 ///
 /// An `io::Result<()>` indicating success or failure.
-fn apply_headers_to_files(
+pub async fn apply_headers_to_files(
     header_content: &str,
     paths: &[PathBuf],
+    max_concurrency: usize,
 ) -> Result<(), FileProcessingError> {
+    use tokio::fs;
+
     debug!("Starting to apply headers to {} files.", paths.len());
-    let mut applied_count = 0;
-    let mut skipped_count = 0;
-    let mut error_count = 0;
 
-    // SOT character (ASCII 2) used as a marker for an existing header.
-    const HEADER_MARKER: char = 2 as char;
+    // Marker for end of header (SOT)
+    const HEADER_MARKER: char = '\x02';
 
-    for path in paths {
-        debug!("Processing file: '{}'", path.display());
+    // Store header content in an Arc for memory safe access 🔒
+    let header_content = Arc::new(header_content.to_string());
 
-        // Basic check: Skip directories (shouldn't be in the list from get_valid_files, but defensive)
-        if path.is_dir() {
-            warn!(
-                "Skipping directory found in processing list: '{}'",
-                path.display()
-            );
-            skipped_count += 1;
-            continue;
-        }
+    // Prepare the stream of file‐paths
+    let results = stream::iter(paths.to_owned())
+        .map(|path| {
+            let header_content = header_content.clone();
+            async move {
+                let mut applied = 0;
+                let mut skipped = 0;
+                let mut errors = 0;
 
-        // --- Check for Existing Header Marker ---
-        // Read just enough to check for the marker efficiently if possible,
-        // but reading the whole thing is simpler for now.
-        let file_content = match fs::read_to_string(&path) {
-            Ok(content) => content,
-            Err(e) => {
-                error!(
-                    "Failed to read file '{}' to check for existing header: {}",
-                    path.display(),
-                    e
-                );
-                error_count += 1;
-                continue; // Skip this file
+                debug!("Processing file: '{}'", path.display());
+
+                // |1| Directories cannot be written to, skip.
+                if path.is_dir() {
+                    warn!("Skipping directory: '{}'", path.display());
+                    skipped += 1;
+                    return (applied, skipped, errors);
+                }
+
+                // |2| Read the contents of each string into content
+                let content = match fs::read_to_string(&path).await {
+                    Ok(c) => c,
+                    Err(e) => {
+                        error!("Failed to read '{}': {}. Skipping.", path.display(), e);
+                        errors += 1;
+                        return (applied, skipped, errors);
+                    }
+                };
+
+                // |3| Check for the existence of a header marker
+                if content.contains(HEADER_MARKER) {
+                    info!(
+                        "Already contains header marker, skipping '{}'",
+                        path.display()
+                    );
+                    skipped += 1;
+                    return (applied, skipped, errors);
+                }
+
+                // |4| Determine comment style
+                let ext = path.extension().and_then(|s| s.to_str()).unwrap_or("");
+                let comment_char = match get_comment_char(ext) {
+                    Ok(tok) => tok,
+                    Err(e) => {
+                        error!(
+                            "No comment token for '{}': {}. Skipping.",
+                            path.display(),
+                            e
+                        );
+                        errors += 1;
+                        return (applied, skipped, errors);
+                    }
+                };
+
+                // |5| Format header with the comment, then prepend.
+                let formatted =
+                    format_header_with_comments(&header_content, &comment_char, HEADER_MARKER);
+                let new_text = formatted + &content;
+
+                if let Err(e) = fs::write(&path, new_text).await {
+                    error!("Failed to write header to '{}': {}", path.display(), e);
+                    errors += 1;
+                } else {
+                    info!("Applied header to '{}'", path.display());
+                    applied += 1;
+                }
+
+                (applied, skipped, errors)
             }
-        };
+        })
+        // Concurrency knobs
+        .buffer_unordered(max_concurrency)
+        .collect::<Vec<_>>()
+        .await;
 
-        if file_content.contains(HEADER_MARKER) {
-            info!(
-                "File '{}' already contains a header marker (SOT char). Skipping.",
-                path.display()
-            );
-            skipped_count += 1;
-            continue;
-        }
-        trace!(
-            "No existing header marker found in '{}'. Proceeding with applying header.",
-            path.display()
-        );
-        // ---
-
-        // --- Determine Comment Style ---
-        let extension = path
-            .extension()
-            .and_then(|os_str| os_str.to_str())
-            .unwrap_or("");
-        trace!(
-            "Determining comment character for extension: '{}'",
-            extension
-        );
-        let comment_char = match get_comment_char(extension) {
-            Ok(token) => {
-                debug!(
-                    "Using comment token '{}' for file '{}'",
-                    token,
-                    path.display()
-                );
-                token
-            }
-            Err(e) => {
-                error!(
-                    "Could not determine comment token for '{}' (extension '{}'): {}. Skipping file.",
-                    path.display(),
-                    extension,
-                    e
-                );
-                error_count += 1;
-                continue; // Skip this file
-            }
-        };
-        // ---
-
-        // --- Format Header ---
-        trace!(
-            "Formatting license header with comment token '{}'.",
-            comment_char
-        );
-        let formatted_header =
-            format_header_with_comments(header_content, &comment_char, HEADER_MARKER);
-        // ---
-
-        // --- Prepend Header to File ---
-        trace!("Attempting to prepend header to file '{}'", path.display());
-        match prepend_header_to_file(&formatted_header, path) {
-            Ok(_) => {
-                info!("Successfully applied header to '{}'", path.display());
-                applied_count += 1;
-            }
-            Err(e) => {
-                error!(
-                    "Failed to prepend header to file '{}': {}",
-                    path.display(),
-                    e
-                );
-                error_count += 1;
-                // Continue to the next file
-            }
-        }
-        // ---
-    }
+    // Aggregate results
+    let (applied, skipped, errors) = results
+        .into_iter()
+        // Accumulates the components
+        .fold((0usize, 0usize, 0usize), |(a0, s0, e0), (a1, s1, e1)| {
+            (a0 + a1, s0 + s1, e0 + e1)
+        });
 
     info!(
-        "Header application summary: {} applied, {} skipped (already licensed), {} errors.",
-        applied_count, skipped_count, error_count
+        "Summary: {} applied, {} skipped, {} errors.",
+        applied, skipped, errors
     );
 
-    if error_count > 0 {
+    if errors > 0 {
         Err(FileProcessingError::Msg(format!(
             "Encountered {} errors during header application.",
-            error_count
+            errors
         )))
     } else {
         Ok(())
