@@ -503,9 +503,6 @@ pub fn get_valid_files(
                         "Error accessing entry during directory walk at or near '{}': {}",
                         path_display, walk_err
                     );
-                    // Optionally, return the error immediately if desired:
-                    // return Err(FileProcessingError::WalkdirError(walk_err));
-                    // Current behavior: Log and continue (best effort)
                 }
             }
         } // End inner loop for walker results
@@ -693,12 +690,11 @@ pub async fn apply_headers_to_files(
                 let comment_char = match get_comment_char(ext) {
                     Ok(tok) => tok,
                     Err(e) => {
-                        error!(
+                        warn!(
                             "No comment token for '{}': {}. Skipping.",
                             path.display(),
                             e
                         );
-                        errors += 1;
                         skipped += 1;
                         return (applied, skipped, errors);
                     }
