@@ -1,6 +1,6 @@
 //! # Lichen
 //!
-//! A rust-license management cli tool and library.
+//! A license management cli tool.
 
 // Std library imports
 use std::collections::HashSet;
@@ -106,7 +106,7 @@ impl From<String> for FileProcessingError {
 
 // --- CLI Argument Structs ---
 
-/// A rust-license management cli tool and library
+/// A license management cli tool
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Cli {
