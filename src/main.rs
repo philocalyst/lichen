@@ -326,10 +326,9 @@ fn license_files(license: &String, paths: Vec<PathBuf>) -> io::Result<()> {
         } else {
             get_comment_char("")
         };
-        let mut license = apply_comments(license, comment_char.unwrap());
+        let license = apply_license_header(&license, comment_char.unwrap());
         // Append the SOT (Start of Text, ^B) control character (ASCII 2) to the license header
         // This marks the end of the header and is used as a mechanism to determine whether or not a header has already been applied.
-        license.push(2 as char);
         license_file(&license, path)?;
     }
     Ok(())
@@ -384,10 +383,20 @@ fn get_comment_char(extension: &str) -> Result<String, Box<dyn std::error::Error
     Ok("#".to_string())
 }
 
-fn apply_comments(license: &String, com_char: String) -> String {
+fn apply_license_header(license: &String, com_char: String) -> String {
     let mut response = String::new();
-    for line in license.split('\n') {
-        response.push_str(&format!("{} {}\n", com_char, line));
+    let lines: Vec<&str> = license.split('\n').collect();
+    let line_count = lines.len();
+
+    for (i, line) in lines.iter().enumerate() {
+        response.push_str(&format!("{} {}", com_char, line));
+        if i < line_count - 1 {
+            response.push('\n');
+        } else {
+            response.push(2 as char);
+            response.push_str("\n");
+            response.push_str("\n");
+        }
     }
     response
 }
