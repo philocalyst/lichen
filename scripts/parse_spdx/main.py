@@ -401,7 +401,7 @@ def generate_output(xml_filepath, output_format):
         # For text output, just return the body
         final_output = output_body
 
-    return final_output.strip() + '\n' # Ensure single trailing newline
+    return final_output.strip()
 
 # --- Click Command ---
 
