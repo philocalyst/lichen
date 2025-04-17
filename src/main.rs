@@ -109,7 +109,7 @@ struct ApplyArgs {
 
     /// Comma-separated list of regex patterns for files/directories to exclude.
     #[arg(short, long, value_delimiter = ',')]
-    exclude: Option<String>,
+    exclude: Option<Regex>,
 
     /// Files or directories to process. Defaults to current directory if none specified.
     #[arg(num_args = 1.., default_value = ".")]
@@ -221,7 +221,7 @@ fn run_gen(args: GenArgs) -> Result<(), Box<dyn std::error::Error>> {
 
 pub fn get_valid_files(
     targets: &Vec<PathBuf>,
-    reg_pattern: Regex,
+    possible_reg_pattern: &Option<Regex>,
 ) -> Result<Vec<PathBuf>, FileProcessingError> {
     let mut response = Vec::new();
     let mut seen_paths = HashSet::new();
@@ -235,25 +235,48 @@ pub fn get_valid_files(
 
         let walker = WalkDir::new(target).into_iter();
 
-        // Filter entries directly using the regex pattern
-        for entry_result in
-            walker.filter_entry(|e| !reg_pattern.is_match(&e.path().to_string_lossy()))
-        {
-            match entry_result {
-                Ok(entry) => {
-                    let path = entry.into_path();
+        if let Some(reg_pattern) = possible_reg_pattern {
+            // Filter entries directly using the regex pattern
+            for entry_result in
+                walker.filter_entry(|e| !reg_pattern.is_match(&e.path().to_string_lossy()))
+            {
+                match entry_result {
+                    Ok(entry) => {
+                        let path = entry.into_path();
 
-                    // Check for duplicates
-                    if !seen_paths.insert(path.clone()) {
-                        warn!("Duplicate path found and ignored: {}", path.display());
-                        continue;
+                        // Check for duplicates
+                        if !seen_paths.insert(path.clone()) {
+                            warn!("Duplicate path found and ignored: {}", path.display());
+                            continue;
+                        }
+
+                        response.push(path);
                     }
-
-                    response.push(path);
+                    Err(err) => {
+                        // Log the error but continue processing
+                        error!("Error accessing entry: {}", err);
+                    }
                 }
-                Err(err) => {
-                    // Log the error but continue processing
-                    error!("Error accessing entry: {}", err);
+            }
+        } else {
+            // Filter entries directly using the regex pattern
+            for entry_result in walker {
+                match entry_result {
+                    Ok(entry) => {
+                        let path = entry.into_path();
+
+                        // Check for duplicates
+                        if !seen_paths.insert(path.clone()) {
+                            warn!("Duplicate path found and ignored: {}", path.display());
+                            continue;
+                        }
+
+                        response.push(path);
+                    }
+                    Err(err) => {
+                        // Log the error but continue processing
+                        error!("Error accessing entry: {}", err);
+                    }
                 }
             }
         }
@@ -273,7 +296,7 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
     let license = args
         .license
         .ok_or("License name is required via CLI or config")?;
-    let exclude_pattern = regex::Regex::new(&args.exclude.unwrap()).unwrap();
+    let exclude_pattern = &args.exclude;
     let target = args.target;
 
     log::info!("Applying license header: {}", license.spdx_id());
@@ -284,7 +307,7 @@ fn run_apply(args: ApplyArgs) -> Result<(), Box<dyn std::error::Error>> {
 
     let license_content = fs::read_to_string(license_path).unwrap();
 
-    let working_files = get_valid_files(&target, exclude_pattern)?;
+    let working_files = get_valid_files(&target, &exclude_pattern)?;
 
     license_files(&license_content, working_files)?;
 
