@@ -12,7 +12,7 @@ use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
 // External crate imports
-use clap::{Args, Parser, Subcommand};
+use clap::{Args, ColorChoice, Parser, Subcommand};
 use clap_verbosity_flag::{InfoLevel, Verbosity};
 use directories::ProjectDirs;
 use log::{debug, error, info, trace, warn}; // Import specific log levels
@@ -106,9 +106,15 @@ impl From<String> for FileProcessingError {
 
 // --- CLI Argument Structs ---
 
+use clap::builder::styling;
+const STYLES: styling::Styles = styling::Styles::styled()
+    .header(styling::AnsiColor::Green.on_default().bold())
+    .usage(styling::AnsiColor::Green.on_default().bold())
+    .literal(styling::AnsiColor::Blue.on_default().bold())
+    .placeholder(styling::AnsiColor::Cyan.on_default());
 /// A license management cli tool
 #[derive(Parser, Debug)]
-#[command(author, version, about, long_about = None)]
+#[command(author, version, about, styles = STYLES, long_about = None, color = ColorChoice::Auto)]
 struct Cli {
     #[command(subcommand)]
     command: Commands,
@@ -119,7 +125,7 @@ struct Cli {
 
 #[derive(Subcommand, Debug)]
 enum Commands {
-    /// Generate a license file (e.g., LICENSE.txt or LICENSE.md)
+    /// Generate a license file (e.g., LICENSE or LICENSE.md)
     Gen(GenArgs),
     /// Apply license headers to source files
     Apply(ApplyArgs),
