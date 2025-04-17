@@ -150,7 +150,7 @@ struct GenArgs {
 
     /// Year for the license copyright notice (defaults to the current year).
     #[arg(short, long)]
-    year: Option<u16>,
+    year: Option<i16>,
 }
 
 #[derive(Args, Debug)]
@@ -314,16 +314,8 @@ fn run_gen(args: GenArgs) -> Result<(), FileProcessingError> {
         .ok_or("License SPDX ID is required via CLI or config for 'gen' command")?;
     let authors = args.author; // .or_else(|| /* get from config */);
     let year = args.year.unwrap_or_else(|| {
-        let current_year = chrono::Utc::now()
-            .format("%Y")
-            .to_string()
-            .parse()
-            .unwrap_or(2024); // Provide a fallback year
-        debug!(
-            "Year not specified, defaulting to current year: {}",
-            current_year
-        );
-        current_year
+        let today = jiff::Zoned::now();
+        today.year()
     });
     let extension = if args.markdown { "md" } else { "txt" };
     // ---
