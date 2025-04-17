@@ -905,12 +905,12 @@ fn get_comment_char(extension: &str) -> Result<Vec<CommentToken>, FileProcessing
                                 .get("start")
                                 .and_then(|v| v.as_str())
                                 .expect("`block_comment_tokens.start` must be a string")
-                                .to_string();
+                                .to_owned();
                             let end = obj
                                 .get("end")
                                 .and_then(|v| v.as_str())
                                 .expect("`block_comment_tokens.end` must be a string")
-                                .to_string();
+                                .to_owned();
 
                             // Have the start/end pair
                             debug!(
