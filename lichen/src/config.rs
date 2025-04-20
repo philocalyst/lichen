@@ -8,7 +8,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 /// Top‑level configuration.
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Default)]
 pub struct Config {
     /// Running in place by default
     #[serde(default)]
@@ -28,7 +28,31 @@ pub struct Config {
 
     /// Per‑license configuration blocks.
     #[serde(rename = "license")]
-    pub licenses: Vec<LicenseConfig>,
+    pub licenses: Option<Vec<LicenseConfig>>,
+}
+
+/// Try to load and parse the config file.
+/// Converts I/O or parse errors into your `FileProcessingError`.
+impl Config {
+    pub fn load<P: AsRef<Path>>(path: P) -> Result<Self, FileProcessingError> {
+        let s = fs::read_to_string(path.as_ref()).map_err(FileProcessingError::from)?;
+        toml::from_str(&s)
+            .map_err(|e| FileProcessingError::Msg(format!("config parse error: {}", e)))
+    }
+
+    /// Like `load`, but if the file was *not found*, you get `Config::default()`.
+    pub fn load_or_default<P: AsRef<Path>>(path: P) -> Result<Self, FileProcessingError> {
+        match Self::load(&path) {
+            Ok(cfg) => Ok(cfg),
+            Err(FileProcessingError::IoError(ref io_err))
+                if io_err.kind() == std::io::ErrorKind::NotFound =>
+            {
+                // no file → empty‐config
+                Ok(Config::default())
+            }
+            Err(other) => Err(other),
+        }
+    }
 }
 
 /// Per‑license settings.
@@ -40,7 +64,7 @@ pub struct LicenseConfig {
 
     /// File‑path patterns, files or directories..
     #[serde(default)]
-    pub targets: Vec<PathBuf>,
+    pub targets: Option<Vec<PathBuf>>,
 
     // Provided date
     #[serde(default)]
@@ -80,14 +104,6 @@ impl fmt::Display for Authors {
             .collect::<Vec<_>>()
             .join(", ");
         write!(f, "{}", joined)
-    }
-}
-
-/// Load and parse a TOML config file from the path
-impl Config {
-    pub fn load(path: impl AsRef<Path>) -> Result<Self, FileProcessingError> {
-        let s = fs::read_to_string(path).map_err(FileProcessingError::IoError)?;
-        toml::from_str(&s).map_err(|e| FileProcessingError::Msg(e.to_string()))
     }
 }
 

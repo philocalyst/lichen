@@ -34,7 +34,7 @@ impl LichenApp {
     /// A `Result` indicating success or a `FileProcessingError`.
     pub async fn run(&self, command: Commands) -> Result<(), FileProcessingError> {
         debug!("Dispatching command: {:?}", command);
-        let cfg = Config::load(".lichenrc")?;
+        let cfg = Config::load_or_default(".lichenrc")?;
         match command {
             Commands::Gen(args) => {
                 // If there are no licenses in your config, CLI only, just one!
