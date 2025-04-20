@@ -89,9 +89,15 @@ pub struct GenArgs {
     #[arg()]
     pub license: Option<License>,
 
-    /// Author names (comma-separated).
+    /// Author names and emails (comma-separated).
     #[arg(short, long, value_parser = parse_to_author)]
     pub authors: Option<Authors>,
+
+    #[arg(long)]
+    pub change_in_place: Option<bool>,
+
+    #[arg(long)]
+    pub multiple: Option<bool>,
 
     /// Generate a Markdown formatted license file (`LICENSE.md`). Defaults to plain text (`LICENSE.txt`).
     // #[arg(long, default_value_t = false)] // Default to false for .txt

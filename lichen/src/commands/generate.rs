@@ -18,6 +18,7 @@ use std::str::FromStr;
 #[derive(Debug)]
 pub struct GenSettings {
     pub license: License,
+    pub multiple: bool,
     pub authors: Option<Authors>,
     pub ignore_git_ignore: bool,
     pub date: Date,
@@ -66,6 +67,11 @@ impl GenSettings {
             jiff::Zoned::now().date()
         };
 
+        let multiple = cli
+            .multiple
+            .or_else(|| cfg.multiple)
+            .unwrap_or_else(|| false);
+
         let ignore_git_ignore = cli
             .ignore_git_ignore
             .or_else(|| cfg.ignore_git_ignore)
@@ -76,7 +82,7 @@ impl GenSettings {
             ignore_git_ignore,
             authors,
             date,
-            // markdown,
+            multiple,
         })
     }
 }
@@ -88,6 +94,7 @@ pub fn handle_gen(settings: &GenSettings) -> Result<(), FileProcessingError> {
     // --- Parameter Resolution (CLI vs. Config - Placeholder) ---
     // TODO: Load license, author, year from config if not provided in args.
     let license = settings.license;
+    let multiple = settings.multiple;
     let authors = settings.authors;
     let year = settings.date;
     let template_extension = "template.txt"; // Base template extension
@@ -144,6 +151,9 @@ pub fn handle_gen(settings: &GenSettings) -> Result<(), FileProcessingError> {
         output_filename.display()
     );
 
+    if multiple && fs::exists(&output_filename)? {
+        output_filename.set_file_name(license.spdx_id().to_string() + "_" + "LICENSE");
+    }
     fs::write(&output_filename, rendered_license)?;
     info!("License file written to '{}'", output_filename.display());
     // ---

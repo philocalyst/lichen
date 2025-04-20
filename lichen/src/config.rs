@@ -14,9 +14,9 @@ pub struct Config {
     #[serde(default)]
     pub change_in_place: Option<bool>,
 
-    // By default conflicts from multiple licenses will error instead of merging
+    // By default conflicts from multiple licenses will warn and replace instead of merging
     #[serde(default)]
-    pub error_on_conflict: Option<bool>,
+    pub multiple: Option<bool>,
 
     // By default conflicts from multiple licenses will error instead of merging
     #[serde(default)]
