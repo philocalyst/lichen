@@ -4,15 +4,12 @@
 
 use crate::cli::Commands;
 use crate::commands::{apply, generate, init}; // Import handlers
+use crate::config::Config;
 use crate::error::FileProcessingError;
 use log::debug;
 
 /// The main application structure for Lichen.
-pub struct LichenApp {
-    // Future fields:
-    // config: AppConfig, // Loaded configuration
-    // verbosity: log::LevelFilter,
-}
+pub struct LichenApp {}
 
 impl LichenApp {
     /// Creates a new instance of the Lichen application.
@@ -37,10 +34,22 @@ impl LichenApp {
     /// A `Result` indicating success or a `FileProcessingError`.
     pub async fn run(&self, command: Commands) -> Result<(), FileProcessingError> {
         debug!("Dispatching command: {:?}", command);
+        let cfg = Config::load(".lichenrc")?;
         match command {
             Commands::Gen(args) => {
-                // Call the handler function from the gen module
-                generate::handle_gen(args)
+                // If there are no licenses in your config, CLI only, just one!
+                if cfg.licenses.is_empty() {
+                    let settings = generate::GenSettings::new(args, cfg, None)?;
+                    generate::handle_gen(&settings)?;
+                } else {
+                    // Fallback loop through each license by index
+                    for (idx, _license) in cfg.licenses.iter().enumerate() {
+                        let settings = generate::GenSettings::new(args, cfg, Some(idx))?;
+                        generate::handle_gen(args, &settings)?;
+                    }
+                }
+
+                Ok(())
             }
             Commands::Apply(args) => {
                 // Call the async handler function from the apply module

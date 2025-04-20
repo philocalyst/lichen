@@ -1,5 +1,5 @@
 #![allow(clippy::all)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, clap :: ValueEnum)]
+#[derive(Debug, serde::Deserialize, Clone, Copy, PartialEq, Eq, Hash, clap :: ValueEnum)]
 pub enum License {
     #[value(name = "CNRI-Python-GPL-Compatible")]
     CNRIPythonGPLCompatible,

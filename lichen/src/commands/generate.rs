@@ -3,6 +3,7 @@
 //! Logic for the `lichen gen` command.
 
 use crate::cli::GenArgs;
+use crate::config::{Author, Config};
 use crate::error::FileProcessingError;
 use crate::license::License; // Make sure License is imported
 use crate::paths;
@@ -12,36 +13,44 @@ use log::{debug, error, info, trace, warn};
 use std::fs;
 use std::io;
 use std::path::PathBuf;
+use std::str::FromStr;
 
-struct GenSettings {
-    license: License,
-    authors: Vec<String>,
-    date: Date,
-    // markdown: bool,
+pub struct GenSettings {
+    pub license: License,
+    pub authors: Option<Vec<Author>>,
+    pub ignore_git_ignore: bool,
+    pub date: Date,
 }
 
 impl GenSettings {
-    fn new(cli: &GenArgs, cfg: &Config) -> Result<Self, FileProcessingError> {
+    pub fn new(
+        cli: &GenArgs,
+        cfg: &Config,
+        index: Option<usize>,
+    ) -> Result<Self, FileProcessingError> {
         let license = cli
             .license
-            .or_else(|| cfg.default_license.clone())
+            .or_else(|| Some(cfg.licenses[index].id))
             .ok_or("license must be set either via `lichen gen <ID>` or in config")?;
 
-        let authors = cli
+        let authors: Option<Vec<Author>> = cli
             .authors
             .clone()
-            .or_else(|| cfg.default_authors.clone())
-            .unwrap_or_else(|| vec!["Your Name".into()]);
+            .or_else(|| cfg.licenses[index].authors.clone());
 
         let date = cli
             .date
-            .or(cfg.default_date)
+            .or(cfg.licenses[index].date)
             .unwrap_or_else(|| jiff::Zoned::now().date());
 
-        // let markdown = cli.markdown || cfg.gen_markdown.unwrap_or(false);
+        let ignore_git_ignore = cli
+            .ignore_git_ignore
+            .or_else(|| cfg.ignore_git_ignore)
+            .unwrap_or_else(|| false);
 
         Ok(GenSettings {
             license,
+            ignore_git_ignore,
             authors,
             date,
             // markdown,
@@ -50,20 +59,20 @@ impl GenSettings {
 }
 
 /// Handles the `gen` command logic.
-pub fn handle_gen(args: GenArgs) -> Result<(), FileProcessingError> {
-    debug!("Starting handle_gen with args: {:?}", args);
+pub fn handle_gen(settings: &GenSettings) -> Result<(), FileProcessingError> {
+    debug!("Starting handle_gen with args: {:?}", settings);
 
     // --- Parameter Resolution (CLI vs. Config - Placeholder) ---
     // TODO: Load license, author, year from config if not provided in args.
-    let license = args
+    let license = settings
         .license
         .ok_or("License SPDX ID is required via CLI or config for 'gen' command")?;
-    let authors = args.authors.unwrap_or_else(|| {
+    let authors = settings.authors.unwrap_or_else(|| {
         // TODO: Get default author from config or environment?
         warn!("No authors specified, using placeholder.");
         vec!["Your Name".to_string()] // Placeholder
     });
-    let year = args.date.unwrap_or_else(|| jiff::Zoned::now().date()); // Fallback to today's date
+    let year = settings.date.unwrap_or_else(|| jiff::Zoned::now().date()); // Fallback to today's date
     let template_extension = "template.txt"; // Base template extension
     let output_extension = "txt"; // Default output extension
     // let output_extension = if args.markdown { "md" } else { "txt" };
