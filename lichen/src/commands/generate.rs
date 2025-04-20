@@ -7,11 +7,47 @@ use crate::error::FileProcessingError;
 use crate::license::License; // Make sure License is imported
 use crate::paths;
 use crate::utils;
-use jiff;
+use jiff::civil::Date;
 use log::{debug, error, info, trace, warn};
 use std::fs;
 use std::io;
 use std::path::PathBuf;
+
+struct GenSettings {
+    license: License,
+    authors: Vec<String>,
+    date: Date,
+    // markdown: bool,
+}
+
+impl GenSettings {
+    fn new(cli: &GenArgs, cfg: &Config) -> Result<Self, FileProcessingError> {
+        let license = cli
+            .license
+            .or_else(|| cfg.default_license.clone())
+            .ok_or("license must be set either via `lichen gen <ID>` or in config")?;
+
+        let authors = cli
+            .authors
+            .clone()
+            .or_else(|| cfg.default_authors.clone())
+            .unwrap_or_else(|| vec!["Your Name".into()]);
+
+        let date = cli
+            .date
+            .or(cfg.default_date)
+            .unwrap_or_else(|| jiff::Zoned::now().date());
+
+        // let markdown = cli.markdown || cfg.gen_markdown.unwrap_or(false);
+
+        Ok(GenSettings {
+            license,
+            authors,
+            date,
+            // markdown,
+        })
+    }
+}
 
 /// Handles the `gen` command logic.
 pub fn handle_gen(args: GenArgs) -> Result<(), FileProcessingError> {
