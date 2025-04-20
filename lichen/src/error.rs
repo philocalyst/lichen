@@ -6,9 +6,19 @@ use std::{error::Error, fmt};
 
 /// Errors that can occur during file processing operations.
 #[derive(Debug)]
+pub enum LichenError {
+    /// An invalid index was given
+    InvalidIndex(usize),
+}
+
+/// Errors that can occur during file processing operations.
+#[derive(Debug)]
 pub enum FileProcessingError {
     /// An I/O error occurred.
     IoError(std::io::Error),
+
+    /// An invalid index was given
+    InvalidIndex(usize),
 
     /// An error occurred while walking a directory.
     WalkdirError(walkdir::Error),
