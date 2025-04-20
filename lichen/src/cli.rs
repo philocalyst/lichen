@@ -99,6 +99,10 @@ pub struct GenArgs {
     #[arg(long)]
     pub multiple: Option<bool>,
 
+    /// Files or directories to process. Defaults to the current directory (`.`).
+    #[arg(num_args = 1..)]
+    pub targets: Option<Vec<PathBuf>>,
+
     /// Generate a Markdown formatted license file (`LICENSE.md`). Defaults to plain text (`LICENSE.txt`).
     // #[arg(long, default_value_t = false)] // Default to false for .txt
     // pub markdown: bool,
@@ -123,22 +127,33 @@ pub struct ApplyArgs {
     #[arg(short, long, action = clap::ArgAction::SetTrue)]
     pub in_place: bool,
 
+    #[arg(long)]
+    pub multiple: Option<bool>,
+
     /// When applying headers, which kind of comment token the user *wants*
     /// Completely possible line or block doesn't exist, in which case it falls back to the other.
     #[arg(long, action = clap::ArgAction::SetTrue)]
     pub prefer_block: bool,
+
+    /// Year for the license copyright notice (defaults to the current year).
+    #[arg(short, long, value_parser = parse_year_to_date)]
+    pub date: Option<Date>,
 
     /// Regex pattern for files/directories to exclude. Applied during directory traversal.
     #[arg(short, long)] // Removed value_delimiter, regex parsing handles it
     pub exclude: Option<Regex>,
 
     /// Files or directories to process. Defaults to the current directory (`.`).
-    #[arg(num_args = 1.., default_value = ".")]
-    pub targets: Vec<PathBuf>,
+    #[arg(num_args = 1..)]
+    pub targets: Option<Vec<PathBuf>>,
 
     /// Respect git_ignore option
-    #[arg(long, action = clap::ArgAction::SetTrue, default_value_t = false)]
-    pub ignore_git_ignore: bool,
+    #[arg(long, action = clap::ArgAction::SetTrue)]
+    pub ignore_git_ignore: Option<bool>,
+
+    /// Author names and emails (comma-separated).
+    #[arg(short, long, value_parser = parse_to_author)]
+    pub authors: Option<Authors>,
 }
 
 #[derive(Args, Debug)]
