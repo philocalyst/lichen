@@ -67,12 +67,6 @@ impl From<walkdir::Error> for LichenError {
     }
 }
 
-impl From<LichenError> for Box<dyn Error> {
-    fn from(err: LichenError) -> Box<dyn Error> {
-        Box::new(err)
-    }
-}
-
 impl From<serde_json::Error> for LichenError {
     fn from(err: serde_json::Error) -> Self {
         LichenError::JsonError(err)
