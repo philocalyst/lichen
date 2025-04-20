@@ -5,7 +5,7 @@
 // Std library imports
 use std::collections::HashSet;
 use std::error::Error;
-use std::fmt;
+use std::fmt::{self};
 use std::fs::{self, File};
 use std::io::{self, BufReader};
 use std::path::PathBuf;
@@ -16,7 +16,7 @@ use clap::{Args, ColorChoice, Parser, Subcommand};
 use clap_verbosity_flag::{InfoLevel, Verbosity};
 use directories::ProjectDirs;
 use futures::stream::{self, StreamExt};
-use handlebars::Handlebars;
+use handlebars::{Handlebars, RenderError};
 use jiff::civil::Date;
 use log::{debug, error, info, trace, warn}; // Import specific log levels
 use regex::Regex;
@@ -166,7 +166,10 @@ struct GenArgs {
 
     /// Year for the license copyright notice (defaults to the current year).
     #[arg(short, long, value_parser = parse_year_to_date)]
-    year: Option<Date>,
+    date: Option<Date>,
+
+    #[arg(long, action = clap::ArgAction::SetTrue)]
+    full_date: bool,
 }
 
 #[derive(Args, Debug)]
@@ -351,7 +354,7 @@ fn run_gen(args: GenArgs) -> Result<(), FileProcessingError> {
         .license
         .ok_or("License SPDX ID is required via CLI or config for 'gen' command")?;
     let authors = args.authors; // .or_else(|| /* get from config */);
-    let year = args.year.unwrap_or_else(|| jiff::Zoned::now().date()); // Fallback to todays date
+    let year = args.date.unwrap_or_else(|| jiff::Zoned::now().date()); // Fallback to todays date
     let extension = "template.txt";
     // let extension = if args.markdown { "md" } else { "template.txt" };
     // ---
@@ -403,25 +406,34 @@ fn run_gen(args: GenArgs) -> Result<(), FileProcessingError> {
         output_filename.display()
     );
 
-    // create the handlebars registry
-    let mut handlebars = Handlebars::new();
-    let source = fs::read_to_string(&license_template_path)?;
-    handlebars.register_template_string("license", source);
-
-    let copyright_string = format!("Copyright (c) {} {:?}", year, authors.unwrap());
-    use std::collections::BTreeMap;
-    let mut data = BTreeMap::new();
-    data.insert("copyright".to_string(), copyright_string);
-    let rendered_license = handlebars.render("license", &data).unwrap();
+    let license = fs::read_to_string(&license_template_path)?;
+    let rendered_license = render_license(&license, &year, &authors.unwrap()).unwrap();
 
     // TODO: Use 'processed_content' once substitution is implemented
     // fs::write(&output_filename, processed_content)?;
 
     // Current behavior: Copy the raw template
-    fs::write(&output_filename, rendered_license)?;
+    fs::write(&output_filename, rendered_license);
     // ---
 
     Ok(())
+}
+
+fn render_license(
+    source: &String,
+    year: &Date,
+    authors: &Vec<String>,
+) -> Result<String, RenderError> {
+    // create the handlebars registry
+    let mut handlebars = Handlebars::new();
+    handlebars.register_template_string("license", source);
+
+    let authors_list = authors.join(", ");
+    let copyright_string = format!("Copyright (c) {} by {}", year.year(), authors_list);
+    use std::collections::BTreeMap;
+    let mut data = BTreeMap::new();
+    data.insert("copyright".to_string(), copyright_string);
+    handlebars.render("license", &data)
 }
 
 /// Recursively finds all files within the target paths, applying exclusions.
