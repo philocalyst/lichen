@@ -1,6 +1,7 @@
 use crate::error::FileProcessingError;
 use crate::license::License;
 use jiff::civil::Date;
+use regex::{Regex, RegexSet};
 use serde::Deserialize;
 use std::fmt;
 use std::fs;
