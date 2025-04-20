@@ -1,7 +1,6 @@
 use crate::error::FileProcessingError;
 use crate::license::License;
 use jiff::civil::Date;
-use regex::Regex;
 use serde::Deserialize;
 use std::fmt;
 use std::fs;
@@ -18,6 +17,10 @@ pub struct Config {
     #[serde(default)]
     pub multiple: Option<bool>,
 
+    // Global exclude list
+    #[serde(skip_serializing_if = "Option::is_none", with = "serde_regex")]
+    pub exclude: Option<Vec<Regex>>,
+
     // By default conflicts from multiple licenses will error instead of merging
     #[serde(default)]
     pub ignore_git_ignore: Option<bool>,
@@ -31,8 +34,8 @@ pub struct Config {
 #[derive(Debug, Deserialize)]
 pub struct LicenseConfig {
     /// Regex for matching file paths to apply this license.
-    #[serde(deserialize_with = "deserialize_regex")]
-    pub exclude: Regex,
+    #[serde(skip_serializing_if = "Option::is_none", with = "serde_regex")]
+    pub exclude: Option<Regex>,
 
     /// File‑path patterns, files or directories..
     #[serde(default)]
