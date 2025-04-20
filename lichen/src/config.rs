@@ -16,6 +16,10 @@ pub struct Config {
     #[serde(default)]
     pub error_on_conflict: bool,
 
+    // By default conflicts from multiple licenses will error instead of merging
+    #[serde(default)]
+    pub ignore_git_ignore: bool = false,
+
     /// File‑path exclusion patterns.
     #[serde(default, deserialize_with = "deserialize_vec_regex")]
     pub excludes: Vec<Regex>,

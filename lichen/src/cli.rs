@@ -3,7 +3,7 @@
 //! Defines the CLI structure and argument parsing using Clap.
 
 use crate::license::License;
-use clap::{builder::styling, Args, ColorChoice, Parser, Subcommand};
+use clap::{Args, ColorChoice, Parser, Subcommand, builder::styling};
 use clap_verbosity_flag::{InfoLevel, Verbosity};
 use jiff::civil::Date;
 use regex::Regex;
@@ -64,8 +64,8 @@ pub struct GenArgs {
     #[arg(short, long, value_parser = parse_year_to_date)]
     pub date: Option<Date>,
 
-    #[arg(long, action = clap::ArgAction::SetTrue)]
-    pub full_date: bool, // Keep if used, otherwise remove
+    #[arg(long, action = clap::ArgAction::SetTrue, default_value_t = false)]
+    pub ignore_git_ignore: bool,
 }
 
 #[derive(Args, Debug)]
@@ -92,6 +92,10 @@ pub struct ApplyArgs {
     /// Files or directories to process. Defaults to the current directory (`.`).
     #[arg(num_args = 1.., default_value = ".")]
     pub target: Vec<PathBuf>,
+
+    /// Respect git_ignore option
+    #[arg(long, action = clap::ArgAction::SetTrue, default_value_t = false)]
+    pub ignore_git_ignore: bool,
 }
 
 #[derive(Args, Debug)]
