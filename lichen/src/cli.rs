@@ -2,7 +2,7 @@
 //!
 //! Defines the CLI structure and argument parsing using Clap.
 
-use crate::config::Author;
+use crate::config::{Author, Authors};
 use crate::license::License;
 use clap::{Args, ColorChoice, Error, Parser, Subcommand, builder::styling};
 use clap_verbosity_flag::{InfoLevel, Verbosity};
@@ -91,7 +91,7 @@ pub struct GenArgs {
 
     /// Author names (comma-separated).
     #[arg(short, long, value_parser = parse_to_author)]
-    pub authors: Option<Vec<Author>>,
+    pub authors: Option<Authors>,
 
     /// Generate a Markdown formatted license file (`LICENSE.md`). Defaults to plain text (`LICENSE.txt`).
     // #[arg(long, default_value_t = false)] // Default to false for .txt

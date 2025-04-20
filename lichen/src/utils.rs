@@ -2,6 +2,7 @@
 //!
 //! General helper functions for file processing, text formatting, etc.
 
+use crate::config::{Author, Authors};
 use crate::error::FileProcessingError;
 use crate::models::CommentToken;
 use handlebars::{Handlebars, RenderError};
@@ -28,7 +29,7 @@ use walkdir::{self, WalkDir};
 pub fn render_license(
     source: &str,
     year: &Date,
-    authors: &[String],
+    authors: &Option<Authors>,
 ) -> Result<String, RenderError> {
     let mut handlebars = Handlebars::new();
     // Keep escape_fn default (HTML escaping) or consider no_escape if it's plain text only
@@ -40,9 +41,10 @@ pub fn render_license(
             RenderError::from(e)
         })?;
 
-    let authors_list = authors.join(", ");
-    // TODO: Handle full_date formatting if needed based on GenArgs
-    let copyright_string = format!("Copyright (c) {} {}", year.year(), authors_list);
+    let copyright_string;
+    if let authors = authors.unwrap() {
+        copyright_string = format!("Copyright (c) {} {}", year.year(), authors);
+    }
 
     let mut data = BTreeMap::new();
     data.insert("copyright".to_string(), copyright_string);
@@ -290,9 +292,7 @@ pub fn get_comment_tokens_for_ext(
                     return Ok(tokens);
                 }
             } else {
-                warn!(
-                    "'file_types' for language entry is not an array, skipping."
-                );
+                warn!("'file_types' for language entry is not an array, skipping.");
             }
         }
     }
@@ -327,8 +327,7 @@ pub fn format_header_with_comments(
 ) -> Option<String> {
     trace!(
         "Determining comment token from options: '{:?}', prefers_block: {}",
-        comment_tokens,
-        prefers_block
+        comment_tokens, prefers_block
     );
 
     // Attempt to find preferred variant
@@ -342,7 +341,7 @@ pub fn format_header_with_comments(
             // Fallback if preferred not found
             comment_tokens.iter().find(|ct| match ct {
                 CommentToken::Block { .. } => !prefers_block, // Find the other type
-                CommentToken::Line(_) => prefers_block,      // Find the other type
+                CommentToken::Line(_) => prefers_block,       // Find the other type
             })
         });
 
@@ -490,7 +489,6 @@ pub async fn apply_headers_to_files(
                     }
                 };
 
-
                 // |5| Header formatting
                 let formatted_header = match format_header_with_comments(
                     &header_content,
@@ -508,7 +506,6 @@ pub async fn apply_headers_to_files(
                         return Ok((0, 1, 0)); // Skip
                     }
                 };
-
 
                 // |6| Shebang handling
                 let (shebang, rest) = if content.starts_with("#!") {
@@ -543,11 +540,10 @@ pub async fn apply_headers_to_files(
                 new_text.push_str(&formatted_header);
                 // Ensure there's a newline between header and original content
                 if !formatted_header.ends_with('\n') {
-                     new_text.push('\n');
+                    new_text.push('\n');
                 }
                 // Avoid double newline if original content already starts with one
                 new_text.push_str(rest.trim_start_matches('\n'));
-
 
                 // |8| Write the modified content back to the file
                 match fs::write(&path, new_text).await {

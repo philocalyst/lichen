@@ -3,6 +3,7 @@ use crate::license::License;
 use jiff::civil::Date;
 use regex::Regex;
 use serde::Deserialize;
+use std::fmt;
 use std::fs;
 use std::path::{Path, PathBuf};
 
@@ -46,7 +47,7 @@ pub struct LicenseConfig {
 
     /// List of named authors.
     #[serde(default)]
-    pub authors: Option<Vec<Author>>,
+    pub authors: Option<Authors>,
 }
 
 /// Author struct
@@ -54,6 +55,28 @@ pub struct LicenseConfig {
 pub struct Author {
     pub name: String,
     pub email: String,
+}
+
+impl fmt::Display for Author {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{} <{}>", self.name, self.email)
+    }
+}
+
+#[derive(Debug, Deserialize, Clone)]
+pub struct Authors(pub Vec<Author>);
+
+impl fmt::Display for Authors {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        // Join each author’s Display with commas
+        let joined = self
+            .0
+            .iter()
+            .map(|a| a.to_string())
+            .collect::<Vec<_>>()
+            .join(", ");
+        write!(f, "{}", joined)
+    }
 }
 
 /// Load and parse a TOML config file from the path

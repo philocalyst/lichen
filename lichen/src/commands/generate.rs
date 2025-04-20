@@ -3,8 +3,8 @@
 //! Logic for the `lichen gen` command.
 
 use crate::cli::GenArgs;
-use crate::config::{Author, Config};
-use crate::error::FileProcessingError;
+use crate::config::{Author, Authors, Config};
+use crate::error::{FileProcessingError, LichenError};
 use crate::license::License; // Make sure License is imported
 use crate::paths;
 use crate::utils;
@@ -15,9 +15,10 @@ use std::io;
 use std::path::PathBuf;
 use std::str::FromStr;
 
+#[derive(Debug)]
 pub struct GenSettings {
     pub license: License,
-    pub authors: Option<Vec<Author>>,
+    pub authors: Option<Authors>,
     pub ignore_git_ignore: bool,
     pub date: Date,
 }
