@@ -1,28 +1,25 @@
 use crate::error::FileProcessingError;
 use crate::license::License;
+use jiff::civil::Date;
 use regex::Regex;
 use serde::Deserialize;
 use std::fs;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 /// Top‑level configuration.
 #[derive(Debug, Deserialize)]
 pub struct Config {
     /// Running in place by default
     #[serde(default)]
-    pub change_in_place: bool,
+    pub change_in_place: Option<bool>,
 
     // By default conflicts from multiple licenses will error instead of merging
     #[serde(default)]
-    pub error_on_conflict: bool,
+    pub error_on_conflict: Option<bool>,
 
     // By default conflicts from multiple licenses will error instead of merging
     #[serde(default)]
-    pub ignore_git_ignore: bool = false,
-
-    /// File‑path exclusion patterns.
-    #[serde(default, deserialize_with = "deserialize_vec_regex")]
-    pub excludes: Vec<Regex>,
+    pub ignore_git_ignore: Option<bool>,
 
     /// Per‑license configuration blocks.
     #[serde(rename = "license")]
@@ -33,23 +30,27 @@ pub struct Config {
 #[derive(Debug, Deserialize)]
 pub struct LicenseConfig {
     /// Regex for matching file paths to apply this license.
-    #[serde(deserialize_with = "deserialize_regex")]
-    pub files: Option<Regex>,
+    #[serde(skip_serializing_if = "Option::is_none", with = "serde_regex")]
+    pub exclude: Option<Regex>,
+
+    /// File‑path patterns, files or directories..
+    #[serde(default)]
+    pub targets: Option<Vec<PathBuf>>,
+
+    // Provided date
+    #[serde(default)]
+    pub date: Option<Date>,
 
     /// SPDX identifier.
     pub id: License,
 
-    // By default the program will attempt to generate licenses instead of headerizing
-    #[serde(default)]
-    pub headerize: bool,
-
     /// List of named authors.
     #[serde(default)]
-    pub authors: Vec<Author>,
+    pub authors: Option<Vec<Author>>,
 }
 
 /// Author struct
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct Author {
     pub name: String,
     pub email: String,

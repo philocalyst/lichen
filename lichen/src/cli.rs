@@ -2,8 +2,9 @@
 //!
 //! Defines the CLI structure and argument parsing using Clap.
 
+use crate::config::Author;
 use crate::license::License;
-use clap::{Args, ColorChoice, Parser, Subcommand, builder::styling};
+use clap::{Args, ColorChoice, Error, Parser, Subcommand, builder::styling};
 use clap_verbosity_flag::{InfoLevel, Verbosity};
 use jiff::civil::Date;
 use regex::Regex;
@@ -16,6 +17,42 @@ fn parse_year_to_date(s: &str) -> Result<Date, String> {
         .parse()
         .map_err(|e| format!("invalid year `{}`: {}", s, e))?;
     Date::new(year, 1, 1).map_err(|e| format!("invalid date: {}", e))
+}
+
+pub fn parse_to_author(input: &str) -> Result<Vec<Author>, String> {
+    // If the whole string is empty or only whitespace, return an empty Vec.
+    if input.trim().is_empty() {
+        return Ok(vec![]);
+    }
+
+    input
+        .split(',') // split entries on commas
+        .map(str::trim) // trim whitespace around each entry
+        .filter(|entry| !entry.is_empty())
+        .map(|entry| {
+            // split exactly Once on ':'
+            let mut parts = entry.splitn(2, ':');
+            let name = parts
+                .next()
+                .expect("Always yields at least one element")
+                .trim();
+            let email = parts
+                .next()
+                .ok_or_else(|| format!("entry `{}` missing `:` separator", entry))?
+                .trim();
+
+            if name.is_empty() {
+                Err(format!("entry `{}` has empty name", entry))
+            } else if email.is_empty() {
+                Err(format!("entry `{}` has empty email", entry))
+            } else {
+                Ok(Author {
+                    name: name.to_string(),
+                    email: email.to_string(),
+                })
+            }
+        })
+        .collect() // collects into Result<Vec<Author>, String>
 }
 
 const STYLES: styling::Styles = styling::Styles::styled()
@@ -53,8 +90,8 @@ pub struct GenArgs {
     pub license: Option<License>,
 
     /// Author names (comma-separated).
-    #[arg(short, long, value_delimiter = ',')]
-    pub authors: Option<Vec<String>>,
+    #[arg(short, long, value_parser = parse_to_author)]
+    pub authors: Option<Vec<Author>>,
 
     /// Generate a Markdown formatted license file (`LICENSE.md`). Defaults to plain text (`LICENSE.txt`).
     // #[arg(long, default_value_t = false)] // Default to false for .txt
@@ -64,8 +101,8 @@ pub struct GenArgs {
     #[arg(short, long, value_parser = parse_year_to_date)]
     pub date: Option<Date>,
 
-    #[arg(long, action = clap::ArgAction::SetTrue, default_value_t = false)]
-    pub ignore_git_ignore: bool,
+    #[arg(long, action = clap::ArgAction::SetTrue)]
+    pub ignore_git_ignore: Option<bool>,
 }
 
 #[derive(Args, Debug)]
@@ -91,7 +128,7 @@ pub struct ApplyArgs {
 
     /// Files or directories to process. Defaults to the current directory (`.`).
     #[arg(num_args = 1.., default_value = ".")]
-    pub target: Vec<PathBuf>,
+    pub targets: Vec<PathBuf>,
 
     /// Respect git_ignore option
     #[arg(long, action = clap::ArgAction::SetTrue, default_value_t = false)]
