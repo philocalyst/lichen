@@ -18,6 +18,8 @@ use std::path::PathBuf;
 #[derive(Debug)]
 pub struct ApplySettings {
     pub license: License,
+    pub in_place: bool,
+    pub prefer_block: bool,
     pub multiple: bool,
     pub authors: Option<Authors>,
     pub ignore_git_ignore: bool,
@@ -47,13 +49,15 @@ fn build_exclude_regex(
     }
 
     // b) global exclude from config
-    if let Some(glob) = cfg.exclude.as_ref() {
-        pats.push(glob.to_string());
+    if let Some(globs) = cfg.exclude.as_ref() {
+        for re in globs.iter() {
+            pats.push(re.as_str().to_string());
+        }
     }
 
     // c) per‑license exclude
     if let Some(i) = index {
-        if let Some(lic) = cfg.licenses?.get(i) {
+        if let Some(lic) = cfg.licenses.as_ref()?.get(i) {
             if let Some(exc) = lic.exclude.as_ref() {
                 pats.push(exc.to_string());
             }
@@ -171,10 +175,22 @@ impl ApplySettings {
             .or_else(|| cfg.multiple)
             .unwrap_or_else(|| false);
 
+        let in_place = cli
+            .in_place
+            .or_else(|| cfg.in_place)
+            .unwrap_or_else(|| false);
+
+        let prefer_block = cli
+            .prefer_block
+            .or_else(|| cfg.prefer_block)
+            .unwrap_or_else(|| false);
+
         Ok(ApplySettings {
             exclude,
             license,
             targets,
+            prefer_block,
+            in_place,
             ignore_git_ignore,
             authors,
             date,
@@ -184,7 +200,7 @@ impl ApplySettings {
 }
 
 /// Handles the `apply` command logic.
-pub async fn handle_apply(settings: ApplySettings) -> Result<(), FileProcessingError> {
+pub async fn handle_apply(settings: &ApplySettings) -> Result<(), FileProcessingError> {
     debug!("Starting handle_apply with args: {:?}", settings);
 
     // --- Parameter Resolution (CLI vs. Config - Placeholder) ---

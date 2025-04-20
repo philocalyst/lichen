@@ -10,16 +10,22 @@ use std::path::{Path, PathBuf};
 /// Top‑level configuration.
 #[derive(Debug, Deserialize, Default)]
 pub struct Config {
-    /// Running in place by default
+    /// When applying headers, which kind of comment token the user *wants*
+    /// Completely possible line or block doesn't exist, in which case it falls back to the other.
     #[serde(default)]
-    pub change_in_place: Option<bool>,
+    pub prefer_block: Option<bool>,
+
+    /// Apply headers in-place, modifying the original files.
+    /// Caution: This modifies files directly. Ensure backups or version control.
+    #[serde(default)]
+    pub in_place: Option<bool>,
 
     // By default conflicts from multiple licenses will warn and replace instead of merging
     #[serde(default)]
     pub multiple: Option<bool>,
 
     // Global exclude list
-    #[serde(skip_serializing_if = "Option::is_none", with = "serde_regex")]
+    #[serde(skip_serializing_if = "Option::is_none", with = "serde_regex", default)]
     pub exclude: Option<Vec<Regex>>,
 
     // By default conflicts from multiple licenses will error instead of merging
@@ -27,7 +33,7 @@ pub struct Config {
     pub ignore_git_ignore: Option<bool>,
 
     /// Per‑license configuration blocks.
-    #[serde(rename = "license")]
+    #[serde(rename = "license", default)]
     pub licenses: Option<Vec<LicenseConfig>>,
 }
 
@@ -59,7 +65,7 @@ impl Config {
 #[derive(Debug, Deserialize)]
 pub struct LicenseConfig {
     /// Regex for matching file paths to apply this license.
-    #[serde(skip_serializing_if = "Option::is_none", with = "serde_regex")]
+    #[serde(skip_serializing_if = "Option::is_none", with = "serde_regex", default)]
     pub exclude: Option<Regex>,
 
     /// File‑path patterns, files or directories..

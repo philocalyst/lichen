@@ -34,11 +34,11 @@ impl LichenApp {
     /// A `Result` indicating success or a `FileProcessingError`.
     pub async fn run(&self, command: Commands) -> Result<(), FileProcessingError> {
         debug!("Dispatching command: {:?}", command);
-        let cfg = Config::load_or_default(".lichenrc")?;
+        let cfg = Config::load_or_default("lichen.toml")?;
         match command {
             Commands::Gen(args) => {
                 // If there are no licenses in your config, CLI only, just one!
-                if cfg.licenses.is_empty() {
+                if cfg.licenses.is_none() {
                     let settings = generate::GenSettings::new(&args, &cfg, None).unwrap();
                     generate::handle_gen(&settings)?;
                 } else {
@@ -52,8 +52,18 @@ impl LichenApp {
                 Ok(())
             }
             Commands::Apply(args) => {
-                // Call the async handler function from the apply module
-                apply::handle_apply(args).await
+                // If there are no licenses in your config, CLI only, just one!
+                if cfg.licenses.is_none() {
+                    let settings = apply::ApplySettings::new(&args, &cfg, None).unwrap();
+                    apply::handle_apply(&settings).await?;
+                } else {
+                    // Fallback loop through each license by index
+                    for (idx, _license) in cfg.licenses.iter().enumerate() {
+                        let settings = apply::ApplySettings::new(&args, &cfg, Some(idx)).unwrap();
+                        apply::handle_apply(&settings).await?;
+                    }
+                }
+                Ok(())
             }
             Commands::Init(args) => {
                 // Call the handler function from the init module

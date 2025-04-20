@@ -125,7 +125,7 @@ pub struct ApplyArgs {
     /// Apply headers in-place, modifying the original files.
     /// Caution: This modifies files directly. Ensure backups or version control.
     #[arg(short, long, action = clap::ArgAction::SetTrue)]
-    pub in_place: bool,
+    pub in_place: Option<bool>,
 
     #[arg(long)]
     pub multiple: Option<bool>,
@@ -133,7 +133,7 @@ pub struct ApplyArgs {
     /// When applying headers, which kind of comment token the user *wants*
     /// Completely possible line or block doesn't exist, in which case it falls back to the other.
     #[arg(long, action = clap::ArgAction::SetTrue)]
-    pub prefer_block: bool,
+    pub prefer_block: Option<bool>,
 
     /// Year for the license copyright notice (defaults to the current year).
     #[arg(short, long, value_parser = parse_year_to_date)]
