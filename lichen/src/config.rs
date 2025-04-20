@@ -31,12 +31,12 @@ pub struct Config {
 #[derive(Debug, Deserialize)]
 pub struct LicenseConfig {
     /// Regex for matching file paths to apply this license.
-    #[serde(skip_serializing_if = "Option::is_none", with = "serde_regex")]
-    pub exclude: Option<Regex>,
+    #[serde(deserialize_with = "deserialize_regex")]
+    pub exclude: Regex,
 
     /// File‑path patterns, files or directories..
     #[serde(default)]
-    pub targets: Option<Vec<PathBuf>>,
+    pub targets: Vec<PathBuf>,
 
     // Provided date
     #[serde(default)]
