@@ -39,13 +39,13 @@ impl LichenApp {
             Commands::Gen(args) => {
                 // If there are no licenses in your config, CLI only, just one!
                 if cfg.licenses.is_empty() {
-                    let settings = generate::GenSettings::new(args, cfg, None)?;
+                    let settings = generate::GenSettings::new(&args, &cfg, None).unwrap();
                     generate::handle_gen(&settings)?;
                 } else {
                     // Fallback loop through each license by index
                     for (idx, _license) in cfg.licenses.iter().enumerate() {
-                        let settings = generate::GenSettings::new(args, cfg, Some(idx))?;
-                        generate::handle_gen(args, &settings)?;
+                        let settings = generate::GenSettings::new(&args, &cfg, Some(idx)).unwrap();
+                        generate::handle_gen(&settings)?;
                     }
                 }
 
