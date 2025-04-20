@@ -42,8 +42,10 @@ pub fn render_license(
         })?;
 
     let copyright_string;
-    if let authors = authors.unwrap() {
+    if let Some(authors) = authors {
         copyright_string = format!("Copyright (c) {} {}", year.year(), authors);
+    } else {
+        copyright_string = format!("Copyright (c) {}", year.year());
     }
 
     let mut data = BTreeMap::new();
