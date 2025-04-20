@@ -95,7 +95,7 @@ pub fn handle_gen(settings: &GenSettings) -> Result<(), FileProcessingError> {
     // TODO: Load license, author, year from config if not provided in args.
     let license = settings.license;
     let multiple = settings.multiple;
-    let authors = settings.authors;
+    let authors = &settings.authors;
     let year = settings.date;
     let template_extension = "template.txt"; // Base template extension
     let output_extension = "txt"; // Default output extension

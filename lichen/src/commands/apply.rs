@@ -21,7 +21,7 @@ pub async fn handle_apply(args: ApplyArgs) -> Result<(), FileProcessingError> {
         .license
         .ok_or("License SPDX ID is required via CLI or config for 'apply' command")?;
     let exclude_pattern = &args.exclude;
-    let targets = &args.target;
+    let targets = &args.targets;
     let preference = args.prefer_block;
     let in_place = args.in_place;
     // ---
