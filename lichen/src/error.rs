@@ -4,11 +4,97 @@
 
 use std::{error::Error, fmt};
 
-/// Errors that can occur during file processing operations.
+use handlebars;
+
+/// Errors that can occur anywhere in the Lichen application.
 #[derive(Debug)]
 pub enum LichenError {
-    /// An invalid index was given
+    /// An invalid index was given.
     InvalidIndex(usize),
+
+    /// An error occurred while walking a directory.
+    WalkdirError(walkdir::Error),
+
+    /// An error occurred while walking a directory.
+    MissingLicense,
+
+    /// Failed to parse JSON data.
+    JsonError(serde_json::Error),
+
+    /// An error occurred during template rendering.
+    RenderError(handlebars::RenderError),
+
+    /// Generic error message.
+    Msg(String),
+}
+
+// ▰▰▰ Display ▰▰▰ //
+
+impl fmt::Display for LichenError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            LichenError::InvalidIndex(idx) => write!(f, "Invalid index: {}", idx),
+            LichenError::MissingLicense => write!(
+                f,
+                "license must be set either via `lichen gen <ID>` or in config"
+            ),
+            LichenError::WalkdirError(err) => write!(f, "Directory walk error: {}", err),
+            LichenError::JsonError(err) => write!(f, "JSON error: {}", err),
+            LichenError::RenderError(err) => write!(f, "Template rendering error: {}", err),
+            LichenError::Msg(msg) => write!(f, "{}", msg),
+        }
+    }
+}
+
+// ▰▰▰ std::error::Error ▰▰▰ //
+
+impl Error for LichenError {
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
+        match self {
+            LichenError::WalkdirError(err) => Some(err),
+            LichenError::JsonError(err) => Some(err),
+            LichenError::RenderError(err) => Some(err),
+            _ => None,
+        }
+    }
+}
+
+// ▰▰▰ From conversions for easy `?` support ▰▰▰ //
+
+impl From<walkdir::Error> for LichenError {
+    fn from(err: walkdir::Error) -> Self {
+        LichenError::WalkdirError(err)
+    }
+}
+
+impl From<LichenError> for Box<dyn Error> {
+    fn from(err: LichenError) -> Box<dyn Error> {
+        Box::new(err)
+    }
+}
+
+impl From<serde_json::Error> for LichenError {
+    fn from(err: serde_json::Error) -> Self {
+        LichenError::JsonError(err)
+    }
+}
+
+impl From<handlebars::RenderError> for LichenError {
+    fn from(err: handlebars::RenderError) -> Self {
+        LichenError::RenderError(err)
+    }
+}
+
+impl From<&str> for LichenError {
+    fn from(msg: &str) -> Self {
+        LichenError::Msg(msg.to_string())
+    }
+}
+
+impl From<String> for LichenError {
+    fn from(msg: String) -> Self {
+        LichenError::Msg(msg)
+    }
 }
 
 /// Errors that can occur during file processing operations.
@@ -16,9 +102,6 @@ pub enum LichenError {
 pub enum FileProcessingError {
     /// An I/O error occurred.
     IoError(std::io::Error),
-
-    /// An invalid index was given
-    InvalidIndex(usize),
 
     /// An error occurred while walking a directory.
     WalkdirError(walkdir::Error),
