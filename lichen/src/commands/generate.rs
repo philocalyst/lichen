@@ -20,7 +20,6 @@ pub struct GenSettings {
     pub license: License,
     pub multiple: bool,
     pub authors: Option<Authors>,
-    pub ignore_git_ignore: bool,
     pub date: Date,
 }
 
@@ -37,6 +36,8 @@ impl GenSettings {
             // user did `lichen gen` without `--license` but we have a config entry
             let lic = cfg
                 .licenses
+                .as_ref()
+                .expect("If an index is passed, assume there is a license")
                 .get(idx)
                 .ok_or(LichenError::InvalidIndex(idx))?;
             lic.id.clone()
@@ -50,7 +51,11 @@ impl GenSettings {
             Some(cli_authors)
         } else if let Some(idx) = index {
             // fall back to config’s optional authors
-            cfg.licenses.get(idx).and_then(|lic| lic.authors.clone())
+            cfg.licenses
+                .as_ref()
+                .expect("If an index is passed, assume there is a license")
+                .get(idx)
+                .and_then(|lic| lic.authors.clone())
         } else {
             // no CLI, no config, no author.
             None
@@ -60,6 +65,8 @@ impl GenSettings {
             cli_date
         } else if let Some(idx) = index {
             cfg.licenses
+                .as_ref()
+                .expect("If an index is passed, assume there is a license")
                 .get(idx)
                 .and_then(|lic| lic.date)
                 .unwrap_or_else(|| jiff::Zoned::now().date())
@@ -72,14 +79,8 @@ impl GenSettings {
             .or_else(|| cfg.multiple)
             .unwrap_or_else(|| false);
 
-        let ignore_git_ignore = cli
-            .ignore_git_ignore
-            .or_else(|| cfg.ignore_git_ignore)
-            .unwrap_or_else(|| false);
-
         Ok(GenSettings {
             license,
-            ignore_git_ignore,
             authors,
             date,
             multiple,
