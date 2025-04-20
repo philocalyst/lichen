@@ -28,21 +28,43 @@ impl GenSettings {
         cli: &GenArgs,
         cfg: &Config,
         index: Option<usize>,
-    ) -> Result<Self, FileProcessingError> {
-        let license = cli
-            .license
-            .or_else(|| Some(cfg.licenses[index].id))
-            .ok_or("license must be set either via `lichen gen <ID>` or in config")?;
+    ) -> Result<Self, Box<dyn std::error::Error>> {
+        let license = if let Some(cli_lic) = cli.license.clone() {
+            // user explicitly passed one on the command line
+            cli_lic
+        } else if let Some(idx) = index {
+            // user did `lichen gen` without `--license` but we have a config entry
+            let lic = cfg
+                .licenses
+                .get(idx)
+                .ok_or(LichenError::InvalidIndex(idx))?;
+            lic.id.clone()
+        } else {
+            // no CLI value, no config entry
+            return Err(Box::new(LichenError::MissingLicense));
+        };
 
-        let authors: Option<Vec<Author>> = cli
-            .authors
-            .clone()
-            .or_else(|| cfg.licenses[index].authors.clone());
+        let authors: Option<Authors> = if let Some(cli_authors) = cli.authors.clone() {
+            // user passed authors on the command line
+            Some(cli_authors)
+        } else if let Some(idx) = index {
+            // fall back to config’s optional authors
+            cfg.licenses.get(idx).and_then(|lic| lic.authors.clone())
+        } else {
+            // no CLI, no config, no author.
+            None
+        };
 
-        let date = cli
-            .date
-            .or(cfg.licenses[index].date)
-            .unwrap_or_else(|| jiff::Zoned::now().date());
+        let date = if let Some(cli_date) = cli.date {
+            cli_date
+        } else if let Some(idx) = index {
+            cfg.licenses
+                .get(idx)
+                .and_then(|lic| lic.date)
+                .unwrap_or_else(|| jiff::Zoned::now().date())
+        } else {
+            jiff::Zoned::now().date()
+        };
 
         let ignore_git_ignore = cli
             .ignore_git_ignore
@@ -65,25 +87,19 @@ pub fn handle_gen(settings: &GenSettings) -> Result<(), FileProcessingError> {
 
     // --- Parameter Resolution (CLI vs. Config - Placeholder) ---
     // TODO: Load license, author, year from config if not provided in args.
-    let license = settings
-        .license
-        .ok_or("License SPDX ID is required via CLI or config for 'gen' command")?;
-    let authors = settings.authors.unwrap_or_else(|| {
-        // TODO: Get default author from config or environment?
-        warn!("No authors specified, using placeholder.");
-        vec!["Your Name".to_string()] // Placeholder
-    });
-    let year = settings.date.unwrap_or_else(|| jiff::Zoned::now().date()); // Fallback to today's date
+    let license = settings.license;
+    let authors = settings.authors;
+    let year = settings.date;
     let template_extension = "template.txt"; // Base template extension
     let output_extension = "txt"; // Default output extension
     // let output_extension = if args.markdown { "md" } else { "txt" };
     // ---
 
     info!(
-        "Generating license file for: {}, Year: {}, Authors: {}, Format: {}",
+        "Generating license file for: {}, Year: {}, Authors: {:?}, Format: {}",
         license.spdx_id(),
         year.year(), // Log only the year for simplicity
-        authors.join(", "),
+        authors,
         output_extension
     );
 
