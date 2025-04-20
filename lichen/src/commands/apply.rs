@@ -3,27 +3,197 @@
 //! Logic for the `lichen apply` command.
 
 use crate::cli::ApplyArgs;
-use crate::error::FileProcessingError;
+use crate::config::{Author, Authors, Config};
+use crate::error::{FileProcessingError, LichenError};
 use crate::license::License; // Ensure License is imported
 use crate::paths;
 use crate::utils;
+use jiff::civil::Date;
 use log::{debug, error, info, trace, warn};
+use regex::Regex;
 use std::fs;
 use std::io;
+use std::path::PathBuf;
+
+#[derive(Debug)]
+pub struct ApplySettings {
+    pub license: License,
+    pub multiple: bool,
+    pub authors: Option<Authors>,
+    pub ignore_git_ignore: bool,
+    pub exclude: Option<Regex>,
+    pub targets: Vec<PathBuf>,
+    pub date: Date,
+}
+
+fn load_gitignore_patterns() -> Vec<String> {
+    // e.g. walk with the `ignore` crate or
+    // read & parse your .gitignore file(s)
+    vec!["target/.*".into(), r"\.DS_Store".into()]
+}
+
+fn build_exclude_regex(
+    cli: &ApplyArgs,
+    cfg: &Config,
+    with_gitignore: bool,
+    index: Option<usize>,
+) -> Option<Regex> {
+    // 1) collect all raw pattern strings
+    let mut pats = Vec::new();
+
+    // a) .gitignore patterns (unless disabled)
+    if !with_gitignore {
+        pats.extend(load_gitignore_patterns());
+    }
+
+    // b) global exclude from config
+    if let Some(glob) = cfg.exclude.as_ref() {
+        pats.push(glob.to_string());
+    }
+
+    // c) per‑license exclude
+    if let Some(i) = index {
+        if let Some(lic) = cfg.licenses?.get(i) {
+            if let Some(exc) = lic.exclude.as_ref() {
+                pats.push(exc.to_string());
+            }
+        }
+    }
+
+    // d) CLI override
+    if let Some(cli_exc) = cli.exclude.as_ref() {
+        pats.push(cli_exc.to_string());
+    }
+
+    // nothing to exclude?
+    if pats.is_empty() {
+        return None;
+    }
+
+    // 2) wrap each in a non‑capturing group and join with |
+    let alternation = pats
+        .into_iter()
+        .map(|p| format!("(?:{})", p))
+        .collect::<Vec<_>>()
+        .join("|");
+
+    // 3) compile once
+    match Regex::new(&alternation) {
+        Ok(re) => Some(re),
+        Err(err) => {
+            eprintln!(
+                "error: failed to compile combined exclude regex `{}`: {}",
+                alternation, err
+            );
+            None
+        }
+    }
+}
+
+impl ApplySettings {
+    pub fn new(
+        cli: &ApplyArgs,
+        cfg: &Config,
+        index: Option<usize>,
+    ) -> Result<Self, Box<dyn std::error::Error>> {
+        let license = if let Some(cli_lic) = cli.license.clone() {
+            // user explicitly passed one on the command line
+            cli_lic
+        } else if let Some(idx) = index {
+            // user did `lichen gen` without `--license` but we have a config entry
+            let lic = cfg
+                .licenses
+                .as_ref()
+                .expect("If an index is passed, assume there is a license")
+                .get(idx)
+                .ok_or(LichenError::InvalidIndex(idx))?;
+            lic.id.clone()
+        } else {
+            // no CLI value, no config entry
+            return Err(Box::new(LichenError::MissingLicense));
+        };
+
+        let default_target = vec![PathBuf::from(".")];
+
+        let targets: Vec<PathBuf> = if let Some(cli_targets) = cli.targets.clone() {
+            // user passed authors on the command line
+            cli_targets
+        } else if let Some(idx) = index {
+            // fall back to config’s optional authors
+            cfg.licenses
+                .as_ref()
+                .expect("If an index is passed, assume there is a license")
+                .get(idx)
+                .and_then(|lic| lic.targets.clone())
+                .unwrap_or_else(|| default_target)
+        } else {
+            // Falling back on target "." (Current directory)
+            default_target
+        };
+
+        let authors: Option<Authors> = if let Some(cli_authors) = cli.authors.clone() {
+            // user passed authors on the command line
+            Some(cli_authors)
+        } else if let Some(idx) = index {
+            // fall back to config’s optional authors
+            cfg.licenses
+                .as_ref()
+                .expect("If an index is passed, assume there is a license")
+                .get(idx)
+                .and_then(|lic| lic.authors.clone())
+        } else {
+            // no CLI, no config, no author.
+            None
+        };
+
+        let date = if let Some(cli_date) = cli.date {
+            cli_date
+        } else if let Some(idx) = index {
+            cfg.licenses
+                .as_ref()
+                .expect("If an index is passed, assume there is a license")
+                .get(idx)
+                .and_then(|lic| lic.date)
+                .unwrap_or_else(|| jiff::Zoned::now().date())
+        } else {
+            jiff::Zoned::now().date()
+        };
+
+        let ignore_git_ignore = cli
+            .ignore_git_ignore
+            .or_else(|| cfg.ignore_git_ignore)
+            .unwrap_or_else(|| false);
+
+        let exclude = build_exclude_regex(&cli, &cfg, ignore_git_ignore, index);
+
+        let multiple = cli
+            .multiple
+            .or_else(|| cfg.multiple)
+            .unwrap_or_else(|| false);
+
+        Ok(ApplySettings {
+            exclude,
+            license,
+            targets,
+            ignore_git_ignore,
+            authors,
+            date,
+            multiple,
+        })
+    }
+}
 
 /// Handles the `apply` command logic.
-pub async fn handle_apply(args: ApplyArgs) -> Result<(), FileProcessingError> {
-    debug!("Starting handle_apply with args: {:?}", args);
+pub async fn handle_apply(settings: ApplySettings) -> Result<(), FileProcessingError> {
+    debug!("Starting handle_apply with args: {:?}", settings);
 
     // --- Parameter Resolution (CLI vs. Config - Placeholder) ---
     // TODO: Load license, exclude_pattern, etc. from config if not in args.
-    let license = args
-        .license
-        .ok_or("License SPDX ID is required via CLI or config for 'apply' command")?;
-    let exclude_pattern = &args.exclude;
-    let targets = &args.targets;
-    let preference = args.prefer_block;
-    let in_place = args.in_place;
+    let license = settings.license;
+    let exclude_pattern = &settings.exclude;
+    let targets = &settings.targets;
+    let preference = settings.prefer_block;
+    let in_place = settings.in_place;
     // ---
 
     info!(
