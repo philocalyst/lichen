@@ -1,0 +1,103 @@
+//! # Command Line Interface
+//!
+//! Defines the CLI structure and argument parsing using Clap.
+
+use crate::license::License;
+use clap::{builder::styling, Args, ColorChoice, Parser, Subcommand};
+use clap_verbosity_flag::{InfoLevel, Verbosity};
+use jiff::civil::Date;
+use regex::Regex;
+use std::path::PathBuf;
+
+// ▰▰▰ CLI Argument Structs ▰▰▰ //
+
+fn parse_year_to_date(s: &str) -> Result<Date, String> {
+    let year: i16 = s
+        .parse()
+        .map_err(|e| format!("invalid year `{}`: {}", s, e))?;
+    Date::new(year, 1, 1).map_err(|e| format!("invalid date: {}", e))
+}
+
+const STYLES: styling::Styles = styling::Styles::styled()
+    .header(styling::AnsiColor::Green.on_default().bold())
+    .usage(styling::AnsiColor::Green.on_default().bold())
+    .literal(styling::AnsiColor::Blue.on_default().bold())
+    .placeholder(styling::AnsiColor::Cyan.on_default());
+
+/// A license management cli tool
+#[derive(Parser, Debug)]
+#[command(author, version, about, styles = STYLES, long_about = None, color = ColorChoice::Auto)]
+pub struct Cli {
+    #[command(subcommand)]
+    pub command: Commands,
+
+    #[command(flatten)]
+    pub verbose: Verbosity<InfoLevel>,
+}
+
+#[derive(Subcommand, Debug)]
+pub enum Commands {
+    /// Generate a license file (e.g., LICENSE or LICENSE.md)
+    Gen(GenArgs),
+    /// Apply license headers to source files
+    Apply(ApplyArgs),
+    /// Initialize a default configuration file (Not fully implemented)
+    Init(InitArgs),
+}
+
+#[derive(Args, Debug)]
+pub struct GenArgs {
+    /// SPDX identifier of the license to generate (e.g., MIT, Apache-2.0).
+    /// Can be omitted if specified in configuration.
+    #[arg()]
+    pub license: Option<License>,
+
+    /// Author names (comma-separated).
+    #[arg(short, long, value_delimiter = ',')]
+    pub authors: Option<Vec<String>>,
+
+    /// Generate a Markdown formatted license file (`LICENSE.md`). Defaults to plain text (`LICENSE.txt`).
+    // #[arg(long, default_value_t = false)] // Default to false for .txt
+    // pub markdown: bool,
+
+    /// Year for the license copyright notice (defaults to the current year).
+    #[arg(short, long, value_parser = parse_year_to_date)]
+    pub date: Option<Date>,
+
+    #[arg(long, action = clap::ArgAction::SetTrue)]
+    pub full_date: bool, // Keep if used, otherwise remove
+}
+
+#[derive(Args, Debug)]
+pub struct ApplyArgs {
+    /// SPDX identifier of the license header to apply (e.g., MIT, Apache-2.0).
+    /// Can be omitted if specified in configuration.
+    #[arg()]
+    pub license: Option<License>,
+
+    /// Apply headers in-place, modifying the original files.
+    /// Caution: This modifies files directly. Ensure backups or version control.
+    #[arg(short, long, action = clap::ArgAction::SetTrue)]
+    pub in_place: bool,
+
+    /// When applying headers, which kind of comment token the user *wants*
+    /// Completely possible line or block doesn't exist, in which case it falls back to the other.
+    #[arg(long, action = clap::ArgAction::SetTrue)]
+    pub prefer_block: bool,
+
+    /// Regex pattern for files/directories to exclude. Applied during directory traversal.
+    #[arg(short, long)] // Removed value_delimiter, regex parsing handles it
+    pub exclude: Option<Regex>,
+
+    /// Files or directories to process. Defaults to the current directory (`.`).
+    #[arg(num_args = 1.., default_value = ".")]
+    pub target: Vec<PathBuf>,
+}
+
+#[derive(Args, Debug)]
+pub struct InitArgs {
+    /// Optional path where the configuration should be initialized.
+    /// Defaults to the current directory.
+    #[arg(short, long)]
+    pub path: Option<PathBuf>,
+}
