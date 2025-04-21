@@ -1,0 +1,195 @@
+# .github/workflows/release.yml
+name: Release
+
+on:
+  push:
+    tags:
+      - '*' # Trigger on any tag push
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  # Global RUSTFLAGS (applied unless overridden in a step)
+  RUSTFLAGS: --deny warnings
+  # Project name used in the justfile for artifact naming
+  PROJECT_NAME: lichen
+
+jobs:
+  prerelease:
+    # This job determines if the tag is a pre-release based on its format.
+    # It remains unchanged as it controls the GitHub Release 'prerelease' flag.
+    runs-on: ubuntu-latest
+    outputs:
+      value: ${{ steps.prerelease.outputs.value }}
+    steps:
+      - name: Prerelease Check
+        id: prerelease
+        run: |
+          if [[ ${{ github.ref_name }} =~ ^[0-9]+[.][0-9]+[.][0-9]+$ ]]; then
+              echo "value=false" >> $GITHUB_OUTPUT
+          else
+              echo "value=true" >> $GITHUB_OUTPUT
+          fi
+
+  package:
+    # This job builds and packages the project for various targets using the justfile.
+    strategy:
+      fail-fast: false # Don't cancel other jobs if one fails
+      matrix:
+        target:
+          - aarch64-apple-darwin
+          - aarch64-unknown-linux-musl
+          - arm-unknown-linux-musleabihf
+          - armv7-unknown-linux-musleabihf
+          - x86_64-apple-darwin
+          - x86_64-pc-windows-msvc
+          - aarch64-pc-windows-msvc
+          - x86_64-unknown-linux-musl
+        include:
+          # Define OS and specific RUSTFLAGS for cross-compilation targets
+          - target: aarch64-apple-darwin
+            os: macos-latest
+            target_rustflags: ''
+          - target: aarch64-unknown-linux-musl
+            os: ubuntu-latest
+            target_rustflags: '--codegen linker=aarch64-linux-gnu-gcc'
+          - target: arm-unknown-linux-musleabihf
+            os: ubuntu-latest
+            target_rustflags: '--codegen linker=arm-linux-gnueabihf-gcc'
+          - target: armv7-unknown-linux-musleabihf
+            os: ubuntu-latest
+            target_rustflags: '--codegen linker=arm-linux-gnueabihf-gcc'
+          - target: x86_64-apple-darwin
+            os: macos-latest
+            target_rustflags: ''
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+            target_rustflags: '' # No extra flags needed usually
+          - target: aarch64-pc-windows-msvc
+            os: windows-latest
+            target_rustflags: '' # Needs target added via rustup
+          - target: x86_64-unknown-linux-musl
+            os: ubuntu-latest
+            target_rustflags: '' # MUSL target often needs static linking setup
+
+    runs-on: ${{ matrix.os }}
+    needs:
+      - prerelease # Wait for prerelease check
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          # Ensure the specific Rust target for the matrix job is installed
+          target: ${{ matrix.target }}
+
+      - name: Install Just
+        run: cargo install just
+
+      # --- Toolchain Installation (Keep these conditional steps) ---
+      - name: Install AArch64 Linux Toolchain (Ubuntu)
+        if: matrix.target == 'aarch64-unknown-linux-musl'
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y gcc-aarch64-linux-gnu libc6-dev-arm64-cross
+
+      - name: Install ARM Linux Toolchain (Ubuntu)
+        if: matrix.target == 'arm-unknown-linux-musleabihf' || matrix.target == 'armv7-unknown-linux-musleabihf'
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y gcc-arm-linux-gnueabihf libc6-dev-armhf-cross
+
+      # No specific apt install needed for Windows MSVC targets,
+      # but ensure the target is added via rustup (done by setup-rust-toolchain)
+
+      # --- Build using Just ---
+      - name: Build and Package with Just
+        # Set RUSTFLAGS combining global and target-specific flags for cargo inside just
+        env:
+          RUSTFLAGS: ${{ env.RUSTFLAGS }} ${{ matrix.target_rustflags }}
+        # Run the just recipe, passing the target from the matrix
+        run: just build-release target=${{ matrix.target }}
+
+      # --- Publish Artifact ---
+      - name: Determine Artifact Name
+        id: artifact_name
+        run: |
+          ARTIFACT_PATH="dist/${{ env.PROJECT_NAME }}-${{ matrix.target }}"
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            ARTIFACT_PATH="${ARTIFACT_PATH}.exe"
+          fi
+          echo "path=${ARTIFACT_PATH}" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Publish Archive to Release
+        uses: softprops/action-gh-release@v2 # Use latest v2 release
+        # Only run for tag pushes
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          # Use the artifact path determined in the previous step
+          files: ${{ steps.artifact_name.outputs.path }}
+          # Set draft and prerelease status based on the prerelease job output
+          draft: false
+          prerelease: ${{ needs.prerelease.outputs.value }}
+        env:
+          # Use the default GITHUB_TOKEN for authentication
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # --- Publish Changelog (Optional, keep if needed) ---
+      - name: Publish Changelog to Release
+        uses: softprops/action-gh-release@v2
+        # Only run for tag pushes AND for one specific target to avoid duplicates
+        if: >-
+          startsWith(github.ref, 'refs/tags/')
+          && matrix.target == 'x86_64-unknown-linux-musl'
+        with:
+          files: CHANGELOG.md # Assuming you have a CHANGELOG.md
+          draft: false
+          prerelease: ${{ needs.prerelease.outputs.value }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  checksum:
+    # This job downloads all published artifacts and creates a checksum file.
+    # It remains unchanged as it operates on the final release assets.
+    runs-on: ubuntu-latest
+    needs:
+      - package # Wait for all package jobs to potentially complete
+      - prerelease
+    # Only run for tag pushes
+    if: startsWith(github.ref, 'refs/tags/')
+
+    steps:
+      - name: Install GitHub CLI
+        run: sudo apt-get update && sudo apt-get install -y gh
+
+      - name: Download Release Archives
+        env:
+          # Use GITHUB_TOKEN for gh CLI authentication
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Get the tag name from the ref
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          gh release download "$TAG_NAME" \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern '*' \
+            --dir release
+
+      - name: Create Checksums
+        run: just checksum release
+
+      - name: Publish Individual Checksums
+        uses: softprops/action-gh-release@v2
+        with:
+          # Use a wildcard to upload all generated .sha256 files from the release dir
+          files: release/*.sha256
+          draft: false
+          prerelease: ${{ needs.prerelease.outputs.value }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
