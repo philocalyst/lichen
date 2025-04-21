@@ -12,6 +12,7 @@ env_logger = "0.11.8"
 futures = "0.3.31"
 handlebars = "6.3.2"
 heck = "0.5.0"
+ignore = "0.4.23"
 jiff = { version = "0.2.8", features = ["serde"] }
 log = "0.4.27"
 markdown = "1.0.0-alpha.23"

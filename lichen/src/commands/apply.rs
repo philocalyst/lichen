@@ -40,6 +40,18 @@ fn load_gitignore_patterns() -> Result<Vec<String>, LichenError> {
         return Err(format!("Git command failed: {}", stderr).into());
     }
 
+    let defaults: Vec<String> = vec![
+        "\\.gitignore".to_string(),
+        ".*lock".to_string(),
+        "\\.git/.*".to_string(),
+        "\\.licensure\\.yml".to_string(),
+        "README.*".to_string(),
+        "LICENSE.*".to_string(),
+        ".*\\.(md|rst|txt)".to_string(),
+        "Cargo.toml".to_string(),
+        ".*\\.github/.*".to_string(),
+    ];
+
     let project_directory = String::from_utf8(output.stdout).unwrap().trim().to_string();
 
     // Build a PathBuf to the `.gitignore`
@@ -48,7 +60,7 @@ fn load_gitignore_patterns() -> Result<Vec<String>, LichenError> {
     // If there's no .gitignore, just return the defaults
     let content = match fs::read_to_string(gitignore) {
         Ok(s) => s,
-        Err(_) => return Ok(vec!["target/.*".into(), r"\.DS_Store".into()]),
+        Err(_) => return Ok(defaults),
     };
 
     for line in content.lines() {
@@ -80,7 +92,7 @@ fn load_gitignore_patterns() -> Result<Vec<String>, LichenError> {
 
     // if user .gitignore was empty, fall back to defaults
     if patterns.is_empty() {
-        Ok(vec!["target/.*".into(), r"\.DS_Store".into()])
+        Ok(defaults)
     } else {
         Ok(patterns)
     }
