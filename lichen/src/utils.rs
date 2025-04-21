@@ -256,9 +256,8 @@ pub fn get_comment_tokens_for_ext(extension: &str) -> Result<Vec<CommentToken>, 
 
                     // |2| try to parse all block-comment tokens
                     if let Some(val) = language_details.get("block_comment_tokens") {
-                        // make sure it's an object
+                        // object case
                         if let Some(obj) = val.as_object() {
-                            // Use Option chaining and map_or_else for cleaner error handling
                             let start = obj.get("start").and_then(|v| v.as_str());
                             let end = obj.get("end").and_then(|v| v.as_str());
 
@@ -397,37 +396,49 @@ pub fn format_header_with_comments(
     );
 
     let mut formatted_header = String::new();
+    let newline: char = '\n';
 
     match comment_token {
-        CommentToken::Line(tok) => {
+        CommentToken::Line(comment_token) => {
+            // Break the content into lines
             // Ensure consistent line endings and handle potential empty input
             let lines: Vec<&str> = header_content.trim_end().lines().collect();
             let line_count = lines.len();
 
+            // Iterates over each line of the provided license, prepending the token.
+            // If the line has no content (Some kind of spacer), no content needs to be added, and just the comment char is left for continuity
             for (i, line) in lines.iter().enumerate() {
-                formatted_header.push_str(tok);
-                // Add a space only if the line isn't empty, otherwise just the token
+                formatted_header.push_str(comment_token);
+                if i == 0 {
+                    // A separater to denote the first line of the comment
+                    formatted_header.push(separator);
+                }
+                // Add a space and complete the line only if the line isn't empty, otherwise just the token
                 if !line.is_empty() {
                     formatted_header.push(' ');
                     formatted_header.push_str(line);
                 }
                 // Add newline except for the very last line where we add the separator
                 if i < line_count - 1 {
-                    formatted_header.push('\n');
+                    formatted_header.push(newline);
                 }
             }
-            // Append separator and final newline after the loop
+            // Append separator and final newline after the loop, marking the last line
             formatted_header.push(separator);
-            formatted_header.push('\n');
+            formatted_header.push(newline);
+            formatted_header.push(newline); // Spacer newline
         }
         CommentToken::Block { start, end } => {
+            formatted_header.push(newline); // Spacer newline
             formatted_header.push_str(start);
-            formatted_header.push('\n'); // Add newline after start token
+            formatted_header.push(separator); // The first line of the block
+            formatted_header.push(newline); // Add newline after start token
             formatted_header.push_str(header_content.trim()); // Trim whitespace
-            formatted_header.push('\n'); // Add newline before end token
+            formatted_header.push(newline); // Add newline before end token
+            formatted_header.push(separator); // The last line of the block
             formatted_header.push_str(end);
-            formatted_header.push(separator); // Mark
-            formatted_header.push('\n'); // Padding newline
+            formatted_header.push(newline); // Padding newline
+            formatted_header.push(newline); // Spacer newline
         }
     }
 
@@ -465,7 +476,7 @@ pub async fn apply_headers_to_files(
     );
 
     // Marker for end of header (SOT - Start of Text, used somewhat unconventionally here)
-    const HEADER_MARKER: char = '\x02';
+    const HEADER_MARKER: char = '\u{2060}';
 
     // Share header content safely across tasks
     let header_content_arc = Arc::new(header_content.to_string());
@@ -487,9 +498,9 @@ pub async fn apply_headers_to_files(
                 let content = match fs::read_to_string(&path).await {
                     Ok(c) => c,
                     Err(e) => {
-                        error!("Failed to read '{}': {}. Skipping.", path.display(), e);
+                        warn!("Failed to read '{}': {}. Skipping.", path.display(), e);
                         // Return Ok with stats
-                        return Ok((0, 0, 1));
+                        return Ok((0, 1, 0));
                     }
                 };
 
