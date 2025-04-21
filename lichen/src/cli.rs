@@ -92,13 +92,11 @@ pub struct GenArgs {
     #[arg()]
     pub license: Option<License>,
 
-    /// Author names and emails (comma-separated).
+    /// Author names and emails (In the format NAME:EMAIL; entries seperated by a comma. Email optional).
     #[arg(short, long, value_parser = parse_to_author)]
     pub authors: Option<Authors>,
 
-    #[arg(long, action = clap::ArgAction::SetTrue)]
-    pub change_in_place: Option<bool>,
-
+    /// Enable support for multiple licenses in the same project
     #[arg(long, action = clap::ArgAction::SetTrue)]
     pub multiple: Option<bool>,
 
@@ -106,14 +104,11 @@ pub struct GenArgs {
     #[arg(num_args = 1..)]
     pub targets: Option<Vec<PathBuf>>,
 
-    /// Generate a Markdown formatted license file (`LICENSE.md`). Defaults to plain text (`LICENSE.txt`).
-    // #[arg(long, default_value_t = false)] // Default to false for .txt
-    // pub markdown: bool,
-
-    /// Year for the license copyright notice (defaults to the current year).
+    /// Date for the license copyright notice (defaults to the current year).
     #[arg(short, long, value_parser = parse_year_to_date)]
     pub date: Option<Date>,
 
+    /// Do not respect the git_ignore file (If present in directory)
     #[arg(long, action = clap::ArgAction::SetTrue)]
     pub ignore_git_ignore: Option<bool>,
 }
