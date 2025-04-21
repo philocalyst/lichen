@@ -1,0 +1,23 @@
+change_in_place = true
+error_on_conflict = false
+
+# Regexes which if matched by a file path will always be excluded from
+excludes = [
+  "\\.gitignore",
+  ".*lock",
+  "\\.git/.*",
+  "\\.licensure\\.yml",
+  "README.*",
+  "LICENSE.*",
+  ".*\\.(md|rst|txt)",
+  "Cargo.toml",
+  ".*\\.github/.*",
+]
+
+[[license]]
+files = "src/core/.*\\.rs"
+id = "MIT" 
+
+[[license.authors]] 
+name = "Core Contributor"
+email = "core@example.com"
