@@ -2,7 +2,7 @@
 //!
 //! Functions for locating application-specific directories and files.
 
-use crate::error::FileProcessingError;
+use crate::error::LichenError;
 use crate::license::License;
 use directories::ProjectDirs;
 use log::{debug, trace};
@@ -18,12 +18,10 @@ use std::path::PathBuf;
 /// # Returns
 ///
 /// Returns a `Result` containing the `PathBuf` to the data directory or a `FileProcessingError`.
-pub fn get_data_dir() -> Result<PathBuf, FileProcessingError> {
+pub fn get_data_dir() -> Result<PathBuf, LichenError> {
     trace!("Attempting to determine project directories.");
     let proj_dirs = ProjectDirs::from("com", "philocalyst", "lichen").ok_or_else(|| {
-        FileProcessingError::ProjectDirsError(
-            "Could not determine application directories.".to_string(),
-        )
+        LichenError::ProjectDirsError("Could not determine application directories.".to_string())
     })?;
 
     let data_dir = proj_dirs.data_dir();
@@ -41,10 +39,7 @@ pub fn get_data_dir() -> Result<PathBuf, FileProcessingError> {
 /// # Returns
 ///
 /// Returns a `Result` containing the `PathBuf` to the license file or a `FileProcessingError`.
-pub fn get_license_path(
-    license: &License,
-    extension: &str,
-) -> Result<PathBuf, FileProcessingError> {
+pub fn get_license_path(license: &License, extension: &str) -> Result<PathBuf, LichenError> {
     trace!(
         "Constructing license path for license '{}' with extension '{}'",
         license.spdx_id(),
@@ -64,7 +59,7 @@ pub fn get_license_path(
 /// # Returns
 ///
 /// Returns a `Result` containing the `PathBuf` to the JSON file or a `FileProcessingError`.
-pub fn get_comment_tokens_path() -> Result<PathBuf, FileProcessingError> {
+pub fn get_comment_tokens_path() -> Result<PathBuf, LichenError> {
     trace!("Constructing path for comment-tokens.json");
     let data_dir = get_data_dir()?;
     // Expected structure: <data_dir>/comment-tokens.json

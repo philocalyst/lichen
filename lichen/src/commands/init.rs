@@ -3,11 +3,11 @@
 //! Logic for the `lichen init` command (currently placeholder).
 
 use crate::cli::InitArgs;
-use crate::error::FileProcessingError;
+use crate::error::LichenError;
 use log::{debug, info, warn};
 
 /// Handles the `init` command logic (currently a placeholder).
-pub fn handle_init(args: InitArgs) -> Result<(), FileProcessingError> {
+pub fn handle_init(args: InitArgs) -> Result<(), LichenError> {
     debug!("Starting handle_init with args: {:?}", args);
 
     let project_root = match args.path {

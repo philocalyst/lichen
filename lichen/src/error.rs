@@ -1,22 +1,33 @@
 //! # Error Handling
 //!
-//! Defines custom error types for the Lichen application.
-
-use std::{error::Error, fmt};
+//! Defines a single “mega” error type for the Lichen application.
 
 use handlebars;
+use serde_json;
+use std::{error::Error, fmt, io};
+use walkdir;
 
-/// Errors that can occur anywhere in the Lichen application.
+/// All errors that can occur in the Lichen application, including
+/// general, file-processing, and template-rendering errors.
 #[derive(Debug)]
 pub enum LichenError {
     /// An invalid index was given.
     InvalidIndex(usize),
 
-    /// An error occurred while walking a directory.
-    WalkdirError(walkdir::Error),
+    /// A required license is missing.
+    MissingLicense,
+
+    /// An invalid filesystem path was encountered.
+    InvalidPath(String),
+
+    /// Could not determine project directories.
+    ProjectDirsError(String),
+
+    /// An I/O error occurred.
+    IoError(io::Error),
 
     /// An error occurred while walking a directory.
-    MissingLicense,
+    WalkdirError(walkdir::Error),
 
     /// Failed to parse JSON data.
     JsonError(serde_json::Error),
@@ -28,16 +39,17 @@ pub enum LichenError {
     Msg(String),
 }
 
-// ▰▰▰ Display ▰▰▰ //
-
 impl fmt::Display for LichenError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             LichenError::InvalidIndex(idx) => write!(f, "Invalid index: {}", idx),
             LichenError::MissingLicense => write!(
                 f,
-                "license must be set either via `lichen gen <ID>` or in config"
+                "Missing license: A license must be set either via `lichen gen <LICENSE_ID>` or in config (lichen.toml)"
             ),
+            LichenError::InvalidPath(path) => write!(f, "Invalid path: {}", path),
+            LichenError::ProjectDirsError(err) => write!(f, "Project directory error: {}", err),
+            LichenError::IoError(err) => write!(f, "IO error: {}", err),
             LichenError::WalkdirError(err) => write!(f, "Directory walk error: {}", err),
             LichenError::JsonError(err) => write!(f, "JSON error: {}", err),
             LichenError::RenderError(err) => write!(f, "Template rendering error: {}", err),
@@ -46,11 +58,10 @@ impl fmt::Display for LichenError {
     }
 }
 
-// ▰▰▰ std::error::Error ▰▰▰ //
-
 impl Error for LichenError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
+            LichenError::IoError(err) => Some(err),
             LichenError::WalkdirError(err) => Some(err),
             LichenError::JsonError(err) => Some(err),
             LichenError::RenderError(err) => Some(err),
@@ -59,7 +70,12 @@ impl Error for LichenError {
     }
 }
 
-// ▰▰▰ From conversions for easy `?` support ▰▰▰ //
+// Conversion from underlying errors to LichenError for `?` support.
+impl From<io::Error> for LichenError {
+    fn from(err: io::Error) -> Self {
+        LichenError::IoError(err)
+    }
+}
 
 impl From<walkdir::Error> for LichenError {
     fn from(err: walkdir::Error) -> Self {
@@ -88,106 +104,5 @@ impl From<&str> for LichenError {
 impl From<String> for LichenError {
     fn from(msg: String) -> Self {
         LichenError::Msg(msg)
-    }
-}
-
-/// Errors that can occur during file processing operations.
-#[derive(Debug)]
-pub enum FileProcessingError {
-    /// An I/O error occurred.
-    IoError(std::io::Error),
-
-    /// An error occurred while walking a directory.
-    WalkdirError(walkdir::Error),
-
-    /// An invalid path was encountered.
-    InvalidPath(String),
-
-    /// Failed to parse JSON data.
-    JsonError(serde_json::Error),
-
-    /// Could not determine project directories.
-    ProjectDirsError(String),
-
-    /// An error occurred during template rendering.
-    RenderError(handlebars::RenderError),
-
-    /// Generic error message.
-    Msg(String),
-}
-
-// ▰▰▰ Error Trait Implementations ▰▰▰ //
-
-impl fmt::Display for FileProcessingError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match self {
-            FileProcessingError::IoError(err) => write!(f, "IO error: {}", err),
-            FileProcessingError::WalkdirError(err) => {
-                write!(f, "Directory walk error: {}", err)
-            }
-            FileProcessingError::InvalidPath(path) => {
-                write!(f, "Invalid path: {}", path)
-            }
-            FileProcessingError::JsonError(err) => {
-                write!(f, "JSON processing error: {}", err)
-            }
-            FileProcessingError::ProjectDirsError(err) => {
-                write!(f, "Project directory error: {}", err)
-            }
-            FileProcessingError::RenderError(err) => {
-                write!(f, "Template rendering error: {}", err)
-            }
-            FileProcessingError::Msg(msg) => write!(f, "Error: {}", msg),
-        }
-    }
-}
-
-impl Error for FileProcessingError {
-    fn source(&self) -> Option<&(dyn Error + 'static)> {
-        match self {
-            FileProcessingError::IoError(err) => Some(err),
-            FileProcessingError::WalkdirError(err) => Some(err),
-            FileProcessingError::JsonError(err) => Some(err),
-            FileProcessingError::RenderError(err) => Some(err),
-            _ => None, // Other variants don't wrap another error directly
-        }
-    }
-}
-
-// ▰▰▰ Error Conversion Implementations ▰▰▰ //
-
-impl From<std::io::Error> for FileProcessingError {
-    fn from(err: std::io::Error) -> Self {
-        FileProcessingError::IoError(err)
-    }
-}
-
-impl From<walkdir::Error> for FileProcessingError {
-    fn from(err: walkdir::Error) -> Self {
-        FileProcessingError::WalkdirError(err)
-    }
-}
-
-impl From<serde_json::Error> for FileProcessingError {
-    fn from(err: serde_json::Error) -> Self {
-        FileProcessingError::JsonError(err)
-    }
-}
-
-impl From<handlebars::RenderError> for FileProcessingError {
-    fn from(err: handlebars::RenderError) -> Self {
-        FileProcessingError::RenderError(err)
-    }
-}
-
-impl From<&str> for FileProcessingError {
-    fn from(msg: &str) -> Self {
-        FileProcessingError::Msg(msg.to_string())
-    }
-}
-
-impl From<String> for FileProcessingError {
-    fn from(msg: String) -> Self {
-        FileProcessingError::Msg(msg)
     }
 }

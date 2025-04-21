@@ -5,7 +5,7 @@
 use crate::cli::Commands;
 use crate::commands::{apply, generate, init}; // Import handlers
 use crate::config::Config;
-use crate::error::FileProcessingError;
+use crate::error::LichenError;
 use log::debug;
 
 /// The main application structure for Lichen.
@@ -32,14 +32,14 @@ impl LichenApp {
     /// # Returns
     ///
     /// A `Result` indicating success or a `FileProcessingError`.
-    pub async fn run(&self, command: Commands) -> Result<(), FileProcessingError> {
+    pub async fn run(&self, command: Commands) -> Result<(), LichenError> {
         debug!("Dispatching command: {:?}", command);
         let cfg = Config::load_or_default("lichen.toml")?;
         match command {
             Commands::Gen(args) => {
                 // If there are no licenses in your config, CLI only, just one!
                 if cfg.licenses.is_none() {
-                    let settings = generate::GenSettings::new(&args, &cfg, None).unwrap();
+                    let settings = generate::GenSettings::new(&args, &cfg, None)?;
                     generate::handle_gen(&settings)?;
                 } else {
                     // Fallback loop through each license by index
@@ -54,7 +54,7 @@ impl LichenApp {
             Commands::Apply(args) => {
                 // If there are no licenses in your config, CLI only, just one!
                 if cfg.licenses.is_none() {
-                    let settings = apply::ApplySettings::new(&args, &cfg, None).unwrap();
+                    let settings = apply::ApplySettings::new(&args, &cfg, None)?;
                     apply::handle_apply(&settings).await?;
                 } else {
                     // Fallback loop through each license by index

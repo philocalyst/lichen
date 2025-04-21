@@ -4,7 +4,7 @@
 
 use crate::cli::ApplyArgs;
 use crate::config::{Author, Authors, Config};
-use crate::error::{FileProcessingError, LichenError};
+use crate::error::LichenError;
 use crate::license::License; // Ensure License is imported
 use crate::paths;
 use crate::utils;
@@ -95,11 +95,7 @@ fn build_exclude_regex(
 }
 
 impl ApplySettings {
-    pub fn new(
-        cli: &ApplyArgs,
-        cfg: &Config,
-        index: Option<usize>,
-    ) -> Result<Self, Box<dyn std::error::Error>> {
+    pub fn new(cli: &ApplyArgs, cfg: &Config, index: Option<usize>) -> Result<Self, LichenError> {
         let license = if let Some(cli_lic) = cli.license.clone() {
             // user explicitly passed one on the command line
             cli_lic
@@ -114,7 +110,7 @@ impl ApplySettings {
             lic.id.clone()
         } else {
             // no CLI value, no config entry
-            return Err(Box::new(LichenError::MissingLicense));
+            return Err(LichenError::MissingLicense);
         };
 
         let default_target = vec![PathBuf::from(".")];
@@ -200,7 +196,7 @@ impl ApplySettings {
 }
 
 /// Handles the `apply` command logic.
-pub async fn handle_apply(settings: &ApplySettings) -> Result<(), FileProcessingError> {
+pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
     debug!("Starting handle_apply with args: {:?}", settings);
 
     // --- Parameter Resolution (CLI vs. Config - Placeholder) ---
@@ -225,7 +221,7 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), FileProcessing
     } else {
         // TODO: Implement non-in-place logic
         error!("Non-in-place application is not yet implemented.");
-        return Err(FileProcessingError::Msg(
+        return Err(LichenError::Msg(
             "Non-in-place application not implemented.".to_string(),
         ));
     }
@@ -248,7 +244,7 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), FileProcessing
             "License header template file not found at '{}' (tried .template.txt and .txt).",
             header_template_path.display()
         );
-        return Err(FileProcessingError::IoError(io::Error::new(
+        return Err(LichenError::IoError(io::Error::new(
             io::ErrorKind::NotFound,
             format!(
                 "License header template not found for {}: {}",
@@ -268,7 +264,7 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), FileProcessing
         template_content
     );
     let rendered_license = utils::render_license(&template_content, &year, &authors)
-        .map_err(FileProcessingError::RenderError)?; // Convert RenderError
+        .map_err(LichenError::RenderError)?; // Convert RenderError
     debug!("License content rendered successfully.");
     trace!("Rendered content:\n{}", rendered_license);
 
@@ -277,10 +273,10 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), FileProcessing
     // --- Find Files ---
     let files_to_process = utils::get_valid_files(targets, exclude_pattern)?;
     if files_to_process.is_empty() {
-        info!(
+        return Err(LichenError::Msg(
             "No files require processing based on targets and exclusions. Exiting 'apply' command."
-        );
-        return Ok(()); // Nothing to do
+                .to_string(),
+        )); // Nothing to do, error. SOMETHING needs to be done.
     }
     // ---
 

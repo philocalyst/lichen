@@ -16,7 +16,7 @@ mod utils;
 // Use necessary items from modules
 use app::LichenApp;
 use cli::Cli;
-use error::FileProcessingError; // Use the specific error type
+use error::LichenError; // Use the specific error type
 
 // Std library imports
 use std::error::Error;
@@ -65,11 +65,7 @@ async fn main() -> ExitCode {
         }
         Err(e) => {
             // Log the specific error using the Display impl from error.rs
-            error!("Command failed: {}", e);
-            // Log the error source if available for deeper debugging
-            if let Some(source) = e.source() {
-                error!("Caused by: {}", source);
-            }
+            error!("Command failure, because of... a {}", e);
             ExitCode::FAILURE
         }
     }

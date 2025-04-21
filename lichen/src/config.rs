@@ -1,4 +1,4 @@
-use crate::error::FileProcessingError;
+use crate::error::LichenError;
 use crate::license::License;
 use jiff::civil::Date;
 use regex::{Regex, RegexSet};
@@ -40,17 +40,16 @@ pub struct Config {
 /// Try to load and parse the config file.
 /// Converts I/O or parse errors into your `FileProcessingError`.
 impl Config {
-    pub fn load<P: AsRef<Path>>(path: P) -> Result<Self, FileProcessingError> {
-        let s = fs::read_to_string(path.as_ref()).map_err(FileProcessingError::from)?;
-        toml::from_str(&s)
-            .map_err(|e| FileProcessingError::Msg(format!("config parse error: {}", e)))
+    pub fn load<P: AsRef<Path>>(path: P) -> Result<Self, LichenError> {
+        let s = fs::read_to_string(path.as_ref()).map_err(LichenError::from)?;
+        toml::from_str(&s).map_err(|e| LichenError::Msg(format!("config parse error: {}", e)))
     }
 
     /// Like `load`, but if the file was *not found*, you get `Config::default()`.
-    pub fn load_or_default<P: AsRef<Path>>(path: P) -> Result<Self, FileProcessingError> {
+    pub fn load_or_default<P: AsRef<Path>>(path: P) -> Result<Self, LichenError> {
         match Self::load(&path) {
             Ok(cfg) => Ok(cfg),
-            Err(FileProcessingError::IoError(ref io_err))
+            Err(LichenError::IoError(ref io_err))
                 if io_err.kind() == std::io::ErrorKind::NotFound =>
             {
                 // no file → empty‐config

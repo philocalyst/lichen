@@ -3,7 +3,7 @@
 //! General helper functions for file processing, text formatting, etc.
 
 use crate::config::{Author, Authors};
-use crate::error::FileProcessingError;
+use crate::error::LichenError;
 use crate::models::CommentToken;
 use handlebars::{Handlebars, RenderError};
 use jiff::civil::Date;
@@ -70,7 +70,7 @@ pub fn render_license(
 pub fn get_valid_files(
     targets: &[PathBuf],
     exclude_regex: &Option<Regex>,
-) -> Result<Vec<PathBuf>, FileProcessingError> {
+) -> Result<Vec<PathBuf>, LichenError> {
     debug!(
         "Searching for processable files starting from targets: {:?}. Exclude pattern: {:?}",
         targets, exclude_regex
@@ -81,7 +81,7 @@ pub fn get_valid_files(
     for target in targets {
         if !target.exists() {
             error!("Target path does not exist: '{}'", target.display());
-            return Err(FileProcessingError::InvalidPath(
+            return Err(LichenError::InvalidPath(
                 target.to_string_lossy().to_string(),
             ));
         }
@@ -172,9 +172,7 @@ pub fn get_valid_files(
 /// A `Result` containing a `Vec<CommentToken>` or a `FileProcessingError`.
 /// Returns an empty Vec and logs a warning if the extension is not found.
 /// Returns an error if the JSON file is missing or malformed.
-pub fn get_comment_tokens_for_ext(
-    extension: &str,
-) -> Result<Vec<CommentToken>, FileProcessingError> {
+pub fn get_comment_tokens_for_ext(extension: &str) -> Result<Vec<CommentToken>, LichenError> {
     trace!(
         "Looking up comment character for extension: '{}'",
         extension
@@ -214,7 +212,7 @@ pub fn get_comment_tokens_for_ext(
     let data: serde_json::Value = serde_json::from_reader(reader)?; // Propagate JSON parsing errors
 
     let languages_map = data.as_object().ok_or_else(|| {
-        FileProcessingError::Msg(format!(
+        LichenError::Msg(format!(
             "Invalid JSON format in '{}': Top level is not an object.",
             comment_tokens_path.display()
         ))
@@ -417,7 +415,7 @@ pub async fn apply_headers_to_files(
     paths: &[PathBuf],
     max_concurrency: usize,
     prefers_block: bool,
-) -> Result<(), FileProcessingError> {
+) -> Result<(), LichenError> {
     use futures::stream::{self, StreamExt}; // Ensure futures is imported
     use std::sync::Arc;
     use tokio::fs; // Use tokio's async fs
@@ -561,14 +559,14 @@ pub async fn apply_headers_to_files(
             }
         })
         .buffer_unordered(max_concurrency) // Process concurrently
-        .collect::<Vec<Result<(usize, usize, usize), FileProcessingError>>>() // Collect results
+        .collect::<Vec<Result<(usize, usize, usize), LichenError>>>() // Collect results
         .await;
 
     // Aggregate results and check for errors
     let mut total_applied = 0;
     let mut total_skipped = 0;
     let mut total_errors = 0;
-    let mut first_error: Option<FileProcessingError> = None;
+    let mut first_error: Option<LichenError> = None;
 
     for result in results {
         match result {
@@ -598,7 +596,7 @@ pub async fn apply_headers_to_files(
     if total_errors > 0 {
         // Return the first specific error encountered, or a generic one
         Err(first_error.unwrap_or_else(|| {
-            FileProcessingError::Msg(format!(
+            LichenError::Msg(format!(
                 "Encountered {} errors during header application.",
                 total_errors
             ))

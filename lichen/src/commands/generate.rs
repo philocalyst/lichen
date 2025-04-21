@@ -4,7 +4,7 @@
 
 use crate::cli::GenArgs;
 use crate::config::{Author, Authors, Config};
-use crate::error::{FileProcessingError, LichenError};
+use crate::error::LichenError;
 use crate::license::License; // Make sure License is imported
 use crate::paths;
 use crate::utils;
@@ -25,11 +25,7 @@ pub struct GenSettings {
 }
 
 impl GenSettings {
-    pub fn new(
-        cli: &GenArgs,
-        cfg: &Config,
-        index: Option<usize>,
-    ) -> Result<Self, Box<dyn std::error::Error>> {
+    pub fn new(cli: &GenArgs, cfg: &Config, index: Option<usize>) -> Result<Self, LichenError> {
         let license = if let Some(cli_lic) = cli.license.clone() {
             // user explicitly passed one on the command line
             cli_lic
@@ -44,7 +40,7 @@ impl GenSettings {
             lic.id.clone()
         } else {
             // no CLI value, no config entry
-            return Err(Box::new(LichenError::MissingLicense));
+            return Err(LichenError::MissingLicense);
         };
 
         let default_target = vec![PathBuf::from(".")];
@@ -109,7 +105,7 @@ impl GenSettings {
 }
 
 /// Handles the `gen` command logic.
-pub fn handle_gen(settings: &GenSettings) -> Result<(), FileProcessingError> {
+pub fn handle_gen(settings: &GenSettings) -> Result<(), LichenError> {
     debug!("Starting handle_gen with args: {:?}", settings);
 
     // --- Parameter Resolution (CLI vs. Config - Placeholder) ---
@@ -139,7 +135,7 @@ pub fn handle_gen(settings: &GenSettings) -> Result<(), FileProcessingError> {
             "License template file not found at '{}'. Ensure templates are installed correctly.",
             license_template_path.display()
         );
-        return Err(FileProcessingError::IoError(io::Error::new(
+        return Err(LichenError::IoError(io::Error::new(
             io::ErrorKind::NotFound,
             format!(
                 "License template not found: {}",
@@ -158,7 +154,7 @@ pub fn handle_gen(settings: &GenSettings) -> Result<(), FileProcessingError> {
 
     // --- Render Template ---
     let rendered_license = utils::render_license(&template_content, &year, &authors)
-        .map_err(FileProcessingError::RenderError)?; // Convert RenderError
+        .map_err(LichenError::RenderError)?; // Convert RenderError
     debug!("License content rendered successfully.");
     trace!("Rendered content:\n{}", rendered_license);
 
