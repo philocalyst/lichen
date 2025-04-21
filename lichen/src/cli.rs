@@ -19,13 +19,15 @@ fn parse_year_to_date(s: &str) -> Result<Date, String> {
     Date::new(year, 1, 1).map_err(|e| format!("invalid date: {}", e))
 }
 
-pub fn parse_to_author(input: &str) -> Result<Vec<Author>, String> {
+pub fn parse_to_author(input: &str) -> Result<Authors, String> {
     // If the whole string is empty or only whitespace, return an empty Vec.
     if input.trim().is_empty() {
-        return Ok(vec![]);
+        return Err(format!(
+            "You need to provide an author in the format NAME:EMAIL"
+        ));
     }
 
-    input
+    let v = input
         .split(',') // split entries on commas
         .map(str::trim) // trim whitespace around each entry
         .filter(|entry| !entry.is_empty())
@@ -52,7 +54,8 @@ pub fn parse_to_author(input: &str) -> Result<Vec<Author>, String> {
                 })
             }
         })
-        .collect() // collects into Result<Vec<Author>, String>
+        .collect::<Result<Vec<Author>, String>>()?; // collects into Result<Vec<Author>, String>
+    Ok(Authors(v))
 }
 
 const STYLES: styling::Styles = styling::Styles::styled()
