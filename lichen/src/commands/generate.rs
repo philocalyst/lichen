@@ -163,6 +163,13 @@ pub fn handle_gen(settings: &GenSettings) -> Result<(), FileProcessingError> {
     trace!("Rendered content:\n{}", rendered_license);
 
     for target in targets {
+        if target.is_file() {
+            warn!(
+                "Skipped target \"{}\", as generate can not place a license in a file, please look at the apply subcommand for this usage",
+                target.to_string_lossy()
+            );
+            continue;
+        }
         let mut output_filename;
         if multiple {
             output_filename = target.join(license.spdx_id().to_string() + "_" + "LICENSE");
