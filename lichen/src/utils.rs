@@ -607,7 +607,7 @@ pub async fn apply_headers_to_files(
                 }
             }
         })
-        .buffer_unordered(max_concurrency) // Process concurrently
+        .buffer_unordered(max_concurrency.into()) // Process concurrently
         .collect::<Vec<Result<(usize, usize, usize), LichenError>>>() // Collect results
         .await;
 

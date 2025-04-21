@@ -288,7 +288,8 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
             files_to_process.len()
         );
         // TODO: Make concurrency configurable?
-        let max_concurrency = num_cpus::get().max(1); // Use available cores
+        let max_concurrency = std::thread::available_parallelism()
+            .expect("There should always be some available parellism on the computer"); // Use available cores
         utils::apply_headers_to_files(
             &rendered_license,
             &files_to_process,
