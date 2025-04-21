@@ -11,7 +11,7 @@ use log::{debug, error, info, trace, warn};
 use regex::Regex;
 use std::collections::{BTreeMap, HashSet};
 use std::fs::{self, File};
-use std::io::{BufReader};
+use std::io::BufReader;
 use std::path::PathBuf;
 use walkdir::{self, WalkDir};
 
@@ -617,7 +617,7 @@ pub async fn apply_headers_to_files(
                         path.display()
                     );
                     let content = content.replace_between(HEADER_MARKER, &formatted_header);
-                    fs::write(&path, content.to_string()).await;
+                    fs::write(&path, content.to_string()).await?;
                     // Return Ok with stats
                     return Ok((1, 0, 0));
                 }

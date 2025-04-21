@@ -44,7 +44,7 @@ impl LichenApp {
                 } else {
                     // Fallback loop through each license by index
                     for (idx, _license) in cfg.licenses.iter().enumerate() {
-                        let settings = generate::GenSettings::new(&args, &cfg, Some(idx)).unwrap();
+                        let settings = generate::GenSettings::new(&args, &cfg, Some(idx))?;
                         generate::handle_gen(&settings)?;
                     }
                 }
@@ -59,7 +59,7 @@ impl LichenApp {
                 } else {
                     // Fallback loop through each license by index
                     for (idx, _license) in cfg.licenses.iter().enumerate() {
-                        let settings = apply::ApplySettings::new(&args, &cfg, Some(idx)).unwrap();
+                        let settings = apply::ApplySettings::new(&args, &cfg, Some(idx))?;
                         apply::handle_apply(&settings).await?;
                     }
                 }
