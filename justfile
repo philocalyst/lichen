@@ -60,13 +60,11 @@ build-release target=(host_target):
       \
     '
 
-checksum-release:
+checksum directory=(output_directory):
     @echo "🔒 Creating checksums..."
-    find "{{output_directory}}" -type f ! -name "checksums.sha256" -print0 | xargs -0 sha256sum > "{{output_directory}}/checksums.sha256"
+    find "{{directory}}" -type f ! -name "checksums.sha256" -exec sh -c 'sha256sum "$1" > "$1.sha256"' _ {} \;
+    @echo "✅ Checksums created!"
 
-[no-cd]
-checksum +args:
-    sha256sum "{{args}}" > "{{args}}.sha256"
 # ===== Run =====
 
 run +args:
@@ -154,6 +152,9 @@ update:
     @echo "🔄 Updating dependencies..."
     cargo update
 
+release: build-release
+    just checksum
+    
 install: build-release
     @echo "💾 Installing {{lichen_pkg}} binary..."
     cargo install --path "{{project_root}}/{{lichen_pkg}}"
