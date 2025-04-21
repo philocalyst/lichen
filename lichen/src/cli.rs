@@ -4,7 +4,7 @@
 
 use crate::config::{Author, Authors};
 use crate::license::License;
-use clap::{Args, ColorChoice, Error, Parser, Subcommand, builder::styling};
+use clap::{Args, ColorChoice, Parser, Subcommand, builder::styling};
 use clap_verbosity_flag::{InfoLevel, Verbosity};
 use jiff::civil::Date;
 use regex::Regex;

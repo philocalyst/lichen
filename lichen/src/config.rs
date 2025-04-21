@@ -1,7 +1,7 @@
 use crate::error::LichenError;
 use crate::license::License;
 use jiff::civil::Date;
-use regex::{Regex, RegexSet};
+use regex::Regex;
 use serde::Deserialize;
 use std::fmt;
 use std::fs;

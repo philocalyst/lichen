@@ -2,7 +2,7 @@
 //!
 //! General helper functions for file processing, text formatting, etc.
 
-use crate::config::{Author, Authors};
+use crate::config::Authors;
 use crate::error::LichenError;
 use crate::models::CommentToken;
 use handlebars::{Handlebars, RenderError};
@@ -11,7 +11,7 @@ use log::{debug, error, info, trace, warn};
 use regex::Regex;
 use std::collections::{BTreeMap, HashSet};
 use std::fs::{self, File};
-use std::io::{self, BufReader};
+use std::io::{BufReader};
 use std::path::PathBuf;
 use walkdir::{self, WalkDir};
 

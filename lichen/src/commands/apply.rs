@@ -3,7 +3,7 @@
 //! Logic for the `lichen apply` command.
 
 use crate::cli::ApplyArgs;
-use crate::config::{Author, Authors, Config};
+use crate::config::{Authors, Config};
 use crate::error::LichenError;
 use crate::license::License; // Ensure License is imported
 use crate::paths;

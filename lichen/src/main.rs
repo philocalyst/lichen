@@ -16,10 +16,9 @@ mod utils;
 // Use necessary items from modules
 use app::LichenApp;
 use cli::Cli;
-use error::LichenError; // Use the specific error type
+ // Use the specific error type
 
 // Std library imports
-use std::error::Error;
 use std::process::ExitCode;
 
 // External crate imports

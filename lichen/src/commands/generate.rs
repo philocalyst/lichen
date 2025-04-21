@@ -3,7 +3,7 @@
 //! Logic for the `lichen gen` command.
 
 use crate::cli::GenArgs;
-use crate::config::{Author, Authors, Config};
+use crate::config::{Authors, Config};
 use crate::error::LichenError;
 use crate::license::License; // Make sure License is imported
 use crate::paths;
@@ -13,7 +13,6 @@ use log::{debug, error, info, trace, warn};
 use std::fs;
 use std::io;
 use std::path::PathBuf;
-use std::str::FromStr;
 
 #[derive(Debug)]
 pub struct GenSettings {
