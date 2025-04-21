@@ -96,10 +96,10 @@ pub struct GenArgs {
     #[arg(short, long, value_parser = parse_to_author)]
     pub authors: Option<Authors>,
 
-    #[arg(long)]
+    #[arg(long, action = clap::ArgAction::SetTrue)]
     pub change_in_place: Option<bool>,
 
-    #[arg(long)]
+    #[arg(long, action = clap::ArgAction::SetTrue)]
     pub multiple: Option<bool>,
 
     /// Files or directories to process. Defaults to the current directory (`.`).
@@ -130,7 +130,7 @@ pub struct ApplyArgs {
     #[arg(short, long, action = clap::ArgAction::SetTrue)]
     pub in_place: Option<bool>,
 
-    #[arg(long)]
+    #[arg(long, action = clap::ArgAction::SetTrue)]
     pub multiple: Option<bool>,
 
     /// When applying headers, which kind of comment token the user *wants*
