@@ -96,7 +96,7 @@ pub struct GenArgs {
     #[arg(short, long, value_parser = parse_to_author)]
     pub authors: Option<Authors>,
 
-    /// Enable support for multiple licenses in the same project
+    /// Enable support for multiple licenses in the same project (Default is replace)
     #[arg(long, action = clap::ArgAction::SetTrue)]
     pub multiple: Option<bool>,
 
@@ -125,6 +125,7 @@ pub struct ApplyArgs {
     #[arg(short, long, action = clap::ArgAction::SetTrue)]
     pub in_place: Option<bool>,
 
+    /// Enable support for multiple licenses in the same project (Default is replace)
     #[arg(long, action = clap::ArgAction::SetTrue)]
     pub multiple: Option<bool>,
 
@@ -133,7 +134,7 @@ pub struct ApplyArgs {
     #[arg(long, action = clap::ArgAction::SetTrue)]
     pub prefer_block: Option<bool>,
 
-    /// Year for the license copyright notice (defaults to the current year).
+    /// Date for the license copyright notice (defaults to the current year).
     #[arg(short, long, value_parser = parse_year_to_date)]
     pub date: Option<Date>,
 
@@ -145,7 +146,7 @@ pub struct ApplyArgs {
     #[arg(num_args = 1..)]
     pub targets: Option<Vec<PathBuf>>,
 
-    /// Respect git_ignore option
+    /// Respect git_ignore options
     #[arg(long, action = clap::ArgAction::SetTrue)]
     pub ignore_git_ignore: Option<bool>,
 
