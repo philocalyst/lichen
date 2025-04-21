@@ -161,7 +161,7 @@ fn build_exclude_regex(
 
 impl ApplySettings {
     pub fn new(cli: &ApplyArgs, cfg: &Config, index: Option<usize>) -> Result<Self, LichenError> {
-        let license = if let Some(cli_lic) = cli.license.clone() {
+        let license = if let Some(cli_lic) = cli.license {
             // user explicitly passed one on the command line
             cli_lic
         } else if let Some(idx) = index {
@@ -172,7 +172,7 @@ impl ApplySettings {
                 .expect("If an index is passed, assume there is a license")
                 .get(idx)
                 .ok_or(LichenError::InvalidIndex(idx))?;
-            lic.id.clone()
+            lic.id
         } else {
             // no CLI value, no config entry
             return Err(LichenError::MissingLicense);
@@ -190,7 +190,7 @@ impl ApplySettings {
                 .expect("If an index is passed, assume there is a license")
                 .get(idx)
                 .and_then(|lic| lic.targets.clone())
-                .unwrap_or_else(|| default_target)
+                .unwrap_or(default_target)
         } else {
             // Falling back on target "." (Current directory)
             default_target
@@ -224,27 +224,15 @@ impl ApplySettings {
             jiff::Zoned::now().date()
         };
 
-        let all = cli
-            .all
-            .or_else(|| cfg.ignore_git_ignore)
-            .unwrap_or_else(|| false);
+        let all = cli.all.or(cfg.ignore_git_ignore).unwrap_or(false);
 
-        let exclude = build_exclude_regex(&cli, &cfg, all, index)?;
+        let exclude = build_exclude_regex(cli, cfg, all, index)?;
 
-        let multiple = cli
-            .multiple
-            .or_else(|| cfg.multiple)
-            .unwrap_or_else(|| false);
+        let multiple = cli.multiple.or(cfg.multiple).unwrap_or(false);
 
-        let in_place = cli
-            .in_place
-            .or_else(|| cfg.in_place)
-            .unwrap_or_else(|| false);
+        let in_place = cli.in_place.or(cfg.in_place).unwrap_or(false);
 
-        let prefer_block = cli
-            .prefer_block
-            .or_else(|| cfg.prefer_block)
-            .unwrap_or_else(|| false);
+        let prefer_block = cli.prefer_block.or(cfg.prefer_block).unwrap_or(false);
 
         Ok(ApplySettings {
             exclude,
@@ -328,7 +316,7 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
         "License header content read successfully:\n{}",
         template_content
     );
-    let rendered_license = utils::render_license(&template_content, &year, &authors)
+    let rendered_license = utils::render_license(&template_content, year, authors)
         .map_err(LichenError::RenderError)?; // Convert RenderError
     debug!("License content rendered successfully.");
     trace!("Rendered content:\n{}", rendered_license);

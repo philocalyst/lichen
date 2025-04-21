@@ -508,7 +508,7 @@ impl ReplaceBetween for str {
                 .collect::<Vec<&str>>()
                 .join("\n");
 
-            let mut final_result = String::from(final_string);
+            let mut final_result = final_string;
             // Always end with a trailing newline
             final_result.push('\n');
 

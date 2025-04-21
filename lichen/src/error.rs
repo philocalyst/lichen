@@ -2,11 +2,7 @@
 //!
 //! Defines a single “mega” error type for the Lichen application.
 
-use handlebars;
-use regex;
-use serde_json;
 use std::{error::Error, fmt, io};
-use walkdir;
 
 /// All errors that can occur in the Lichen application, including
 /// general, file-processing, and template-rendering errors.

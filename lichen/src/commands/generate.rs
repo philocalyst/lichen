@@ -25,7 +25,7 @@ pub struct GenSettings {
 
 impl GenSettings {
     pub fn new(cli: &GenArgs, cfg: &Config, index: Option<usize>) -> Result<Self, LichenError> {
-        let license = if let Some(cli_lic) = cli.license.clone() {
+        let license = if let Some(cli_lic) = cli.license {
             // user explicitly passed one on the command line
             cli_lic
         } else if let Some(idx) = index {
@@ -36,7 +36,7 @@ impl GenSettings {
                 .expect("If an index is passed, assume there is a license")
                 .get(idx)
                 .ok_or(LichenError::InvalidIndex(idx))?;
-            lic.id.clone()
+            lic.id
         } else {
             // no CLI value, no config entry
             return Err(LichenError::MissingLicense);
@@ -54,7 +54,7 @@ impl GenSettings {
                 .expect("If an index is passed, assume there is a license")
                 .get(idx)
                 .and_then(|lic| lic.targets.clone())
-                .unwrap_or_else(|| default_target)
+                .unwrap_or(default_target)
         } else {
             // Falling back on target "." (Current directory)
             default_target
@@ -88,10 +88,7 @@ impl GenSettings {
             jiff::Zoned::now().date()
         };
 
-        let multiple = cli
-            .multiple
-            .or_else(|| cfg.multiple)
-            .unwrap_or_else(|| false);
+        let multiple = cli.multiple.or(cfg.multiple).unwrap_or(false);
 
         Ok(GenSettings {
             license,
@@ -152,7 +149,7 @@ pub fn handle_gen(settings: &GenSettings) -> Result<(), LichenError> {
     trace!("Template content:\n{}", template_content); // Trace for full content
 
     // --- Render Template ---
-    let rendered_license = utils::render_license(&template_content, &year, &authors)
+    let rendered_license = utils::render_license(&template_content, &year, authors)
         .map_err(LichenError::RenderError)?; // Convert RenderError
     debug!("License content rendered successfully.");
     trace!("Rendered content:\n{}", rendered_license);
