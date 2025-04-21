@@ -3,6 +3,7 @@
 //! Defines a single “mega” error type for the Lichen application.
 
 use handlebars;
+use regex;
 use serde_json;
 use std::{error::Error, fmt, io};
 use walkdir;
@@ -29,6 +30,9 @@ pub enum LichenError {
     /// An error occurred while walking a directory.
     WalkdirError(walkdir::Error),
 
+    /// An error occurred while handling a regex pattern
+    RegexError(String, regex::Error),
+
     /// Failed to parse JSON data.
     JsonError(serde_json::Error),
 
@@ -47,6 +51,9 @@ impl fmt::Display for LichenError {
                 f,
                 "Missing license: A license must be set either via `lichen gen <LICENSE_ID>` or in config (lichen.toml)"
             ),
+            LichenError::RegexError(pattern, err) => {
+                write!(f, "Regex Error: for this pattern {} {}", pattern, err)
+            }
             LichenError::InvalidPath(path) => write!(f, "Invalid path: {}", path),
             LichenError::ProjectDirsError(err) => write!(f, "Project directory error: {}", err),
             LichenError::IoError(err) => write!(f, "IO error: {}", err),

@@ -39,7 +39,7 @@ fn build_exclude_regex(
     cfg: &Config,
     with_gitignore: bool,
     index: Option<usize>,
-) -> Option<Regex> {
+) -> Result<Option<Regex>, LichenError> {
     // 1) collect all raw pattern strings
     let mut pats = Vec::new();
 
@@ -57,11 +57,18 @@ fn build_exclude_regex(
 
     // c) per‑license exclude
     if let Some(i) = index {
-        if let Some(lic) = cfg.licenses.as_ref()?.get(i) {
-            if let Some(exc) = lic.exclude.as_ref() {
-                pats.push(exc.to_string());
+        if let Some(licenses) = cfg.licenses.as_ref() {
+            if let Some(lic) = licenses.get(i) {
+                // If the license exists, check if it has an exclude pattern
+                if let Some(exc) = lic.exclude.as_ref() {
+                    pats.push(exc.to_string());
+                }
+            } else {
+                // If the index is provided but out of bounds for the licenses vec,
+                return Err(LichenError::InvalidIndex(i));
             }
         }
+        // If cfg.licenses was None, do nothing.
     }
 
     // d) CLI override
@@ -71,7 +78,7 @@ fn build_exclude_regex(
 
     // nothing to exclude?
     if pats.is_empty() {
-        return None;
+        return Ok(None);
     }
 
     // 2) wrap each in a non‑capturing group and join with |
@@ -83,14 +90,8 @@ fn build_exclude_regex(
 
     // 3) compile once
     match Regex::new(&alternation) {
-        Ok(re) => Some(re),
-        Err(err) => {
-            eprintln!(
-                "error: failed to compile combined exclude regex `{}`: {}",
-                alternation, err
-            );
-            None
-        }
+        Ok(re) => Ok(Some(re)),
+        Err(err) => Err(LichenError::RegexError(alternation, err)),
     }
 }
 
@@ -164,7 +165,7 @@ impl ApplySettings {
             .or_else(|| cfg.ignore_git_ignore)
             .unwrap_or_else(|| false);
 
-        let exclude = build_exclude_regex(&cli, &cfg, ignore_git_ignore, index);
+        let exclude = build_exclude_regex(&cli, &cfg, ignore_git_ignore, index)?;
 
         let multiple = cli
             .multiple
