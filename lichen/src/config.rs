@@ -125,23 +125,3 @@ impl fmt::Display for Authors {
         write!(f, "{}", joined)
     }
 }
-
-// Helper to deserialize a single Regex from a TOML string.
-fn deserialize_regex<'de, D>(deserializer: D) -> Result<Regex, D::Error>
-where
-    D: serde::Deserializer<'de>,
-{
-    let s = String::deserialize(deserializer)?;
-    Regex::new(&s).map_err(serde::de::Error::custom)
-}
-
-// Helper to deserialize a Vec<Regex> from a TOML string array.
-fn deserialize_vec_regex<'de, D>(deserializer: D) -> Result<Vec<Regex>, D::Error>
-where
-    D: serde::Deserializer<'de>,
-{
-    let raw: Vec<String> = Vec::deserialize(deserializer)?;
-    raw.into_iter()
-        .map(|s| Regex::new(&s).map_err(serde::de::Error::custom))
-        .collect()
-}
