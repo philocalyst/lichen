@@ -275,14 +275,52 @@ pub fn get_comment_tokens_for_ext(extension: &str) -> Result<Vec<CommentToken>, 
                                 }
                                 _ => {
                                     warn!(
-                                        "`block_comment_tokens` for extension '{}' is missing 'start' or 'end' string.",
+                                        "`block_comment_tokens` for extension '{}' is missing \
+                     'start' or 'end' string.",
                                         extension
                                     );
                                 }
                             }
-                        } else {
+                        }
+                        // array case
+                        else if let Some(arr) = val.as_array() {
+                            for (idx, item) in arr.iter().enumerate() {
+                                if let Some(obj) = item.as_object() {
+                                    let start = obj.get("start").and_then(|v| v.as_str());
+                                    let end = obj.get("end").and_then(|v| v.as_str());
+
+                                    match (start, end) {
+                                        (Some(s), Some(e)) => {
+                                            debug!(
+                                                "Block comment #{} starts with `{}` and ends with `{}`",
+                                                idx, s, e
+                                            );
+                                            tokens.push(CommentToken::Block {
+                                                start: s.to_owned(),
+                                                end: e.to_owned(),
+                                            });
+                                        }
+                                        _ => {
+                                            warn!(
+                                                "`block_comment_tokens[{}]` for extension '{}' is missing \
+                             'start' or 'end'.",
+                                                idx, extension
+                                            );
+                                        }
+                                    }
+                                } else {
+                                    warn!(
+                                        "`block_comment_tokens[{}]` for extension '{}' is not an object.",
+                                        idx, extension
+                                    );
+                                }
+                            }
+                        }
+                        // neither object nor array
+                        else {
                             warn!(
-                                "`block_comment_tokens` for extension '{}' is not an object.",
+                                "`block_comment_tokens` for extension '{}' is neither an object \
+             nor an array.",
                                 extension
                             );
                         }
