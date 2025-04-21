@@ -16,7 +16,7 @@ mod utils;
 // Use necessary items from modules
 use app::LichenApp;
 use cli::Cli;
- // Use the specific error type
+// Use the specific error type
 
 // Std library imports
 use std::process::ExitCode;
@@ -58,10 +58,7 @@ async fn main() -> ExitCode {
 
     // 5. Handle command result and exit
     match result {
-        Ok(_) => {
-            info!("Command executed successfully.");
-            ExitCode::SUCCESS
-        }
+        Ok(_) => ExitCode::SUCCESS,
         Err(e) => {
             // Log the specific error using the Display impl from error.rs
             error!("Command failure, because of... a {}", e);
