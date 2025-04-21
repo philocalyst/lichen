@@ -19,6 +19,7 @@ use std::str::FromStr;
 pub struct GenSettings {
     pub license: License,
     pub multiple: bool,
+    pub targets: Vec<PathBuf>,
     pub authors: Option<Authors>,
     pub date: Date,
 }
@@ -44,6 +45,24 @@ impl GenSettings {
         } else {
             // no CLI value, no config entry
             return Err(Box::new(LichenError::MissingLicense));
+        };
+
+        let default_target = vec![PathBuf::from(".")];
+
+        let targets: Vec<PathBuf> = if let Some(cli_targets) = cli.targets.clone() {
+            // user passed authors on the command line
+            cli_targets
+        } else if let Some(idx) = index {
+            // fall back to config’s optional authors
+            cfg.licenses
+                .as_ref()
+                .expect("If an index is passed, assume there is a license")
+                .get(idx)
+                .and_then(|lic| lic.targets.clone())
+                .unwrap_or_else(|| default_target)
+        } else {
+            // Falling back on target "." (Current directory)
+            default_target
         };
 
         let authors: Option<Authors> = if let Some(cli_authors) = cli.authors.clone() {
@@ -81,6 +100,7 @@ impl GenSettings {
 
         Ok(GenSettings {
             license,
+            targets,
             authors,
             date,
             multiple,
@@ -95,6 +115,7 @@ pub fn handle_gen(settings: &GenSettings) -> Result<(), FileProcessingError> {
     // --- Parameter Resolution (CLI vs. Config - Placeholder) ---
     // TODO: Load license, author, year from config if not provided in args.
     let license = settings.license;
+    let targets = &settings.targets;
     let multiple = settings.multiple;
     let authors = &settings.authors;
     let year = settings.date;
@@ -141,22 +162,22 @@ pub fn handle_gen(settings: &GenSettings) -> Result<(), FileProcessingError> {
     debug!("License content rendered successfully.");
     trace!("Rendered content:\n{}", rendered_license);
 
-    // --- Output File Generation ---
-    let mut output_filename = PathBuf::from("LICENSE");
-    // Only add extension for non-txt formats or if explicitly requested
-    if output_extension != "txt" {
-        output_filename.set_extension(output_extension);
-    }
-    debug!(
-        "Determined output filename: '{}'",
-        output_filename.display()
-    );
+    for target in targets {
+        let mut output_filename;
+        if multiple {
+            output_filename = target.join(license.spdx_id().to_string() + "_" + "LICENSE");
+        } else {
+            output_filename = target.join("LICENSE");
+        }
 
-    if multiple && fs::exists(&output_filename)? {
-        output_filename.set_file_name(license.spdx_id().to_string() + "_" + "LICENSE");
+        // If extention is not txt, add it. Otherwise, the paradigm is to have it without.
+        if output_extension != "txt" {
+            output_filename.set_extension(output_extension);
+        }
+
+        fs::write(&output_filename, &rendered_license)?;
+        info!("License file written to '{}'", output_filename.display());
     }
-    fs::write(&output_filename, rendered_license)?;
-    info!("License file written to '{}'", output_filename.display());
     // ---
 
     Ok(())

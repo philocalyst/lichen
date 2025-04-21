@@ -6,6 +6,7 @@
 mod app;
 mod cli;
 mod commands;
+mod config;
 mod error;
 mod license; // Ensure this module exists
 mod models;
