@@ -12,6 +12,7 @@ use regex::Regex;
 use std::collections::{BTreeMap, HashSet};
 use std::fs::{self, File};
 use std::io::BufReader;
+use std::path::MAIN_SEPARATOR;
 use std::path::PathBuf;
 use walkdir::{self, WalkDir};
 
@@ -79,6 +80,12 @@ pub fn get_valid_files(
     let mut seen_paths = HashSet::new(); // To handle potential overlaps or duplicates
 
     for target in targets {
+        if let Some(re) = exclude_regex.as_ref() {
+            if re.is_match(&target.to_string_lossy()) {
+                debug!("Excluding target file {}", target.display());
+                continue;
+            }
+        }
         if !target.exists() {
             error!("Target path does not exist: '{}'", target.display());
             return Err(LichenError::InvalidPath(
@@ -92,11 +99,14 @@ pub fn get_valid_files(
         // Apply the exclusion filter during the walk
         let filtered_walker = walker.filter_entry(|entry| {
             let path = entry.path();
+            let path_string = &path.to_string_lossy();
+            // Normalize paths.
+            let path_string = path_string.replace(MAIN_SEPARATOR, "/");
             trace!("Considering entry: '{}'", path.display());
             match exclude_regex {
                 Some(regex) => {
                     // Check if the path string matches the exclusion regex
-                    if regex.is_match(&path.to_string_lossy()) {
+                    if regex.is_match(&path_string) {
                         debug!("Excluding path '{}' due to regex match.", path.display());
                         false // Exclude this entry and its children if it's a directory
                     } else {
