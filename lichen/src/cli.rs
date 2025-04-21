@@ -107,10 +107,6 @@ pub struct GenArgs {
     /// Date for the license copyright notice (defaults to the current year).
     #[arg(short, long, value_parser = parse_year_to_date)]
     pub date: Option<Date>,
-
-    /// Do not respect the git_ignore file (If present in directory)
-    #[arg(long, action = clap::ArgAction::SetTrue)]
-    pub ignore_git_ignore: Option<bool>,
 }
 
 #[derive(Args, Debug)]
@@ -146,9 +142,9 @@ pub struct ApplyArgs {
     #[arg(num_args = 1..)]
     pub targets: Option<Vec<PathBuf>>,
 
-    /// Respect git_ignore options
+    /// Do not respect the git_ignore file (If present in directory) and exclude defaults
     #[arg(long, action = clap::ArgAction::SetTrue)]
-    pub ignore_git_ignore: Option<bool>,
+    pub all: Option<bool>,
 
     /// Author names and emails (comma-separated).
     #[arg(short, long, value_parser = parse_to_author)]

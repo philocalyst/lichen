@@ -14,6 +14,7 @@ use regex::Regex;
 use std::fs;
 use std::io;
 use std::path::PathBuf;
+use std::process::Command;
 
 #[derive(Debug)]
 pub struct ApplySettings {
@@ -22,30 +23,81 @@ pub struct ApplySettings {
     pub prefer_block: bool,
     pub multiple: bool,
     pub authors: Option<Authors>,
-    pub ignore_git_ignore: bool,
     pub exclude: Option<Regex>,
     pub targets: Vec<PathBuf>,
     pub date: Date,
 }
 
-fn load_gitignore_patterns() -> Vec<String> {
-    // e.g. walk with the `ignore` crate or
-    // read & parse your .gitignore file(s)
-    vec!["target/.*".into(), r"\.DS_Store".into()]
+fn load_gitignore_patterns() -> Result<Vec<String>, LichenError> {
+    let mut patterns = Vec::new();
+    let output = Command::new("git")
+        .args(["rev-parse", "--show-toplevel"])
+        .output()?;
+
+    if !output.status.success() {
+        // Deal with errors
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        return Err(format!("Git command failed: {}", stderr).into());
+    }
+
+    let project_directory = String::from_utf8(output.stdout).unwrap().trim().to_string();
+
+    // Build a PathBuf to the `.gitignore`
+    let gitignore = PathBuf::from(project_directory).join(".gitignore");
+
+    // If there's no .gitignore, just return the defaults
+    let content = match fs::read_to_string(gitignore) {
+        Ok(s) => s,
+        Err(_) => return Ok(vec!["target/.*".into(), r"\.DS_Store".into()]),
+    };
+
+    for line in content.lines() {
+        let line = line.trim();
+        // skip comments and blank lines
+        if line.is_empty() || line.starts_with('#') {
+            continue;
+        }
+
+        // detect directory‐only patterns ending with '/'
+        let is_dir = line.ends_with('/');
+        let pat = if is_dir {
+            // strip trailing '/'
+            &line[..line.len() - 1]
+        } else {
+            line
+        };
+
+        // escape regex metachars, then re‐inject glob semantics
+        let mut re = regex::escape(pat).replace(r"\*", ".*").replace(r"\?", ".");
+
+        // if it was a directory pattern, match any descendant
+        if is_dir {
+            re.push_str("/.*");
+        }
+
+        patterns.push(re);
+    }
+
+    // if user .gitignore was empty, fall back to defaults
+    if patterns.is_empty() {
+        Ok(vec!["target/.*".into(), r"\.DS_Store".into()])
+    } else {
+        Ok(patterns)
+    }
 }
 
 fn build_exclude_regex(
     cli: &ApplyArgs,
     cfg: &Config,
-    with_gitignore: bool,
+    all: bool,
     index: Option<usize>,
 ) -> Result<Option<Regex>, LichenError> {
     // 1) collect all raw pattern strings
     let mut pats = Vec::new();
 
-    // a) .gitignore patterns (unless disabled)
-    if !with_gitignore {
-        pats.extend(load_gitignore_patterns());
+    // a) add .gitignore patterns (unless disabled)
+    if !all {
+        pats.extend(load_gitignore_patterns()?);
     }
 
     // b) global exclude from config
@@ -160,12 +212,12 @@ impl ApplySettings {
             jiff::Zoned::now().date()
         };
 
-        let ignore_git_ignore = cli
-            .ignore_git_ignore
+        let all = cli
+            .all
             .or_else(|| cfg.ignore_git_ignore)
             .unwrap_or_else(|| false);
 
-        let exclude = build_exclude_regex(&cli, &cfg, ignore_git_ignore, index)?;
+        let exclude = build_exclude_regex(&cli, &cfg, all, index)?;
 
         let multiple = cli
             .multiple
@@ -188,7 +240,6 @@ impl ApplySettings {
             targets,
             prefer_block,
             in_place,
-            ignore_git_ignore,
             authors,
             date,
             multiple,
@@ -205,6 +256,7 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
     let license = settings.license;
     let exclude_pattern = &settings.exclude;
     let targets = &settings.targets;
+    let multiple = settings.multiple;
     let authors = &settings.authors;
     let year = &settings.date;
     let preference = settings.prefer_block;
@@ -296,6 +348,7 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
             &files_to_process,
             max_concurrency,
             preference,
+            multiple,
         )
         .await?;
     }
