@@ -20,42 +20,42 @@ fn parse_year_to_date(s: &str) -> Result<Date, String> {
 }
 
 pub fn parse_to_author(input: &str) -> Result<Authors, String> {
-    // If the whole string is empty or only whitespace, return an empty Vec.
+    // If the whole string is empty or only whitespace, reject it.
     if input.trim().is_empty() {
-        return Err(format!(
-            "You need to provide an author in the format NAME:EMAIL"
-        ));
+        return Err("You need to provide at least one author in the format NAME[:EMAIL]".into());
     }
 
-    let v = input
+    let authors = input
         .split(',') // split entries on commas
         .map(str::trim) // trim whitespace around each entry
         .filter(|entry| !entry.is_empty())
         .map(|entry| {
-            // split exactly Once on ':'
+            // split at most once on ':'
             let mut parts = entry.splitn(2, ':');
             let name = parts
                 .next()
-                .expect("Always yields at least one element")
-                .trim();
-            let email = parts
-                .next()
-                .ok_or_else(|| format!("entry `{}` missing `:` separator", entry))?
+                .expect("splitn always yields at least one element")
                 .trim();
 
             if name.is_empty() {
-                Err(format!("entry `{}` has empty name", entry))
-            } else if email.is_empty() {
-                Err(format!("entry `{}` has empty email", entry))
-            } else {
-                Ok(Author {
-                    name: name.to_string(),
-                    email: email.to_string(),
-                })
+                return Err(format!("entry `{}` has empty name", entry));
             }
+
+            // If there's a second part and it's non‑empty, use it.
+            let email = parts
+                .next()
+                .map(str::trim)
+                .filter(|s| !s.is_empty())
+                .map(str::to_string);
+
+            Ok(Author {
+                name: name.to_string(),
+                email,
+            })
         })
-        .collect::<Result<Vec<Author>, String>>()?; // collects into Result<Vec<Author>, String>
-    Ok(Authors(v))
+        .collect::<Result<Vec<Author>, String>>()?; // bubble up the first error
+
+    Ok(Authors(authors))
 }
 
 const STYLES: styling::Styles = styling::Styles::styled()
