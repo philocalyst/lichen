@@ -62,7 +62,7 @@ build-release target=(host_target):
 
 checksum directory=(output_directory):
     @echo "🔒 Creating checksums..."
-    find "{{directory}}" -type f ! -name "checksums.sha256" -exec sh -c 'sha256sum "$1" > "$1.sha256"' _ {} \;
+    find "{{directory}}" -type f ! -name "checksums.sha256" ! -name "README*" ! -name "*.sha256" -exec sh -c 'sha256sum "$1" > "$1.sha256"' _ {} \;
     @echo "✅ Checksums created!"
 
 # ===== Run =====
