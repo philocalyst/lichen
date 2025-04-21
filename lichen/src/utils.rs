@@ -528,6 +528,7 @@ pub async fn apply_headers_to_files(
     paths: &[PathBuf],
     max_concurrency: std::num::NonZero<usize>,
     prefers_block: bool,
+    multiple: bool,
 ) -> Result<(), LichenError> {
     use futures::stream::{self, StreamExt}; // Ensure futures is imported
     use std::sync::Arc;
@@ -610,16 +611,19 @@ pub async fn apply_headers_to_files(
                     }
                 };
 
-                // |6| If header is already present, simply replace it.
-                if content.contains(HEADER_MARKER) {
-                    info!(
-                        "Already contains header marker, replacing '{}'",
-                        path.display()
-                    );
-                    let content = content.replace_between(HEADER_MARKER, &formatted_header);
-                    fs::write(&path, content.to_string()).await?;
-                    // Return Ok with stats
-                    return Ok((1, 0, 0));
+                if multiple {
+                    // If multiple, do not overwrite any headers
+                    // |6| If header is already present, simply replace it.
+                    if content.contains(HEADER_MARKER) {
+                        info!(
+                            "Already contains header marker, replacing '{}'",
+                            path.display()
+                        );
+                        let content = content.replace_between(HEADER_MARKER, &formatted_header);
+                        fs::write(&path, content.to_string()).await?;
+                        // Return Ok with stats
+                        return Ok((1, 0, 0));
+                    }
                 }
 
                 // |6| Shebang handling
