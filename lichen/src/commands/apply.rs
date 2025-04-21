@@ -208,6 +208,8 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), FileProcessing
     let license = settings.license;
     let exclude_pattern = &settings.exclude;
     let targets = &settings.targets;
+    let authors = &settings.authors;
+    let year = &settings.date;
     let preference = settings.prefer_block;
     let in_place = settings.in_place;
     // ---
@@ -233,7 +235,7 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), FileProcessing
     // --- Get License Header Content ---
     // Headers often use a specific template, e.g., "header.txt" or just "txt"
     // Let's assume "header.txt" first, then fallback to "txt"
-    let header_template_path = match paths::get_license_path(&license, "header.txt") {
+    let header_template_path = match paths::get_license_path(&license, "template.txt") {
         Ok(path) if path.exists() => path,
         _ => {
             debug!("No 'header.txt' found, falling back to 'txt' for header content.");
@@ -243,7 +245,7 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), FileProcessing
 
     if !header_template_path.exists() {
         error!(
-            "License header template file not found at '{}' (tried .header.txt and .txt).",
+            "License header template file not found at '{}' (tried .template.txt and .txt).",
             header_template_path.display()
         );
         return Err(FileProcessingError::IoError(io::Error::new(
@@ -260,11 +262,16 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), FileProcessing
         "Reading license header content from: '{}'",
         header_template_path.display()
     );
-    let license_header_content = fs::read_to_string(&header_template_path)?;
+    let template_content = fs::read_to_string(&header_template_path)?;
     trace!(
         "License header content read successfully:\n{}",
-        license_header_content
+        template_content
     );
+    let rendered_license = utils::render_license(&template_content, &year, &authors)
+        .map_err(FileProcessingError::RenderError)?; // Convert RenderError
+    debug!("License content rendered successfully.");
+    trace!("Rendered content:\n{}", rendered_license);
+
     // ---
 
     // --- Find Files ---
@@ -287,7 +294,7 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), FileProcessing
         // TODO: Make concurrency configurable?
         let max_concurrency = num_cpus::get().max(1); // Use available cores
         utils::apply_headers_to_files(
-            &license_header_content,
+            &rendered_license,
             &files_to_process,
             max_concurrency,
             preference,
