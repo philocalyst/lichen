@@ -611,8 +611,8 @@ pub async fn apply_headers_to_files(
                     }
                 };
 
-                if multiple {
-                    // If multiple, do not overwrite any headers
+                // If multiple, do not overwrite any headers
+                if !multiple {
                     // |6| If header is already present, simply replace it.
                     if content.contains(HEADER_MARKER) {
                         info!(
