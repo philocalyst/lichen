@@ -89,7 +89,20 @@ jobs:
           target: ${{ matrix.target }}
 
       - name: Install Just
-        run: cargo install just
+        run: |
+          # Add the Prebuilt-MPR signing key
+          wget -qO - 'https://proget.makedeb.org/debian-feeds/prebuilt-mpr.pub' | gpg --dearmor | sudo tee /usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg 1> /dev/null
+
+          # Add the Prebuilt-MPR repository
+          # Use $(lsb_release -cs) to give the distro codename (e.g., jammy for Ubuntu 22.04)
+          echo "deb [arch=all,$(dpkg --print-architecture) signed-by=/usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg] https://proget.makedeb.org prebuilt-mpr $(lsb_release -cs)" | sudo tee /etc/apt/sources.list.d/prebuilt-mpr.list
+
+          # Update apt to recognize the new repository and its packages
+          sudo apt update -y
+
+          # Install the 'just' package from the Prebuilt-MPR
+          sudo apt install -y just
+
 
       # --- Toolchain Installation (Keep these conditional steps) ---
       - name: Install AArch64 Linux Toolchain (Ubuntu)
