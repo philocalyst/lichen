@@ -425,8 +425,6 @@ pub fn format_header_with_comments(
             }
             // Append separator and final newline after the loop, marking the last line
             formatted_header.push(separator);
-            formatted_header.push(newline);
-            formatted_header.push(newline); // Spacer newline
         }
         CommentToken::Block { start, end } => {
             formatted_header.push(newline); // Spacer newline
@@ -438,7 +436,6 @@ pub fn format_header_with_comments(
             formatted_header.push(separator); // The last line of the block
             formatted_header.push_str(end);
             formatted_header.push(newline); // Padding newline
-            formatted_header.push(newline); // Spacer newline
         }
     }
 
@@ -446,6 +443,73 @@ pub fn format_header_with_comments(
     Some(formatted_header)
 }
 
+trait ReplaceBetween {
+    fn replace_between<'a>(&'a self, delim: char, replacement: &str) -> Cow<'a, str>;
+}
+
+use std::borrow::Cow;
+impl ReplaceBetween for str {
+    fn replace_between<'a>(&'a self, delim: char, replacement: &str) -> Cow<'a, str> {
+        let mut first_sight: Option<usize> = None;
+        let mut last_seen: Option<usize> = None;
+
+        // Collect all of the lines, compressing into a vector, for the slicing mechanisms.
+        // This pass finds all of the indicies
+        let all_lines: Vec<&str> = self
+            .lines()
+            .enumerate()
+            .map(|(index, line)| {
+                if line.contains(delim) {
+                    // If a first line doesn't already exist, take the first.
+                    first_sight = first_sight.or(Some(index));
+                    // Always update the last index found, as the most recent is the oldest.
+                    last_seen = Some(index);
+                }
+                line // Returning for collection
+            })
+            .collect();
+
+        // This pass detects if there are any lines containing the delimeter were found
+        if let (Some(first_idx), Some(last_idx)) = (first_sight, last_seen) {
+            // Lines were found to replace, so initialize a new string with Cow
+            let mut result_parts: Vec<Cow<'_, str>> = Vec::new();
+
+            // |1| Add the lines *before* the first matched line index
+            if first_idx > 0 {
+                // Slice the collected lines from the beginning up to first_idx
+                result_parts.push(Cow::Owned(all_lines[0..first_idx].join("\n")));
+            }
+
+            // |2| Add the replacement content
+            result_parts.push(Cow::Borrowed(replacement));
+
+            // |3| Add lines *after* the last matched line index
+            if last_idx + 1 < all_lines.len() {
+                // Slice the collected lines from one past the last line with delimeter until the very end
+                result_parts.push(Cow::Owned(all_lines[last_idx + 1..].join("\n")));
+            }
+
+            // Join the parts with the newline.
+            // Filter out any useless, empty, Cow strings resulting from lonely replacement
+            let final_string = result_parts
+                .iter()
+                .filter(|s| !s.is_empty()) // Avoid joining empty parts
+                .map(|s| s.as_ref()) // Convert Cow<str> to &str for joining
+                .collect::<Vec<&str>>()
+                .join("\n");
+
+            let mut final_result = String::from(final_string);
+            // Always end with a trailing newline
+            final_result.push('\n');
+
+            Cow::Owned(final_result)
+        } else {
+            // No lines contained the delimiter, return the original text slice
+            // without allocating a new String.
+            Cow::Borrowed(self)
+        }
+    }
+}
 /// Applies the license header to a list of files asynchronously.
 /// Modifies files directly (in-place).
 ///
@@ -462,7 +526,7 @@ pub fn format_header_with_comments(
 pub async fn apply_headers_to_files(
     header_content: &str,
     paths: &[PathBuf],
-    max_concurrency: usize,
+    max_concurrency: std::num::NonZero<usize>,
     prefers_block: bool,
 ) -> Result<(), LichenError> {
     use futures::stream::{self, StreamExt}; // Ensure futures is imported
@@ -475,7 +539,7 @@ pub async fn apply_headers_to_files(
         max_concurrency
     );
 
-    // Marker for end of header (SOT - Start of Text, used somewhat unconventionally here)
+    // Marker for end of header, blank unicode joiner.
     const HEADER_MARKER: char = '\u{2060}';
 
     // Share header content safely across tasks
@@ -503,16 +567,6 @@ pub async fn apply_headers_to_files(
                         return Ok((0, 1, 0));
                     }
                 };
-
-                // |3| Skip if header marker already present
-                if content.contains(HEADER_MARKER) {
-                    info!(
-                        "Already contains header marker, skipping '{}'",
-                        path.display()
-                    );
-                    // Return Ok with stats
-                    return Ok((0, 1, 0));
-                }
 
                 // |4| Find comment token for extension
                 let ext = path.extension().and_then(|s| s.to_str()).unwrap_or("");
@@ -555,6 +609,18 @@ pub async fn apply_headers_to_files(
                         return Ok((0, 1, 0)); // Skip
                     }
                 };
+
+                // |6| If header is already present, simply replace it.
+                if content.contains(HEADER_MARKER) {
+                    info!(
+                        "Already contains header marker, replacing '{}'",
+                        path.display()
+                    );
+                    let content = content.replace_between(HEADER_MARKER, &formatted_header);
+                    fs::write(&path, content.to_string()).await;
+                    // Return Ok with stats
+                    return Ok((1, 0, 0));
+                }
 
                 // |6| Shebang handling
                 let (shebang, rest) = if content.starts_with("#!") {
