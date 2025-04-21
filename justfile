@@ -7,6 +7,7 @@ set allow-duplicate-recipes := true
 
 # ===== Variables =====
 project_root    := justfile_directory()
+output_directory := project_root + "/dist"
 host_target     := `rustc -Vv | sed -n 's/^host: //p'`
 target_dir      := project_root + "/target"
 lichen_pkg      := "lichen"
@@ -46,7 +47,6 @@ build-release target=(host_target):
     @echo "📦 Packaging release binary…"
     @mkdir -p dist
 
-    # In a single shell invocation, detect .exe suffix and copy+checksum
     @bash -euo pipefail -c '\
       ext=""; \
       if [[ "{{target}}" == *windows-msvc ]]; then \
@@ -58,11 +58,15 @@ build-release target=(host_target):
       echo " - cp $bin → $out"; \
       cp "$bin" "$out"; \
       \
-      echo -n "🔒 sha256: "; \
-      sha256sum "$out" | awk "{print \$1}" > "$out.sha256"; \
-      echo "(written dist/{{lichen_pkg}}-{{target}}${ext}.sha256)"; \
     '
 
+checksum-release:
+    @echo "🔒 Creating checksums..."
+    find "{{output_directory}}" -type f ! -name "checksums.sha256" -print0 | xargs -0 sha256sum > "{{output_directory}}/checksums.sha256"
+
+[no-cd]
+checksum +args:
+    sha256sum "{{args}}" > "{{args}}.sha256"
 # ===== Run =====
 
 run +args:
