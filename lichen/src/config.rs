@@ -88,12 +88,26 @@ pub struct LicenseConfig {
 #[derive(Debug, Deserialize, Clone)]
 pub struct Author {
     pub name: String,
-    pub email: String,
+    pub email: Option<String>,
 }
 
 impl fmt::Display for Author {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{} <{}>", self.name, self.email)
+        let wrapper_char_left = "[";
+        let wrapper_char_right = "]";
+
+        if let Some(email) = &self.email {
+            write!(
+                f,
+                "{name} {left}{email}{right}",
+                name = self.name,
+                left = wrapper_char_left,
+                email = email,
+                right = wrapper_char_right
+            )
+        } else {
+            write!(f, "{name}", name = self.name)
+        }
     }
 }
 
