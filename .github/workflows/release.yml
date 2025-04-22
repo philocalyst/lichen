@@ -87,8 +87,7 @@ jobs:
 
       - name: Prepend Git Bash to PATH on Windows
         if: runner.os == 'Windows'
-        run: |
-          echo 'C:\Program Files\Git\usr\bin' >> $GITHUB_PATH
+        run: echo "PATH=C:\\Program Files\\Git\\usr\\bin;${PATH}" >> $GITHUB_ENV
 
       # Cache the Cargo registry/index, registry/cache and git DB
       - name: Cache Cargo registry and git
