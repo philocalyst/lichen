@@ -2,6 +2,7 @@
 
 # ===== Settings =====
 set shell := ["bash", "-euo", "pipefail", "-c"]
+set windows-shell := ["C:/Program Files/Git/usr/bin/bash.exe", "-euo", "pipefail", "-c"]
 set dotenv-load := true
 set allow-duplicate-recipes := true
 
