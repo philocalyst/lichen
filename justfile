@@ -67,6 +67,15 @@ create-notes raw_tag outfile changelog:
       printing && /^## \[/       { exit }
       # otherwise, if printing is enabled, print the current line
       printing                    { print }
+
+      # Error handling
+      END {
+        if (found_section != 0) {
+          # Print error to stderr
+          print "Error: awk could not find section header ## [" tag "] in " changelog_file > "/dev/stderr"
+          exit 1
+        }
+      }
     ' "{{changelog}}" >> "{{outfile}}"
 
     # Check if the output file has content
