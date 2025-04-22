@@ -3,6 +3,20 @@
 All notable changes to this project are documented in this file.  
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] – 2025-04-22
+
+### Added
+- Add `unapply` subcommand to remove previously applied license headers. Handles shebangs and correctly identifies headers marked during application.
+- Add initial `README.md` with project summary, usage examples, configuration details, and build instructions.
+
+### Removed
+- Remove `--in-place` argument and configuration option from the `apply` command. File modification is now the default and only behavior for `apply`.
+
+### Fixed
+- Correct configuration file name from `lichen.toml` to `.lichen.toml` in documentation, error messages, and loading logic.
+- Example toml file (excludes) to (exclude)
+- Fix typo in `Commands::Unapply` enum variant.
+
 ## [0.2.9] – 2025‑04‑22
 
 ### Added
