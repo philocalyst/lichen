@@ -34,7 +34,7 @@ impl LichenApp {
     /// A `Result` indicating success or a `FileProcessingError`.
     pub async fn run(&self, command: Commands) -> Result<(), LichenError> {
         debug!("Dispatching command: {:?}", command);
-        let cfg = Config::load_or_default("lichen.toml")?;
+        let cfg = Config::load_or_default(".lichen.toml")?;
         match command {
             Commands::Gen(args) => {
                 // If there are no licenses in your config, CLI only, just one!
@@ -69,7 +69,7 @@ impl LichenApp {
                 // Call the handler function from the init module
                 init::handle_init(args)
             }
-            Commands::UnApply(args) => unapply::handle_unapply(args).await,
+            Commands::Unapply(args) => unapply::handle_unapply(args).await,
         }
     }
 }

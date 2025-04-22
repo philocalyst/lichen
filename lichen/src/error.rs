@@ -45,7 +45,7 @@ impl fmt::Display for LichenError {
             LichenError::InvalidIndex(idx) => write!(f, "Invalid index: {}", idx),
             LichenError::MissingLicense => write!(
                 f,
-                "Missing license: A license must be set either via `lichen gen <LICENSE_ID>` or in config (lichen.toml)"
+                "Missing license: A license must be set either via `lichen gen <LICENSE_ID>` or in config (.lichen.toml)"
             ),
             LichenError::RegexError(pattern, err) => {
                 write!(f, "Regex Error: for this pattern {} {}", pattern, err)

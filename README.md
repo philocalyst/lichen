@@ -10,7 +10,7 @@ Lichen provides the following core functionalities:
 
 * **License Generation (`gen`):** Creates full license text files based on SPDX identifiers (e.g., `MIT`, `Apache-2.0`). It fetches standard templates and populates them with author, year, and contributor information.
 * **Header Application (`apply`):** Scans source files and adds or replaces license headers using appropriate comment syntax for various programming languages. It intelligently handles existing headers and respects `.gitignore` patterns.
-* **Configuration (`init`, `lichen.toml`):** Allows project-specific settings via a `.lichen.toml` file, including default license choices, author information, target file patterns, and exclusion rules. CLI arguments override configuration settings. Setup a config once, and run simply "lichen gen" or "lichen apply"
+* **Configuration (`init`, `.lichen.toml`):** Allows project-specific settings via a `.lichen.toml` file, including default license choices, author information, target file patterns, and exclusion rules. CLI arguments override configuration settings. Setup a config once, and run simply "lichen gen" or "lichen apply"
 * **Multiple License Support** Double (or more?) license your code, with patterns and regex allowing you to target specific areas with specific licenses (Keep your code compliant when pulling in licensed snippets)
 
 ## Get Started
@@ -40,7 +40,7 @@ To generate a standard `LICENSE` file (e.g., MIT license) in the current directo
 # Using CLI arguments only
 lichen gen MIT --authors "Your Name:your.email@example.com" --date 2025
 
-# Using configuration from lichen.toml (if `id = "MIT"` is set)
+# Using configuration from .lichen.toml (if `id = "MIT"` is set)
 lichen gen
 ```
 
@@ -58,7 +58,7 @@ To add license headers to source files (e.g., apply Apache-2.0 header):
 # Apply header based on CLI arguments, modifying files in place
 lichen apply Apache-2.0 --contributors "CONTRIBUTOR:contrib@example.com" --date 2025 src/ tests/
 
-# Apply header(s) based on lichen.toml configuration, modifying files in place
+# Apply header(s) based on .lichen.toml configuration, modifying files in place
 lichen apply
 ```
 
@@ -71,11 +71,11 @@ lichen apply
   * Use `--all` to ignore `.gitignore` and default ignore patterns.
   * Use `--prefer-block` to use block comments (`/* ... */`) instead of line comments (`// ...`) when available for the language.
 
-### Configuration (`lichen.toml`)
+### Configuration (`.lichen.toml`)
 
-Lichen can be configured using a `lichen.toml` file in your project root.
+Lichen can be configured using a `.lichen.toml` file in your project root.
 
-**Example `lichen.toml`:**
+**Example `.lichen.toml`:**
 
 ```toml
 # Global settings
