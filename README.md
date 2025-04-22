@@ -17,6 +17,12 @@ Lichen provides the following core functionalities:
 
 Ready to integrate Lichen into your project? Jump to the [Installation](#install) section to learn how to install the tool.
 
+## Coming SOON
+- Contributor option
+- Full date option (Currently just trims to year)
+- Config option (To pass in from wherever you are.)
+- Uploading to all major package managers
+
 ## Tutorial
 
 Lichen offers several commands to manage licenses.
