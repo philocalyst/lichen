@@ -453,7 +453,7 @@ pub fn format_header_with_comments(
     Some(formatted_header)
 }
 
-trait ReplaceBetween {
+pub trait ReplaceBetween {
     fn replace_between<'a>(&'a self, delim: char, replacement: &str) -> Cow<'a, str>;
 }
 
@@ -732,5 +732,55 @@ pub async fn apply_headers_to_files(
         }))
     } else {
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::config::Author;
+    use crate::config::Authors;
+    use jiff::civil::Date;
+    use std::borrow::Cow;
+
+    #[test]
+    fn render_license_injects_copyright_and_authors() {
+        let template = "/* {{copyright}} */";
+        let authors = Some(Authors(vec![
+            Author {
+                name: "A".into(),
+                email: None,
+            },
+            Author {
+                name: "B".into(),
+                email: Some("b@e".into()),
+            },
+        ]));
+        let year = Date::new(2025, 1, 1).unwrap();
+        let out = render_license(template, &year, &authors).unwrap();
+        assert!(out.contains("2025"));
+        assert!(out.contains("A"));
+        assert!(out.contains("B [b@e]"));
+    }
+
+    #[test]
+    fn replace_between_replaces_delimited_region() {
+        let text = "line1\n* old\n* old2\nline4";
+        let replaced = text.replace_between('*', "NEW\nNEW2");
+        // expect lines before first '*', then our replacement, then lines after last '*'
+        let expect = "line1\nNEW\nNEW2\nline4\n";
+        match replaced {
+            Cow::Owned(ref s) => assert_eq!(s, expect),
+            _ => panic!("expected owned String"),
+        }
+    }
+
+    #[test]
+    fn replace_between_no_delimiter_returns_borrowed() {
+        let text = "no markers here";
+        let replaced = text.replace_between('#', "X");
+        // without marker, should return the original slice
+        assert!(matches!(replaced, Cow::Borrowed(_)));
+        assert_eq!(replaced, "no markers here");
     }
 }

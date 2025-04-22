@@ -125,3 +125,44 @@ impl fmt::Display for Authors {
         write!(f, "{}", joined)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn author_display_with_email() {
+        let a = Author {
+            name: "Alice".into(),
+            email: Some("a@e.com".into()),
+        };
+        let s = format!("{}", a);
+        assert_eq!(s, "Alice [a@e.com]");
+    }
+
+    #[test]
+    fn author_display_no_email() {
+        let a = Author {
+            name: "Bob".into(),
+            email: None,
+        };
+        let s = format!("{}", a);
+        assert_eq!(s, "Bob");
+    }
+
+    #[test]
+    fn authors_display_multiple() {
+        let authors = Authors(vec![
+            Author {
+                name: "X".into(),
+                email: None,
+            },
+            Author {
+                name: "Y".into(),
+                email: Some("y@z".into()),
+            },
+        ]);
+        let s = format!("{}", authors);
+        assert_eq!(s, "X, Y [y@z]");
+    }
+}
