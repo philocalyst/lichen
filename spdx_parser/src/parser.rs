@@ -71,7 +71,7 @@ pub fn parse_text_template(content: &str) -> Result<String, AppError> {
                 original_content = original_content
             );
             log::trace!("Text var replacement string: {}", replacement);
-            replacement 
+            replacement
         });
 
     log::debug!("Finished parsing text template");
