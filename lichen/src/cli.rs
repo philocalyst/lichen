@@ -16,6 +16,12 @@ fn parse_year_to_date(s: &str) -> Result<Date, String> {
     let year: i16 = s
         .parse()
         .map_err(|e| format!("invalid year `{}`: {}", s, e))?;
+
+    let date: Option<Date> = s.parse::<Date>().ok();
+
+    if date.is_some() {
+        return Ok(date.expect("Is some, should be fine"));
+    }
     Date::new(year, 1, 1).map_err(|e| format!("invalid date: {}", e))
 }
 
