@@ -196,6 +196,35 @@ jobs:
       - name: Install GitHub CLI
         run: sudo apt-get update && sudo apt-get install -y gh
 
+      - name: Install Just (Command Runner)
+        run: |
+          set -euxo pipefail
+
+          # Using || true to prevent failure if package isn't found to catch on fallback
+          # Try installing via native package manager first
+            if [[ "$RUNNER_OS" == "Linux" ]]; then
+              echo "Attempting to install just via apt..."
+              sudo apt-get update -y
+              sudo apt-get install -y just || echo "apt install failed or package not found."
+            elif [[ "$RUNNER_OS" == "macOS" ]]; then
+              echo "Attempting to install just via Homebrew..."
+              brew install just || echo "brew install failed."
+            elif [[ "$RUNNER_OS" == "Windows" ]]; then
+              echo "Attempting to install just via Chocolatey..."
+              choco install just --yes || echo "choco install failed."
+            else
+              echo "Unsupported OS for package manager installation: $RUNNER_OS."
+            fi
+
+            # Fallback to cargo install if 'just' command is not found after package manager attempt
+            if ! command -v just &>/dev/null; then
+              echo "Just not found after package manager attempt. Installing via cargo install..."
+              cargo install just
+            else
+              echo "Just installed successfully via package manager or was already present."
+            fi
+
+
       - name: Download Release Archives
         env:
           # Use PAT for gh CLI authentication
@@ -209,7 +238,7 @@ jobs:
             --dir release
 
       - name: Create Checksums
-        run: just checksum "$GITHUB_WORKSPACE/release"
+        run: just checksum /release
 
       - name: Publish Individual Checksums
         uses: softprops/action-gh-release@v2
