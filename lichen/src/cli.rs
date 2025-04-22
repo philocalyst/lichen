@@ -73,6 +73,7 @@ pub fn parse_to_author(input: &str) -> Result<Authors, String> {
     Ok(Authors(authors))
 }
 
+// The styles I got from the docs lol
 const STYLES: styling::Styles = styling::Styles::styled()
     .header(styling::AnsiColor::Green.on_default().bold())
     .usage(styling::AnsiColor::Green.on_default().bold())
