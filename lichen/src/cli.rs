@@ -77,11 +77,13 @@ pub struct Cli {
 
 #[derive(Subcommand, Debug)]
 pub enum Commands {
-    /// Generate a license file (e.g., LICENSE or LICENSE.md)
+    /// Generate a license file
     Gen(GenArgs),
+
     /// Apply license headers to source files
     Apply(ApplyArgs),
-    /// Initialize a default configuration file (Not fully implemented)
+
+    /// Initialize a default configuration file
     Init(InitArgs),
 }
 
@@ -142,7 +144,7 @@ pub struct ApplyArgs {
     #[arg(num_args = 1..)]
     pub targets: Option<Vec<PathBuf>>,
 
-    /// Do not respect the git_ignore file (If present in directory) and exclude defaults
+    /// Do not respect the git_ignore file (If present in directory) and other pattern defaults
     #[arg(long, action = clap::ArgAction::SetTrue)]
     pub all: Option<bool>,
 
