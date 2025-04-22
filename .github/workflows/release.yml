@@ -103,7 +103,7 @@ jobs:
           # Ensure the specific Rust target for the matrix job is installed
           target: ${{ matrix.target }}
 
-      - name: Install Just
+      - name: Install Just (Command Runner)
         run: |
           set -euxo pipefail
 
@@ -148,12 +148,21 @@ jobs:
       # but ensure the target is added via rustup (done by setup-rust-toolchain)
 
       # --- Build using Just ---
-      - name: Build and Package with Just
-        # Set RUSTFLAGS combining global and target-specific flags for cargo inside just
+      - name: Build & package with just (Linux/macOS)
+        if: runner.os != 'Windows'
         env:
           RUSTFLAGS: ${{ env.RUSTFLAGS }} ${{ matrix.target_rustflags }}
-        # Run the just recipe, passing the target from the matrix
-        run: just build-release ${{ matrix.target }}
+        run: |
+          just build-release target=${{ matrix.target }}
+
+      - name: Build & package with just (Windows)
+        if: runner.os == 'Windows'
+        env:
+          PATH: C:\Program Files\Git\usr\bin;${{ env.PATH }}
+          RUSTFLAGS: ${{ env.RUSTFLAGS }} ${{ matrix.target_rustflags }}
+        run: |
+          just build-release target=${{ matrix.target }}
+
 
       # --- Publish Artifact ---
       - name: Determine Artifact Name
@@ -166,7 +175,7 @@ jobs:
           echo "path=${ARTIFACT_PATH}" >> $GITHUB_OUTPUT
         shell: bash
 
-      - name: Publish Archive to Release
+      - name: Publish output to Release
         uses: softprops/action-gh-release@v2 # Use latest v2 release
         # Only run for tag pushes
         if: startsWith(github.ref, 'refs/tags/')
