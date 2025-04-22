@@ -554,7 +554,6 @@ pub async fn remove_headers_from_files(
 
     let results = stream::iter(paths.to_owned())
         .map(|path| {
-            // No shared state needed like header_content, so no Arc needed here
             async move {
                 trace!("Processing file for header removal: '{}'", path.display());
 
@@ -597,9 +596,9 @@ pub async fn remove_headers_from_files(
                     }
                 }
 
-                // |4| Find the header marker *after* the shebang (if any)
+                // |4| Find the LAST header marker *after* the shebang (if any)
                 let search_area = &content[shebang_len..];
-                let marker_pos_in_search_area = search_area.find(HEADER_MARKER_STR);
+                let marker_pos_in_search_area = search_area.rfind(HEADER_MARKER_STR);
 
                 if let Some(relative_pos) = marker_pos_in_search_area {
                     // Calculate absolute position of the marker in the original content
