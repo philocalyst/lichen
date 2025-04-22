@@ -167,29 +167,14 @@ jobs:
 
       - name: Extract changelog for the tag
         id: extract_changelog
-        run: just create-notes ${{ github.ref_name }} CHANGELOG.md release_notes.md
+        run: just create-notes ${{ github.ref_name }} release_notes.md CHANGELOG.md
 
       - name: Publish output to Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: release_notes.md
-          body_path: ${{ steps.extract_changelog.outputs.notes_file }}
-          draft: false
-          prerelease: ${{ needs.prerelease.outputs.value }}
-          token: ${{ secrets.PAT }}
-
-
-      - name: Publish output to Release
-        uses: softprops/action-gh-release@v2 # Use latest v2 release
-        # Only run for tag pushes
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          # Use the artifact path determined in the previous step
           files: ${{ steps.artifact_name.outputs.path }}
-          # With the changelog
-          body_path:  ${{ github.workspace }}/CHANGELOG.md # Changelog at rot
-          # Set draft and prerelease status based on the prerelease job output
+          body_path: release_notes.md
           draft: false
           prerelease: ${{ needs.prerelease.outputs.value }}
           token: ${{ secrets.PAT }}
