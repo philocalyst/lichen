@@ -1,6 +1,7 @@
 use crate::error::LichenError;
 use crate::license::License;
 use jiff::civil::Date;
+use log::{info, warn};
 use regex::Regex;
 use serde::Deserialize;
 use std::fmt;
@@ -43,11 +44,15 @@ impl Config {
     /// Like `load`, but if the file was *not found*, you get `Config::default()`.
     pub fn load_or_default<P: AsRef<Path>>(path: P) -> Result<Self, LichenError> {
         match Self::load(&path) {
-            Ok(cfg) => Ok(cfg),
+            Ok(cfg) => {
+                info!("Running with config");
+                Ok(cfg)
+            }
             Err(LichenError::IoError(ref io_err))
                 if io_err.kind() == std::io::ErrorKind::NotFound =>
             {
                 // no file → empty‐config
+                warn!("No config found, falling back on CLI and defaults");
                 Ok(Config::default())
             }
             Err(other) => Err(other),
