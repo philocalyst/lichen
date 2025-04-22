@@ -78,6 +78,9 @@ jobs:
     needs:
       - prerelease # Wait for prerelease check
 
+    environment:
+      name: main
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -161,9 +164,7 @@ jobs:
           # Set draft and prerelease status based on the prerelease job output
           draft: false
           prerelease: ${{ needs.prerelease.outputs.value }}
-        env:
-          # Use the default GITHUB_TOKEN for authentication
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
 
       # --- Publish Changelog ---
       - name: Publish Changelog to Release
@@ -176,8 +177,7 @@ jobs:
           files: CHANGELOG.md # Assuming you have a CHANGELOG.md
           draft: false
           prerelease: ${{ needs.prerelease.outputs.value }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
 
   checksum:
     # This job downloads all published artifacts and creates a checksum file.
@@ -188,14 +188,17 @@ jobs:
     # Only run for tag pushes
     if: startsWith(github.ref, 'refs/tags/')
 
+    environment:
+      name: main
+
     steps:
       - name: Install GitHub CLI
         run: sudo apt-get update && sudo apt-get install -y gh
 
       - name: Download Release Archives
         env:
-          # Use GITHUB_TOKEN for gh CLI authentication
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Use PAT for gh CLI authentication
+          GH_TOKEN: ${{ secrets.PAT }}
           # Get the tag name from the ref
           TAG_NAME: ${{ github.ref_name }}
         run: |
@@ -214,6 +217,5 @@ jobs:
           files: release/*.sha256
           draft: false
           prerelease: ${{ needs.prerelease.outputs.value }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
 
