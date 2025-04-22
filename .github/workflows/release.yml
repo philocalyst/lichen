@@ -105,19 +105,28 @@ jobs:
 
       - name: Install Just
         run: |
-          # Add the Prebuilt-MPR signing key
-          wget -qO - 'https://proget.makedeb.org/debian-feeds/prebuilt-mpr.pub' | gpg --dearmor | sudo tee /usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg 1> /dev/null
+          set -euxo pipefail
+          # On Linux, try the makedeb method
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
+            echo "Attempting to install just via makedeb Prebuilt‑MPR…"
+            wget -qO - 'https://proget.makedeb.org/debian-feeds/prebuilt-mpr.pub' \
+              | gpg --dearmor \
+              | sudo tee /usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg \
+                    1>/dev/null
+            echo "deb [arch=all,$(dpkg --print-architecture) \
+                  signed-by=/usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg] \
+                  https://proget.makedeb.org prebuilt-mpr \
+                  $(lsb_release -cs)" \
+              | sudo tee /etc/apt/sources.list.d/prebuilt-mpr.list
+            sudo apt-get update -y
+            # If this falls through, go back to cargo install
+            sudo apt-get install -y just || echo "apt install failed, falling back to cargo"
+          fi
 
-          # Add the Prebuilt-MPR repository
-          # Use $(lsb_release -cs) to give the distro codename (e.g., jammy for Ubuntu 22.04)
-          echo "deb [arch=all,$(dpkg --print-architecture) signed-by=/usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg] https://proget.makedeb.org prebuilt-mpr $(lsb_release -cs)" | sudo tee /etc/apt/sources.list.d/prebuilt-mpr.list
-
-          # Update apt to recognize the new repository and its packages
-          sudo apt update -y
-
-          # Install the 'just' package from the Prebuilt-MPR
-          sudo apt install -y just
-
+          if ! command -v just &>/dev/null; then
+            echo "Installing just via cargo install…"
+            cargo install just
+          fi
 
       # --- Toolchain Installation (Keep these conditional steps) ---
       - name: Install AArch64 Linux Toolchain (Ubuntu)
