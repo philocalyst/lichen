@@ -85,6 +85,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Prepend Git Bash to PATH on Windows
+        if: runner.os == 'Windows'
+        run: |
+          echo 'C:\Program Files\Git\usr\bin' >> $GITHUB_PATH
+
       # Cache the Cargo registry/index, registry/cache and git DB
       - name: Cache Cargo registry and git
         uses: actions/cache@v3
@@ -148,21 +153,12 @@ jobs:
       # but ensure the target is added via rustup (done by setup-rust-toolchain)
 
       # --- Build using Just ---
-      - name: Build & package with just (Linux/macOS)
-        if: runner.os != 'Windows'
+      - name: Build the release version
+        # Set RUSTFLAGS combining global and target-specific flags for cargo inside just
         env:
           RUSTFLAGS: ${{ env.RUSTFLAGS }} ${{ matrix.target_rustflags }}
-        run: |
-          just build-release target=${{ matrix.target }}
-
-      - name: Build & package with just (Windows)
-        if: runner.os == 'Windows'
-        env:
-          PATH: C:\Program Files\Git\usr\bin;${{ env.PATH }}
-          RUSTFLAGS: ${{ env.RUSTFLAGS }} ${{ matrix.target_rustflags }}
-        run: |
-          just build-release target=${{ matrix.target }}
-
+        # Run the just recipe, passing the target from the matrix
+        run: just build-release ${{ matrix.target }}
 
       # --- Publish Artifact ---
       - name: Determine Artifact Name
