@@ -180,19 +180,6 @@ jobs:
           prerelease: ${{ needs.prerelease.outputs.value }}
           token: ${{ secrets.PAT }}
 
-      # --- Publish Changelog ---
-      - name: Publish Changelog to Release
-        uses: softprops/action-gh-release@v2
-        # Only run for tag pushes AND for one specific target to avoid duplicates
-        if: >-
-          startsWith(github.ref, 'refs/tags/')
-          && matrix.target == 'x86_64-unknown-linux-musl'
-        with:
-          files: CHANGELOG.md # Assuming you have a CHANGELOG.md
-          draft: false
-          prerelease: ${{ needs.prerelease.outputs.value }}
-          token: ${{ secrets.PAT }}
-
   checksum:
     # This job downloads all published artifacts and creates a checksum file.
     runs-on: ubuntu-latest
