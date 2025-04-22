@@ -47,6 +47,7 @@ build:
 
 create-notes raw_tag outfile changelog:
     #!/usr/bin/env bash
+    
     tag_v="{{raw_tag}}"
     tag="${tag_v#v}" # Remove prefix v
 
@@ -110,6 +111,23 @@ checksum directory=(output_directory):
     @echo "🔒 Creating checksums..."
     find "{{directory}}" -type f ! -name "checksums.sha256" ! -name "README*" ! -name "*.sha256" -exec sh -c 'sha256sum "$1" > "$1.sha256"' _ {} \;
     @echo "✅ Checksums created!"
+
+[no-cd]
+compress-binaries target_directory=("."): # Compress the binaries in the passed-in file
+    #!/usr/bin/env bash
+    
+    find "{{target_directory}}" -maxdepth 1 -type f -print0 | while IFS= read -r -d $'\0' file; do
+
+    # Check if the file command output indicates a binary/executable type
+    if file "$file" | grep -q -E 'executable|ELF|Mach-O|shared object'; then
+        # Get the base filename without the prepending components
+        filename=$(basename "$file")
+        echo "Archiving binary file: $filename"
+        # Create a compressed tar archive named after the original file
+        tar -czvf "${filename}.tar.gz" "$file"
+    fi
+    done
+
 
 # ===== Run =====
 
