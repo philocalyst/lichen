@@ -8,7 +8,7 @@ set allow-duplicate-recipes := true
 # ===== Variables =====
 project_root    := justfile_directory()
 output_directory := project_root + "/dist"
-host_target     := `rustc -Vv | sed -n 's/^host: //p'`
+host_target     := `rustc -Vv | grep '^host:' | awk '{print $2}'` # Get host line, get the value (2nd)
 target_dir      := project_root + "/target"
 lichen_pkg      := "lichen"
 spdx_parser_pkg := "spdx_parser"
