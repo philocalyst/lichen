@@ -196,23 +196,22 @@ just clean-all # Remove target/, Python venv, etc.
 Ensure you have the Rust toolchain installed.
 
 ```shell
-# Clone the repository (if you haven't already)
-git clone [https://github.com/philocalyst/lichen.git](https://github.com/philocalyst/lichen.git) # Replace with actual URL if different
-cd lichen
-
 # Build and install using cargo
-cargo install --path lichen
-
-# Or using just (builds release version first)
-just install         # Installs the binary
-just install-force   # Force install (overwrite existing)
+cargo install --git https://github.com/philocalyst/lichen/
 ```
 
 The `lichen` binary will be installed in your Cargo bin directory (usually `~/.cargo/bin/`). Ensure this directory is in your system's `PATH`.
 
 ### Pre-built Binaries
 
-Pre-compiled binaries for major platforms (Linux, macOS, Windows) may be available on the [GitHub Releases page](https://www.google.com/search?q=https://github.com/philocalyst/lichen/releases). Download the appropriate archive for your system, extract it, and place the `lichen` executable in a directory included in your system's `PATH`. You might also find `.sha256` files to verify the download integrity.
+Pre-compiled binaries for major platforms (Linux, macOS, Windows) are available on the [GitHub Releases page](https://github.com/philocalyst/lichen/releases) under assets. Download the appropriate archive for your system, extract it, and place the `lichen` executable in a directory included in your system's `PATH`. You will also find `.sha256` files to verify the download integrity.
+
+## Contributing
+This is my first large rust project, and I'm sure there's so, so, so, much I could be doing better when it comes to following idioms and best practices, and I'm sure there's a ton of small bugs that are in my code.. right now 🥺
+
+Because of that, the barrier to contributing is very low (For now haha), and if you notice something small or large (Could be code issue, design oddity, documentation lack etc.), just file an issue and I'll do the job of making sense of it. Pull requests can feel daunting, so if you *want* to contribute some code, you could even just drop an email to me (Found in my profile) with a line or two with some context :)
+
+Some low hanging fruit are the parse_spdx library and the language generator (both of which no longer work/aren't in use), which I shamelessly generated to solve the problem once, and now represent the biggest pieces of debt in my project. I'll get around to integrating these as soon as possible, but are my priority after the promised features. If you want to jump that gun, please, by all means.
 
 ## Changelog
 
