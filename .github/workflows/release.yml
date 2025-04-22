@@ -85,10 +85,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Prepend Git Bash to PATH on Windows
-        if: runner.os == 'Windows'
-        run: echo "PATH=C:\\Program Files\\Git\\usr\\bin;${PATH}" >> $GITHUB_ENV
-
       # Cache the Cargo registry/index, registry/cache and git DB
       - name: Cache Cargo registry and git
         uses: actions/cache@v3
@@ -213,7 +209,7 @@ jobs:
             --dir release
 
       - name: Create Checksums
-        run: just checksum release
+        run: just checksum "$GITHUB_WORKSPACE/release"
 
       - name: Publish Individual Checksums
         uses: softprops/action-gh-release@v2
