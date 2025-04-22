@@ -13,15 +13,24 @@ use std::path::PathBuf;
 // ▰▰▰ CLI Argument Structs ▰▰▰ //
 
 fn parse_year_to_date(s: &str) -> Result<Date, String> {
+    println!("{s}");
+    // |1| Attempt to parse as a full date; on Err, log only if it looks not a year
+    match s.parse::<Date>() {
+        Ok(date) => return Ok(date),
+        Err(e) => {
+            // basic assumption anything longer than 4 chars isn’t just "YYYY", and should throw an error as it is now assumed to be an attempted full date.
+            if s.len() > 4 {
+                return Err(e.to_string());
+            }
+        }
+    }
+
+    // |2| Fallback to parsing as year only
     let year: i16 = s
         .parse()
         .map_err(|e| format!("invalid year `{}`: {}", s, e))?;
 
-    let date: Option<Date> = s.parse::<Date>().ok();
-
-    if date.is_some() {
-        return Ok(date.expect("Is some, should be fine"));
-    }
+    // |3| Construct January 1st of that year
     Date::new(year, 1, 1).map_err(|e| format!("invalid date: {}", e))
 }
 
