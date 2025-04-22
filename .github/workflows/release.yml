@@ -106,27 +106,30 @@ jobs:
       - name: Install Just
         run: |
           set -euxo pipefail
-          # On Linux, try the makedeb method
-          if [[ "$RUNNER_OS" == "Linux" ]]; then
-            echo "Attempting to install just via makedeb Prebuilt‑MPR…"
-            wget -qO - 'https://proget.makedeb.org/debian-feeds/prebuilt-mpr.pub' \
-              | gpg --dearmor \
-              | sudo tee /usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg \
-                    1>/dev/null
-            echo "deb [arch=all,$(dpkg --print-architecture) \
-                  signed-by=/usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg] \
-                  https://proget.makedeb.org prebuilt-mpr \
-                  $(lsb_release -cs)" \
-              | sudo tee /etc/apt/sources.list.d/prebuilt-mpr.list
-            sudo apt-get update -y
-            # If this falls through, go back to cargo install
-            sudo apt-get install -y just || echo "apt install failed, falling back to cargo"
-          fi
 
-          if ! command -v just &>/dev/null; then
-            echo "Installing just via cargo install…"
-            cargo install just
-          fi
+          # Using || true to prevent failure if package isn't found to catch on fallback
+          # Try installing via native package manager first
+            if [[ "$RUNNER_OS" == "Linux" ]]; then
+              echo "Attempting to install just via apt..."
+              sudo apt-get update -y
+              sudo apt-get install -y just || echo "apt install failed or package not found."
+            elif [[ "$RUNNER_OS" == "macOS" ]]; then
+              echo "Attempting to install just via Homebrew..."
+              brew install just || echo "brew install failed."
+            elif [[ "$RUNNER_OS" == "Windows" ]]; then
+              echo "Attempting to install just via Chocolatey..."
+              choco install just --yes || echo "choco install failed."
+            else
+              echo "Unsupported OS for package manager installation: $RUNNER_OS."
+            fi
+
+            # Fallback to cargo install if 'just' command is not found after package manager attempt
+            if ! command -v just &>/dev/null; then
+              echo "Just not found after package manager attempt. Installing via cargo install..."
+              cargo install just
+            else
+              echo "Just installed successfully via package manager or was already present."
+            fi
 
       # --- Toolchain Installation (Keep these conditional steps) ---
       - name: Install AArch64 Linux Toolchain (Ubuntu)
@@ -170,6 +173,8 @@ jobs:
         with:
           # Use the artifact path determined in the previous step
           files: ${{ steps.artifact_name.outputs.path }}
+          # With the changelog
+          body_path:  ${{ github.workspace }}/CHANGELOG.md # Changelog at rot
           # Set draft and prerelease status based on the prerelease job output
           draft: false
           prerelease: ${{ needs.prerelease.outputs.value }}
