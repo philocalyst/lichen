@@ -1,8 +1,7 @@
-change_in_place = true
 error_on_conflict = false
 
 # Regexes which if matched by a file path will always be excluded from
-excludes = [
+exclude = [
   "\\.gitignore",
   ".*lock",
   "\\.git/.*",
