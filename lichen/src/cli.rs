@@ -96,6 +96,9 @@ pub enum Commands {
     /// Generate a license file
     Gen(GenArgs),
 
+    /// Remove license headers in source files
+    Unapply(UnapplyArgs),
+
     /// Apply license headers to source files
     Apply(ApplyArgs),
 
@@ -170,6 +173,21 @@ pub struct InitArgs {
     /// Defaults to the current directory.
     #[arg(short, long)]
     pub path: Option<PathBuf>,
+}
+
+#[derive(Args, Debug)]
+pub struct UnapplyArgs {
+    /// Regex pattern for files/directories to exclude. Applied during directory traversal.
+    #[arg(short, long)] // Removed value_delimiter, regex parsing handles it
+    pub exclude: Option<Regex>,
+
+    /// Files or directories to process. Defaults to the current directory (`.`).
+    #[arg(num_args = 1..)]
+    pub targets: Vec<PathBuf>,
+
+    /// Do not respect the git_ignore file (If present in directory) and other pattern defaults
+    #[arg(long, action = clap::ArgAction::SetTrue)]
+    pub all: bool,
 }
 
 #[cfg(test)]

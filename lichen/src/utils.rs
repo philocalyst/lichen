@@ -2,7 +2,7 @@
 //!
 //! General helper functions for file processing, text formatting, etc.
 
-use crate::config::Authors;
+use crate::config::{Authors, Config};
 use crate::error::LichenError;
 use crate::models::CommentToken;
 use handlebars::{Handlebars, RenderError};
@@ -14,7 +14,13 @@ use std::fs::{self, File};
 use std::io::BufReader;
 use std::path::MAIN_SEPARATOR;
 use std::path::PathBuf;
-use walkdir::{self, WalkDir};
+use std::process::Command;
+use std::sync::Arc;
+use walkdir::{self, WalkDir}; // Use tokio's async fs
+
+// Marker for start/end of header, blank unicode joiner.
+const HEADER_MARKER: char = '\u{2060}';
+const HEADER_MARKER_STR: &str = "\u{2060}"; // String version for searching
 
 /// Renders a license template using Handlebars.
 ///
@@ -520,8 +526,175 @@ impl ReplaceBetween for str {
         }
     }
 }
+
+/// Removes license headers previously marked by HEADER_MARKER from files asynchronously.
+/// Modifies files directly. It identifies the header as the content between the start
+/// of the file (or after a shebang) and the HEADER_MARKER.
+///
+/// # Arguments
+///
+/// * `paths`: A slice of `PathBuf` representing the files to modify.
+/// * `max_concurrency`: The maximum number of files to process concurrently.
+///
+/// # Returns
+///
+/// A `Result<(), LichenError>` indicating overall success or the first error encountered.
+pub async fn remove_headers_from_files(
+    paths: &[PathBuf],
+    max_concurrency: std::num::NonZero<usize>,
+) -> Result<(), LichenError> {
+    use futures::stream::{self, StreamExt}; // Ensure futures is imported
+    use tokio::fs; // Use tokio's async fs
+
+    debug!(
+        "Starting to remove headers from {} files with concurrency {}",
+        paths.len(),
+        max_concurrency
+    );
+
+    let results = stream::iter(paths.to_owned())
+        .map(|path| {
+            // No shared state needed like header_content, so no Arc needed here
+            async move {
+                trace!("Processing file for header removal: '{}'", path.display());
+
+                // |1| Skip directories
+                if path.is_dir() {
+                    warn!("Skipping directory during removal: '{}'", path.display());
+                    // Return Ok with stats: (removed, skipped, errors)
+                    return Ok((0, 1, 0));
+                }
+
+                // |2| Read file content as string.
+                let content = match fs::read_to_string(&path).await {
+                    Ok(c) => c,
+                    Err(e) => {
+                        warn!(
+                            "Failed to read '{}' for removal: {}. Skipping.",
+                            path.display(),
+                            e
+                        );
+                        // Return Ok with stats
+                        return Ok((0, 1, 0));
+                    }
+                };
+
+                // |3| Handle Shebang
+                let mut shebang_len = 0;
+                if content.starts_with("#!") {
+                    // Find the first newline character
+                    if let Some(pos) = content.find('\n') {
+                        // Length includes the newline
+                        shebang_len = pos + 1;
+                    } else {
+                        // The whole file is just a shebang line (unlikely but possible)
+                        // In this case, no header can exist after it.
+                        trace!(
+                            "File '{}' is only a shebang line. Skipping removal.",
+                            path.display()
+                        );
+                        return Ok((0, 1, 0)); // Skip
+                    }
+                }
+
+                // |4| Find the header marker *after* the shebang (if any)
+                let search_area = &content[shebang_len..];
+                let marker_pos_in_search_area = search_area.find(HEADER_MARKER_STR);
+
+                if let Some(relative_pos) = marker_pos_in_search_area {
+                    // Calculate absolute position of the marker in the original content
+                    let marker_start_pos = shebang_len + relative_pos;
+                    // Calculate the position *after* the marker
+                    let content_after_marker_pos = marker_start_pos + HEADER_MARKER_STR.len();
+
+                    // Construct the new content: shebang (if any) + content after marker
+                    let mut new_text = String::with_capacity(
+                        shebang_len + (content.len() - content_after_marker_pos),
+                    );
+
+                    // Add shebang if it exists
+                    if shebang_len > 0 {
+                        new_text.push_str(&content[..shebang_len]);
+                    }
+
+                    // Add the rest of the content, trimming potential leading newline
+                    // left over from the header removal.
+                    let rest_content = &content[content_after_marker_pos..];
+                    new_text.push_str(rest_content.trim_start_matches('\n'));
+
+                    // |5| Write the modified content back to the file
+                    match fs::write(&path, new_text).await {
+                        Ok(_) => {
+                            info!("Removed header from '{}'", path.display());
+                            Ok((1, 0, 0)) // Removed
+                        }
+                        Err(e) => {
+                            error!(
+                                "Failed to write removed header to '{}': {}",
+                                path.display(),
+                                e
+                            );
+                            Ok((0, 0, 1)) // Error
+                        }
+                    }
+                } else {
+                    // Header marker not found after shebang (or at start if no shebang)
+                    info!(
+                        "Header marker not found in '{}'. Skipping removal.",
+                        path.display()
+                    );
+                    Ok((0, 1, 0)) // Skip
+                }
+            }
+        })
+        .buffer_unordered(max_concurrency.into()) // Process concurrently
+        .collect::<Vec<Result<(usize, usize, usize), LichenError>>>() // Collect results
+        .await;
+
+    // Aggregate results and check for errors
+    let mut total_removed = 0;
+    let mut total_skipped = 0;
+    let mut total_errors = 0;
+    let mut first_error: Option<LichenError> = None;
+
+    for result in results {
+        match result {
+            Ok((removed, skipped, errors)) => {
+                total_removed += removed;
+                total_skipped += skipped;
+                total_errors += errors;
+            }
+            Err(e) => {
+                // This handles errors from the async block itself returning Err
+                error!("Unexpected error during stream processing: {}", e);
+                total_errors += 1;
+                if first_error.is_none() {
+                    first_error = Some(e);
+                }
+            }
+        }
+    }
+
+    info!(
+        "Header removal summary: {} removed, {} skipped, {} errors.",
+        total_removed, total_skipped, total_errors
+    );
+
+    if total_errors > 0 {
+        // Return the first specific error encountered, or a generic one
+        Err(first_error.unwrap_or_else(|| {
+            LichenError::Msg(format!(
+                "Encountered {} errors during header removal.",
+                total_errors
+            ))
+        }))
+    } else {
+        Ok(())
+    }
+}
+
 /// Applies the license header to a list of files asynchronously.
-/// Modifies files directly (in-place).
+/// Modifies files directly.
 ///
 /// # Arguments
 ///
@@ -540,18 +713,13 @@ pub async fn apply_headers_to_files(
     prefers_block: bool,
     multiple: bool,
 ) -> Result<(), LichenError> {
-    use futures::stream::{self, StreamExt}; // Ensure futures is imported
-    use std::sync::Arc;
-    use tokio::fs; // Use tokio's async fs
-
+    use futures::stream::{self, StreamExt};
+    use tokio::fs; // Ensure futures is imported
     debug!(
         "Starting to apply headers to {} files with concurrency {}",
         paths.len(),
         max_concurrency
     );
-
-    // Marker for end of header, blank unicode joiner.
-    const HEADER_MARKER: char = '\u{2060}';
 
     // Share header content safely across tasks
     let header_content_arc = Arc::new(header_content.to_string());
@@ -782,5 +950,139 @@ mod tests {
         // without marker, should return the original slice
         assert!(matches!(replaced, Cow::Borrowed(_)));
         assert_eq!(replaced, "no markers here");
+    }
+}
+
+fn load_gitignore_patterns() -> Result<Vec<String>, LichenError> {
+    let mut patterns = Vec::new();
+    let output = Command::new("git")
+        .args(["rev-parse", "--show-toplevel"])
+        .output()?;
+
+    if !output.status.success() {
+        // Deal with errors
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        return Err(format!("Git command failed: {}", stderr).into());
+    }
+
+    let defaults: Vec<String> = vec![
+        "\\.gitignore".to_string(),
+        ".*lock".to_string(),
+        "\\.git/.*".to_string(),
+        "\\.licensure\\.yml".to_string(),
+        "README.*".to_string(),
+        "LICENSE.*".to_string(),
+        ".*\\.(md|rst|txt)".to_string(),
+        "Cargo.toml".to_string(),
+        ".*\\.github/.*".to_string(),
+    ];
+
+    let project_directory = String::from_utf8(output.stdout).unwrap().trim().to_string();
+
+    // Build a PathBuf to the `.gitignore`
+    let gitignore = PathBuf::from(project_directory).join(".gitignore");
+
+    // If there's no .gitignore, just return the defaults
+    let content = match fs::read_to_string(gitignore) {
+        Ok(s) => s,
+        Err(_) => return Ok(defaults),
+    };
+
+    for line in content.lines() {
+        let line = line.trim();
+        // skip comments and blank lines
+        if line.is_empty() || line.starts_with('#') {
+            continue;
+        }
+
+        // detect directory‐only patterns ending with '/'
+        let is_dir = line.ends_with('/');
+        let pat = if is_dir {
+            // strip trailing '/'
+            &line[..line.len() - 1]
+        } else {
+            line
+        };
+
+        // escape regex metachars, then re‐inject glob semantics
+        let mut re = regex::escape(pat).replace(r"\*", ".*").replace(r"\?", ".");
+
+        // if it was a directory pattern, match any descendant
+        if is_dir {
+            re.push_str("/.*");
+        }
+
+        patterns.push(re);
+    }
+
+    // if user .gitignore was empty, fall back to defaults
+    if patterns.is_empty() {
+        Ok(defaults)
+    } else {
+        Ok(patterns)
+    }
+}
+
+pub fn build_exclude_regex(
+    cli_exclude: &Option<Regex>,
+    cfg: Option<&Config>,
+    all: bool,
+    index: Option<usize>,
+) -> Result<Option<Regex>, LichenError> {
+    // 1) collect all raw pattern strings
+    let mut pats = Vec::new();
+
+    // a) add .gitignore patterns (unless disabled)
+    if !all {
+        pats.extend(load_gitignore_patterns()?);
+    }
+
+    if let Some(cfg) = cfg {
+        // b) global exclude from config
+        if let Some(globs) = cfg.exclude.as_ref() {
+            for re in globs.iter() {
+                pats.push(re.as_str().to_string());
+            }
+        }
+
+        // c) per‑license exclude
+        if let Some(i) = index {
+            if let Some(licenses) = cfg.licenses.as_ref() {
+                if let Some(lic) = licenses.get(i) {
+                    // If the license exists, check if it has an exclude pattern
+                    if let Some(exc) = lic.exclude.as_ref() {
+                        pats.push(exc.to_string());
+                    }
+                } else {
+                    // If the index is provided but out of bounds for the licenses vec,
+                    return Err(LichenError::InvalidIndex(i));
+                }
+            }
+            // If cfg.licenses was None, do nothing.
+        }
+        // If no cfg, do nothing
+    }
+
+    // d) CLI override
+    if let Some(cli_exc) = cli_exclude {
+        pats.push(cli_exc.to_string());
+    }
+
+    // nothing to exclude?
+    if pats.is_empty() {
+        return Ok(None);
+    }
+
+    // 2) wrap each in a non‑capturing group and join with |
+    let alternation = pats
+        .into_iter()
+        .map(|p| format!("(?:{})", p))
+        .collect::<Vec<_>>()
+        .join("|");
+
+    // 3) compile once
+    match Regex::new(&alternation) {
+        Ok(re) => Ok(Some(re)),
+        Err(err) => Err(LichenError::RegexError(alternation, err)),
     }
 }

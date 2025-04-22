@@ -18,7 +18,6 @@ use std::path::PathBuf;
 #[derive(Debug)]
 pub struct ApplySettings {
     pub license: License,
-    pub in_place: bool,
     pub prefer_block: bool,
     pub multiple: bool,
     pub authors: Option<Authors>,
@@ -98,8 +97,6 @@ impl ApplySettings {
 
         let multiple = cli.multiple.or(cfg.multiple).unwrap_or(false);
 
-        let in_place = cli.in_place.or(cfg.in_place).unwrap_or(false);
-
         let prefer_block = cli.prefer_block.or(cfg.prefer_block).unwrap_or(false);
 
         Ok(ApplySettings {
@@ -107,7 +104,6 @@ impl ApplySettings {
             license,
             targets,
             prefer_block,
-            in_place,
             authors,
             date,
             multiple,
@@ -127,24 +123,13 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
     let authors = &settings.authors;
     let year = &settings.date;
     let preference = settings.prefer_block;
-    let in_place = settings.in_place;
-    // ---
+    //
 
     info!(
         "Applying license header for: {} to targets: {:?}",
         license.spdx_id(),
         targets
     );
-    info!("In-place modification: {}", in_place);
-    if in_place {
-        warn!("Running with --in-place flag. Files will be modified directly.");
-    } else {
-        // TODO: Implement non-in-place logic
-        error!("Non-in-place application is not yet implemented.");
-        return Err(LichenError::Msg(
-            "Non-in-place application not implemented.".to_string(),
-        ));
-    }
     info!("Exclusion pattern: {:?}", exclude_pattern);
     info!("Prefer block comments: {}", preference);
 
@@ -197,26 +182,18 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
         )); // Nothing to do, error. SOMETHING needs to be done.
     }
 
-    // --- Apply Headers ---
-    // Currently only supports in-place
-    if in_place {
-        info!(
-            "Applying license headers in-place to {} files...",
-            files_to_process.len()
-        );
-        // TODO: Make concurrency configurable?
-        let max_concurrency = std::thread::available_parallelism()
-            .expect("There should always be some available parellism on the computer"); // Use available cores
-        utils::apply_headers_to_files(
-            &rendered_license,
-            &files_to_process,
-            max_concurrency,
-            preference,
-            multiple,
-        )
-        .await?;
-    }
-    // Non-in-place logic would go in an `else` block here.
+    // ▰▰▰ Apply Headers ▰▰▰
+    // TODO: Make concurrency configurable?
+    let max_concurrency = std::thread::available_parallelism()
+        .expect("There should always be some available parellism on the computer"); // Use available cores
+    utils::apply_headers_to_files(
+        &rendered_license,
+        &files_to_process,
+        max_concurrency,
+        preference,
+        multiple,
+    )
+    .await?;
     // ---
 
     info!("Finished applying license headers.");

@@ -3,7 +3,7 @@
 //! Defines the main application struct `LichenApp` and its core execution logic.
 
 use crate::cli::Commands;
-use crate::commands::{apply, generate, init}; // Import handlers
+use crate::commands::{apply, generate, init, unapply}; // Import handlers
 use crate::config::Config;
 use crate::error::LichenError;
 use log::debug;
@@ -69,6 +69,7 @@ impl LichenApp {
                 // Call the handler function from the init module
                 init::handle_init(args)
             }
+            Commands::UnApply(args) => unapply::handle_unapply(args).await,
         }
     }
 }
