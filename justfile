@@ -96,11 +96,11 @@ generate-comments:
 
 # ===== Test =====
 
-test: generate-comments
+test: 
     @echo "🧪 Running workspace tests..."
     cargo test {{workspace_flag}}
 
-test-with +args: generate-comments
+test-with +args: 
     @echo "🧪 Running workspace tests with args: {{args}}"
     cargo test {{workspace_flag}} -- {{args}}
 
