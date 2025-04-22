@@ -9,12 +9,11 @@ use crate::license::License; // Ensure License is imported
 use crate::paths;
 use crate::utils;
 use jiff::civil::Date;
-use log::{debug, error, info, trace, warn};
+use log::{debug, error, info, trace};
 use regex::Regex;
 use std::fs;
 use std::io;
 use std::path::PathBuf;
-use std::process::Command;
 
 #[derive(Debug)]
 pub struct ApplySettings {
@@ -26,137 +25,6 @@ pub struct ApplySettings {
     pub exclude: Option<Regex>,
     pub targets: Vec<PathBuf>,
     pub date: Date,
-}
-
-fn load_gitignore_patterns() -> Result<Vec<String>, LichenError> {
-    let mut patterns = Vec::new();
-    let output = Command::new("git")
-        .args(["rev-parse", "--show-toplevel"])
-        .output()?;
-
-    if !output.status.success() {
-        // Deal with errors
-        let stderr = String::from_utf8_lossy(&output.stderr);
-        return Err(format!("Git command failed: {}", stderr).into());
-    }
-
-    let defaults: Vec<String> = vec![
-        "\\.gitignore".to_string(),
-        ".*lock".to_string(),
-        "\\.git/.*".to_string(),
-        "\\.licensure\\.yml".to_string(),
-        "README.*".to_string(),
-        "LICENSE.*".to_string(),
-        ".*\\.(md|rst|txt)".to_string(),
-        "Cargo.toml".to_string(),
-        ".*\\.github/.*".to_string(),
-    ];
-
-    let project_directory = String::from_utf8(output.stdout).unwrap().trim().to_string();
-
-    // Build a PathBuf to the `.gitignore`
-    let gitignore = PathBuf::from(project_directory).join(".gitignore");
-
-    // If there's no .gitignore, just return the defaults
-    let content = match fs::read_to_string(gitignore) {
-        Ok(s) => s,
-        Err(_) => return Ok(defaults),
-    };
-
-    for line in content.lines() {
-        let line = line.trim();
-        // skip comments and blank lines
-        if line.is_empty() || line.starts_with('#') {
-            continue;
-        }
-
-        // detect directory‐only patterns ending with '/'
-        let is_dir = line.ends_with('/');
-        let pat = if is_dir {
-            // strip trailing '/'
-            &line[..line.len() - 1]
-        } else {
-            line
-        };
-
-        // escape regex metachars, then re‐inject glob semantics
-        let mut re = regex::escape(pat).replace(r"\*", ".*").replace(r"\?", ".");
-
-        // if it was a directory pattern, match any descendant
-        if is_dir {
-            re.push_str("/.*");
-        }
-
-        patterns.push(re);
-    }
-
-    // if user .gitignore was empty, fall back to defaults
-    if patterns.is_empty() {
-        Ok(defaults)
-    } else {
-        Ok(patterns)
-    }
-}
-
-fn build_exclude_regex(
-    cli: &ApplyArgs,
-    cfg: &Config,
-    all: bool,
-    index: Option<usize>,
-) -> Result<Option<Regex>, LichenError> {
-    // 1) collect all raw pattern strings
-    let mut pats = Vec::new();
-
-    // a) add .gitignore patterns (unless disabled)
-    if !all {
-        pats.extend(load_gitignore_patterns()?);
-    }
-
-    // b) global exclude from config
-    if let Some(globs) = cfg.exclude.as_ref() {
-        for re in globs.iter() {
-            pats.push(re.as_str().to_string());
-        }
-    }
-
-    // c) per‑license exclude
-    if let Some(i) = index {
-        if let Some(licenses) = cfg.licenses.as_ref() {
-            if let Some(lic) = licenses.get(i) {
-                // If the license exists, check if it has an exclude pattern
-                if let Some(exc) = lic.exclude.as_ref() {
-                    pats.push(exc.to_string());
-                }
-            } else {
-                // If the index is provided but out of bounds for the licenses vec,
-                return Err(LichenError::InvalidIndex(i));
-            }
-        }
-        // If cfg.licenses was None, do nothing.
-    }
-
-    // d) CLI override
-    if let Some(cli_exc) = cli.exclude.as_ref() {
-        pats.push(cli_exc.to_string());
-    }
-
-    // nothing to exclude?
-    if pats.is_empty() {
-        return Ok(None);
-    }
-
-    // 2) wrap each in a non‑capturing group and join with |
-    let alternation = pats
-        .into_iter()
-        .map(|p| format!("(?:{})", p))
-        .collect::<Vec<_>>()
-        .join("|");
-
-    // 3) compile once
-    match Regex::new(&alternation) {
-        Ok(re) => Ok(Some(re)),
-        Err(err) => Err(LichenError::RegexError(alternation, err)),
-    }
 }
 
 impl ApplySettings {
@@ -226,7 +94,7 @@ impl ApplySettings {
 
         let all = cli.all.or(cfg.ignore_git_ignore).unwrap_or(false);
 
-        let exclude = build_exclude_regex(cli, cfg, all, index)?;
+        let exclude = utils::build_exclude_regex(&cli.exclude, Some(cfg), all, index)?;
 
         let multiple = cli.multiple.or(cfg.multiple).unwrap_or(false);
 
@@ -251,8 +119,7 @@ impl ApplySettings {
 pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
     debug!("Starting handle_apply with args: {:?}", settings);
 
-    // --- Parameter Resolution (CLI vs. Config - Placeholder) ---
-    // TODO: Load license, exclude_pattern, etc. from config if not in args.
+    // ▰▰▰ Parameter Resolution (CLI vs. Config - Placeholder) ▰▰▰
     let license = settings.license;
     let exclude_pattern = &settings.exclude;
     let targets = &settings.targets;
@@ -281,9 +148,8 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
     info!("Exclusion pattern: {:?}", exclude_pattern);
     info!("Prefer block comments: {}", preference);
 
-    // --- Get License Header Content ---
-    // Headers often use a specific template, e.g., "header.txt" or just "txt"
-    // Let's assume "header.txt" first, then fallback to "txt"
+    // ▰▰▰ Get License Header Content ▰▰▰ //
+    // The headers use a specific template, header.txt
     let header_template_path = match paths::get_license_path(&license, "template.txt") {
         Ok(path) if path.exists() => path,
         _ => {
@@ -316,14 +182,13 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
         "License header content read successfully:\n{}",
         template_content
     );
+
     let rendered_license = utils::render_license(&template_content, year, authors)
         .map_err(LichenError::RenderError)?; // Convert RenderError
     debug!("License content rendered successfully.");
     trace!("Rendered content:\n{}", rendered_license);
 
-    // ---
-
-    // --- Find Files ---
+    // ▰▰▰ Find Files ▰▰▰
     let files_to_process = utils::get_valid_files(targets, exclude_pattern)?;
     if files_to_process.is_empty() {
         return Err(LichenError::Msg(
@@ -331,7 +196,6 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
                 .to_string(),
         )); // Nothing to do, error. SOMETHING needs to be done.
     }
-    // ---
 
     // --- Apply Headers ---
     // Currently only supports in-place

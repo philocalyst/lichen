@@ -15,11 +15,6 @@ pub struct Config {
     #[serde(default)]
     pub prefer_block: Option<bool>,
 
-    /// Apply headers in-place, modifying the original files.
-    /// Caution: This modifies files directly. Ensure backups or version control.
-    #[serde(default)]
-    pub in_place: Option<bool>,
-
     // By default conflicts from multiple licenses will warn and replace instead of merging
     #[serde(default)]
     pub multiple: Option<bool>,

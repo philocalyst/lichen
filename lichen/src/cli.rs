@@ -134,11 +134,6 @@ pub struct ApplyArgs {
     #[arg()]
     pub license: Option<License>,
 
-    /// Apply headers in-place, modifying the original files.
-    /// Caution: This modifies files directly. Ensure backups or version control.
-    #[arg(short, long, action = clap::ArgAction::SetTrue)]
-    pub in_place: Option<bool>,
-
     /// Enable support for multiple licenses in the same project (Default is replace)
     #[arg(long, action = clap::ArgAction::SetTrue)]
     pub multiple: Option<bool>,
