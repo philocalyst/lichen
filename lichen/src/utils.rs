@@ -952,7 +952,7 @@ mod tests {
     }
 }
 
-fn load_gitignore_patterns() -> Result<Vec<String>, LichenError> {
+fn load_gitignore_patterns() -> Result<Option<Vec<String>>, LichenError> {
     let mut patterns = Vec::new();
     let output = Command::new("git")
         .args(["rev-parse", "--show-toplevel"])
@@ -964,27 +964,15 @@ fn load_gitignore_patterns() -> Result<Vec<String>, LichenError> {
         return Err(format!("Git command failed: {}", stderr).into());
     }
 
-    let defaults: Vec<String> = vec![
-        "\\.gitignore".to_string(),
-        ".*lock".to_string(),
-        "\\.git/.*".to_string(),
-        "\\.licensure\\.yml".to_string(),
-        "README.*".to_string(),
-        "LICENSE.*".to_string(),
-        ".*\\.(md|rst|txt)".to_string(),
-        "Cargo.toml".to_string(),
-        ".*\\.github/.*".to_string(),
-    ];
-
     let project_directory = String::from_utf8(output.stdout).unwrap().trim().to_string();
 
     // Build a PathBuf to the `.gitignore`
     let gitignore = PathBuf::from(project_directory).join(".gitignore");
 
-    // If there's no .gitignore, just return the defaults
+    // If there's no .gitignore, return none
     let content = match fs::read_to_string(gitignore) {
         Ok(s) => s,
-        Err(_) => return Ok(defaults),
+        Err(_) => return Ok(None),
     };
 
     for line in content.lines() {
@@ -1014,12 +1002,7 @@ fn load_gitignore_patterns() -> Result<Vec<String>, LichenError> {
         patterns.push(re);
     }
 
-    // if user .gitignore was empty, fall back to defaults
-    if patterns.is_empty() {
-        Ok(defaults)
-    } else {
-        Ok(patterns)
-    }
+    Ok(Some(patterns))
 }
 
 pub fn build_exclude_regex(
@@ -1031,9 +1014,25 @@ pub fn build_exclude_regex(
     // 1) collect all raw pattern strings
     let mut pats = Vec::new();
 
+    let defaults: Vec<String> = vec![
+        "\\.gitignore".to_string(),
+        ".*lock".to_string(),
+        "\\.git/.*".to_string(),
+        "\\.licensure\\.yml".to_string(),
+        "README.*".to_string(),
+        "LICENSE.*".to_string(),
+        ".*\\.(md|rst|txt)".to_string(),
+        "Cargo.toml".to_string(),
+        ".*\\.github/.*".to_string(),
+    ];
+
     // a) add .gitignore patterns (unless disabled)
     if !all {
-        pats.extend(load_gitignore_patterns()?);
+        if let Some(gitignore) = load_gitignore_patterns()? {
+            pats.extend(gitignore);
+        }
+
+        pats.extend(defaults);
     }
 
     if let Some(cfg) = cfg {
