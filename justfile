@@ -45,6 +45,38 @@ build:
     @echo "🔨 Building workspace (debug)..."
     cargo build {{workspace_flag}}
 
+create-notes raw_tag outfile changelog:
+    #!/usr/bin/env bash
+    tag_v="{{raw_tag}}"
+    tag="${tag_v#v}" # Remove prefix v
+
+    # Changes header for release notes
+    printf "## Changes\n" > "{{outfile}}"
+
+    if [[ ! -f "{{changelog}}" ]]; then
+      echo "Error: {{changelog}} not found." >&2
+      exit 1
+    fi
+
+    echo "Extracting notes for tag: {{raw_tag}} (searching for section [$tag])"
+    # Use awk to extract the relevant section from the changelog
+    awk -v tag="$tag" '
+      # start printing when we see "## [<tag>]" (escape brackets for regex)
+      $0 ~ ("^## \\[" tag "\\]") { printing = 1; next }
+      # stop as soon as we hit the next "## [" section header
+      printing && /^## \[/       { exit }
+      # otherwise, if printing is enabled, print the current line
+      printing                    { print }
+    ' "{{changelog}}" >> "{{outfile}}"
+
+    # Check if the output file has content
+    if [[ -s {{outfile}} ]]; then
+      echo "Successfully extracted release notes to '{{outfile}}'."
+    else
+      # Output a warning if no notes were found for the tag
+      echo "Warning: '{{outfile}}' is empty. Is '## [$tag]' present in '{{changelog}}'?" >&2
+    fi
+
 build-release target="aarch64-apple-darwin":
     @echo "🚀 Building workspace (release) for {{target}}…"
     cargo build {{workspace_flag}} {{release_flag}} --target {{target}}

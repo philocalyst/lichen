@@ -16,5 +16,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   - Updated default config initialization description.
   - Described ignore‑pattern behavior: `.gitignore` and default patterns are skipped.
 
+## [0.2.8] – 2025‑04‑22
+
 [0.2.9]:    https://github.com/philocalyst/lichen/compare/v0.2.8...v0.2.9  
 [0.2.8]:    https://github.com/philocalyst/lichen/releases/tag/v0.2.8  
