@@ -1009,7 +1009,6 @@ pub fn build_exclude_regex(
         "LICENSE.*".to_string(),
         ".*\\.(md|rst|txt)".to_string(),
         "Cargo.toml".to_string(),
-        "\\..*".to_string(),
         ".*\\.github/.*".to_string(),
     ];
 

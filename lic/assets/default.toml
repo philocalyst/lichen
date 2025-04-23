@@ -32,7 +32,6 @@
 # - "\\.git/.*": Excludes everything inside the .git directory.
 # - "README.*": Excludes files starting with "README".
 # - ".*\\.(md|rst|txt)": Excludes common documentation files.
-# - "\\..*": Excludes all dotfiles
 # Default: Empty list.
 exclude = [
   "\\.gitignore",
@@ -43,7 +42,6 @@ exclude = [
   "LICENSE.*",
   ".*\\.(md|rst|txt)",
   "Cargo.toml",
-  "\\..*",
   ".*\\.github/.*",
 ]
 
