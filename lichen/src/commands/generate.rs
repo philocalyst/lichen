@@ -124,29 +124,13 @@ pub fn handle_gen(settings: &GenSettings) -> Result<(), LichenError> {
         output_extension
     );
 
-    // --- Template Fetching ---
-    let license_template_path = paths::get_license_path(&license, template_extension)?;
-    if !license_template_path.exists() {
-        error!(
-            "License template file not found at '{}'. Ensure templates are installed correctly.",
-            license_template_path.display()
-        );
-        return Err(LichenError::IoError(io::Error::new(
-            io::ErrorKind::NotFound,
-            format!(
-                "License template not found: {}",
-                license_template_path.display()
-            ),
-        )));
-    }
+    // ▰▰▰ Get License Header Content ▰▰▰ //
+    let template_content = settings.license.template_content();
     debug!(
-        "Found license template file at: '{}'",
-        license_template_path.display()
+        "Using embedded template content for {}",
+        settings.license.spdx_id()
     );
-
-    let template_content = fs::read_to_string(&license_template_path)?;
-    debug!("License template content read successfully.");
-    trace!("Template content:\n{}", template_content); // Trace for full content
+    trace!("Embedded template content:\n{}", template_content);
 
     // --- Render Template ---
     let rendered_license = utils::render_license(&template_content, &year, authors)

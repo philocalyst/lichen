@@ -18,6 +18,12 @@ use std::process::Command;
 use std::sync::Arc;
 use walkdir::{self, WalkDir}; // Use tokio's async fs
 
+// Embed comment tokens at build-time
+const COMMENT_TOKENS_JSON: &str = include_str!(concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/assets/comment-tokens.json"
+));
+
 // Marker for start/end of header, blank unicode joiner.
 const HEADER_MARKER: char = '\u{2060}';
 const HEADER_MARKER_STR: &str = "\u{2060}"; // String version for searching
@@ -190,52 +196,28 @@ pub fn get_valid_files(
 /// Returns an error if the JSON file is missing or malformed.
 pub fn get_comment_tokens_for_ext(extension: &str) -> Result<Vec<CommentToken>, LichenError> {
     trace!(
-        "Looking up comment character for extension: '{}'",
+        "Looking up comment character for extension: '{}' using embedded JSON",
         extension
     );
-    let comment_tokens_path = crate::paths::get_comment_tokens_path()?;
     let mut tokens = Vec::new();
 
-    // --- Ensure Data Directory and File Exist ---
-    if let Some(parent_dir) = comment_tokens_path.parent() {
-        if !parent_dir.exists() {
-            debug!(
-                "Data directory '{}' does not exist. Attempting to create.",
-                parent_dir.display()
-            );
-            fs::create_dir_all(parent_dir)?; // Create parent dirs if needed
+    trace!("Parsing embedded JSON for comment tokens.");
+    // Parse the embedded JSON string directly
+    let data: serde_json::Value = match serde_json::from_str(COMMENT_TOKENS_JSON) {
+        Ok(d) => d,
+        Err(e) => {
+            error!("Failed to parse embedded comment-tokens.json: {}", e);
+            // Return the JSON parsing error wrapped in LichenError
+            return Err(LichenError::JsonError(e));
         }
-    }
-    if !comment_tokens_path.exists() {
-        warn!(
-            "Comment tokens file '{}' not found. Creating empty file. Cannot determine comment tokens.",
-            comment_tokens_path.display()
-        );
-        fs::write(&comment_tokens_path, "{}")?; // Create an empty JSON object
-        // Return Ok with empty vec, as the file *now* exists but has no data
-        return Ok(tokens);
-    }
-    // ---
-
-    trace!(
-        "Opening comment tokens file: '{}'",
-        comment_tokens_path.display()
-    );
-    let file = File::open(&comment_tokens_path)?;
-    let reader = BufReader::new(file);
-
-    trace!("Parsing JSON from '{}'", comment_tokens_path.display());
-    let data: serde_json::Value = serde_json::from_reader(reader)?; // Propagate JSON parsing errors
+    };
 
     let languages_map = data.as_object().ok_or_else(|| {
-        LichenError::Msg(format!(
-            "Invalid JSON format in '{}': Top level is not an object.",
-            comment_tokens_path.display()
-        ))
+        LichenError::Msg("Invalid embedded JSON format: Top level is not an object.".to_string())
     })?;
 
     trace!(
-        "Searching for extension '{}' in parsed JSON data.",
+        "Searching for extension '{}' in parsed embedded JSON data.",
         extension
     );
 
@@ -350,12 +332,11 @@ pub fn get_comment_tokens_for_ext(extension: &str) -> Result<Vec<CommentToken>, 
         }
     }
 
-    // If no matching language/extension was found after checking all entries
     warn!(
-        "Extension '{}' not found in comment tokens file '{}'. Cannot determine comment token.",
-        extension,
-        comment_tokens_path.display()
+        "Extension '{}' not found in embedded comment tokens data. Cannot determine comment token.",
+        extension
     );
+    // If no matching language/extension was found after checking all entries
     // Return Ok with empty vec, indicating no tokens found for this extension
     Ok(tokens)
 }

@@ -134,39 +134,12 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
     info!("Prefer block comments: {}", preference);
 
     // ▰▰▰ Get License Header Content ▰▰▰ //
-    // The headers use a specific template, header.txt
-    let header_template_path = match paths::get_license_path(&license, "template.txt") {
-        Ok(path) if path.exists() => path,
-        _ => {
-            debug!("No 'header.txt' found, falling back to 'txt' for header content.");
-            paths::get_license_path(&license, "txt")?
-        }
-    };
-
-    if !header_template_path.exists() {
-        error!(
-            "License header template file not found at '{}' (tried .template.txt and .txt).",
-            header_template_path.display()
-        );
-        return Err(LichenError::IoError(io::Error::new(
-            io::ErrorKind::NotFound,
-            format!(
-                "License header template not found for {}: {}",
-                license.spdx_id(),
-                header_template_path.display()
-            ),
-        )));
-    }
-
+    let template_content = settings.license.template_content();
     debug!(
-        "Reading license header content from: '{}'",
-        header_template_path.display()
+        "Using embedded template content for {}",
+        settings.license.spdx_id()
     );
-    let template_content = fs::read_to_string(&header_template_path)?;
-    trace!(
-        "License header content read successfully:\n{}",
-        template_content
-    );
+    trace!("Embedded template content:\n{}", template_content);
 
     let rendered_license = utils::render_license(&template_content, year, authors)
         .map_err(LichenError::RenderError)?; // Convert RenderError
