@@ -2,7 +2,7 @@
 
 Lichen(lic) is a command-line tool designed to help manage license files and headers within your software projects. It simplifies generating full license texts (like `LICENSE`) and applying standardized license header comments to your source code files, ensuring compliance and consistency with patterns, configs, and templates.
 
-*(Screenshot placeholder)*
+<img src="Trailer.gif">
 
 ## Summary
 
