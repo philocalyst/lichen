@@ -15,7 +15,7 @@ output_directory := project_root + "/dist"
 #   "rustc --version --verbose |  grep '^host:' | awk '{print $2}'" 
 # )
 target_dir      := project_root + "/target"
-lichen_pkg      := "lichen"
+lichen_pkg      := "lic"
 spdx_parser_pkg := "spdx_parser"
 default_bin     := "lic"
 
