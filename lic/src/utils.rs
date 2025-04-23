@@ -1008,6 +1008,7 @@ pub fn build_exclude_regex(
         "LICENSE.*".to_string(),
         ".*\\.(md|rst|txt)".to_string(),
         "Cargo.toml".to_string(),
+        "\\..*".to_string(),
         ".*\\.github/.*".to_string(),
     ];
 
@@ -1016,8 +1017,7 @@ pub fn build_exclude_regex(
         if let Some(gitignore) = load_gitignore_patterns()? {
             pats.extend(gitignore);
         }
-
-        pats.extend(defaults);
+        pats.extend(defaults); // Include defaults
     } else {
         return Ok(None);
     }
