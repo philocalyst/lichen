@@ -4,13 +4,14 @@
 
 use crate::cli::InitArgs;
 use crate::error::LichenError;
-use log::{debug, info, warn};
+use log::{debug, info};
+use std::fs;
 
 /// Handles the `init` command logic (currently a placeholder).
 pub fn handle_init(args: InitArgs) -> Result<(), LichenError> {
     debug!("Starting handle_init with args: {:?}", args);
 
-    let project_root = match args.path {
+    let project_root = match args.target {
         Some(p) => {
             debug!("Using specified path for initialization: '{}'", p.display());
             p
@@ -30,19 +31,10 @@ pub fn handle_init(args: InitArgs) -> Result<(), LichenError> {
         project_root.display()
     );
 
-    // --- Configuration File Generation Logic ---
-    // TODO: Implement config file generation.
-    //       - Determine actual config file path (e.g., project_root/.licenserc or XDG path).
-    //       - Define default configuration values (maybe embed or use a template file).
-    //       - Consider existing CLI options/arguments if relevant for defaults.
-    //       - Write the default configuration file.
-    let config_file_path = project_root.join(".lichenrc"); // Example path
-    warn!("Configuration file generation is not yet implemented.");
-    println!(
-        "Placeholder: Would generate default config file, potentially at '{}'",
-        config_file_path.display()
-    );
-    // ---
+    fs::write(
+        ".lichen.toml",
+        include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/assets/default.toml")),
+    )?;
 
     Ok(())
 }
