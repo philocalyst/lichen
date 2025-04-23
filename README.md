@@ -243,6 +243,7 @@ The comment token generation script (`scripts/parse_comments`) uses Python with 
 
   * License template data is sourced/adapted from the [SPDX License List](https://spdx.org/licenses/).
   * Language comment token information is derived from the [Helix editor's](https://helix-editor.com/) language configuration.
+  * Part of the inspiration for the project came from the [Licensure](https://github.com/chasinglogic/licensure) project.
 
 ## License
 
