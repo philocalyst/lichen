@@ -171,7 +171,7 @@ pub struct ApplyArgs {
 pub struct InitArgs {
     /// Optional path where the configuration should be initialized.
     /// Defaults to the current directory.
-    #[arg(short, long)]
+    #[arg()]
     pub target: Option<PathBuf>,
 }
 
