@@ -17,6 +17,7 @@ output_directory := project_root + "/dist"
 target_dir      := project_root + "/target"
 lichen_pkg      := "lichen"
 spdx_parser_pkg := "spdx_parser"
+default_bin     := "lic"
 
 py_script_dir := project_root + "/scripts/parse_comments"
 py_script     := py_script_dir + "/main.py"
@@ -124,7 +125,7 @@ compress-binaries target_directory=("."): # Compress the binaries in the passed-
         filename=$(basename "$file")
         echo "Archiving binary file: $filename"
         # Create a compressed tar archive named after the original file
-        tar -czvf "${filename}.tar.gz" "$file"
+        tar -czvf "${file}.tar.gz" "$file"
     fi
     done
 
