@@ -3,6 +3,10 @@
 All notable changes to this project are documented in this file.  
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.5] – 2025-04-23
+### Fixed
+- CI workflow
+
 ## [0.3.4] – 2025-04-23
 
 ### Added
