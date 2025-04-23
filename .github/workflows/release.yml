@@ -155,6 +155,9 @@ jobs:
         # Run the just recipe, passing the target from the matrix
         run: just build-release ${{ matrix.target }}
 
+      - name: Compress the binaries
+        run: just compress-binaries "dist/"
+
       # --- Publish Artifact ---
       - name: Determine Artifact Name
         id: artifact_name
@@ -163,13 +166,14 @@ jobs:
           if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
             ARTIFACT_PATH="${ARTIFACT_PATH}.exe"
           fi
-          echo "path=${ARTIFACT_PATH}" >> $GITHUB_OUTPUT
+          # Use the compressed versions
+          echo "path=${ARTIFACT_PATH}.tar.gz" >> $GITHUB_OUTPUT
 
       - name: Extract changelog for the tag
         id: extract_changelog
         run: just create-notes ${{ github.ref_name }} release_notes.md CHANGELOG.md
 
-      - name: Publish output to Release
+      - name: Publish Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
