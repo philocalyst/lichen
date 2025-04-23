@@ -321,7 +321,12 @@ pub fn get_comment_tokens_for_ext(extension: &str) -> Result<Vec<CommentToken>, 
                             );
                         }
                     }
-
+                    if tokens.is_empty() {
+                        warn!(
+                            "No comment tokens found for file extention {}, this probably means it prohibits comments or they present undefined behavior. Skipping.",
+                            extension
+                        )
+                    }
                     // Found the extension, return the tokens (even if empty)
                     return Ok(tokens);
                 }
@@ -332,12 +337,12 @@ pub fn get_comment_tokens_for_ext(extension: &str) -> Result<Vec<CommentToken>, 
     }
 
     warn!(
-        "Extension '{}' not found in embedded comment tokens data. Cannot determine comment token.",
+        "Extension '{}' not found in embedded comment tokens data. Defaulting to '#'",
         extension
     );
     // If no matching language/extension was found after checking all entries
     // Return Ok with empty vec, indicating no tokens found for this extension
-    Ok(tokens)
+    Ok(vec![CommentToken::Line("#".to_string())])
 }
 
 /// Formats the raw license header text by prepending the appropriate comment syntax.
@@ -1013,6 +1018,8 @@ pub fn build_exclude_regex(
         }
 
         pats.extend(defaults);
+    } else {
+        return Ok(None);
     }
 
     if let Some(cfg) = cfg {
