@@ -3,6 +3,21 @@
 All notable changes to this project are documented in this file.  
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.1] – 2025-04-22
+
+### Changed
+- Moved to a bundled-with-the-binary solution for managing files and directories
+
+### Fixed
+- Justfile error handling (In the awk block)
+- Typos and clippy errors
+- Generate script interface
+
+### Added
+- Justfile recipe for compressing binaries
+- Coming soon section in README
+- Contributing section in README
+
 ## [0.3.0] – 2025-04-22
 
 ### Added
@@ -32,5 +47,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [0.2.8] – 2025‑04‑22
 
+[0.3.1]:    https://github.com/philocalyst/lichen/compare/v0.3.0...v0.3.1  
+[0.3.0]:    https://github.com/philocalyst/lichen/compare/v0.2.9...v0.3.0  
 [0.2.9]:    https://github.com/philocalyst/lichen/compare/v0.2.8...v0.2.9  
 [0.2.8]:    https://github.com/philocalyst/lichen/releases/tag/v0.2.8  
