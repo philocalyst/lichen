@@ -26,7 +26,7 @@ pub struct Config {
 
     // By default conflicts from multiple licenses will error instead of merging
     #[serde(default)]
-    pub ignore_git_ignore: Option<bool>,
+    pub all: Option<bool>,
 
     /// Per‑license configuration blocks.
     #[serde(rename = "license", default)]

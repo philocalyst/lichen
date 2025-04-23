@@ -88,7 +88,7 @@ impl ApplySettings {
             jiff::Zoned::now().date()
         };
 
-        let all = cli.all.or(cfg.ignore_git_ignore).unwrap_or(false);
+        let all = cli.all.or(cfg.all).unwrap_or(false);
 
         let exclude = utils::build_exclude_regex(&cli.exclude, Some(cfg), all, index)?;
 
