@@ -5,7 +5,7 @@ use std::{env, fs, io::Write, path::PathBuf};
 use tokio;
 
 // --- Configuration (same as before) ---
-const LICENSE_DIR: &str = "licenses";
+const LICENSE_DIR: &str = "assets/licenses";
 // --- End Configuration ---
 
 // Helper function to check if a string slice consists entirely of uppercase ASCII letters
@@ -13,36 +13,36 @@ fn is_all_caps_acronym(s: &str) -> bool {
     !s.is_empty() && s.chars().all(|c| c.is_ascii_uppercase())
 }
 
-async fn is_osi(license_path: &PathBuf) -> Result<bool, Box<dyn std::error::Error>> {
-    use metadata_gen::utils::async_extract_metadata_from_file;
+// async fn is_osi(license_path: &PathBuf) -> Result<bool, Box<dyn std::error::Error>> {
+//     use metadata_gen::utils::async_extract_metadata_from_file;
 
-    // Extract metadata from the provided license_path instead of the hardcoded path
-    let (metadata, _, _) =
-        async_extract_metadata_from_file(&license_path.to_string_lossy().to_string()).await?;
+//     // Extract metadata from the provided license_path instead of the hardcoded path
+//     let (metadata, _, _) =
+//         async_extract_metadata_from_file(&license_path.to_string_lossy().to_string()).await?;
 
-    // Check if osiApproved is in the metadata and return its value
-    if let Some(osi_status) = metadata.get("osiApproved") {
-        if osi_status != "unknown" {
-            // Check for edge case where there is no decision.
-            if osi_status
-                .trim()
-                .parse::<bool>()
-                .expect("Should include osi approved key in meta")
-                == true
-            // Convert the value to bool
-            {
-                Ok(true)
-            } else {
-                Ok(false)
-            }
-        } else {
-            Ok(false) // If marked unknown, safe to say it's not OSI in a way that you could trust.
-        }
-    } else {
-        // If osiApproved key is nonexistent, assume false.
-        Ok(false)
-    }
-}
+//     // Check if osiApproved is in the metadata and return its value
+//     if let Some(osi_status) = metadata.get("osiApproved") {
+//         if osi_status != "unknown" {
+//             // Check for edge case where there is no decision.
+//             if osi_status
+//                 .trim()
+//                 .parse::<bool>()
+//                 .expect("Should include osi approved key in meta")
+//                 == true
+//             // Convert the value to bool
+//             {
+//                 Ok(true)
+//             } else {
+//                 Ok(false)
+//             }
+//         } else {
+//             Ok(false) // If marked unknown, safe to say it's not OSI in a way that you could trust.
+//         }
+//     } else {
+//         // If osiApproved key is nonexistent, assume false.
+//         Ok(false)
+//     }
+// }
 
 fn main() -> std::io::Result<()> {
     let out_dir = PathBuf::from(env::var("OUT_DIR").expect("OUT_DIR not set"));
@@ -57,10 +57,11 @@ fn main() -> std::io::Result<()> {
             let entry = entry?;
             let path = entry.path();
 
-            if path.is_file() && path.extension().map_or(false, |ext| ext == "md") {
-                if let (Some(file_stem), Some(file_name_osstr)) =
-                    (path.file_stem(), path.with_extension("").file_name())
-                {
+            if path.is_file() && path.extension().map_or(false, |ext| ext == "txt") {
+                if let (Some(file_stem), Some(file_name_osstr)) = (
+                    path.with_extension("").file_stem(),
+                    path.with_extension("").with_extension("").file_name(),
+                ) {
                     let file_stem_str = file_stem.to_string_lossy();
                     let file_name_str = file_name_osstr.to_string_lossy().to_string(); // Keep original filename
 
@@ -118,15 +119,15 @@ fn main() -> std::io::Result<()> {
                     let variant_ident = format_ident!("{}", final_ident_string);
 
                     // --- End Modification ---
-                    let is_osi = tokio::runtime::Runtime::new().unwrap().block_on(async {
-                        match is_osi(&path).await {
-                            Ok(val) => val,
-                            Err(_) => false, // Handle any errors by defaulting to false
-                        }
-                    });
+                    // let is_osi = tokio::runtime::Runtime::new().unwrap().block_on(async {
+                    //     match is_osi(&path).await {
+                    //         Ok(val) => val,
+                    //         Err(_) => false, // Handle any errors by defaulting to false
+                    //     }
+                    // });
                     variants.push(variant_ident.clone()); // Collect idents for enum definition
                     // Store the ORIGINAL filename string along with the generated variant ident and OSI status
-                    license_details.push((variant_ident, file_name_str, is_osi));
+                    license_details.push((variant_ident, file_name_str));
                 }
             }
         }
@@ -139,26 +140,33 @@ fn main() -> std::io::Result<()> {
 
     // --- Generate Code using quote! (No changes needed here from previous version) ---
 
-    let variants_with_attrs = license_details.iter().map(|(variant, filename, _)| {
+    let variants_with_attrs = license_details.iter().map(|(variant, filename)| {
         quote! {
             #[value(name = #filename)] // Original SPDX id
             #variant
         }
     });
 
-    let name_match_arms = license_details.iter().map(|(variant, filename, _)| {
+    let name_match_arms = license_details.iter().map(|(variant, filename)| {
         quote! { Self::#variant => #filename }
     });
-    let is_osi_match_arms = license_details.iter().map(|(variant, _, is_osi)| {
-        quote! { Self::#variant => #is_osi }
-    });
-    let from_str_match_arms = license_details.iter().map(|(variant, filename, _)| {
+    // let is_osi_match_arms = license_details.iter().map(|(variant, _, is_osi)| {
+    //     quote! { Self::#variant => #is_osi }
+    // });
+    let from_str_match_arms = license_details.iter().map(|(variant, filename)| {
         // Match against parsed filename (SPDX ID)
         quote! { #filename => Ok(Self::#variant), }
     });
 
+    let template_content_match_arms = license_details.iter().map(|(variant, template_path)| {
+        // Use concat! to join MANIFEST_DIR with the relative path
+        quote! {
+            Self::#variant => include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/assets/licenses/", #template_path, ".template.txt"))
+        }
+    });
+
     // Retrive just the variant idents for the iter() method
-    let variant_idents = license_details.iter().map(|(variant, _, _)| variant);
+    let variant_idents = license_details.iter().map(|(variant, _)| variant);
 
     let generated_code = quote! {
         #![allow(clippy::all)]
@@ -186,15 +194,23 @@ fn main() -> std::io::Result<()> {
                     #( #name_match_arms ),* }
             }
 
-            /// Returns true if the license is OSI approved (based on the build-time list).
-            pub fn is_osi_approved(&self) -> bool {
-                match self {
-                    #( #is_osi_match_arms ),* }
-            }
+            // /// Returns true if the license is OSI approved (based on the build-time list).
+            // pub fn is_osi_approved(&self) -> bool {
+            //     match self {
+            //         #( #is_osi_match_arms ),* }
+            // }
 
             /// Returns an iterator over all available license variants.
             pub fn iter() -> impl Iterator<Item = Self> {
                  [ #( Self::#variant_idents ),* ].iter().copied()
+            }
+
+            /// Returns the embedded template content for the license.
+            /// The content will be from `.template.txt` if available, otherwise `.txt`.
+             pub fn template_content(&self) -> &'static str {
+                 match self {
+                      #( #template_content_match_arms ),*
+                 }
             }
         }
 
