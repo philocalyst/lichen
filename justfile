@@ -21,7 +21,7 @@ default_bin     := "lic"
 
 py_script_dir := project_root + "/scripts/parse_comments"
 py_script     := py_script_dir + "/main.py"
-json_output_rel := "../../lichen/src/comment-tokens.json"
+json_output_rel := "../../lic/src/comment-tokens.json"
 json_output     := py_script_dir + "/" + json_output_rel
 
 release_flag   := "--release"
