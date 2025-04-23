@@ -946,7 +946,8 @@ fn load_gitignore_patterns() -> Result<Option<Vec<String>>, LichenError> {
     if !output.status.success() {
         // Deal with errors
         let stderr = String::from_utf8_lossy(&output.stderr);
-        return Err(format!("Git command failed: {}", stderr).into());
+        debug!("Git command failed: {}", stderr);
+        return Ok(None); // No biggie, just return none
     }
 
     let project_directory = String::from_utf8(output.stdout).unwrap().trim().to_string();
