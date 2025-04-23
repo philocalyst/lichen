@@ -5,5 +5,4 @@ pub mod config;
 pub mod error;
 pub mod license;
 pub mod models;
-pub mod paths;
 pub mod utils;

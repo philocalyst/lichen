@@ -17,9 +17,6 @@ pub enum LichenError {
     /// An invalid filesystem path was encountered.
     InvalidPath(String),
 
-    /// Could not determine project directories.
-    ProjectDirsError(String),
-
     /// An I/O error occurred.
     IoError(io::Error),
 
@@ -51,7 +48,6 @@ impl fmt::Display for LichenError {
                 write!(f, "Regex Error: for this pattern {} {}", pattern, err)
             }
             LichenError::InvalidPath(path) => write!(f, "Invalid path: {}", path),
-            LichenError::ProjectDirsError(err) => write!(f, "Project directory error: {}", err),
             LichenError::IoError(err) => write!(f, "IO error: {}", err),
             LichenError::WalkdirError(err) => write!(f, "Directory walk error: {}", err),
             LichenError::JsonError(err) => write!(f, "JSON error: {}", err),

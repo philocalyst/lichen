@@ -6,12 +6,10 @@ use crate::cli::GenArgs;
 use crate::config::{Authors, Config};
 use crate::error::LichenError;
 use crate::license::License; // Make sure License is imported
-use crate::paths;
 use crate::utils;
 use jiff::civil::Date;
-use log::{debug, error, info, trace, warn};
+use log::{debug, info, trace, warn};
 use std::fs;
-use std::io;
 use std::path::PathBuf;
 
 #[derive(Debug)]
@@ -111,7 +109,6 @@ pub fn handle_gen(settings: &GenSettings) -> Result<(), LichenError> {
     let multiple = settings.multiple;
     let authors = &settings.authors;
     let year = settings.date;
-    let template_extension = "template.txt"; // Base template extension
     let output_extension = "txt"; // Default output extension
     // let output_extension = if args.markdown { "md" } else { "txt" };
     // ---
@@ -133,7 +130,7 @@ pub fn handle_gen(settings: &GenSettings) -> Result<(), LichenError> {
     trace!("Embedded template content:\n{}", template_content);
 
     // --- Render Template ---
-    let rendered_license = utils::render_license(&template_content, &year, authors)
+    let rendered_license = utils::render_license(template_content, &year, authors)
         .map_err(LichenError::RenderError)?; // Convert RenderError
     debug!("License content rendered successfully.");
     trace!("Rendered content:\n{}", rendered_license);

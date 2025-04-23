@@ -6,13 +6,10 @@ use crate::cli::ApplyArgs;
 use crate::config::{Authors, Config};
 use crate::error::LichenError;
 use crate::license::License; // Ensure License is imported
-use crate::paths;
 use crate::utils;
 use jiff::civil::Date;
-use log::{debug, error, info, trace};
+use log::{debug, info, trace};
 use regex::Regex;
-use std::fs;
-use std::io;
 use std::path::PathBuf;
 
 #[derive(Debug)]
@@ -141,8 +138,8 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
     );
     trace!("Embedded template content:\n{}", template_content);
 
-    let rendered_license = utils::render_license(&template_content, year, authors)
-        .map_err(LichenError::RenderError)?; // Convert RenderError
+    let rendered_license =
+        utils::render_license(template_content, year, authors).map_err(LichenError::RenderError)?; // Convert RenderError
     debug!("License content rendered successfully.");
     trace!("Rendered content:\n{}", rendered_license);
 

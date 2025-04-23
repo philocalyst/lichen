@@ -10,7 +10,6 @@ mod config;
 mod error;
 mod license; // Ensure this module exists
 mod models;
-mod paths;
 mod utils;
 
 // Use necessary items from modules

@@ -1,8 +1,6 @@
 use heck::ToUpperCamelCase; // Keep this for non-acronym parts
-use metadata_gen::extract_and_prepare_metadata;
 use quote::{format_ident, quote};
-use std::{env, fs, io::Write, path::PathBuf};
-use tokio;
+use std::{env, fs, path::PathBuf};
 
 // --- Configuration (same as before) ---
 const LICENSE_DIR: &str = "assets/licenses";
@@ -57,7 +55,7 @@ fn main() -> std::io::Result<()> {
             let entry = entry?;
             let path = entry.path();
 
-            if path.is_file() && path.extension().map_or(false, |ext| ext == "txt") {
+            if path.is_file() && path.extension().is_some_and(|ext| ext == "txt") {
                 if let (Some(file_stem), Some(file_name_osstr)) = (
                     path.with_extension("").file_stem(),
                     path.with_extension("").with_extension("").file_name(),
@@ -241,11 +239,9 @@ fn main() -> std::io::Result<()> {
     println!("cargo:rerun-if-changed=build.rs");
     println!("cargo:rerun-if-changed={}", LICENSE_DIR);
     if license_dir_path.is_dir() {
-        for entry in fs::read_dir(&license_dir_path)? {
-            if let Ok(entry) = entry {
-                if entry.path().is_file() {
-                    println!("cargo:rerun-if-changed={}", entry.path().display());
-                }
+        for entry in fs::read_dir(&license_dir_path)?.flatten() {
+            if entry.path().is_file() {
+                println!("cargo:rerun-if-changed={}", entry.path().display());
             }
         }
     }
