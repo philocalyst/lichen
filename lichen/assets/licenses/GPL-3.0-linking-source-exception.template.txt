@@ -1,0 +1,3 @@
+<<endOptional>>
+If you modify this Program, or any covered work, by linking or combining it with {{#if library1}}{{library1}}{{else}}[name of library]{{/if}} (or a modified version of that library), containing parts covered by the terms of {{#if libraryLicense1}}{{libraryLicense1}}{{else}}[name of library's license]{{/if}} , {{#if licensors}}{{licensors}}{{else}}the licensors of this Program{{/if}} {{#if grant}}{{grant}}{{else}}grant{{/if}} you additional permission to convey the resulting work. Corresponding Source for a non-source form of such a combination shall include the source code for the parts of {{#if library2}}{{library2}}{{else}}[name of library]{{/if}} used as well as that of the covered work.
+

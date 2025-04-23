@@ -1,0 +1,1 @@
+ These fonts are free softwares. Unlimited permission is granted to use, copy, and distribute it, with or without modification, either commercially and noncommercially. THESE FONTS ARE PROVIDED &quot;AS IS&quot; WITHOUT WARRANTY.

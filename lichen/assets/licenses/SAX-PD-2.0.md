@@ -1,0 +1,4 @@
+ I hereby abandon any property rights to SAX 2.0 (the Simple API for XML), and release all of the SAX 2.0 source code, compiled code, and documentation contained in this distribution into the Public Domain. SAX comes with NO WARRANTY or guarantee of fitness for any purpose.
+
+{{#if placeholder0}}{{placeholder0}}{{else}}David Megginson, Megginson Technologies
+                                        Ltd. 2000-05-05{{/if}}

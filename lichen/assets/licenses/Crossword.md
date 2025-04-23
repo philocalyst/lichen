@@ -1,0 +1,3 @@
+{{#if placeholder0}}{{placeholder0}}{{else}}cwpuzzle.dtx{{/if}} is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY. No author or distributor accepts responsibility to anyone for the consequences of using it or for whether it serves any particular purpose or works at all, unless he says so in writing.
+
+Everyone is granted permission to copy, modify and redistribute {{#if placeholder1}}{{placeholder1}}{{else}}cwpuzzle.dtx{{/if}}, provided this copyright notice is preserved and any modifications are indicated.

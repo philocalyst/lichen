@@ -1,0 +1,12 @@
+{{#if placeholder0}}{{placeholder0}}{{else}}Copyright (c) 1998-2008 The OpenSSL Project. All rights reserved.{{/if}}
+
+ Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* {{#if placeholder1}}{{placeholder1}}{{else}}1.{{/if}} Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* {{#if placeholder2}}{{placeholder2}}{{else}}2.{{/if}} Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+* {{#if placeholder3}}{{placeholder3}}{{else}}3.{{/if}} All advertising materials mentioning features or use of this software must display the following acknowledgment: &quot;This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit. (http://www.openssl.org/)&quot;
+* {{#if placeholder4}}{{placeholder4}}{{else}}4.{{/if}} The names &quot;OpenSSL Toolkit&quot; and &quot;OpenSSL Project&quot; must not be used to endorse or promote products derived from this software without prior written permission. For written permission, please contact openssl-core@openssl.org.
+* {{#if placeholder5}}{{placeholder5}}{{else}}5.{{/if}} Products derived from this software may not be called &quot;OpenSSL&quot; nor may &quot;OpenSSL&quot; appear in their names without prior written permission of the OpenSSL Project.
+* {{#if placeholder6}}{{placeholder6}}{{else}}6.{{/if}} Redistributions of any form whatsoever must retain the following acknowledgment: &quot;This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org/)&quot;
+
+ THIS SOFTWARE IS PROVIDED BY THE OpenSSL PROJECT ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE OpenSSL PROJECT OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

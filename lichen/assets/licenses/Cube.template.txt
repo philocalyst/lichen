@@ -1,0 +1,11 @@
+ {{#if copyright}}{{copyright}}{{else}}Copyright (C) 2001-2003 Wouter van Oortmerssen.{{/if}}
+This software is provided 'as-is', without any express or implied warranty. In no event will the authors be held liable for any damages arising from the use of this software.
+
+Permission is granted to anyone to use this software for any purpose, including commercial applications, and to alter it and redistribute it freely, subject to the following restrictions:
+
+   {{#if bullet}}{{bullet}}{{else}}1.{{/if}} The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
+   {{#if bullet}}{{bullet}}{{else}}2.{{/if}} Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
+   {{#if bullet}}{{bullet}}{{else}}3.{{/if}} This notice may not be removed or altered from any source distribution.
+additional clause specific to Cube:
+
+   {{#if bullet}}{{bullet}}{{else}}4.{{/if}} Source versions may not be "relicensed" under a different license without my explicitly written permission.

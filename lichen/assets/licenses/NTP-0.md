@@ -1,0 +1,3 @@
+{{#if placeholder0}}{{placeholder0}}{{else}}Copyright (4-digit-year) by (CopyrightHoldersName){{/if}}
+
+Permission to use, copy, modify, and distribute this software and its documentation for any purpose is hereby granted, provided that the name of {{#if placeholder1}}{{placeholder1}}{{else}}(TrademarkedName){{/if}} not be used in advertising or publicity pertaining to distribution of the software without specific, written prior permission. {{#if placeholder2}}{{placeholder2}}{{else}}(TrademarkedName){{/if}} make no representations about the suitability of this software for any purpose. It is provided &quot;as is&quot; without express or implied warranty.

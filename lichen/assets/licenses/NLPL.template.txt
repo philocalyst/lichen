@@ -1,0 +1,4 @@
+
+Terms and conditions for copying, distribution, modification or anything else.
+
+   {{#if bullet}}{{bullet}}{{else}}0.{{/if}} No limit to do anything with this work and this license.

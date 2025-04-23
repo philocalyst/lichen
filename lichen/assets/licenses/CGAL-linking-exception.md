@@ -1,0 +1,1 @@
+ As a special exception, you have permission to link this {{#if placeholder0}}{{placeholder0}}{{else}}program{{/if}} with the CGAL library and distribute executables, as long as you follow the requirements of the GNU GPL in regard to all of the software in the executable aside from CGAL.

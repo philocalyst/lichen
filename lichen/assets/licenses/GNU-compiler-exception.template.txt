@@ -1,0 +1,2 @@
+As a special exception, if you link {{#if library}}{{library}}{{else}}this library{{/if}} with files compiled with a GNU compiler to produce an executable, {{#if this}}{{this}}{{else}}this{{/if}} does not cause the resulting executable to be covered by the GNU General Public License. This exception does not however invalidate any other reasons why the executable file might be covered by the GNU General Public License.
+

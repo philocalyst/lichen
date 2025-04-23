@@ -1,0 +1,2287 @@
+{
+  "rust": {
+    "comment_token": "//",
+    "block_comment_tokens": [
+      {
+        "start": "/*",
+        "end": "*/"
+      },
+      {
+        "start": "/**",
+        "end": "*/"
+      },
+      {
+        "start": "/*!",
+        "end": "*/"
+      }
+    ],
+    "file_types": [
+      "rs"
+    ]
+  },
+  "sway": {
+    "comment_token": "//",
+    "file_types": [
+      "sw"
+    ]
+  },
+  "toml": {
+    "comment_token": "#",
+    "file_types": [
+      "toml"
+    ]
+  },
+  "awk": {
+    "comment_token": "#",
+    "file_types": [
+      "awk",
+      "gawk",
+      "nawk",
+      "mawk"
+    ]
+  },
+  "protobuf": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "proto"
+    ]
+  },
+  "textproto": {
+    "comment_token": "#",
+    "file_types": [
+      "txtpb",
+      "textpb",
+      "textproto"
+    ]
+  },
+  "elixir": {
+    "comment_token": "#",
+    "file_types": [
+      "ex",
+      "exs"
+    ]
+  },
+  "fish": {
+    "comment_token": "#",
+    "file_types": [
+      "fish"
+    ]
+  },
+  "mint": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "mint"
+    ]
+  },
+  "mojo": {
+    "comment_token": "#",
+    "file_types": [
+      "mojo",
+      "🔥"
+    ]
+  },
+  "janet": {
+    "comment_token": "#",
+    "file_types": [
+      "cgen",
+      "janet",
+      "jdn"
+    ]
+  },
+  "json": {
+    "file_types": [
+      "json",
+      "arb",
+      "ipynb",
+      "geojson",
+      "gltf",
+      "webmanifest",
+      "js.map",
+      "ts.map",
+      "css.map",
+      "jsonl",
+      "jsonld",
+      "avsc",
+      "ldtk",
+      "ldtkl",
+      "sublime-build",
+      "sublime-color-scheme",
+      "sublime-commands",
+      "sublime-completions",
+      "sublime-keymap",
+      "sublime-macro",
+      "sublime-menu",
+      "sublime-mousemap",
+      "sublime-project",
+      "sublime-settings",
+      "sublime-theme",
+      "sublime-workspace"
+    ]
+  },
+  "jsonc": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "jsonc"
+    ]
+  },
+  "json5": {
+    "comment_token": "//",
+    "file_types": [
+      "json5"
+    ]
+  },
+  "c": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "c"
+    ]
+  },
+  "cpp": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "cc",
+      "hh",
+      "c++",
+      "cpp",
+      "hpp",
+      "h",
+      "ipp",
+      "tpp",
+      "cxx",
+      "hxx",
+      "ixx",
+      "txx",
+      "ino",
+      "C",
+      "H",
+      "cu",
+      "cuh",
+      "cppm",
+      "h++",
+      "ii",
+      "inl"
+    ]
+  },
+  "crystal": {
+    "comment_token": "#",
+    "file_types": [
+      "cr"
+    ]
+  },
+  "c-sharp": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "cs",
+      "csx",
+      "cake"
+    ]
+  },
+  "cel": {
+    "comment_token": "//",
+    "file_types": [
+      "cel"
+    ]
+  },
+  "spicedb": {
+    "comment_token": "//",
+    "file_types": [
+      "zed"
+    ]
+  },
+  "go": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "go"
+    ]
+  },
+  "gomod": {
+    "comment_token": "//",
+    "file_types": []
+  },
+  "gotmpl": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "gotmpl"
+    ]
+  },
+  "gowork": {
+    "comment_token": "//",
+    "file_types": []
+  },
+  "javascript": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "js",
+      "mjs",
+      "cjs",
+      "rules",
+      "es6",
+      "pac"
+    ]
+  },
+  "jsx": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "jsx"
+    ]
+  },
+  "typescript": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "ts",
+      "mts",
+      "cts"
+    ]
+  },
+  "typespec": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "tsp"
+    ]
+  },
+  "tsx": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "tsx"
+    ]
+  },
+  "css": {
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "css",
+      "scss"
+    ]
+  },
+  "scss": {
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "scss"
+    ]
+  },
+  "html": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "file_types": [
+      "html",
+      "htm",
+      "shtml",
+      "xhtml",
+      "xht",
+      "jsp",
+      "asp",
+      "aspx",
+      "jshtm",
+      "volt",
+      "rhtml",
+      "cshtml"
+    ]
+  },
+  "python": {
+    "comment_token": "#",
+    "file_types": [
+      "py",
+      "pyi",
+      "py3",
+      "pyw",
+      "ptl",
+      "rpy",
+      "cpy",
+      "ipy",
+      "pyt"
+    ]
+  },
+  "nickel": {
+    "comment_token": "#",
+    "file_types": [
+      "ncl"
+    ]
+  },
+  "nix": {
+    "comment_token": "#",
+    "file_types": [
+      "nix"
+    ]
+  },
+  "ruby": {
+    "comment_token": "#",
+    "file_types": [
+      "rb",
+      "rake",
+      "irb",
+      "gemspec",
+      "rabl",
+      "jbuilder",
+      "jb",
+      "podspec",
+      "rjs",
+      "rbi",
+      "rbs"
+    ]
+  },
+  "bash": {
+    "comment_token": "#",
+    "file_types": [
+      "sh",
+      "bash",
+      "ash",
+      "dash",
+      "ksh",
+      "mksh",
+      "zsh",
+      "zshenv",
+      "zlogin",
+      "zlogout",
+      "zprofile",
+      "zshrc",
+      "eclass",
+      "ebuild",
+      "bazelrc",
+      "Renviron",
+      "zsh-theme",
+      "cshrc",
+      "tcshrc",
+      "bashrc_Apple_Terminal",
+      "zshrc_Apple_Terminal"
+    ]
+  },
+  "php": {
+    "comment_token": "//",
+    "block_comment_tokens": [
+      {
+        "start": "/**",
+        "end": "*/"
+      },
+      {
+        "start": "/*",
+        "end": "*/"
+      }
+    ],
+    "file_types": [
+      "php",
+      "inc",
+      "php4",
+      "php5",
+      "phtml",
+      "ctp"
+    ]
+  },
+  "php-only": {
+    "file_types": []
+  },
+  "blade": {
+    "file_types": [
+      "blade"
+    ]
+  },
+  "twig": {
+    "block_comment_tokens": {
+      "start": "{#",
+      "end": "#}"
+    },
+    "file_types": [
+      "twig"
+    ]
+  },
+  "latex": {
+    "comment_token": "%",
+    "file_types": [
+      "tex",
+      "sty",
+      "cls",
+      "Rd",
+      "bbx",
+      "cbx"
+    ]
+  },
+  "bibtex": {
+    "comment_token": "%",
+    "file_types": [
+      "bib"
+    ]
+  },
+  "lean": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "/-",
+      "end": "-/"
+    },
+    "file_types": [
+      "lean"
+    ]
+  },
+  "lpf": {
+    "comment_token": "#",
+    "file_types": [
+      "lpf"
+    ]
+  },
+  "julia": {
+    "comment_token": "#",
+    "block_comment_tokens": {
+      "start": "#=",
+      "end": "=#"
+    },
+    "file_types": [
+      "jl"
+    ]
+  },
+  "java": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "java",
+      "jav",
+      "pde"
+    ]
+  },
+  "smali": {
+    "comment_token": "#",
+    "file_types": [
+      "smali"
+    ]
+  },
+  "ledger": {
+    "comment_token": ";",
+    "file_types": [
+      "ldg",
+      "ledger",
+      "journal"
+    ]
+  },
+  "beancount": {
+    "comment_token": ";",
+    "file_types": [
+      "beancount",
+      "bean"
+    ]
+  },
+  "ocaml": {
+    "block_comment_tokens": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "file_types": [
+      "ml"
+    ]
+  },
+  "ocaml-interface": {
+    "comment_token": "(**)",
+    "block_comment_tokens": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "file_types": [
+      "mli"
+    ]
+  },
+  "dune": {
+    "comment_token": ";",
+    "file_types": []
+  },
+  "lua": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "--[[",
+      "end": "--]]"
+    },
+    "file_types": [
+      "lua",
+      "rockspec"
+    ]
+  },
+  "teal": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "--[[",
+      "end": "--]]"
+    },
+    "file_types": [
+      "tl"
+    ]
+  },
+  "svelte": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "svelte"
+    ]
+  },
+  "vue": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "file_types": [
+      "vue"
+    ]
+  },
+  "yaml": {
+    "comment_token": "#",
+    "file_types": [
+      "yml",
+      "yaml",
+      "sublime-syntax"
+    ]
+  },
+  "nestedtext": {
+    "comment_token": "#",
+    "file_types": [
+      "nt"
+    ]
+  },
+  "haskell": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "{-",
+      "end": "-}"
+    },
+    "file_types": [
+      "hs",
+      "hs-boot",
+      "hsc"
+    ]
+  },
+  "haskell-persistent": {
+    "comment_token": "--",
+    "file_types": [
+      "persistentmodels"
+    ]
+  },
+  "purescript": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "{-",
+      "end": "-}"
+    },
+    "file_types": [
+      "purs"
+    ]
+  },
+  "zig": {
+    "comment_token": "//",
+    "file_types": [
+      "zig",
+      "zon"
+    ]
+  },
+  "prolog": {
+    "comment_token": "%",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "pl",
+      "prolog"
+    ]
+  },
+  "tsq": {
+    "comment_token": ";",
+    "file_types": []
+  },
+  "cmake": {
+    "comment_token": "#",
+    "block_comment_tokens": {
+      "start": "#[[",
+      "end": "]]"
+    },
+    "file_types": [
+      "cmake"
+    ]
+  },
+  "make": {
+    "comment_token": "#",
+    "file_types": [
+      "make",
+      "mk",
+      "mak"
+    ]
+  },
+  "glsl": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "glsl",
+      "vert",
+      "tesc",
+      "tese",
+      "geom",
+      "frag",
+      "comp"
+    ]
+  },
+  "perl": {
+    "comment_token": "#",
+    "file_types": [
+      "pl",
+      "pm",
+      "t",
+      "psgi",
+      "raku",
+      "rakumod",
+      "rakutest",
+      "rakudoc",
+      "nqp",
+      "p6",
+      "pl6",
+      "pm6"
+    ]
+  },
+  "pod": {
+    "file_types": [
+      "pod"
+    ]
+  },
+  "racket": {
+    "comment_token": ";",
+    "block_comment_tokens": {
+      "start": "#|",
+      "end": "|#"
+    },
+    "file_types": [
+      "rkt",
+      "rktd",
+      "rktl",
+      "scrbl"
+    ]
+  },
+  "common-lisp": {
+    "comment_token": ";",
+    "file_types": [
+      "lisp",
+      "asd",
+      "cl",
+      "l",
+      "lsp",
+      "ny",
+      "podsl",
+      "sexp"
+    ]
+  },
+  "comment": {
+    "file_types": []
+  },
+  "wesl": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "wesl"
+    ]
+  },
+  "wgsl": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "wgsl"
+    ]
+  },
+  "llvm": {
+    "comment_token": ";",
+    "file_types": [
+      "ll"
+    ]
+  },
+  "llvm-mir": {
+    "comment_token": ";",
+    "file_types": []
+  },
+  "llvm-mir-yaml": {
+    "comment_token": "#",
+    "file_types": [
+      "mir"
+    ]
+  },
+  "tablegen": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "td"
+    ]
+  },
+  "mail": {
+    "file_types": [
+      "eml"
+    ]
+  },
+  "markdown": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "file_types": [
+      "md",
+      "livemd",
+      "markdown",
+      "mdx",
+      "mkd",
+      "mkdn",
+      "mdwn",
+      "mdown",
+      "markdn",
+      "mdtxt",
+      "mdtext",
+      "workbook"
+    ]
+  },
+  "markdown.inline": {
+    "file_types": []
+  },
+  "djot": {
+    "block_comment_tokens": {
+      "start": "{%",
+      "end": "%}"
+    },
+    "file_types": [
+      "dj",
+      "djot"
+    ]
+  },
+  "dart": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "dart"
+    ]
+  },
+  "scala": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "scala",
+      "sbt",
+      "sc"
+    ]
+  },
+  "dockerfile": {
+    "comment_token": "#",
+    "file_types": [
+      "Dockerfile",
+      "dockerfile",
+      "Containerfile",
+      "containerfile"
+    ]
+  },
+  "docker-compose": {
+    "comment_token": "#",
+    "file_types": []
+  },
+  "git-commit": {
+    "comment_token": "#",
+    "file_types": []
+  },
+  "diff": {
+    "comment_token": "#",
+    "file_types": [
+      "diff",
+      "patch",
+      "rej"
+    ]
+  },
+  "git-rebase": {
+    "comment_token": "#",
+    "file_types": []
+  },
+  "regex": {
+    "file_types": [
+      "regex"
+    ]
+  },
+  "git-config": {
+    "comment_token": "#",
+    "file_types": [
+      "gitconfig"
+    ]
+  },
+  "git-attributes": {
+    "comment_token": "#",
+    "file_types": []
+  },
+  "git-ignore": {
+    "comment_token": "#",
+    "file_types": []
+  },
+  "graphql": {
+    "comment_token": "#",
+    "block_comment_tokens": {
+      "start": "\"\"\"",
+      "end": "\"\"\""
+    },
+    "file_types": [
+      "gql",
+      "graphql",
+      "graphqls"
+    ]
+  },
+  "elm": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "{-",
+      "end": "-}"
+    },
+    "file_types": [
+      "elm"
+    ]
+  },
+  "iex": {
+    "comment_token": "#",
+    "file_types": [
+      "iex"
+    ]
+  },
+  "rescript": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "res"
+    ]
+  },
+  "erlang": {
+    "comment_token": "%%",
+    "file_types": [
+      "erl",
+      "hrl",
+      "app"
+    ]
+  },
+  "kotlin": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "kt",
+      "kts"
+    ]
+  },
+  "hcl": {
+    "comment_token": "#",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "hcl",
+      "tf",
+      "nomad"
+    ]
+  },
+  "tfvars": {
+    "comment_token": "#",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "tfvars"
+    ]
+  },
+  "org": {
+    "file_types": [
+      "org"
+    ]
+  },
+  "solidity": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "sol"
+    ]
+  },
+  "gleam": {
+    "comment_token": "//",
+    "file_types": [
+      "gleam"
+    ]
+  },
+  "ron": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "ron"
+    ]
+  },
+  "robot": {
+    "comment_token": "#",
+    "file_types": [
+      "robot",
+      "resource"
+    ]
+  },
+  "r": {
+    "comment_token": "#",
+    "file_types": [
+      "r",
+      "R"
+    ]
+  },
+  "rmarkdown": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "file_types": [
+      "rmd",
+      "Rmd"
+    ]
+  },
+  "swift": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "swift",
+      "swiftinterface"
+    ]
+  },
+  "erb": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "file_types": [
+      "erb"
+    ]
+  },
+  "ejs": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "file_types": [
+      "ejs"
+    ]
+  },
+  "eex": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "file_types": [
+      "eex"
+    ]
+  },
+  "heex": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "file_types": [
+      "heex"
+    ]
+  },
+  "sql": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "sql",
+      "dsql"
+    ]
+  },
+  "gdscript": {
+    "comment_token": "#",
+    "file_types": [
+      "gd"
+    ]
+  },
+  "godot-resource": {
+    "comment_token": ";",
+    "file_types": [
+      "tscn",
+      "tres",
+      "godot",
+      "gdextension"
+    ]
+  },
+  "nu": {
+    "comment_token": "#",
+    "file_types": [
+      "nu",
+      "nuon"
+    ]
+  },
+  "vala": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "vala",
+      "vapi"
+    ]
+  },
+  "hare": {
+    "comment_token": "//",
+    "file_types": [
+      "ha"
+    ]
+  },
+  "devicetree": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "dts",
+      "dtsi"
+    ]
+  },
+  "cairo": {
+    "comment_token": "//",
+    "file_types": [
+      "cairo"
+    ]
+  },
+  "cpon": {
+    "comment_token": "//",
+    "file_types": [
+      "cpon",
+      "cp"
+    ]
+  },
+  "odin": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "odin"
+    ]
+  },
+  "meson": {
+    "comment_token": "#",
+    "file_types": []
+  },
+  "sshclientconfig": {
+    "comment_token": "#",
+    "file_types": []
+  },
+  "scheme": {
+    "comment_token": ";",
+    "file_types": [
+      "ss",
+      "scm"
+    ]
+  },
+  "v": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "v",
+      "vv",
+      "vsh"
+    ]
+  },
+  "verilog": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "v",
+      "vh",
+      "sv",
+      "svh"
+    ]
+  },
+  "edoc": {
+    "file_types": [
+      "edoc",
+      "edoc.in"
+    ]
+  },
+  "jsdoc": {
+    "file_types": [
+      "jsdoc"
+    ]
+  },
+  "openscad": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "scad"
+    ]
+  },
+  "prisma": {
+    "comment_token": "//",
+    "file_types": [
+      "prisma"
+    ]
+  },
+  "clojure": {
+    "comment_token": ";",
+    "file_types": [
+      "clj",
+      "cljs",
+      "cljc",
+      "clje",
+      "cljr",
+      "cljx",
+      "edn",
+      "boot"
+    ]
+  },
+  "starlark": {
+    "comment_token": "#",
+    "file_types": [
+      "bzl",
+      "bazel",
+      "star"
+    ]
+  },
+  "elvish": {
+    "comment_token": "#",
+    "file_types": [
+      "elv"
+    ]
+  },
+  "idris": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "{-",
+      "end": "-}"
+    },
+    "file_types": [
+      "idr"
+    ]
+  },
+  "fortran": {
+    "comment_token": "!",
+    "file_types": [
+      "f",
+      "for",
+      "f90",
+      "f95",
+      "f03"
+    ]
+  },
+  "ungrammar": {
+    "comment_token": "//",
+    "file_types": [
+      "ungram",
+      "ungrammar"
+    ]
+  },
+  "dot": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "dot"
+    ]
+  },
+  "cue": {
+    "comment_token": "//",
+    "file_types": [
+      "cue"
+    ]
+  },
+  "slint": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "slint"
+    ]
+  },
+  "task": {
+    "comment_token": "#",
+    "file_types": [
+      "task"
+    ]
+  },
+  "xit": {
+    "file_types": [
+      "xit"
+    ]
+  },
+  "esdl": {
+    "comment_token": "#",
+    "file_types": [
+      "esdl"
+    ]
+  },
+  "pascal": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "{",
+      "end": "}"
+    },
+    "file_types": [
+      "pas",
+      "pp",
+      "inc",
+      "lpr",
+      "lfm"
+    ]
+  },
+  "sml": {
+    "block_comment_tokens": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "file_types": [
+      "sml"
+    ]
+  },
+  "jsonnet": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "libsonnet",
+      "jsonnet"
+    ]
+  },
+  "ada": {
+    "comment_token": "--",
+    "file_types": [
+      "adb",
+      "ads"
+    ]
+  },
+  "astro": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "file_types": [
+      "astro"
+    ]
+  },
+  "bass": {
+    "comment_token": ";",
+    "file_types": [
+      "bass"
+    ]
+  },
+  "wat": {
+    "comment_token": ";;",
+    "block_comment_tokens": {
+      "start": "(;",
+      "end": ";)"
+    },
+    "file_types": [
+      "wat"
+    ]
+  },
+  "wast": {
+    "comment_token": ";;",
+    "block_comment_tokens": {
+      "start": "(;",
+      "end": ";)"
+    },
+    "file_types": [
+      "wast"
+    ]
+  },
+  "d": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "d",
+      "dd"
+    ]
+  },
+  "vhs": {
+    "comment_token": "#",
+    "file_types": [
+      "tape"
+    ]
+  },
+  "kdl": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "kdl"
+    ]
+  },
+  "xml": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "file_types": [
+      "xml",
+      "mobileconfig",
+      "plist",
+      "xib",
+      "storyboard",
+      "svg",
+      "xsd",
+      "gml",
+      "xaml",
+      "gir",
+      "rss",
+      "atom",
+      "opml",
+      "policy",
+      "ascx",
+      "axml",
+      "axaml",
+      "bpmn",
+      "cpt",
+      "csl",
+      "csproj.user",
+      "dita",
+      "ditamap",
+      "dtml",
+      "fxml",
+      "iml",
+      "isml",
+      "jmx",
+      "launch",
+      "menu",
+      "mxml",
+      "nuspec",
+      "osc",
+      "osm",
+      "pt",
+      "publishsettings",
+      "pubxml",
+      "pubxml.user",
+      "rbxlx",
+      "rbxmx",
+      "rng",
+      "shproj",
+      "tld",
+      "tmx",
+      "vbproj.user",
+      "vcxproj",
+      "vcxproj.filters",
+      "wsdl",
+      "wxi",
+      "wxs",
+      "xbl",
+      "xlf",
+      "xliff",
+      "xpdl",
+      "xul",
+      "xoml",
+      "musicxml",
+      "glif",
+      "ui",
+      "sublime-snippet",
+      "xsl",
+      "mpd",
+      "smil"
+    ]
+  },
+  "dtd": {
+    "file_types": [
+      "dtd",
+      "ent"
+    ]
+  },
+  "wit": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "wit"
+    ]
+  },
+  "env": {
+    "comment_token": "#",
+    "file_types": []
+  },
+  "ini": {
+    "comment_token": "#",
+    "file_types": [
+      "ini",
+      "service",
+      "automount",
+      "desktop",
+      "device",
+      "mount",
+      "nspawn",
+      "path",
+      "scope",
+      "slice",
+      "socket",
+      "swap",
+      "target",
+      "timer",
+      "container",
+      "volume",
+      "kube",
+      "network",
+      "properties",
+      "cfg",
+      "directory"
+    ]
+  },
+  "inko": {
+    "comment_token": "#",
+    "file_types": [
+      "inko"
+    ]
+  },
+  "bicep": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "bicep",
+      "bicepparam"
+    ]
+  },
+  "qml": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "qml"
+    ]
+  },
+  "mermaid": {
+    "comment_token": "%%",
+    "file_types": [
+      "mermaid",
+      "mmd"
+    ]
+  },
+  "matlab": {
+    "comment_token": "%",
+    "file_types": [
+      "m"
+    ]
+  },
+  "ponylang": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "pony"
+    ]
+  },
+  "dhall": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "{-",
+      "end": "-}"
+    },
+    "file_types": [
+      "dhall"
+    ]
+  },
+  "sage": {
+    "comment_token": "#",
+    "file_types": [
+      "sage"
+    ]
+  },
+  "msbuild": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "file_types": [
+      "proj",
+      "vbproj",
+      "csproj",
+      "fsproj",
+      "targets",
+      "props"
+    ]
+  },
+  "pem": {
+    "file_types": [
+      "pem",
+      "cert",
+      "crt"
+    ]
+  },
+  "passwd": {
+    "file_types": []
+  },
+  "hosts": {
+    "comment_token": "#",
+    "file_types": []
+  },
+  "uxntal": {
+    "block_comment_tokens": {
+      "start": "(",
+      "end": ")"
+    },
+    "file_types": [
+      "tal"
+    ]
+  },
+  "yuck": {
+    "comment_token": ";",
+    "file_types": [
+      "yuck"
+    ]
+  },
+  "prql": {
+    "comment_token": "#",
+    "file_types": [
+      "prql"
+    ]
+  },
+  "po": {
+    "comment_token": "#",
+    "file_types": [
+      "po",
+      "pot"
+    ]
+  },
+  "nasm": {
+    "comment_token": ";",
+    "file_types": [
+      "asm",
+      "S",
+      "nasm"
+    ]
+  },
+  "gas": {
+    "comment_token": "#",
+    "file_types": [
+      "s"
+    ]
+  },
+  "rst": {
+    "comment_token": "..",
+    "file_types": [
+      "rst"
+    ]
+  },
+  "capnp": {
+    "comment_token": "#",
+    "file_types": [
+      "capnp"
+    ]
+  },
+  "smithy": {
+    "comment_token": "//",
+    "file_types": [
+      "smithy"
+    ]
+  },
+  "vhdl": {
+    "comment_token": "--",
+    "file_types": [
+      "vhd",
+      "vhdl"
+    ]
+  },
+  "rego": {
+    "comment_token": "#",
+    "file_types": [
+      "rego"
+    ]
+  },
+  "nim": {
+    "comment_token": "#",
+    "block_comment_tokens": {
+      "start": "#[",
+      "end": "]#"
+    },
+    "file_types": [
+      "nim",
+      "nims",
+      "nimble"
+    ]
+  },
+  "cabal": {
+    "comment_token": "--",
+    "file_types": [
+      "cabal"
+    ]
+  },
+  "hurl": {
+    "comment_token": "#",
+    "file_types": [
+      "hurl"
+    ]
+  },
+  "markdoc": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "file_types": [
+      "mdoc"
+    ]
+  },
+  "opencl": {
+    "comment_token": "//",
+    "file_types": [
+      "cl"
+    ]
+  },
+  "just": {
+    "comment_token": "#",
+    "file_types": [
+      "just"
+    ]
+  },
+  "gn": {
+    "comment_token": "#",
+    "file_types": [
+      "gn",
+      "gni"
+    ]
+  },
+  "blueprint": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "blp"
+    ]
+  },
+  "forth": {
+    "comment_token": "\\",
+    "file_types": [
+      "fs",
+      "forth",
+      "fth",
+      "4th"
+    ]
+  },
+  "fsharp": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "file_types": [
+      "fs",
+      "fsx",
+      "fsi",
+      "fsscript"
+    ]
+  },
+  "t32": {
+    "comment_token": ";",
+    "file_types": [
+      "cmm",
+      "t32"
+    ]
+  },
+  "webc": {
+    "block_comment_tokens": {
+      "start": "<!--",
+      "end": "-->"
+    },
+    "file_types": [
+      "webc"
+    ]
+  },
+  "typst": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "typst",
+      "typ"
+    ]
+  },
+  "nunjucks": {
+    "block_comment_tokens": {
+      "start": "{#",
+      "end": "#}"
+    },
+    "file_types": [
+      "njk"
+    ]
+  },
+  "jinja": {
+    "block_comment_tokens": {
+      "start": "{#",
+      "end": "#}"
+    },
+    "file_types": [
+      "jinja",
+      "jinja2",
+      "j2"
+    ]
+  },
+  "jjdescription": {
+    "comment_token": "JJ:",
+    "file_types": []
+  },
+  "jq": {
+    "comment_token": "#",
+    "file_types": [
+      "jq"
+    ]
+  },
+  "wren": {
+    "file_types": [
+      "wren"
+    ]
+  },
+  "unison": {
+    "comment_token": "--",
+    "file_types": [
+      "u"
+    ]
+  },
+  "todotxt": {
+    "file_types": [
+      "todotxt"
+    ]
+  },
+  "strace": {
+    "file_types": [
+      "strace"
+    ]
+  },
+  "gemini": {
+    "file_types": [
+      "gmi"
+    ]
+  },
+  "agda": {
+    "comment_token": "--",
+    "file_types": [
+      "agda"
+    ]
+  },
+  "templ": {
+    "comment_token": "//",
+    "file_types": [
+      "templ"
+    ]
+  },
+  "dbml": {
+    "comment_token": ";",
+    "file_types": [
+      "dbml"
+    ]
+  },
+  "bitbake": {
+    "comment_token": "#",
+    "file_types": [
+      "bb",
+      "bbappend",
+      "bbclass"
+    ]
+  },
+  "log": {
+    "file_types": [
+      "log"
+    ]
+  },
+  "hoon": {
+    "comment_token": "::",
+    "file_types": [
+      "hoon"
+    ]
+  },
+  "hocon": {
+    "comment_token": "#",
+    "file_types": []
+  },
+  "koka": {
+    "comment_token": "//",
+    "file_types": [
+      "kk"
+    ]
+  },
+  "tact": {
+    "comment_token": "//",
+    "file_types": [
+      "tact"
+    ]
+  },
+  "pkl": {
+    "comment_token": "//",
+    "file_types": [
+      "pkl",
+      "pcf"
+    ]
+  },
+  "groovy": {
+    "comment_token": "//",
+    "file_types": [
+      "gradle",
+      "groovy",
+      "jenkinsfile"
+    ]
+  },
+  "fidl": {
+    "comment_token": "//",
+    "file_types": [
+      "fidl"
+    ]
+  },
+  "powershell": {
+    "comment_token": "#",
+    "block_comment_tokens": {
+      "start": "<#",
+      "end": "#>"
+    },
+    "file_types": [
+      "ps1",
+      "psm1",
+      "psd1",
+      "pscc",
+      "psrc"
+    ]
+  },
+  "ld": {
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "ld"
+    ]
+  },
+  "hyprlang": {
+    "comment_token": "#",
+    "file_types": []
+  },
+  "tcl": {
+    "comment_token": "#",
+    "file_types": [
+      "tcl"
+    ]
+  },
+  "supercollider": {
+    "comment_token": "//",
+    "file_types": [
+      "scd",
+      "sc",
+      "quark"
+    ]
+  },
+  "pkgbuild": {
+    "comment_token": "#",
+    "file_types": []
+  },
+  "helm": {
+    "comment_token": "#",
+    "file_types": []
+  },
+  "glimmer": {
+    "block_comment_tokens": {
+      "start": "{{!",
+      "end": "}}"
+    },
+    "file_types": []
+  },
+  "ohm": {
+    "comment_token": "//",
+    "block_comment_tokens": [
+      {
+        "start": "/*",
+        "end": "*/"
+      },
+      {
+        "start": "/**",
+        "end": "*/"
+      }
+    ],
+    "file_types": [
+      "ohm"
+    ]
+  },
+  "earthfile": {
+    "comment_token": "#",
+    "file_types": []
+  },
+  "adl": {
+    "comment_token": "//",
+    "file_types": [
+      "adl"
+    ]
+  },
+  "ldif": {
+    "comment_token": "#",
+    "file_types": [
+      "ldif"
+    ]
+  },
+  "xtc": {
+    "comment_token": ";",
+    "file_types": [
+      "xtc",
+      "xpc",
+      "xoa"
+    ]
+  },
+  "move": {
+    "comment_token": "//",
+    "file_types": [
+      "move"
+    ]
+  },
+  "pest": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "pest"
+    ]
+  },
+  "elisp": {
+    "comment_token": ";",
+    "file_types": [
+      "el"
+    ]
+  },
+  "gjs": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "gjs"
+    ]
+  },
+  "gts": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "gts"
+    ]
+  },
+  "gherkin": {
+    "comment_token": "#",
+    "file_types": [
+      "feature"
+    ]
+  },
+  "thrift": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "thrift"
+    ]
+  },
+  "circom": {
+    "comment_token": "//",
+    "file_types": [
+      "circom"
+    ]
+  },
+  "snakemake": {
+    "comment_token": "#",
+    "file_types": [
+      "smk"
+    ]
+  },
+  "cylc": {
+    "comment_token": "#",
+    "file_types": [
+      "cylc"
+    ]
+  },
+  "quint": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "qnt"
+    ]
+  },
+  "spade": {
+    "comment_token": "//",
+    "block_comment_tokens": [
+      {
+        "start": "/*",
+        "end": "*/"
+      },
+      {
+        "start": "/**",
+        "end": "*/"
+      }
+    ],
+    "file_types": [
+      "spade"
+    ]
+  },
+  "amber": {
+    "comment_token": "//",
+    "file_types": [
+      "ab"
+    ]
+  },
+  "koto": {
+    "comment_token": "#",
+    "block_comment_tokens": [
+      "#-",
+      "-#"
+    ],
+    "file_types": [
+      "koto"
+    ]
+  },
+  "gpr": {
+    "comment_token": "--",
+    "file_types": [
+      "gpr"
+    ]
+  },
+  "vento": {
+    "block_comment_tokens": {
+      "start": "{{#",
+      "end": "#}}"
+    },
+    "file_types": [
+      "vto"
+    ]
+  },
+  "nginx": {
+    "comment_token": "#",
+    "file_types": []
+  },
+  "codeql": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "ql",
+      "qll"
+    ]
+  },
+  "gren": {
+    "comment_token": "--",
+    "block_comment_tokens": {
+      "start": "{-",
+      "end": "-}"
+    },
+    "file_types": [
+      "gren"
+    ]
+  },
+  "ghostty": {
+    "comment_token": "#",
+    "file_types": []
+  },
+  "tera": {
+    "block_comment_tokens": [
+      {
+        "start": "{#",
+        "end": "#}"
+      },
+      {
+        "start": "{#-",
+        "end": "-#}"
+      },
+      {
+        "start": "{#",
+        "end": "-#}"
+      },
+      {
+        "start": "{#-",
+        "end": "#}"
+      }
+    ],
+    "file_types": [
+      "tera"
+    ]
+  },
+  "fga": {
+    "comment_token": "#",
+    "file_types": [
+      "fga"
+    ]
+  },
+  "csv": {
+    "file_types": [
+      "csv"
+    ]
+  },
+  "yara": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "yara",
+      "yar"
+    ]
+  },
+  "ink": {
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "file_types": [
+      "ink"
+    ]
+  },
+  "sourcepawn": {
+    "comment_token": "//",
+    "file_types": [
+      "sp",
+      "inc"
+    ]
+  },
+  "tlaplus": {
+    "comment_token": "\\*",
+    "block_comment_tokens": {
+      "start": "(*",
+      "end": "*)"
+    },
+    "file_types": [
+      "tla"
+    ]
+  },
+  "werk": {
+    "comment_token": "#",
+    "file_types": [
+      "werk"
+    ]
+  },
+  "debian": {
+    "comment_token": "#",
+    "file_types": [
+      "dsc",
+      "changes"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{{#if placeholder0}}{{placeholder0}}{{else}}Copyright YEAR NAME. All rights reserved.
+         
+Written by NAME{{/if}}
+
+This software is not subject to any license of the American Telephone and Telegraph Company or of the Regents of the University of California.   
+Permission is granted to anyone to use this software for any purpose on any computer system, and to alter it and redistribute it , subject to the following restrictions:
+
+* {{#if placeholder1}}{{placeholder1}}{{else}}1.{{/if}} The author is not responsible for the consequences of use of this software, no matter how awful, even if they arise from flaws in it.
+* {{#if placeholder2}}{{placeholder2}}{{else}}2.{{/if}} The origin of this software must not be misrepresented, either by explicit claim or by omission. Since few users ever read sources, credits must appear in the documentation.
+* {{#if placeholder3}}{{placeholder3}}{{else}}3.{{/if}} Altered versions must be plainly marked as such, and must not be misrepresented as being the original software. Since few users ever read sources, credits must appear in the documentation.
+* {{#if placeholder4}}{{placeholder4}}{{else}}4.{{/if}} This notice may not be removed or altered.

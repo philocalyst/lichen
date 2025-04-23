@@ -1,0 +1,3 @@
+{{#if placeholder0}}{{placeholder0}}{{else}}Portions of this code Copyright (C) 1989 by Michael Mauldin.{{/if}}
+
+Permission is granted to use this file in whole or in part for any purpose, educational, recreational or commercial, provided that this copyright notice is retained unchanged. This software is available to all free of charge by anonymous FTP and in the UUNET archives.

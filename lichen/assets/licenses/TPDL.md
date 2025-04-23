@@ -1,0 +1,4 @@
+{{#if placeholder0}}{{placeholder0}}{{else}}Copyright (C) 1996-2010 David Muir
+               Sharnoff. Copyright (C) 2011 Google, Inc.{{/if}}
+
+License hereby granted for anyone to use, modify or redistribute this module at their own risk. Please feed useful changes back to cpan@dave.sharnoff.org.

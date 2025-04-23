@@ -1,0 +1,1 @@
+ Permission is granted to copy and/or distribute this file, with or without modifications, provided this notice is preserved.

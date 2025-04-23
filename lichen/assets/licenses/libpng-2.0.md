@@ -1,0 +1,12 @@
+{{#if placeholder0}}{{placeholder0}}{{else}}* Copyright (c) 1995-2018 The PNG Reference
+          Library Authors. * Copyright (c) 2018 Cosmin Truta. * Copyright (c) 2000-2002, 2004, 2006-2018
+          Glenn Randers-Pehrson. * Copyright (c) 1996-1997 Andreas Dilger. * Copyright (c) 1995-1996 Guy Eric Schalnat,
+          Group 42, Inc.{{/if}}
+
+The software is supplied &quot;as is&quot;, without warranty of any kind, express or implied, including, without limitation, the warranties of merchantability, fitness for a particular purpose, title, and non-infringement. In no event shall the Copyright owners, or anyone distributing the software, be liable for any damages or other liability, whether in contract, tort or otherwise, arising from, out of, or in connection with the software, or the use or other dealings in the software, even if advised of the possibility of such damage.
+
+Permission is hereby granted to use, copy, modify, and distribute this software, or portions hereof, for any purpose, without fee, subject to the following restrictions:
+
+* {{#if placeholder1}}{{placeholder1}}{{else}}1.{{/if}} The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated, but is not required.
+* {{#if placeholder2}}{{placeholder2}}{{else}}2.{{/if}}Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
+* {{#if placeholder3}}{{placeholder3}}{{else}}3.{{/if}}This Copyright notice may not be removed or altered from any source or altered source distribution.

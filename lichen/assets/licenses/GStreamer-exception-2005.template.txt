@@ -1,0 +1,2 @@
+The {{#if projectName}}{{projectName}}{{else}}Totem{{/if}} project hereby grant permission for non-gpl compatible GStreamer plugins to be used and distributed together with GStreamer and {{#if projectName2}}{{projectName2}}{{else}}Totem{{/if}} . This permission {{#if tobe}}{{tobe}}{{else}}are{{/if}} above and beyond the permissions granted by the GPL license {{#if projectName3}}{{projectName3}}{{else}}Totem{{/if}} is covered by.
+

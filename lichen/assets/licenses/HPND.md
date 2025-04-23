@@ -1,0 +1,3 @@
+{{#if placeholder0}}{{placeholder0}}{{else}}Copyright <year> <copyright holder>{{/if}}
+
+Permission to use, copy, modify and distribute this software for any purpose and without fee is hereby granted provided that the above copyright notice {{#if placeholder1}}{{placeholder1}}{{else}}appear{{/if}} in all copies that both {{#if placeholder2}}{{placeholder2}}{{else}}that{{/if}} copyright notice and this permission notice appear in supporting documentation.
