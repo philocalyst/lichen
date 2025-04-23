@@ -159,7 +159,7 @@ pub struct ApplyArgs {
     pub targets: Option<Vec<PathBuf>>,
 
     /// Do not respect the git_ignore file (If present in directory) and other pattern defaults
-    #[arg(long, action = clap::ArgAction::SetTrue)]
+    #[arg(short = 'A', long, action = clap::ArgAction::SetTrue)]
     pub all: Option<bool>,
 
     /// Author names and emails (comma-separated).
@@ -172,7 +172,7 @@ pub struct InitArgs {
     /// Optional path where the configuration should be initialized.
     /// Defaults to the current directory.
     #[arg(short, long)]
-    pub path: Option<PathBuf>,
+    pub target: Option<PathBuf>,
 }
 
 #[derive(Args, Debug)]
