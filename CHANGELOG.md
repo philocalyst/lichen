@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Fixed
 - "ignoreGitignore" option in config is now all
+- Gitignore loading will not error if not a git repoistory
 
 ## Added
 - License init command
@@ -15,6 +16,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Changed
 - Default config has constructive comments
+- Gen command is _gen
+- Positional target argument for init
 
 
 ## [0.3.1] – 2025-04-23
