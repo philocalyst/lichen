@@ -14,7 +14,7 @@ env:
   # Global RUSTFLAGS (applied unless overridden in a step)
   RUSTFLAGS: --deny warnings
   # Project name used in the justfile for artifact naming
-  PROJECT_NAME: lichen
+  BINARY_NAME: lic
 
 jobs:
   prerelease:
@@ -162,7 +162,7 @@ jobs:
       - name: Determine Artifact Name
         id: artifact_name
         run: |
-          ARTIFACT_PATH="dist/${{ env.PROJECT_NAME }}-${{ matrix.target }}"
+          ARTIFACT_PATH="dist/${{ env.BINARY_NAME }}-${{ matrix.target }}"
           if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
             ARTIFACT_PATH="${ARTIFACT_PATH}.exe"
           fi
