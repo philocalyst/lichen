@@ -80,7 +80,7 @@ exclude = [
 # targets = ["src/", "tests/main.rs"]
 # targets = ["/path/to/specific/directory"]
 # Default: Current directory
-targets = ["src/core/"]
+targets = ["."]
 
 # The SPDX identifier for the license. This is a mandatory field.
 # Refer to the SPDX License List for valid identifiers:
