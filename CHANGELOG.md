@@ -3,7 +3,21 @@
 All notable changes to this project are documented in this file.  
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.3.1] – 2025-04-22
+## [0.3.2] – 2025-04-23
+
+## Fixed
+- "ignoreGitignore" option in config is now all
+
+## Added
+- License init command
+- Short "A" option for "all" in apply
+- All dotfiles defaults case
+
+## Changed
+- Default config has constructive comments
+
+
+## [0.3.1] – 2025-04-23
 
 ### Changed
 - Moved to a bundled-with-the-binary solution for managing files and directories
