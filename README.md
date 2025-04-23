@@ -1,6 +1,6 @@
 # Welcome to Lichen.
 
-Lichen is a command-line tool designed to help manage license files and headers within your software projects. It simplifies generating full license texts (like `LICENSE`) and applying standardized license header comments to your source code files, ensuring compliance and consistency.
+Lichen(lic) is a command-line tool designed to help manage license files and headers within your software projects. It simplifies generating full license texts (like `LICENSE`) and applying standardized license header comments to your source code files, ensuring compliance and consistency with patterns, configs, and templates.
 
 *(Screenshot placeholder)*
 
@@ -44,10 +44,10 @@ To generate a standard `LICENSE` file (e.g., MIT license) in the current directo
 
 ```shell
 # Using CLI arguments only
-lichen gen MIT --authors "Your Name:your.email@example.com" --date 2025
+lic gen MIT --authors "Your Name:your.email@example.com" --date 2025
 
 # Using configuration from .lichen.toml (if `id = "MIT"` is set)
-lichen gen
+lic gen
 ```
 
   * Replace `MIT` with the desired [SPDX license identifier](https://spdx.org/licenses/).
@@ -62,10 +62,10 @@ To add license headers to source files (e.g., apply Apache-2.0 header):
 
 ```shell
 # Apply header based on CLI arguments, modifying files in place
-lichen apply Apache-2.0 --contributors "CONTRIBUTOR:contrib@example.com" --date 2025 src/ tests/
+lic apply Apache-2.0 --contributors "CONTRIBUTOR:contrib@example.com" --date 2025 src/ tests/
 
 # Apply header(s) based on .lichen.toml configuration, modifying files in place
-lichen apply
+lic apply
 ```
 
 > [!TIP]
