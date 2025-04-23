@@ -1185,7 +1185,7 @@ dependencies = [
 
 [[package]]
 name = "lic"
-version = "0.1.0"
+version = "0.3.4"
 dependencies = [
  "chrono",
  "clap 4.5.36",
