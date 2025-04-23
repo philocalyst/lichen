@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Changed
 - Moved to a bundled-with-the-binary solution for managing files and directories
+- Logic for determining the default comment token
 
 ### Fixed
 - Justfile error handling (In the awk block)
@@ -15,6 +16,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Added
 - Justfile recipe for compressing binaries
+- License (haha!)
 - Coming soon section in README
 - Contributing section in README
 
