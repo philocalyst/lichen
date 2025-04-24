@@ -202,8 +202,8 @@ just clean-all # Remove target/, Python venv, etc.
 Ensure you have the Rust toolchain installed.
 
 ```shell
-# Build and install using cargo
-cargo install --git https://github.com/philocalyst/lichen/
+# Build and install using cargo (Installing just the public binary, not any helper)
+cargo install --git https://github.com/philocalyst/lichen/ --bin lic
 ```
 
 The `lichen` binary will be installed in your Cargo bin directory (usually `~/.cargo/bin/`). Ensure this directory is in your system's `PATH`.
