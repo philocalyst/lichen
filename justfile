@@ -15,9 +15,9 @@ output_directory := project_root + "/dist"
 #   "rustc --version --verbose |  grep '^host:' | awk '{print $2}'" 
 # )
 target_dir      := project_root + "/target"
-lichen_pkg      := "lic"
+main_package      := "lic"
+main_bin_flag     := "--bin" + main_package
 spdx_parser_pkg := "spdx_parser"
-default_bin     := "lic"
 
 py_script_dir := project_root + "/scripts/parse_comments"
 py_script     := py_script_dir + "/main.py"
@@ -88,9 +88,9 @@ create-notes raw_tag outfile changelog:
       echo "Warning: '{{outfile}}' is empty. Is '## [$tag]' present in '{{changelog}}'?" >&2
     fi
 
-build-release target="aarch64-apple-darwin":
+build-release target="aarch64-apple-darwin" package=(main_package):
     @echo "🚀 Building workspace (release) for {{target}}…"
-    cargo build {{workspace_flag}} {{release_flag}} --target {{target}}
+    cargo build {{workspace_flag}} {{release_flag}} --bin {{package}} --target {{target}}
 
     @echo "📦 Packaging release binary…"
     @mkdir -p dist
@@ -100,8 +100,8 @@ build-release target="aarch64-apple-darwin":
       if [[ "{{target}}" == *windows-msvc ]]; then \
         ext=".exe"; \
       fi; \
-      bin="target/{{target}}/release/{{lichen_pkg}}${ext}"; \
-      out="dist/{{lichen_pkg}}-{{target}}${ext}"; \
+      bin="target/{{target}}/release/{{main_package}}${ext}"; \
+      out="dist/{{main_package}}-{{target}}${ext}"; \
       \
       echo " - cp $bin → $out"; \
       cp "$bin" "$out"; \
@@ -220,13 +220,13 @@ update:
 release: build-release
     just checksum
     
-install: build-release
-    @echo "💾 Installing {{lichen_pkg}} binary..."
-    cargo install --path "{{project_root}}/{{lichen_pkg}}"
+install package=(main_package): build-release 
+    @echo "💾 Installing {{main_package}} binary..."
+    cargo install --bin {{package}}
 
-install-force: build-release
-    @echo "💾 Force installing {{lichen_pkg}} binary..."
-    cargo install --path "{{project_root}}/{{lichen_pkg}}" --force
+install-force package=(main_package): build-release
+    @echo "💾 Force installing {{main_package}} binary..."
+    cargo install --bin {{package}} --force
 
 # ===== Aliases =====
 
