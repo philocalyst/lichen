@@ -132,21 +132,21 @@ compress-binaries target_directory=("."): # Compress the binaries in the passed-
 
 # ===== Run =====
 
-run +args:
-    @echo "▶️ Running {{lichen_pkg}} (debug)..."
-    cargo run -p {{lichen_pkg}} -- {{args}}
+run package=(main_package) +args="":
+    @echo "▶️ Running {{package}} (debug)..."
+    cargo run --bin {{package}} -- {{args}}
 
-run-release +args:
-    @echo "▶️ Running {{lichen_pkg}} (release)..."
-    cargo run -p {{lichen_pkg}} {{release_flag}} -- {{args}}
+run-release package=(main_package) +args="":
+    @echo "▶️ Running {{package}} (release)..."
+    cargo run --bin {{package}} {{release_flag}} -- {{args}}
 
 run-example-spdx: 
     @echo "▶️ Running spdx_parser example (basic_conversion)..."
-    cargo run -p {{spdx_parser_pkg}} --example basic_conversion
+    cargo run --bin {{spdx_parser_pkg}} --example basic_conversion
 
 run-example-spdx-release:
     @echo "▶️ Running spdx_parser example (basic_conversion, release)..."
-    cargo run -p {{spdx_parser_pkg}} {{release_flag}} --example basic_conversion
+    cargo run --bin {{spdx_parser_pkg}} {{release_flag}} --example basic_conversion
 
 # ===== Code Generation =====
 
