@@ -42,9 +42,9 @@ check-release:
     @echo "🔎 Checking workspace (release)..."
     cargo check {{workspace_flag}} {{release_flag}}
 
-build:
+build target="aarch64-apple-darwin" package=(main_package):
     @echo "🔨 Building workspace (debug)..."
-    cargo build {{workspace_flag}}
+    cargo build {{workspace_flag}} --bin {{package}} --target {{target}}
 
 create-notes raw_tag outfile changelog:
     #!/usr/bin/env bash
@@ -53,7 +53,7 @@ create-notes raw_tag outfile changelog:
     tag="${tag_v#v}" # Remove prefix v
 
     # Changes header for release notes
-    printf "## Changes\n" > "{{outfile}}"
+    printf "# What's new\n" > "{{outfile}}"
 
     if [[ ! -f "{{changelog}}" ]]; then
       echo "Error: {{changelog}} not found." >&2
@@ -92,6 +92,8 @@ build-release target="aarch64-apple-darwin" package=(main_package):
     @echo "🚀 Building workspace (release) for {{target}}…"
     cargo build {{workspace_flag}} {{release_flag}} --bin {{package}} --target {{target}}
 
+package target="aarch64-apple-darwin":
+    just build-release {{target}}
     @echo "📦 Packaging release binary…"
     @mkdir -p dist
 
@@ -108,9 +110,13 @@ build-release target="aarch64-apple-darwin" package=(main_package):
       \
     '
 
+
 checksum directory=(output_directory):
     @echo "🔒 Creating checksums..."
-    find "{{directory}}" -type f ! -name "checksums.sha256" ! -name "README*" ! -name "*.sha256" -exec sh -c 'sha256sum "$1" > "$1.sha256"' _ {} \;
+    @find "{{directory}}" -type f \
+    ! -name "checksums.sha256" \
+    ! -name "*.sha256" \
+    -exec sh -c 'sha256sum "$1" > "$1.sha256"' _ {} \;
     @echo "✅ Checksums created!"
 
 [no-cd]

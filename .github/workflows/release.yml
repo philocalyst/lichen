@@ -153,7 +153,7 @@ jobs:
         env:
           RUSTFLAGS: ${{ env.RUSTFLAGS }} ${{ matrix.target_rustflags }}
         # Run the just recipe, passing the target from the matrix
-        run: just build-release ${{ matrix.target }}
+        run: just package ${{ matrix.target }}
 
       - name: Compress the binaries
         run: just compress-binaries "dist/"
