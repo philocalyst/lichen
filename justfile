@@ -1,19 +1,16 @@
 # -*- mode: justfile -*-
 
-# ===== Settings =====
+# ▰▰▰ Settings ▰▰▰ #
 set shell := ["bash", "-euo", "pipefail", "-c"]
 set windows-shell := ["C:/Program Files/Git/usr/bin/bash.exe", "-euo", "pipefail", "-c"]
 set dotenv-load := true
 set allow-duplicate-recipes := true
 
-# ===== Variables =====
+# ▰▰▰ Variables ▰▰▰ #
 project_root    := justfile_directory()
 output_directory := project_root + "/dist"
 
-# Get host line with grep, get the value with awk (2nd)
-# host_target := shell(
-#   "rustc --version --verbose |  grep '^host:' | awk '{print $2}'" 
-# )
+system := `rustc --version --verbose |  grep '^host:' | awk '{print $2}'`
 target_dir      := project_root + "/target"
 main_package      := "lic"
 main_bin_flag     := "--bin" + main_package
@@ -29,10 +26,10 @@ workspace_flag := "--workspace"
 all_flag       := "--all"
 verbose_flag   := "-vv"
 
-# ===== Default =====
-default: check
+default:
+    just --list {{justfile()}}
 
-# ===== Build & Check =====
+# ▰▰▰ Build & Check ▰▰▰ #
 
 check:
     @echo "🔎 Checking workspace..."
@@ -88,11 +85,11 @@ create-notes raw_tag outfile changelog:
       echo "Warning: '{{outfile}}' is empty. Is '## [$tag]' present in '{{changelog}}'?" >&2
     fi
 
-build-release target="aarch64-apple-darwin" package=(main_package):
+build-release target=(system) package=(main_package):
     @echo "🚀 Building workspace (release) for {{target}}…"
     cargo build {{workspace_flag}} {{release_flag}} --bin {{package}} --target {{target}}
 
-package target="aarch64-apple-darwin":
+package target=(system):
     just build-release {{target}}
     @echo "📦 Packaging release binary…"
     @mkdir -p dist
@@ -136,7 +133,7 @@ compress-binaries target_directory=("."): # Compress the binaries in the passed-
     done
 
 
-# ===== Run =====
+# ▰▰▰ Run ▰▰▰ #
 
 run package=(main_package) +args="":
     @echo "▶️ Running {{package}} (debug)..."
@@ -154,14 +151,14 @@ run-example-spdx-release:
     @echo "▶️ Running spdx_parser example (basic_conversion, release)..."
     cargo run --bin {{spdx_parser_pkg}} {{release_flag}} --example basic_conversion
 
-# ===== Code Generation =====
+# ▰▰▰ Code Generation ▰▰▰
 
 generate-comments:
     @echo "🔧 Generating comment‐tokens JSON..."
     @mkdir -p "{{py_script_dir}}"
     @uv run "{{py_script}}" > "{{json_output}}"
 
-# ===== Test =====
+# ▰▰▰ Test ▰▰▰
 
 test: 
     @echo "🧪 Running workspace tests..."
@@ -171,7 +168,7 @@ test-with +args:
     @echo "🧪 Running workspace tests with args: {{args}}"
     cargo test {{workspace_flag}} -- {{args}}
 
-# ===== Format & Lint =====
+# ▰▰▰ Format & Lint ▰▰▰
 
 fmt:
     @echo "💅 Formatting Rust code..."
@@ -193,7 +190,7 @@ lint-fix:
     @echo "🩹 Fixing Clippy lints..."
     cargo clippy {{workspace_flag}} --fix --allow-dirty --allow-staged
 
-# ===== Documentation =====
+# ▰▰▰ Documentation ▰▰▰ #
 
 doc:
     @echo "📚 Generating documentation..."
@@ -203,7 +200,7 @@ doc-open: doc
     @echo "📚 Opening documentation in browser..."
     cargo doc {{workspace_flag}} --no-deps --open
 
-# ===== Cleaning =====
+# ▰▰▰ Cleaning ▰▰▰ #
 
 clean:
     @echo "🧹 Cleaning build artifacts..."
@@ -217,7 +214,7 @@ clean-all: clean
     @echo "🧹 Cleaning Python cache..."
     cd "{{py_script_dir}}" && rm -rf .uv_cache __pycache__
 
-# ===== Installation & Update =====
+# ▰▰▰ Installation & Update ▰▰▰ #
 
 update:
     @echo "🔄 Updating dependencies..."
@@ -234,7 +231,7 @@ install-force package=(main_package): build-release
     @echo "💾 Force installing {{main_package}} binary..."
     cargo install --bin {{package}} --force
 
-# ===== Aliases =====
+# ▰▰▰ Aliases ▰▰▰ #
 
 alias b    := build
 alias br   := build-release
