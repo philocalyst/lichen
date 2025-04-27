@@ -2,20 +2,26 @@
 //!
 //! General helper functions for file processing, text formatting, etc.
 
+// Internal imports
 use crate::config::{Authors, Config};
 use crate::error::LichenError;
 use crate::models::CommentToken;
+
+// External imports
+use futures::stream::{self, StreamExt};
 use handlebars::{Handlebars, RenderError};
 use jiff::civil::Date;
 use log::{debug, error, info, trace, warn};
 use regex::Regex;
+use walkdir::{self, WalkDir};
+
+// STD
 use std::collections::{BTreeMap, HashSet};
 use std::fs::{self};
 use std::path::MAIN_SEPARATOR;
 use std::path::PathBuf;
 use std::process::Command;
 use std::sync::Arc;
-use walkdir::{self, WalkDir}; // Use tokio's async fs
 
 // Embed comment tokens at build-time
 const COMMENT_TOKENS_JSON: &str = include_str!(concat!(
@@ -32,7 +38,7 @@ const HEADER_MARKER_STR: &str = "\u{2060}"; // String version for searching
 /// # Arguments
 ///
 /// * `source`: The raw template string.
-/// * `year`: The copyright year `Date`.
+/// * `date`: The copyright year or full `Date`.
 /// * `authors`: A list of author names.
 ///
 /// # Returns
@@ -40,12 +46,12 @@ const HEADER_MARKER_STR: &str = "\u{2060}"; // String version for searching
 /// A `Result` containing the rendered string or a `RenderError`.
 pub fn render_license(
     source: &str,
-    year: &Date,
+    date: &Date,
     authors: &Option<Authors>,
 ) -> Result<String, RenderError> {
+    trace!("Began rendering template using handlebars");
+    // Creation of the handlebars registry, allowing for the programatic replacement of key/values in the template
     let mut handlebars = Handlebars::new();
-    // Keep escape_fn default (HTML escaping) or consider no_escape if it's plain text only
-    // handlebars.register_escape_fn(handlebars::no_escape); // Use if pure text output
     handlebars
         .register_template_string("license", source)
         .map_err(|e| {
@@ -53,18 +59,23 @@ pub fn render_license(
             RenderError::from(e)
         })?;
 
+    // Copyright string generation
     let copyright_string;
     if let Some(authors) = authors {
-        copyright_string = format!("Copyright (c) {} {}", year.year(), authors);
+        copyright_string = format!("Copyright (c) {} {}", date.year(), authors);
     } else {
-        copyright_string = format!("Copyright (c) {}", year.year());
+        copyright_string = format!("Copyright (c) {}", date.year());
     }
 
+    // Remember that all generated licenses have their own fields.
     let mut data = BTreeMap::new();
-    data.insert("copyright".to_string(), copyright_string);
-    // Add other potential template variables here (e.g., full_date)
-    // data.insert("year".to_string(), year.year().to_string());
-    // data.insert("authors".to_string(), authors_list);
+    data.insert("copyright".to_string(), &copyright_string);
+    debug!(
+        "Rendering handlebars entry copyright with {}",
+        &copyright_string
+    );
+
+    // There's such a variability to the templates, so I'm holding back on the addition of some of these, but from here, they become very easy to add.
 
     handlebars.render("license", &data)
 }
@@ -104,7 +115,7 @@ pub fn get_valid_files(
             ));
         }
 
-        debug!("Walking directory/file: '{}'", target.display());
+        trace!("Walking directory/file: '{}'", target.display());
         let walker = WalkDir::new(target).follow_links(true).into_iter(); // Follow symlinks
 
         // Apply the exclusion filter during the walk
@@ -153,7 +164,7 @@ pub fn get_valid_files(
                     }
                 }
                 Err(walk_err) => {
-                    // Log the error but try to continue if possible, unless it's fatal
+                    // Log the error but try to continue if possible, unless it's fatal, in which case this is a panic point.
                     let path_display = walk_err
                         .path()
                         .map_or_else(|| "unknown path".to_string(), |p| p.display().to_string());
@@ -161,17 +172,16 @@ pub fn get_valid_files(
                         "Error accessing entry during directory walk at or near '{}': {}",
                         path_display, walk_err
                     );
-                    // Optionally return the error immediately:
-                    // return Err(FileProcessingError::WalkdirError(walk_err));
                 }
             }
-        } // End inner loop for walker results
-    } // End outer loop for targets
+        }
+    }
 
+    // Signaling and logging
     if files_to_process.is_empty() {
         warn!("No files found matching the criteria in the specified targets and exclusions.");
     } else {
-        info!(
+        debug!(
             "Found {} files to process across all targets.",
             files_to_process.len()
         );
@@ -387,7 +397,7 @@ pub fn format_header_with_comments(
         Some(token) => token,
         None => {
             warn!("No suitable comment token found in the provided list.");
-            return None; // Indicate failure to format
+            return None;
         }
     };
 
@@ -396,9 +406,11 @@ pub fn format_header_with_comments(
         comment_token
     );
 
+    // String backer for the generated final header
     let mut formatted_header = String::new();
     let newline: char = '\n';
 
+    // There is a plethora of padding. In general, I wish for there to be a seperator from before and after the header.
     match comment_token {
         CommentToken::Line(comment_token) => {
             // Break the content into lines
@@ -450,6 +462,7 @@ pub trait ReplaceBetween {
 
 use std::borrow::Cow;
 impl ReplaceBetween for str {
+    /// Replaces entire lines between two indices, including the lines that they indices lie on.
     fn replace_between<'a>(&'a self, delim: char, replacement: &str) -> Cow<'a, str> {
         let mut first_sight: Option<usize> = None;
         let mut last_seen: Option<usize> = None;
@@ -528,8 +541,7 @@ pub async fn remove_headers_from_files(
     paths: &[PathBuf],
     max_concurrency: std::num::NonZero<usize>,
 ) -> Result<(), LichenError> {
-    use futures::stream::{self, StreamExt}; // Ensure futures is imported
-    use tokio::fs; // Use tokio's async fs
+    use tokio::fs; // Use the fs module from tokio
 
     debug!(
         "Starting to remove headers from {} files with concurrency {}",
@@ -686,6 +698,7 @@ pub async fn remove_headers_from_files(
 /// * `paths`: A slice of `PathBuf` representing the files to modify.
 /// * `max_concurrency`: The maximum number of files to process concurrently.
 /// * `prefers_block`: Whether to prefer block comments.
+/// * `multiple`: Whether to overwrite existing headers or append to
 ///
 /// # Returns
 ///
@@ -697,8 +710,8 @@ pub async fn apply_headers_to_files(
     prefers_block: bool,
     multiple: bool,
 ) -> Result<(), LichenError> {
-    use futures::stream::{self, StreamExt};
-    use tokio::fs; // Ensure futures is imported
+    use tokio::fs; // Use the fs module from tokio
+
     debug!(
         "Starting to apply headers to {} files with concurrency {}",
         paths.len(),
@@ -857,8 +870,7 @@ pub async fn apply_headers_to_files(
                 total_errors += errors;
             }
             Err(e) => {
-                // This happens if the async block itself returns Err,
-                // which we avoided by returning Ok((a,s,e))
+                // This happens if the async block itself returns Err, which doesn't happen
                 // But keep it here for robustness.
                 error!("Unexpected error during stream processing: {}", e);
                 total_errors += 1;
@@ -887,56 +899,7 @@ pub async fn apply_headers_to_files(
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use crate::config::Author;
-    use crate::config::Authors;
-    use jiff::civil::Date;
-    use std::borrow::Cow;
-
-    #[test]
-    fn render_license_injects_copyright_and_authors() {
-        let template = "/* {{copyright}} */";
-        let authors = Some(Authors(vec![
-            Author {
-                name: "A".into(),
-                email: None,
-            },
-            Author {
-                name: "B".into(),
-                email: Some("b@e".into()),
-            },
-        ]));
-        let year = Date::new(2025, 1, 1).unwrap();
-        let out = render_license(template, &year, &authors).unwrap();
-        assert!(out.contains("2025"));
-        assert!(out.contains("A"));
-        assert!(out.contains("B [b@e]"));
-    }
-
-    #[test]
-    fn replace_between_replaces_delimited_region() {
-        let text = "line1\n* old\n* old2\nline4";
-        let replaced = text.replace_between('*', "NEW\nNEW2");
-        // expect lines before first '*', then our replacement, then lines after last '*'
-        let expect = "line1\nNEW\nNEW2\nline4\n";
-        match replaced {
-            Cow::Owned(ref s) => assert_eq!(s, expect),
-            _ => panic!("expected owned String"),
-        }
-    }
-
-    #[test]
-    fn replace_between_no_delimiter_returns_borrowed() {
-        let text = "no markers here";
-        let replaced = text.replace_between('#', "X");
-        // without marker, should return the original slice
-        assert!(matches!(replaced, Cow::Borrowed(_)));
-        assert_eq!(replaced, "no markers here");
-    }
-}
-
+/// No-input function to load the ignore patterns from the root git repo.
 fn load_gitignore_patterns() -> Result<Option<Vec<String>>, LichenError> {
     let mut patterns = Vec::new();
     let output = Command::new("git")
@@ -997,7 +960,7 @@ pub fn build_exclude_regex(
     all: bool,
     index: Option<usize>,
 ) -> Result<Option<Regex>, LichenError> {
-    // 1) collect all raw pattern strings
+    // |1| collect all raw pattern strings
     let mut pats = Vec::new();
 
     let defaults: Vec<String> = vec![
@@ -1012,7 +975,7 @@ pub fn build_exclude_regex(
         ".*\\.github/.*".to_string(),
     ];
 
-    // a) add .gitignore patterns (unless disabled)
+    // Add the giginore patterns if not disabled.
     if !all {
         if let Some(gitignore) = load_gitignore_patterns()? {
             pats.extend(gitignore);
@@ -1023,14 +986,14 @@ pub fn build_exclude_regex(
     }
 
     if let Some(cfg) = cfg {
-        // b) global exclude from config
+        // Exclude global from the config
         if let Some(globs) = cfg.exclude.as_ref() {
             for re in globs.iter() {
                 pats.push(re.as_str().to_string());
             }
         }
 
-        // c) per‑license exclude
+        // The per-license exclude
         if let Some(i) = index {
             if let Some(licenses) = cfg.licenses.as_ref() {
                 if let Some(lic) = licenses.get(i) {
@@ -1048,26 +1011,76 @@ pub fn build_exclude_regex(
         // If no cfg, do nothing
     }
 
-    // d) CLI override
+    // Append the cli exclude
     if let Some(cli_exc) = cli_exclude {
         pats.push(cli_exc.to_string());
     }
 
-    // nothing to exclude?
+    // Nothing found to exclude??
     if pats.is_empty() {
         return Ok(None);
     }
 
-    // 2) wrap each in a non‑capturing group and join with |
+    // |2| wrap each in a non‑capturing group and join with |
     let alternation = pats
         .into_iter()
         .map(|p| format!("(?:{})", p))
         .collect::<Vec<_>>()
         .join("|");
 
-    // 3) compile once
+    // Return compilled regex
     match Regex::new(&alternation) {
         Ok(re) => Ok(Some(re)),
         Err(err) => Err(LichenError::RegexError(alternation, err)),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::config::Author;
+    use crate::config::Authors;
+    use jiff::civil::Date;
+    use std::borrow::Cow;
+
+    #[test]
+    fn render_license_injects_copyright_and_authors() {
+        let template = "/* {{copyright}} */";
+        let authors = Some(Authors(vec![
+            Author {
+                name: "A".into(),
+                email: None,
+            },
+            Author {
+                name: "B".into(),
+                email: Some("b@e".into()),
+            },
+        ]));
+        let year = Date::new(2025, 1, 1).unwrap();
+        let out = render_license(template, &year, &authors).unwrap();
+        assert!(out.contains("2025"));
+        assert!(out.contains("A"));
+        assert!(out.contains("B [b@e]"));
+    }
+
+    #[test]
+    fn replace_between_replaces_delimited_region() {
+        let text = "line1\n* old\n* old2\nline4";
+        let replaced = text.replace_between('*', "NEW\nNEW2");
+        // expect lines before first '*', then our replacement, then lines after last '*'
+        let expect = "line1\nNEW\nNEW2\nline4\n";
+        match replaced {
+            Cow::Owned(ref s) => assert_eq!(s, expect),
+            _ => panic!("expected owned String"),
+        }
+    }
+
+    #[test]
+    fn replace_between_no_delimiter_returns_borrowed() {
+        let text = "no markers here";
+        let replaced = text.replace_between('#', "X");
+        // without marker, should return the original slice
+        assert!(matches!(replaced, Cow::Borrowed(_)));
+        assert_eq!(replaced, "no markers here");
     }
 }

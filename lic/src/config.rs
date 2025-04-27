@@ -1,3 +1,7 @@
+//! # Configuration support
+//!
+//! Manages the loading of options from a TOML config input
+
 use crate::error::LichenError;
 use crate::license::License;
 use jiff::civil::Date;
@@ -8,7 +12,7 @@ use std::fmt;
 use std::fs;
 use std::path::{Path, PathBuf};
 
-/// Top‑level configuration.
+/// Complete configuration. Holds fields for a the sum of both Apply and Gen args
 #[derive(Debug, Deserialize, Default)]
 pub struct Config {
     /// When applying headers, which kind of comment token the user *wants*
@@ -92,9 +96,11 @@ pub struct Author {
 
 impl fmt::Display for Author {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        // Open to this being changed, just what made sense at the time.
         let wrapper_char_left = "[";
         let wrapper_char_right = "]";
 
+        // Ex output: John Pork [johnpork@pig.com]
         if let Some(email) = &self.email {
             write!(
                 f,
@@ -115,7 +121,7 @@ pub struct Authors(pub Vec<Author>);
 
 impl fmt::Display for Authors {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        // Join each author’s Display with commas
+        // Simple and easy, just get the string representation of each author, and join with comma.
         let joined = self
             .0
             .iter()

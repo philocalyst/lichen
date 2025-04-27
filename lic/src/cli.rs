@@ -1,6 +1,6 @@
 //! # Command Line Interface
 //!
-//! Defines the CLI structure and argument parsing using Clap.
+//! Defines the CLI struct and how argument parsing is handled with Clap.
 
 use crate::config::{Author, Authors};
 use crate::license::License;
@@ -14,38 +14,38 @@ use std::path::PathBuf;
 
 fn parse_year_to_date(s: &str) -> Result<Date, String> {
     println!("{s}");
-    // |1| Attempt to parse as a full date; on Err, log only if it looks not a year
+    // Attempt to parse as a full date; If parsing fails, it's only a problem if it was *meant* to be a full-date.
     match s.parse::<Date>() {
         Ok(date) => return Ok(date),
         Err(e) => {
-            // basic assumption anything longer than 4 chars isn’t just "YYYY", and should throw an error as it is now assumed to be an attempted full date.
+            // Basic assumption here is that anything longer than 4 chars, the modern length for a year, is an incorrectly formatted date string.
             if s.len() > 4 {
                 return Err(e.to_string());
             }
         }
     }
 
-    // |2| Fallback to parsing as year only
+    // Fallback to parsing as year only. This fails if there are any non-numbers in the string
     let year: i16 = s
         .parse()
-        .map_err(|e| format!("invalid year `{}`: {}", s, e))?;
+        .map_err(|e| format!("invalid year `{}`: {} Please use only numerals", s, e))?;
 
-    // |3| Construct January 1st of that year
+    // Construct to a chill, January 1st of that year.
     Date::new(year, 1, 1).map_err(|e| format!("invalid date: {}", e))
 }
 
 pub fn parse_to_author(input: &str) -> Result<Authors, String> {
-    // If the whole string is empty or only whitespace, reject it.
+    // If the whole string is only whitespace, reject it.
     if input.trim().is_empty() {
         return Err("You need to provide at least one author in the format NAME[:EMAIL]".into());
     }
 
     let authors = input
-        .split(',') // split entries on commas
-        .map(str::trim) // trim whitespace around each entry
+        .split(',') // Delimter for consecutive authors is a comma
+        .map(str::trim) // Whitespace is bad
         .filter(|entry| !entry.is_empty())
         .map(|entry| {
-            // split at most once on ':'
+            // Split at most once on ':'
             let mut parts = entry.splitn(2, ':');
             let name = parts
                 .next()
@@ -56,7 +56,7 @@ pub fn parse_to_author(input: &str) -> Result<Authors, String> {
                 return Err(format!("entry `{}` has empty name", entry));
             }
 
-            // If there's a second part and it's non‑empty, use it.
+            // If an email exists, and isn't blank, use it.
             let email = parts
                 .next()
                 .map(str::trim)
@@ -68,7 +68,7 @@ pub fn parse_to_author(input: &str) -> Result<Authors, String> {
                 email,
             })
         })
-        .collect::<Result<Vec<Author>, String>>()?; // bubble up the first error
+        .collect::<Result<Vec<Author>, String>>()?; // Fails immeidately with any errors.
 
     Ok(Authors(authors))
 }

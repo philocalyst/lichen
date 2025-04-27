@@ -1,6 +1,6 @@
 //! # Error Handling
 //!
-//! Defines a single “mega” error type for the Lichen application.
+//! Defines a single “MEGA” error type for the entirety of Lichen.
 
 use std::{error::Error, fmt, io};
 
@@ -69,7 +69,7 @@ impl Error for LichenError {
     }
 }
 
-// Conversion from underlying errors to LichenError for `?` support.
+// Conversion from underlying errors to LichenError for global `?` support.
 impl From<io::Error> for LichenError {
     fn from(err: io::Error) -> Self {
         LichenError::IoError(err)
