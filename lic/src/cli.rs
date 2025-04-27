@@ -162,6 +162,10 @@ pub struct ApplyArgs {
     #[command(flatten)]
     pub file_args: FileProcessingArgs,
 
+    /// Run without modification. See what would be changed.
+    #[arg(short = 'D', long, action = clap::ArgAction::SetTrue)]
+    pub dry_run: Option<bool>,
+
     /// When applying headers, which kind of comment token the user *wants*
     /// Completely possible line or block doesn't exist, in which case it falls back to the other.
     #[arg(long, action = clap::ArgAction::SetTrue)]
@@ -180,6 +184,10 @@ pub struct InitArgs {
 pub struct UnapplyArgs {
     #[command(flatten)]
     pub file_args: FileProcessingArgs,
+
+    /// Run without modification. See what would be changed.
+    #[arg(short = 'D', long)]
+    pub dry_run: Option<bool>,
 }
 
 #[cfg(test)]

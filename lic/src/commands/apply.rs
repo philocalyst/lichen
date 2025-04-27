@@ -21,6 +21,7 @@ pub struct ApplySettings {
     pub exclude: Option<Regex>,
     pub targets: Vec<PathBuf>,
     pub date: Date,
+    pub dry_run: bool,
 }
 
 impl ApplySettings {
@@ -96,9 +97,12 @@ impl ApplySettings {
 
         let prefer_block = cli.prefer_block.or(cfg.prefer_block).unwrap_or(false);
 
+        let dry_run = cli.dry_run.unwrap_or(false);
+
         Ok(ApplySettings {
             exclude,
             license,
+            dry_run,
             targets,
             prefer_block,
             authors,
@@ -119,6 +123,7 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
     let multiple = settings.multiple;
     let authors = &settings.authors;
     let year = &settings.date;
+    let dry_run = settings.dry_run;
     let preference = settings.prefer_block;
     //
 
@@ -150,6 +155,11 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
             "No files require processing based on targets and exclusions. Exiting 'apply' command."
                 .to_string(),
         )); // Nothing to do, error. 
+    }
+
+    if dry_run {
+        info!("Changes will impact {:?}", files_to_process);
+        return Ok(());
     }
 
     // ▰▰▰ Apply Headers ▰▰▰

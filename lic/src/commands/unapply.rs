@@ -22,6 +22,12 @@ pub async fn handle_unapply(args: UnapplyArgs) -> Result<(), LichenError> {
         )); // Nothing to do, error. 
     }
 
+    // If dry run was passed, just return the files changes *would* have impacted
+    if args.dry_run.unwrap_or(false) {
+        info!("Changes will impact {:?}", files_to_process);
+        return Ok(());
+    }
+
     // ▰▰▰ Apply Headers ▰▰▰
     // TODO: Make concurrency configurable?
     let max_concurrency = std::thread::available_parallelism()
