@@ -1,6 +1,0 @@
-{{#if placeholder0}}{{placeholder0}}{{else}}Copyright 1989--2004 by Hunter Goatley.{{/if}}
-
-Permission is granted to anyone to use this software for any purpose on any computer system, and to redistribute it freely, subject to the following restrictions:
-
-* {{#if placeholder1}}{{placeholder1}}{{else}}1.{{/if}} This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-* {{#if placeholder2}}{{placeholder2}}{{else}}2.{{/if}} Altered versions must be plainly marked as such, and must not be misrepresented as being the original software.

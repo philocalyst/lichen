@@ -1,1 +1,0 @@
-{{#if placeholder0}}{{placeholder0}}{{else}}Copyright (c) 1992, 1991, 1990 MIPS Computer Systems, Inc.{{/if}} MIPS Computer Systems, Inc. grants reproduction and use rights to all parties, PROVIDED that this comment is maintained in the copy.

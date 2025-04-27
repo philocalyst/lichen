@@ -1,3 +1,0 @@
-{{#if placeholder0}}{{placeholder0}}{{else}}Copyright 2001, Patrick TJ McPhee{{/if}}
-
- everyone is welcome to use this code for any purpose, to modify it, and to copy it in whole or in part for use in other macro sets, with the conditions that this copyright notice be preserved with any significant portion of the code, and that modifications to this file be clearly marked.

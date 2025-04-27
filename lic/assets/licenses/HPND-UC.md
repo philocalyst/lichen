@@ -1,3 +1,0 @@
-{{#if placeholder0}}{{placeholder0}}{{else}}Copyright 1989 Regents of the University of California{{/if}}
-
- Permission to use, copy, modify, and distribute this software and its documentation for any purpose and without fee is hereby granted, provided that the above copyright notice appear in all copies. {{#if placeholder1}}{{placeholder1}}{{else}}THE AUTHORS OR COPYRIGHT HOLDERS{{/if}}{{#if placeholder2}}{{placeholder2}}{{else}}make{{/if}} no representations about the suitability of this software for any purpose. It is provided &quot;as is&quot; without express or implied warranty.

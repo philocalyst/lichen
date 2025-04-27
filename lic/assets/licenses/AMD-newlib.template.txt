@@ -1,0 +1,5 @@
+{{#if copyright}}{{copyright}}{{else}}Copyright 1990 Advanced Micro Devices, Inc.{{/if}}
+This software is the property of {{#if copyrightHolderAsIs}}{{copyrightHolderAsIs}}{{else}}Advanced Micro Devices, Inc (AMD){{/if}} which specifically grants the user the right to modify, use and distribute this software provided this notice is not removed or altered. All other rights are reserved by {{#if copyrightHolderAsIs}}{{copyrightHolderAsIs}}{{else}}AMD{{/if}} .
+
+{{#if copyrightHolderAsIs}}{{copyrightHolderAsIs}}{{else}}AMD{{/if}} MAKES NO WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, WITH REGARD TO THIS SOFTWARE. IN NO EVENT SHALL {{#if copyrightHolderAsIs}}{{copyrightHolderAsIs}}{{else}}AMD{{/if}} BE LIABLE FOR INCIDENTAL OR CONSEQUENTIAL DAMAGES IN CONNECTION WITH OR ARISING FROM THE FURNISHING, PERFORMANCE, OR USE OF THIS SOFTWARE.
+

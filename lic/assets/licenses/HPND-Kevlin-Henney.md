@@ -1,7 +1,0 @@
-{{#if placeholder0}}{{placeholder0}}{{else}}Copyright Kevlin Henney, 1997, 2003, 2012. All rights reserved.{{/if}}
-
- Permission to use, copy, modify, and distribute this software and its documentation for any purpose is hereby granted without fee, provided that this copyright and permissions notice appear in all copies and derivatives.
-
- This software is supplied &quot;as is&quot; without express or implied warranty.
-
- But that said, if there are any problems please get in touch.

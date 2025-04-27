@@ -12,9 +12,9 @@ fn main() -> ExitCode {
 
     // --- Configuration ---
     // Replace with your actual input and output paths
-    let input_dir = PathBuf::from("./input_templates"); // Example path
-    let output_dir = PathBuf::from("./output_markdown"); // Example path
-                                                         // ---------------------
+    let input_dir = PathBuf::from("../input_templates"); // Example path
+    let output_dir = PathBuf::from("../output_markdown"); // Example path
+                                                          // ---------------------
 
     // Create dummy input dir/files for testing if they don't exist
     if !input_dir.exists() {

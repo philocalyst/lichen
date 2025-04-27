@@ -1,3 +1,0 @@
-{{#if placeholder0}}{{placeholder0}}{{else}}Copyright 1995, 1996 by David Mazieres <dm@lcs.mit.edu>.{{/if}}
-
- Modification and redistribution in source and binary forms is permitted provided that due credit is given to the author and the OpenBSD project by leaving this copyright notice intact.

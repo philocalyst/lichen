@@ -1,3 +1,0 @@
-{{#if placeholder0}}{{placeholder0}}{{else}}Copyright <year> <copyright holder>{{/if}}
-
- Permission to use, copy, modify, distribute, and sell this documentation for any purpose is hereby granted without fee, provided that the above copyright notice and this permission notice appear in all copies. {{#if placeholder1}}{{placeholder1}}{{else}}<copyright holder>{{/if}} makes no representations about the suitability for any purpose of the information in this document. This documentation is provided &quot;as is&quot; without express or implied warranty.

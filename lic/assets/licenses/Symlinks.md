@@ -1,3 +1,0 @@
- My &quot;symlinks&quot; utility pre-dates the &quot;open source licensing&quot; fad by a number of years. Just to clarify, this is 100% freeware, written entirely by myself. The intent is to use it to detect missing/obsolete symlink targets on an installed distro, before creating the &quot;gold&quot; (or &quot;final&quot;) release discs.
-
- Use and distribute and modify as you (or anyone else) sees fit. There have no formal restrictions or requirements whatsoever regarding distribution of either binaries or source code, whether modified or original.

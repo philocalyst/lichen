@@ -1,3 +1,0 @@
-{{#if placeholder0}}{{placeholder0}}{{else}}<copyright notice>{{/if}}
-
-Permission to use, copy, modify, distribute and sell this software and its documentation for any purpose is hereby granted without fee, provided that the above copyright notice {{#if placeholder1}}{{placeholder1}}{{else}}appears{{/if}} in all copies that both {{#if placeholder2}}{{placeholder2}}{{else}}that{{/if}} copyright notice and this permission notice appear in supporting documentation.

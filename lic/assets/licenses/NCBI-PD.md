@@ -1,5 +1,0 @@
- this software is a &quot;United States Government Work&quot; under the terms of the United States Copyright Act. It was written as part of the {{#if placeholder0}}{{placeholder0}}{{else}}author's{{/if}} official duties as United States Government {{#if placeholder1}}{{placeholder1}}{{else}}employees{{/if}} and thus cannot be copyrighted. This software is freely available to the public for use. The {{#if placeholder2}}{{placeholder2}}{{else}}NLM{{/if}} and the U.S. Government have not placed any restriction on its use or reproduction.
-
-Although all reasonable efforts have been taken to ensure the accuracy and reliability of the software and data, the NLM and the U.S. Government do not and cannot warrant the performance or results that may be obtained by using this software or data. The NLM and the U.S. Government disclaim all warranties, express or implied, including warranties of performance, merchantability or fitness for any particular purpose.
-
-Please cite {{#if placeholder3}}{{placeholder3}}{{else}}the author{{/if}} in any work or product based on this material.

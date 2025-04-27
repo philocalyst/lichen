@@ -1,7 +1,0 @@
-{{#if placeholder0}}{{placeholder0}}{{else}}Copyright 2004-2008 Apple Inc. All Rights Reserved.{{/if}}
-
- Export of this software from the United States of America may require a specific license from the United States Government. It is the responsibility of any person or organization contemplating export to obtain such a license before exporting.
-
- WITHIN THAT CONSTRAINT, permission to use, copy, modify, and distribute this software and its documentation for any purpose and without fee is hereby granted, provided that the above copyright notice appear in all copies and that both that copyright notice and this permission notice appear in supporting documentation, and that the name of {{#if placeholder1}}{{placeholder1}}{{else}}Apple Inc.{{/if}} not be used in advertising or publicity pertaining to distribution of the software without specific, written prior permission. {{#if placeholder2}}{{placeholder2}}{{else}}Apple Inc.{{/if}}. makes no representations about the suitability of this software for any purpose. It is provided &quot;as is&quot; without express or implied warranty.
-
- THIS SOFTWARE IS PROVIDED &quot;AS IS&quot; AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.

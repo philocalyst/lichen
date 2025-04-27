@@ -1,7 +1,0 @@
-{{#if placeholder0}}{{placeholder0}}{{else}}Copyright (C) 1996-2002,2005,2006 David Muir Sharnoff. 
-
-               Copyright (C) 2005 Aristotle Pagaltzis 
-
-               Copyright (C) 2012-2013 Google, Inc.{{/if}}
-
- This module may be modified, used, copied, and redistributed at your own risk. Although allowed by the preceding license, please do not publicly redistribute modified versions of this code with the name &quot;Text::Tabs&quot; unless it passes the unmodified Text::Tabs test suite.

@@ -3,7 +3,7 @@ use quote::{format_ident, quote};
 use std::{env, fs, path::PathBuf};
 
 // --- Configuration (same as before) ---
-const LICENSE_DIR: &str = "assets/licenses";
+const LICENSE_DIR: &str = "lic/assets/licenses";
 // --- End Configuration ---
 
 // Helper function to check if a string slice consists entirely of uppercase ASCII letters
