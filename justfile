@@ -1,4 +1,4 @@
-# -*- mode: justfile -*-
+#!/usr/bin/env just
 
 # ▰▰▰ Settings ▰▰▰ #
 set shell := ["bash", "-euo", "pipefail", "-c"]
@@ -42,6 +42,10 @@ check-release:
 build target="aarch64-apple-darwin" package=(main_package):
     @echo "🔨 Building workspace (debug)..."
     cargo build {{workspace_flag}} --bin {{package}} --target {{target}}
+
+download-languages:
+    curl -f -L -O -X GET https://github.com/philocalyst/lang-config/releases/latest/download/languages.json
+    mv languages.json /Users/philocalyst/Projects/lichen/lic/assets/comment-tokens.json
 
 create-notes raw_tag outfile changelog:
     #!/usr/bin/env bash
