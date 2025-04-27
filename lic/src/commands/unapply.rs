@@ -41,3 +41,49 @@ pub async fn handle_unapply(args: UnapplyArgs) -> Result<(), LichenError> {
     debug!("Exclusion pattern: {:?}", exclude);
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::cli::{FileProcessingArgs, UnapplyArgs};
+    use crate::utils::{HEADER_MARKER, HEADER_MARKER_STR}; // Import marker
+    use std::fs;
+    use tempfile::tempdir;
+
+    #[tokio::test]
+    async fn handle_unapply_dry_run_succeeds() {
+        let temp_dir = tempdir().unwrap();
+        let file_path = temp_dir.path().join("test_unapply.rs");
+        fs::write(
+            &file_path,
+            format!("// Header{}\n// Real Code", HEADER_MARKER_STR),
+        )
+        .unwrap();
+
+        let args = UnapplyArgs {
+            file_args: FileProcessingArgs {
+                targets: Some(vec![file_path.clone()]),
+                exclude: None,
+                all: Some(true), // Ensure file is processed
+            },
+            dry_run: Some(true),
+        };
+
+        let result = handle_unapply(args).await;
+        assert!(
+            result.is_ok(),
+            "handle_unapply dry run failed: {:?}",
+            result
+        );
+
+        // Verify file was NOT modified in dry run
+        let content = fs::read_to_string(file_path).unwrap();
+        assert!(
+            content.contains(HEADER_MARKER),
+            "File should not be modified in dry run"
+        );
+    }
+
+    // Test actual removal requires utils::remove_headers_from_files test
+    // which is also somewhat integration-like due to async fs.
+}

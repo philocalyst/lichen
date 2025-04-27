@@ -88,7 +88,7 @@ pub struct LicenseConfig {
 }
 
 /// Author struct
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone, PartialEq)]
 pub struct Author {
     pub name: String,
     pub email: Option<String>,
@@ -116,7 +116,7 @@ impl fmt::Display for Author {
     }
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone, PartialEq)]
 pub struct Authors(pub Vec<Author>);
 
 impl fmt::Display for Authors {
@@ -170,5 +170,198 @@ mod tests {
         ]);
         let s = format!("{}", authors);
         assert_eq!(s, "X, Y [y@z]");
+    }
+}
+
+#[cfg(test)]
+mod tests_load {
+    // Separate module to avoid conflicts with existing tests mod
+    use super::*;
+    use crate::license::License;
+    use std::fs;
+    use tempfile::NamedTempFile; // Import License
+
+    #[test]
+    fn config_load_valid_toml() {
+        let content = r#"
+# Configuration for Lichen, a tool for managing licenses
+# This file allows you to specify global settings and per-license configurations.
+
+# ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰ #
+# Global Configuration #
+# ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰ #
+
+# prefer_block = true
+# multiple = true
+
+exclude = [
+  "\\.gitignore",
+  ".*lock",
+  "\\.git/.*",
+  "\\.licensure\\.yml",
+  "README.*",
+  "LICENSE.*",
+  ".*\\.(md|rst|txt)",
+  "Cargo.toml",
+  ".*\\.github/.*",
+]
+
+# all = true
+
+# ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰ #
+# Per-License Configuration #
+# ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰ #
+
+[[license]]
+# exclude = "some/pattern/to/exclude"
+targets = ["."]
+id = "MIT"
+# date = "2023-10-27"
+authors = [
+  { name = "Core Contributor", email = "core@example.com" },
+  { name = "Another Contributor" }, # Email is optional
+]
+
+# [[license]]
+# targets = ["src/cli/"]
+# id = "Apache-2.0"
+# authors = [
+#   { name = "CLI Developer" }
+# ]
+
+# [[license]]
+# targets = ["examples/"]
+# id = "GPL-3.0-or-later"
+# date = "2024-01-01"
+"#;
+        let file = NamedTempFile::new().unwrap();
+        fs::write(file.path(), content).unwrap();
+
+        let config = Config::load(file.path()).unwrap();
+
+        // --- Global Assertions ---
+        assert_eq!(config.prefer_block, None); // Commented out
+        assert_eq!(config.multiple, None); // Commented out
+        assert_eq!(config.all, None); // Commented out
+
+        assert!(config.exclude.is_some());
+        let excludes = config.exclude.as_ref().unwrap();
+        assert_eq!(excludes.len(), 9); // Updated count
+
+        // --- License Assertions ---
+        assert!(config.licenses.is_some());
+        let licenses = config.licenses.unwrap();
+        assert_eq!(licenses.len(), 1); // Only one license block is active
+
+        // Check the first (and only) license
+        let lic1 = &licenses[0];
+        assert_eq!(lic1.id.spdx_id(), "MIT"); // Check the raw string ID from TOML
+
+        assert_eq!(
+            lic1.targets,
+            Some(vec![PathBuf::from(".")]) // Updated target
+        );
+
+        assert!(lic1.authors.is_some());
+        // lic1.authors is Option<Authors>
+        // lic1.authors.as_ref() is Option<&Authors>
+        // lic1.authors.as_ref().unwrap() is &Authors
+        // lic1.authors.as_ref().unwrap().0 is Vec<Author>
+        let authors_vec = &lic1.authors.as_ref().unwrap().0; // Access the inner Vec<&Author> using .0
+        assert_eq!(authors_vec.len(), 2); // Two authors specified
+
+        // Check first author
+        assert_eq!(authors_vec[0].name, "Core Contributor"); // Now index into the Vec
+        assert_eq!(authors_vec[0].email, Some("core@example.com".to_string()));
+
+        // Check second author
+        assert_eq!(authors_vec[1].name, "Another Contributor");
+        assert_eq!(authors_vec[1].email, None); // Email is optional and not provided
+
+        assert_eq!(lic1.date, None); // Commented out in the license block
+    }
+
+    #[test]
+    fn config_load_minimal_toml() {
+        let content = r#"
+# Only specify one license ID
+[[license]]
+id = "Unlicense"
+"#;
+        let file = NamedTempFile::new().unwrap();
+        fs::write(file.path(), content).unwrap();
+        let config = Config::load(file.path()).unwrap();
+
+        assert!(config.prefer_block.is_none()); // Defaults to None
+        assert!(config.multiple.is_none());
+        assert!(config.exclude.is_none());
+        assert!(config.all.is_none());
+
+        assert!(config.licenses.is_some());
+        let licenses = config.licenses.unwrap();
+        assert_eq!(licenses.len(), 1);
+        assert_eq!(licenses[0].id, License::Unlicense);
+        assert!(licenses[0].targets.is_none());
+        assert!(licenses[0].authors.is_none());
+        assert!(licenses[0].exclude.is_none());
+        assert!(licenses[0].date.is_none());
+    }
+
+    #[test]
+    fn config_load_invalid_toml_returns_err() {
+        let content = r#"
+prefer_block = true
+multiple = "not a boolean" # Invalid type
+"#;
+        let file = NamedTempFile::new().unwrap();
+        fs::write(file.path(), content).unwrap();
+
+        let result = Config::load(file.path());
+        assert!(result.is_err());
+        assert!(matches!(result, Err(LichenError::Msg(_))));
+        assert!(
+            result
+                .unwrap_err()
+                .to_string()
+                .contains("config parse error")
+        );
+    }
+
+    #[test]
+    fn config_load_or_default_file_not_found_returns_default() {
+        let non_existent_path = PathBuf::from("this_file_definitely_does_not_exist.toml");
+        let result = Config::load_or_default(&non_existent_path);
+
+        assert!(result.is_ok());
+        let config = result.unwrap();
+        // Check if it's the default config
+        assert!(config.prefer_block.is_none());
+        assert!(config.multiple.is_none());
+        assert!(config.exclude.is_none());
+        assert!(config.all.is_none());
+        assert!(config.licenses.is_none());
+    }
+
+    #[test]
+    fn config_load_or_default_loads_existing_file() {
+        let content = r#"prefer_block = true"#;
+        let file = NamedTempFile::new().unwrap();
+        fs::write(file.path(), content).unwrap();
+
+        let result = Config::load_or_default(file.path());
+        assert!(result.is_ok());
+        let config = result.unwrap();
+        assert_eq!(config.prefer_block, Some(true));
+    }
+
+    #[test]
+    fn config_load_or_default_invalid_toml_returns_err() {
+        let content = r#"invalid toml content"#;
+        let file = NamedTempFile::new().unwrap();
+        fs::write(file.path(), content).unwrap();
+
+        let result = Config::load_or_default(file.path());
+        assert!(result.is_err());
+        assert!(matches!(result, Err(LichenError::Msg(_))));
     }
 }

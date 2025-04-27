@@ -30,8 +30,8 @@ const COMMENT_TOKENS_JSON: &str = include_str!(concat!(
 ));
 
 // Marker for start/end of header, blank unicode joiner.
-const HEADER_MARKER: char = '\u{2060}';
-const HEADER_MARKER_STR: &str = "\u{2060}"; // String version for searching
+pub const HEADER_MARKER: char = '\u{2060}';
+pub const HEADER_MARKER_STR: &str = "\u{2060}"; // String version for searching
 
 /// Renders a license template using Handlebars.
 ///
@@ -204,6 +204,7 @@ pub fn get_valid_files(
 /// Returns an empty Vec and logs a warning if the extension is not found.
 /// Returns an error if the JSON file is missing or malformed.
 pub fn get_comment_tokens_for_ext(extension: &str) -> Result<Vec<CommentToken>, LichenError> {
+    use serde_json::Value;
     trace!(
         "Looking up comment character for extension: '{}' using embedded JSON",
         extension
@@ -258,6 +259,42 @@ pub fn get_comment_tokens_for_ext(extension: &str) -> Result<Vec<CommentToken>, 
                                 "'comment_token' for extension '{}' is not a string, skipping",
                                 extension
                             ),
+                        }
+                    }
+
+                    if let Some(val) = language_details.get("comment_tokens") {
+                        match val {
+                            // single‐string case
+                            Value::String(s) => {
+                                debug!("Found comment_token='{}' for extension '{}'", s, extension);
+                                tokens.push(CommentToken::Line(s.clone()));
+                            }
+
+                            // array of strings
+                            Value::Array(arr) => {
+                                for item in arr {
+                                    if let Some(s) = item.as_str() {
+                                        debug!(
+                                            "Found comment_token='{}' for extension '{}'",
+                                            s, extension
+                                        );
+                                        tokens.push(CommentToken::Line(s.to_owned()));
+                                    } else {
+                                        warn!(
+                                            "Non‐string element in comment_tokens for '{}': {:?}, skipping",
+                                            extension, item
+                                        );
+                                    }
+                                }
+                            }
+
+                            // anything else
+                            other => {
+                                warn!(
+                                    "Unexpected type for comment_tokens under '{}': {:?}, skipping",
+                                    extension, other
+                                );
+                            }
                         }
                     }
 
@@ -1082,5 +1119,80 @@ mod tests {
         // without marker, should return the original slice
         assert!(matches!(replaced, Cow::Borrowed(_)));
         assert_eq!(replaced, "no markers here");
+    }
+}
+
+#[cfg(test)]
+mod tests_utils {
+    // Separate module to avoid conflicts
+    use super::*;
+    use crate::models::CommentToken;
+
+    #[test]
+    fn get_comment_tokens_known_extensions() {
+        // Rust
+        let rs_tokens = get_comment_tokens_for_ext("rs").unwrap();
+        assert!(rs_tokens.contains(&CommentToken::Line("//".to_string())));
+        assert!(rs_tokens.contains(&CommentToken::Block {
+            start: "/*".to_string(),
+            end: "*/".to_string()
+        }));
+
+        // Python
+        let py_tokens = get_comment_tokens_for_ext("py").unwrap();
+        assert!(py_tokens.contains(&CommentToken::Line("#".to_string())));
+
+        // C
+        let c_tokens = get_comment_tokens_for_ext("c").unwrap();
+        print!("{:?}", c_tokens);
+        assert!(c_tokens.contains(&CommentToken::Block {
+            start: "/*".to_string(),
+            end: "*/".to_string()
+        }));
+
+        // JavaScript
+        let js_tokens = get_comment_tokens_for_ext("js").unwrap();
+        assert!(js_tokens.contains(&CommentToken::Line("//".to_string())));
+        assert!(js_tokens.contains(&CommentToken::Block {
+            start: "/*".to_string(),
+            end: "*/".to_string()
+        }));
+    }
+
+    #[test]
+    fn get_comment_tokens_unknown_extension_defaults() {
+        // An extension guaranteed not to be in the JSON
+        let unknown_tokens = get_comment_tokens_for_ext("not_a_real_extension_qwerty").unwrap();
+        // Should default to "#" line comment based on current implementation
+        assert_eq!(unknown_tokens, vec![CommentToken::Line("#".to_string())]);
+    }
+
+    #[test]
+    fn format_header_line_comment() {
+        let header = "Line 1\nLine 2";
+        let tokens = vec![CommentToken::Line("//".to_string())];
+        let formatted = format_header_with_comments(header, &tokens, false, HEADER_MARKER).unwrap(); // Prefer line doesn't matter here
+        let expected = format!(
+            "//{marker} Line 1\n// Line 2{marker}", // Marker on first and last line content
+            marker = HEADER_MARKER
+        );
+        assert_eq!(formatted.trim(), expected.trim()); // Trim to handle potential extra final newline
+        assert!(formatted.contains(HEADER_MARKER));
+    }
+
+    #[test]
+    fn format_header_block_comment() {
+        let header = "Line 1\nLine 2";
+        let tokens = vec![CommentToken::Block {
+            start: "/*".to_string(),
+            end: "*/".to_string(),
+        }];
+        let formatted = format_header_with_comments(header, &tokens, true, HEADER_MARKER).unwrap(); // Prefer block doesn't matter here
+        let expected = format!(
+            "\n/*{marker}\nLine 1\nLine 2\n{marker}*/\n", // Newlines added by function
+            marker = HEADER_MARKER
+        );
+        assert_eq!(formatted, expected);
+        assert!(formatted.contains(HEADER_MARKER));
     }
 }

@@ -3,7 +3,7 @@
 //! Defines shared data structures used across the Lichen application.
 
 /// Represents different types of comment tokens found in languages.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum CommentToken {
     /// A single-line comment token (e.g., "//", "#").
     Line(String),

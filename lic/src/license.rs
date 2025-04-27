@@ -1,6 +1,10 @@
 #![allow(clippy::all)]
-#[derive(Debug, Clone, serde::Deserialize, Copy, PartialEq, Eq, Hash, clap :: ValueEnum)]
+
+use serde::Deserialize;
+#[derive(Debug, Clone, Deserialize, Copy, PartialEq, Eq, Hash, clap :: ValueEnum)]
 pub enum License {
+    #[value(name = "AFL-1.2")]
+    AFLOneDotTwo,
     #[value(name = "Linux-syscall-note")]
     LinuxSyscallNote,
     #[value(name = "DocBook-Stylesheet")]
@@ -57,6 +61,8 @@ pub enum License {
     QPLOneDotZeroINRIATwoZeroZeroFourException,
     #[value(name = "Classpath-exception-2.0")]
     ClasspathExceptionTwoDotZero,
+    #[value(name = "BSD-3-Clause")]
+    BSDThreeClause,
     #[value(name = "OPL-1.0")]
     OPLOneDotZero,
     #[value(name = "ODbL-1.0")]
@@ -79,6 +85,10 @@ pub enum License {
     Ruby,
     #[value(name = "polyparse-exception")]
     PolyparseException,
+    #[value(name = "BSD-3-Clause-LBNL")]
+    BSDThreeClauseLBNL,
+    #[value(name = "BSD-2-Clause")]
+    BSDTwoClause,
     #[value(name = "EFL-2.0")]
     EFLTwoDotZero,
     #[value(name = "LLGPL")]
@@ -89,6 +99,8 @@ pub enum License {
     OFLOneDotZeroNoRFN,
     #[value(name = "CC-BY-NC-ND-3.0-DE")]
     CCBYNCNDThreeDotZeroDE,
+    #[value(name = "Artistic-2.0")]
+    ArtisticTwoDotZero,
     #[value(name = "CDDL-1.0")]
     CDDLOneDotZero,
     #[value(name = "SWI-exception")]
@@ -97,16 +109,22 @@ pub enum License {
     GFDLOneDotThreeInvariantsOnly,
     #[value(name = "MS-RL")]
     MSRL,
+    #[value(name = "ASWF-Digital-Assets-1.1")]
+    ASWFDigitalAssetsOneDotOne,
     #[value(name = "LGPL-2.1-only")]
     LGPLTwoDotOneOnly,
     #[value(name = "HP-1986")]
     HPOneNineEightSix,
     #[value(name = "Python-2.0.1")]
     PythonTwoDotZeroDotOne,
+    #[value(name = "Abstyles")]
+    Abstyles,
     #[value(name = "RHeCos-1.1")]
     RHeCosOneDotOne,
     #[value(name = "MIT")]
     MIT,
+    #[value(name = "BSD-1-Clause")]
+    BSDOneClause,
     #[value(name = "romic-exception")]
     RomicException,
     #[value(name = "OSL-3.0")]
@@ -119,12 +137,16 @@ pub enum License {
     DeprecatedLGPLThreeDotZeroPlus,
     #[value(name = "Clips")]
     Clips,
+    #[value(name = "BSD-2-Clause-Darwin")]
+    BSDTwoClauseDarwin,
     #[value(name = "CNRI-Python-GPL-Compatible")]
     CNRIPythonGPLCompatible,
     #[value(name = "LPD-document")]
     LPDDocument,
     #[value(name = "GPL-CC-1.0")]
     GPLCCOneDotZero,
+    #[value(name = "BSD-3-Clause-flex")]
+    BSDThreeClauseFlex,
     #[value(name = "HPND-UC")]
     HPNDUC,
     #[value(name = "ISC-Veillard")]
@@ -155,6 +177,8 @@ pub enum License {
     Psutils,
     #[value(name = "DRL-1.1")]
     DRLOneDotOne,
+    #[value(name = "Boehm-GC")]
+    BoehmGC,
     #[value(name = "CECILL-2.0")]
     CECILLTwoDotZero,
     #[value(name = "W3C-19980720")]
@@ -171,6 +195,8 @@ pub enum License {
     SgpFour,
     #[value(name = "FDK-AAC")]
     FDKAAC,
+    #[value(name = "Apache-1.1")]
+    ApacheOneDotOne,
     #[value(name = "TTWL")]
     TTWL,
     #[value(name = "Martin-Birgmeier")]
@@ -185,6 +211,8 @@ pub enum License {
     StunnelException,
     #[value(name = "Game-Programming-Gems")]
     GameProgrammingGems,
+    #[value(name = "BSD-3-Clause-Attribution")]
+    BSDThreeClauseAttribution,
     #[value(name = "SGI-B-1.0")]
     SGIBOneDotZero,
     #[value(name = "NRL")]
@@ -197,12 +225,16 @@ pub enum License {
     Magaz,
     #[value(name = "CPAL-1.0")]
     CPALOneDotZero,
+    #[value(name = "App-s2p")]
+    AppSTwop,
     #[value(name = "RRDtool-FLOSS-exception-2.0")]
     RrDtoolFLOSSExceptionTwoDotZero,
     #[value(name = "Libtool-exception")]
     LibtoolException,
     #[value(name = "PS-or-PDF-font-exception-20170817")]
     PSOrPDFFontExceptionTwoZeroOneSevenZeroEightOneSeven,
+    #[value(name = "Brian-Gladman-2-Clause")]
+    BrianGladmanTwoClause,
     #[value(name = "deprecated_GPL-2.0")]
     DeprecatedGPLTwoDotZero,
     #[value(name = "LGPL-3.0-only")]
@@ -211,6 +243,8 @@ pub enum License {
     DigiRuleFOSSException,
     #[value(name = "GPL-3.0-linking-exception")]
     GPLThreeDotZeroLinkingException,
+    #[value(name = "ASWF-Digital-Assets-1.0")]
+    ASWFDigitalAssetsOneDotZero,
     #[value(name = "mailprio")]
     Mailprio,
     #[value(name = "LPPL-1.2")]
@@ -227,6 +261,8 @@ pub enum License {
     CCBYNCNDTwoDotFive,
     #[value(name = "freertos-exception-2.0")]
     FreertosExceptionTwoDotZero,
+    #[value(name = "Brian-Gladman-3-Clause")]
+    BrianGladmanThreeClause,
     #[value(name = "deprecated_GPL-2.0-with-bison-exception")]
     DeprecatedGPLTwoDotZeroWithBisonException,
     #[value(name = "SugarCRM-1.1.3")]
@@ -245,12 +281,18 @@ pub enum License {
     OSLTwoDotZero,
     #[value(name = "CC-BY-NC-2.0")]
     CCBYNCTwoDotZero,
+    #[value(name = "AdaCore-doc")]
+    AdaCoreDoc,
     #[value(name = "TermReadKey")]
     TermReadKey,
     #[value(name = "UnixCrypt")]
     UnixCrypt,
+    #[value(name = "jove")]
+    Jove,
     #[value(name = "NTP")]
     NTP,
+    #[value(name = "Adobe-Display-PostScript")]
+    AdobeDisplayPostScript,
     #[value(name = "CC-BY-3.0-DE")]
     CCBYThreeDotZeroDE,
     #[value(name = "Kastrup")]
@@ -281,20 +323,28 @@ pub enum License {
     MITOpenGroup,
     #[value(name = "FSFULLR")]
     FSFULLR,
+    #[value(name = "Autoconf-exception-macro")]
+    AutoconfExceptionMacro,
     #[value(name = "NCL")]
     NCL,
     #[value(name = "EPICS")]
     EPICS,
+    #[value(name = "Apache-1.0")]
+    ApacheOneDotZero,
     #[value(name = "JSON")]
     JSON,
     #[value(name = "deprecated_GFDL-1.2")]
     DeprecatedGFDLOneDotTwo,
     #[value(name = "Spencer-86")]
     SpencerEightSix,
+    #[value(name = "BSD-4-Clause")]
+    BSDFourClause,
     #[value(name = "SHL-0.51")]
     SHLZeroDotFiveOne,
     #[value(name = "IJG")]
     IJG,
+    #[value(name = "APSL-1.2")]
+    APSLOneDotTwo,
     #[value(name = "deprecated_GPL-2.0+")]
     DeprecatedGPLTwoDotZeroPlus,
     #[value(name = "erlang-otp-linking-exception")]
@@ -303,12 +353,16 @@ pub enum License {
     SAXPD,
     #[value(name = "PSF-2.0")]
     PSFTwoDotZero,
+    #[value(name = "BSD-3-Clause-Modification")]
+    BSDThreeClauseModification,
     #[value(name = "QPL-1.0-INRIA-2004")]
     QPLOneDotZeroINRIATwoZeroZeroFour,
     #[value(name = "deprecated_GPL-2.0-with-classpath-exception")]
     DeprecatedGPLTwoDotZeroWithClasspathException,
     #[value(name = "EUPL-1.2")]
     EUPLOneDotTwo,
+    #[value(name = "BSD-2-Clause-first-lines")]
+    BSDTwoClauseFirstLines,
     #[value(name = "GNOME-examples-exception")]
     GNOMEExamplesException,
     #[value(name = "X11-distribute-modifications-variant")]
@@ -327,6 +381,8 @@ pub enum License {
     Newsletr,
     #[value(name = "Noweb")]
     Noweb,
+    #[value(name = "APL-1.0")]
+    APLOneDotZero,
     #[value(name = "w3m")]
     WThreem,
     #[value(name = "FSL-1.1-MIT")]
@@ -335,6 +391,8 @@ pub enum License {
     TexinfoException,
     #[value(name = "GFDL-1.2-no-invariants-or-later")]
     GFDLOneDotTwoNoInvariantsOrLater,
+    #[value(name = "Artistic-1.0")]
+    ArtisticOneDotZero,
     #[value(name = "EFL-1.0")]
     EFLOneDotZero,
     #[value(name = "Watcom-1.0")]
@@ -359,6 +417,8 @@ pub enum License {
     GFDLOneDotThreeNoInvariantsOnly,
     #[value(name = "eGenix")]
     EGenix,
+    #[value(name = "AGPL-1.0-only")]
+    AGPLOneDotZeroOnly,
     #[value(name = "FSFAP")]
     FSFAP,
     #[value(name = "Spencer-99")]
@@ -413,12 +473,20 @@ pub enum License {
     CATOSLOneDotOne,
     #[value(name = "cryptsetup-OpenSSL-exception")]
     CryptsetupOpenSslException,
+    #[value(name = "BSD-4.3RENO")]
+    BSDFourDotThreeReno,
     #[value(name = "BSD-Systemics")]
     BSDSystemics,
+    #[value(name = "Boehm-GC-without-fee")]
+    BoehmGCWithoutFee,
     #[value(name = "GCC-exception-2.0-note")]
     GCCExceptionTwoDotZeroNote,
+    #[value(name = "AGPL-3.0-only")]
+    AGPLThreeDotZeroOnly,
     #[value(name = "BSD-Systemics-W3Works")]
     BSDSystemicsWThreeWorks,
+    #[value(name = "BSD-3-Clause-Open-MPI")]
+    BSDThreeClauseOpenMPI,
     #[value(name = "OCLC-2.0")]
     OCLCTwoDotZero,
     #[value(name = "LAL-1.2")]
@@ -435,6 +503,8 @@ pub enum License {
     CCBYNCNDThreeDotZeroIGO,
     #[value(name = "OGL-Canada-2.0")]
     OGLCanadaTwoDotZero,
+    #[value(name = "AGPL-1.0-or-later")]
+    AGPLOneDotZeroOrLater,
     #[value(name = "LGPLLR")]
     LGPLLR,
     #[value(name = "Fair")]
@@ -459,6 +529,8 @@ pub enum License {
     LPPLOneDotThreec,
     #[value(name = "Furuseth")]
     Furuseth,
+    #[value(name = "BSD-3-Clause-acpica")]
+    BSDThreeClauseAcpica,
     #[value(name = "CNRI-Jython")]
     CNRIJython,
     #[value(name = "LiLiQ-P-1.1")]
@@ -467,12 +539,16 @@ pub enum License {
     FergusonTwofish,
     #[value(name = "HPND-INRIA-IMAG")]
     HPNDINRIAIMAG,
+    #[value(name = "Bitstream-Charter")]
+    BitstreamCharter,
     #[value(name = "Unicode-DFS-2016")]
     UnicodeDFSTwoZeroOneSix,
     #[value(name = "MIT-Modern-Variant")]
     MITModernVariant,
     #[value(name = "deprecated_GPL-3.0+")]
     DeprecatedGPLThreeDotZeroPlus,
+    #[value(name = "Afmparse")]
+    Afmparse,
     #[value(name = "HPND-Fenneberg-Livingston")]
     HPNDFennebergLivingston,
     #[value(name = "wwl")]
@@ -481,10 +557,16 @@ pub enum License {
     ClArtistic,
     #[value(name = "HPND-Markus-Kuhn")]
     HPNDMarkusKuhn,
+    #[value(name = "blessing")]
+    Blessing,
     #[value(name = "softSurfer")]
     SoftSurfer,
+    #[value(name = "Bison-exception-1.24")]
+    BisonExceptionOneDotTwoFour,
     #[value(name = "CrystalStacker")]
     CrystalStacker,
+    #[value(name = "AML")]
+    AML,
     #[value(name = "NCBI-PD")]
     NCBIPD,
     #[value(name = "GFDL-1.2-invariants-or-later")]
@@ -493,6 +575,8 @@ pub enum License {
     DeprecatedECosTwoDotZero,
     #[value(name = "OLDAP-2.5")]
     OLDAPTwoDotFive,
+    #[value(name = "AMPAS")]
+    AMPAS,
     #[value(name = "GFDL-1.1-no-invariants-or-later")]
     GFDLOneDotOneNoInvariantsOrLater,
     #[value(name = "CC-BY-4.0")]
@@ -553,8 +637,12 @@ pub enum License {
     CornellLosslessJPEG,
     #[value(name = "OGDL-Taiwan-1.0")]
     OGDLTaiwanOneDotZero,
+    #[value(name = "BSD-3-Clause-HP")]
+    BSDThreeClauseHP,
     #[value(name = "Plexus")]
     Plexus,
+    #[value(name = "bcrypt-Solar-Designer")]
+    BcryptSolarDesigner,
     #[value(name = "CC-BY-NC-SA-2.0-UK")]
     CCBYNCSATwoDotZeroUK,
     #[value(name = "SGI-B-2.0")]
@@ -591,6 +679,8 @@ pub enum License {
     IPLOneDotZero,
     #[value(name = "deprecated_GPL-2.0-with-font-exception")]
     DeprecatedGPLTwoDotZeroWithFontException,
+    #[value(name = "APAFML")]
+    APAFML,
     #[value(name = "Motosoto")]
     Motosoto,
     #[value(name = "check-cvs")]
@@ -613,6 +703,8 @@ pub enum License {
     CERNOHLOneDotTwo,
     #[value(name = "Intel-ACPI")]
     IntelACPI,
+    #[value(name = "Adobe-2006")]
+    AdobeTwoZeroZeroSix,
     #[value(name = "deprecated_LGPL-2.0+")]
     DeprecatedLGPLTwoDotZeroPlus,
     #[value(name = "SPL-1.0")]
@@ -625,10 +717,14 @@ pub enum License {
     MITClick,
     #[value(name = "mxml-exception")]
     MxmlException,
+    #[value(name = "Apache-2.0")]
+    ApacheTwoDotZero,
     #[value(name = "NCGL-UK-2.0")]
     NCGLUKTwoDotZero,
     #[value(name = "HTMLTIDY")]
     HTMLTIDY,
+    #[value(name = "ANTLR-PD")]
+    ANTLRPD,
     #[value(name = "LAL-1.3")]
     LALOneDotThree,
     #[value(name = "BSD-Inferno-Nettverk")]
@@ -639,6 +735,10 @@ pub enum License {
     CcZeroOneDotZero,
     #[value(name = "CECILL-1.1")]
     CECILLOneDotOne,
+    #[value(name = "AML-glslang")]
+    AMLGlslang,
+    #[value(name = "Digia-Qt-LGPL-exception-1.1")]
+    DigiaQtLGPLExceptionOneDotOne,
     #[value(name = "GCR-docs")]
     GCRDocs,
     #[value(name = "Glide")]
@@ -649,8 +749,12 @@ pub enum License {
     Glulxe,
     #[value(name = "MIT-0")]
     MITZero,
+    #[value(name = "BSD-4-Clause-UC")]
+    BSDFourClauseUC,
     #[value(name = "deprecated_LGPL-2.1")]
     DeprecatedLGPLTwoDotOne,
+    #[value(name = "AFL-2.1")]
+    AFLTwoDotOne,
     #[value(name = "eCos-exception-2.0")]
     ECosExceptionTwoDotZero,
     #[value(name = "CERN-OHL-W-2.0")]
@@ -669,6 +773,8 @@ pub enum License {
     CMUMach,
     #[value(name = "OLDAP-2.0")]
     OLDAPTwoDotZero,
+    #[value(name = "Borceux")]
+    Borceux,
     #[value(name = "PHP-3.0")]
     PHPThreeDotZero,
     #[value(name = "HPND-DEC")]
@@ -699,6 +805,8 @@ pub enum License {
     WThreeC,
     #[value(name = "HPND-sell-variant-MIT-disclaimer")]
     HPNDSellVariantMITDisclaimer,
+    #[value(name = "Artistic-1.0-Perl")]
+    ArtisticOneDotZeroPerl,
     #[value(name = "OCaml-LGPL-linking-exception")]
     OCamlLGPLLinkingException,
     #[value(name = "Python-2.0")]
@@ -719,6 +827,8 @@ pub enum License {
     InfoZIP,
     #[value(name = "deprecated_LGPL-3.0")]
     DeprecatedLGPLThreeDotZero,
+    #[value(name = "AFL-3.0")]
+    AFLThreeDotZero,
     #[value(name = "HP-1989")]
     HPOneNineEightNine,
     #[value(name = "FSFULLRWD")]
@@ -731,6 +841,8 @@ pub enum License {
     UnicodeDFSTwoZeroOneFive,
     #[value(name = "TrustedQSL")]
     TrustedQsl,
+    #[value(name = "APSL-2.0")]
+    APSLTwoDotZero,
     #[value(name = "NLPL")]
     NLPL,
     #[value(name = "Giftware")]
@@ -761,6 +873,8 @@ pub enum License {
     BSDProtection,
     #[value(name = "GFDL-1.2-no-invariants-only")]
     GFDLOneDotTwoNoInvariantsOnly,
+    #[value(name = "Adobe-Glyph")]
+    AdobeGlyph,
     #[value(name = "EPL-1.0")]
     EPLOneDotZero,
     #[value(name = "deprecated_LGPL-2.1+")]
@@ -769,16 +883,22 @@ pub enum License {
     ITwopGplJavaException,
     #[value(name = "deprecated_GPL-3.0-with-GCC-exception")]
     DeprecatedGPLThreeDotZeroWithGCCException,
+    #[value(name = "AMD-newlib")]
+    AMDNewlib,
     #[value(name = "Jam")]
     Jam,
     #[value(name = "deprecated_AGPL-1.0")]
     DeprecatedAGPLOneDotZero,
+    #[value(name = "Baekmuk")]
+    Baekmuk,
     #[value(name = "Qhull")]
     Qhull,
     #[value(name = "OpenSSL-standalone")]
     OpenSslStandalone,
     #[value(name = "PCRE2-exception")]
     PcreTwoException,
+    #[value(name = "BSD-2-Clause-pkgconf-disclaimer")]
+    BSDTwoClausePkgconfDisclaimer,
     #[value(name = "NBPL-1.0")]
     NBPLOneDotZero,
     #[value(name = "MulanPSL-2.0")]
@@ -789,18 +909,26 @@ pub enum License {
     LucidaBitmapFonts,
     #[value(name = "CC-BY-NC-SA-2.0-FR")]
     CCBYNCSATwoDotZeroFR,
+    #[value(name = "ANTLR-PD-fallback")]
+    ANTLRPDFallback,
     #[value(name = "MIT-advertising")]
     MITAdvertising,
     #[value(name = "HPND-export-US-modify")]
     HPNDExportUSModify,
     #[value(name = "swrule")]
     Swrule,
+    #[value(name = "Beerware")]
+    Beerware,
     #[value(name = "SMLNJ")]
     SMLNJ,
     #[value(name = "MPEG-SSG")]
     MPEGSSG,
     #[value(name = "PolyForm-Small-Business-1.0.0")]
     PolyFormSmallBusinessOneDotZeroDotZero,
+    #[value(name = "AGPL-3.0-or-later")]
+    AGPLThreeDotZeroOrLater,
+    #[value(name = "BSD-Advertising-Acknowledgement")]
+    BSDAdvertisingAcknowledgement,
     #[value(name = "ZPL-2.0")]
     ZPLTwoDotZero,
     #[value(name = "xpp")]
@@ -837,10 +965,16 @@ pub enum License {
     CCPDDC,
     #[value(name = "Xerox")]
     Xerox,
+    #[value(name = "BSD-3-Clause-No-Nuclear-Warranty")]
+    BSDThreeClauseNoNuclearWarranty,
+    #[value(name = "any-OSI-perl-modules")]
+    AnyOSIPerlModules,
     #[value(name = "BUSL-1.1")]
     BUSLOneDotOne,
     #[value(name = "MakeIndex")]
     MakeIndex,
+    #[value(name = "NTIA-PD")]
+    NTIAPD,
     #[value(name = "LGPL-3.0-or-later")]
     LGPLThreeDotZeroOrLater,
     #[value(name = "deprecated_Nunit")]
@@ -853,6 +987,8 @@ pub enum License {
     SSHOpenSsh,
     #[value(name = "Entessa")]
     Entessa,
+    #[value(name = "AFL-2.0")]
+    AFLTwoDotZero,
     #[value(name = "deprecated_LGPL-2.0")]
     DeprecatedLGPLTwoDotZero,
     #[value(name = "Zend-2.0")]
@@ -865,10 +1001,16 @@ pub enum License {
     Caldera,
     #[value(name = "libutil-David-Nugent")]
     LibutilDavidNugent,
+    #[value(name = "Asterisk-linking-protocols-exception")]
+    AsteriskLinkingProtocolsException,
     #[value(name = "OLDAP-2.6")]
     OLDAPTwoDotSix,
+    #[value(name = "0BSD")]
+    ZeroBsd,
     #[value(name = "GNU-compiler-exception")]
     GNUCompilerException,
+    #[value(name = "Barr")]
+    Barr,
     #[value(name = "SGI-OpenGL")]
     SGIOpenGl,
     #[value(name = "CC-PDM-1.0")]
@@ -887,8 +1029,12 @@ pub enum License {
     OLDAPTwoDotOne,
     #[value(name = "SISSL-1.2")]
     SISSLOneDotTwo,
+    #[value(name = "3D-Slicer-1.0")]
+    ThreeDSlicerOneDotZero,
     #[value(name = "OCCT-exception-1.0")]
     OCCTExceptionOneDotZero,
+    #[value(name = "389-exception")]
+    ThreeEightNineException,
     #[value(name = "SL")]
     SL,
     #[value(name = "FLTK-exception")]
@@ -899,6 +1045,10 @@ pub enum License {
     CALOneDotZeroCombinedWorkException,
     #[value(name = "deprecated_StandardML-NJ")]
     DeprecatedStandardMlNJ,
+    #[value(name = "ADSL")]
+    ADSL,
+    #[value(name = "BSD-4.3TAHOE")]
+    BSDFourDotThreeTahoe,
     #[value(name = "ZPL-2.1")]
     ZPLTwoDotOne,
     #[value(name = "Imlib2")]
@@ -909,6 +1059,8 @@ pub enum License {
     Gnuplot,
     #[value(name = "D-FSL-1.0")]
     DFSLOneDotZero,
+    #[value(name = "Adobe-Utopia")]
+    AdobeUtopia,
     #[value(name = "OpenSSL")]
     OpenSsl,
     #[value(name = "GPL-3.0-or-later")]
@@ -919,6 +1071,8 @@ pub enum License {
     LZMASDKNineDotOneOneToNineDotTwoZero,
     #[value(name = "SAX-PD-2.0")]
     SAXPDTwoDotZero,
+    #[value(name = "BSD-3-Clause-Clear")]
+    BSDThreeClauseClear,
     #[value(name = "NASA-1.3")]
     NASAOneDotThree,
     #[value(name = "EUDatagrid")]
@@ -967,6 +1121,8 @@ pub enum License {
     CryptoSwift,
     #[value(name = "WTFPL")]
     WTFPL,
+    #[value(name = "BSD-3-Clause-No-Nuclear-License")]
+    BSDThreeClauseNoNuclearLicense,
     #[value(name = "cve-tou")]
     CveTou,
     #[value(name = "HPND-MIT-disclaimer")]
@@ -989,6 +1145,8 @@ pub enum License {
     MITCMU,
     #[value(name = "RPSL-1.0")]
     RPSLOneDotZero,
+    #[value(name = "BSD-2-Clause-Patent")]
+    BSDTwoClausePatent,
     #[value(name = "dtoa")]
     Dtoa,
     #[value(name = "NCSA")]
@@ -1007,18 +1165,32 @@ pub enum License {
     NPOSLThreeDotZero,
     #[value(name = "ImageMagick")]
     ImageMagick,
+    #[value(name = "BSD-4-Clause-Shortened")]
+    BSDFourClauseShortened,
+    #[value(name = "Asterisk-exception")]
+    AsteriskException,
     #[value(name = "libpri-OpenH323-exception")]
     LibpriOpenHThreeTwoThreeException,
+    #[value(name = "Aladdin")]
+    Aladdin,
     #[value(name = "Unicode-TOU")]
     UnicodeTOU,
     #[value(name = "OpenPBS-2.3")]
     OpenPbsTwoDotThree,
+    #[value(name = "any-OSI")]
+    AnyOSI,
     #[value(name = "UCL-1.0")]
     UCLOneDotZero,
     #[value(name = "Zimbra-1.4")]
     ZimbraOneDotFour,
+    #[value(name = "Bootloader-exception")]
+    BootloaderException,
+    #[value(name = "Bison-exception-2.2")]
+    BisonExceptionTwoDotTwo,
     #[value(name = "TGPPL-1.0")]
     TGPPLOneDotZero,
+    #[value(name = "BitTorrent-1.1")]
+    BitTorrentOneDotOne,
     #[value(name = "Wsuipa")]
     Wsuipa,
     #[value(name = "deprecated_Nokia-Qt-exception-1.1")]
@@ -1039,6 +1211,8 @@ pub enum License {
     GPLTwoDotZeroOnly,
     #[value(name = "OGL-UK-1.0")]
     OGLUKOneDotZero,
+    #[value(name = "AFL-1.1")]
+    AFLOneDotOne,
     #[value(name = "SSLeay-standalone")]
     SsLeayStandalone,
     #[value(name = "X11-swapped")]
@@ -1079,6 +1253,8 @@ pub enum License {
     OGCOneDotZero,
     #[value(name = "ulem")]
     Ulem,
+    #[value(name = "Autoconf-exception-3.0")]
+    AutoconfExceptionThreeDotZero,
     #[value(name = "harbour-exception")]
     HarbourException,
     #[value(name = "UCAR")]
@@ -1151,6 +1327,10 @@ pub enum License {
     Snprintf,
     #[value(name = "EUPL-1.0")]
     EUPLOneDotZero,
+    #[value(name = "AMDPLPA")]
+    AMDPLPA,
+    #[value(name = "APSL-1.0")]
+    APSLOneDotZero,
     #[value(name = "BSD-Source-beginning-file")]
     BSDSourceBeginningFile,
     #[value(name = "SunPro")]
@@ -1163,18 +1343,26 @@ pub enum License {
     OFLOneDotZero,
     #[value(name = "deprecated_GPL-2.0-with-GCC-exception")]
     DeprecatedGPLTwoDotZeroWithGCCException,
+    #[value(name = "Autoconf-exception-generic-3.0")]
+    AutoconfExceptionGenericThreeDotZero,
     #[value(name = "CC-BY-SA-3.0")]
     CCBYSAThreeDotZero,
     #[value(name = "CC-BY-NC-SA-3.0")]
     CCBYNCSAThreeDotZero,
+    #[value(name = "Bahyph")]
+    Bahyph,
     #[value(name = "DSDP")]
     DSDP,
     #[value(name = "McPhee-slideshow")]
     McPheeSlideshow,
+    #[value(name = "BitTorrent-1.0")]
+    BitTorrentOneDotZero,
     #[value(name = "CC-BY-3.0-NL")]
     CCBYThreeDotZeroNL,
     #[value(name = "OLDAP-1.1")]
     OLDAPOneDotOne,
+    #[value(name = "Bitstream-Vera")]
+    BitstreamVera,
     #[value(name = "GFDL-1.2-invariants-only")]
     GFDLOneDotTwoInvariantsOnly,
     #[value(name = "SchemeReport")]
@@ -1193,6 +1381,8 @@ pub enum License {
     Symlinks,
     #[value(name = "openvpn-openssl-exception")]
     OpenvpnOpensslException,
+    #[value(name = "Arphic-1999")]
+    ArphicOneNineNineNine,
     #[value(name = "HPND-Pbmplus")]
     HPNDPbmplus,
     #[value(name = "OAR")]
@@ -1205,6 +1395,8 @@ pub enum License {
     LPPLOneDotOne,
     #[value(name = "CC-BY-ND-4.0")]
     CCBYNDFourDotZero,
+    #[value(name = "Autoconf-exception-2.0")]
+    AutoconfExceptionTwoDotZero,
     #[value(name = "XFree86-1.1")]
     XFreeEightSixOneDotOne,
     #[value(name = "CC-BY-NC-ND-4.0")]
@@ -1233,6 +1425,8 @@ pub enum License {
     RSCPL,
     #[value(name = "NPL-1.0")]
     NPLOneDotZero,
+    #[value(name = "BSD-3-Clause-No-Nuclear-License-2014")]
+    BSDThreeClauseNoNuclearLicenseTwoZeroOneFour,
     #[value(name = "Sleepycat")]
     Sleepycat,
     #[value(name = "CDLA-Sharing-1.0")]
@@ -1243,16 +1437,22 @@ pub enum License {
     Lsof,
     #[value(name = "Parity-7.0.0")]
     ParitySevenDotZeroDotZero,
+    #[value(name = "AAL")]
+    AAL,
     #[value(name = "Zeeff")]
     Zeeff,
     #[value(name = "CC-BY-NC-SA-4.0")]
     CCBYNCSAFourDotZero,
+    #[value(name = "BlueOak-1.0.0")]
+    BlueOakOneDotZeroDotZero,
     #[value(name = "CC-BY-SA-4.0")]
     CCBYSAFourDotZero,
     #[value(name = "GFDL-1.2-or-later")]
     GFDLOneDotTwoOrLater,
     #[value(name = "OFL-1.1")]
     OFLOneDotOne,
+    #[value(name = "APSL-1.1")]
+    APSLOneDotOne,
     #[value(name = "GPL-3.0-interface-exception")]
     GPLThreeDotZeroInterfaceException,
     #[value(name = "Qt-LGPL-exception-1.1")]
@@ -1261,18 +1461,24 @@ pub enum License {
     MackerrasThreeClause,
     #[value(name = "EUPL-1.1")]
     EUPLOneDotOne,
+    #[value(name = "Autoconf-exception-generic")]
+    AutoconfExceptionGeneric,
     #[value(name = "Sun-PPP")]
     SunPPP,
     #[value(name = "CECILL-B")]
     CECILLB,
     #[value(name = "Linux-OpenIB")]
     LinuxOpenIb,
+    #[value(name = "BSD-Attribution-HPND-disclaimer")]
+    BSDAttributionHPNDDisclaimer,
     #[value(name = "fmt-exception")]
     FmtException,
     #[value(name = "MIT-feh")]
     MITFeh,
     #[value(name = "Ruby-pty")]
     RubyPty,
+    #[value(name = "BSD-3-Clause-No-Military-License")]
+    BSDThreeClauseNoMilitaryLicense,
     #[value(name = "HPND-sell-variant")]
     HPNDSellVariant,
     #[value(name = "DEC-3-Clause")]
@@ -1317,8 +1523,14 @@ pub enum License {
     TAPROHLOneDotZero,
     #[value(name = "Rdisc")]
     Rdisc,
+    #[value(name = "BSD-2-Clause-Views")]
+    BSDTwoClauseViews,
+    #[value(name = "Artistic-1.0-cl8")]
+    ArtisticOneDotZeroClEight,
     #[value(name = "HPND-doc")]
     HPNDDoc,
+    #[value(name = "BSD-3-Clause-Sun")]
+    BSDThreeClauseSun,
     #[value(name = "URT-RLE")]
     URTRLE,
     #[value(name = "mpich2")]
@@ -1343,6 +1555,7 @@ impl License {
     #[doc = r#" Returns the original filename of the license (e.g., "Apache-2.0.md")."#]
     pub fn spdx_id(&self) -> &'static str {
         match self {
+            Self::AFLOneDotTwo => "AFL-1.2",
             Self::LinuxSyscallNote => "Linux-syscall-note",
             Self::DocBookStylesheet => "DocBook-Stylesheet",
             Self::HPNDSellMITDisclaimerXserver => "HPND-sell-MIT-disclaimer-xserver",
@@ -1371,6 +1584,7 @@ impl License {
             Self::CDLAPermissiveOneDotZero => "CDLA-Permissive-1.0",
             Self::QPLOneDotZeroINRIATwoZeroZeroFourException => "QPL-1.0-INRIA-2004-exception",
             Self::ClasspathExceptionTwoDotZero => "Classpath-exception-2.0",
+            Self::BSDThreeClause => "BSD-3-Clause",
             Self::OPLOneDotZero => "OPL-1.0",
             Self::ODbLOneDotZero => "ODbL-1.0",
             Self::IndependentModulesException => "Independent-modules-exception",
@@ -1382,29 +1596,37 @@ impl License {
             Self::MirOs => "MirOS",
             Self::Ruby => "Ruby",
             Self::PolyparseException => "polyparse-exception",
+            Self::BSDThreeClauseLBNL => "BSD-3-Clause-LBNL",
+            Self::BSDTwoClause => "BSD-2-Clause",
             Self::EFLTwoDotZero => "EFL-2.0",
             Self::LLGPL => "LLGPL",
             Self::VsftpdOpensslException => "vsftpd-openssl-exception",
             Self::OFLOneDotZeroNoRFN => "OFL-1.0-no-RFN",
             Self::CCBYNCNDThreeDotZeroDE => "CC-BY-NC-ND-3.0-DE",
+            Self::ArtisticTwoDotZero => "Artistic-2.0",
             Self::CDDLOneDotZero => "CDDL-1.0",
             Self::SWIException => "SWI-exception",
             Self::GFDLOneDotThreeInvariantsOnly => "GFDL-1.3-invariants-only",
             Self::MSRL => "MS-RL",
+            Self::ASWFDigitalAssetsOneDotOne => "ASWF-Digital-Assets-1.1",
             Self::LGPLTwoDotOneOnly => "LGPL-2.1-only",
             Self::HPOneNineEightSix => "HP-1986",
             Self::PythonTwoDotZeroDotOne => "Python-2.0.1",
+            Self::Abstyles => "Abstyles",
             Self::RHeCosOneDotOne => "RHeCos-1.1",
             Self::MIT => "MIT",
+            Self::BSDOneClause => "BSD-1-Clause",
             Self::RomicException => "romic-exception",
             Self::OSLThreeDotZero => "OSL-3.0",
             Self::CCBYNCThreeDotZero => "CC-BY-NC-3.0",
             Self::GCCExceptionTwoDotZero => "GCC-exception-2.0",
             Self::DeprecatedLGPLThreeDotZeroPlus => "deprecated_LGPL-3.0+",
             Self::Clips => "Clips",
+            Self::BSDTwoClauseDarwin => "BSD-2-Clause-Darwin",
             Self::CNRIPythonGPLCompatible => "CNRI-Python-GPL-Compatible",
             Self::LPDDocument => "LPD-document",
             Self::GPLCCOneDotZero => "GPL-CC-1.0",
+            Self::BSDThreeClauseFlex => "BSD-3-Clause-flex",
             Self::HPNDUC => "HPND-UC",
             Self::ISCVeillard => "ISC-Veillard",
             Self::PDDLOneDotZero => "PDDL-1.0",
@@ -1420,6 +1642,7 @@ impl License {
             Self::IJGShort => "IJG-short",
             Self::Psutils => "psutils",
             Self::DRLOneDotOne => "DRL-1.1",
+            Self::BoehmGC => "Boehm-GC",
             Self::CECILLTwoDotZero => "CECILL-2.0",
             Self::WThreeCOneNineNineEightZeroSevenTwoZero => "W3C-19980720",
             Self::OUDAOneDotZero => "O-UDA-1.0",
@@ -1428,6 +1651,7 @@ impl License {
             Self::DeprecatedGFDLOneDotThree => "deprecated_GFDL-1.3",
             Self::SgpFour => "SGP4",
             Self::FDKAAC => "FDK-AAC",
+            Self::ApacheOneDotOne => "Apache-1.1",
             Self::TTWL => "TTWL",
             Self::MartinBirgmeier => "Martin-Birgmeier",
             Self::CCBYNDThreeDotZeroDE => "CC-BY-ND-3.0-DE",
@@ -1435,21 +1659,25 @@ impl License {
             Self::ICU => "ICU",
             Self::StunnelException => "stunnel-exception",
             Self::GameProgrammingGems => "Game-Programming-Gems",
+            Self::BSDThreeClauseAttribution => "BSD-3-Clause-Attribution",
             Self::SGIBOneDotZero => "SGI-B-1.0",
             Self::NRL => "NRL",
             Self::Kazlib => "Kazlib",
             Self::PHPThreeDotZeroOne => "PHP-3.01",
             Self::Magaz => "magaz",
             Self::CPALOneDotZero => "CPAL-1.0",
+            Self::AppSTwop => "App-s2p",
             Self::RrDtoolFLOSSExceptionTwoDotZero => "RRDtool-FLOSS-exception-2.0",
             Self::LibtoolException => "Libtool-exception",
             Self::PSOrPDFFontExceptionTwoZeroOneSevenZeroEightOneSeven => {
                 "PS-or-PDF-font-exception-20170817"
             }
+            Self::BrianGladmanTwoClause => "Brian-Gladman-2-Clause",
             Self::DeprecatedGPLTwoDotZero => "deprecated_GPL-2.0",
             Self::LGPLThreeDotZeroOnly => "LGPL-3.0-only",
             Self::DigiRuleFOSSException => "DigiRule-FOSS-exception",
             Self::GPLThreeDotZeroLinkingException => "GPL-3.0-linking-exception",
+            Self::ASWFDigitalAssetsOneDotZero => "ASWF-Digital-Assets-1.0",
             Self::Mailprio => "mailprio",
             Self::LPPLOneDotTwo => "LPPL-1.2",
             Self::CDDLOneDotOne => "CDDL-1.1",
@@ -1458,6 +1686,7 @@ impl License {
             Self::CCBYNDTwoDotFive => "CC-BY-ND-2.5",
             Self::CCBYNCNDTwoDotFive => "CC-BY-NC-ND-2.5",
             Self::FreertosExceptionTwoDotZero => "freertos-exception-2.0",
+            Self::BrianGladmanThreeClause => "Brian-Gladman-3-Clause",
             Self::DeprecatedGPLTwoDotZeroWithBisonException => {
                 "deprecated_GPL-2.0-with-bison-exception"
             }
@@ -1469,9 +1698,12 @@ impl License {
             Self::CondorOneDotOne => "Condor-1.1",
             Self::OSLTwoDotZero => "OSL-2.0",
             Self::CCBYNCTwoDotZero => "CC-BY-NC-2.0",
+            Self::AdaCoreDoc => "AdaCore-doc",
             Self::TermReadKey => "TermReadKey",
             Self::UnixCrypt => "UnixCrypt",
+            Self::Jove => "jove",
             Self::NTP => "NTP",
+            Self::AdobeDisplayPostScript => "Adobe-Display-PostScript",
             Self::CCBYThreeDotZeroDE => "CC-BY-3.0-DE",
             Self::Kastrup => "Kastrup",
             Self::LGPLTwoDotZeroOnly => "LGPL-2.0-only",
@@ -1487,22 +1719,28 @@ impl License {
             Self::Threeparttable => "threeparttable",
             Self::MITOpenGroup => "MIT-open-group",
             Self::FSFULLR => "FSFULLR",
+            Self::AutoconfExceptionMacro => "Autoconf-exception-macro",
             Self::NCL => "NCL",
             Self::EPICS => "EPICS",
+            Self::ApacheOneDotZero => "Apache-1.0",
             Self::JSON => "JSON",
             Self::DeprecatedGFDLOneDotTwo => "deprecated_GFDL-1.2",
             Self::SpencerEightSix => "Spencer-86",
+            Self::BSDFourClause => "BSD-4-Clause",
             Self::SHLZeroDotFiveOne => "SHL-0.51",
             Self::IJG => "IJG",
+            Self::APSLOneDotTwo => "APSL-1.2",
             Self::DeprecatedGPLTwoDotZeroPlus => "deprecated_GPL-2.0+",
             Self::ErlangOtpLinkingException => "erlang-otp-linking-exception",
             Self::SAXPD => "SAX-PD",
             Self::PSFTwoDotZero => "PSF-2.0",
+            Self::BSDThreeClauseModification => "BSD-3-Clause-Modification",
             Self::QPLOneDotZeroINRIATwoZeroZeroFour => "QPL-1.0-INRIA-2004",
             Self::DeprecatedGPLTwoDotZeroWithClasspathException => {
                 "deprecated_GPL-2.0-with-classpath-exception"
             }
             Self::EUPLOneDotTwo => "EUPL-1.2",
+            Self::BSDTwoClauseFirstLines => "BSD-2-Clause-first-lines",
             Self::GNOMEExamplesException => "GNOME-examples-exception",
             Self::XOneOneDistributeModificationsVariant => "X11-distribute-modifications-variant",
             Self::LPLOneDotZero => "LPL-1.0",
@@ -1512,10 +1750,12 @@ impl License {
             Self::CCBYSATwoDotFive => "CC-BY-SA-2.5",
             Self::Newsletr => "Newsletr",
             Self::Noweb => "Noweb",
+            Self::APLOneDotZero => "APL-1.0",
             Self::WThreem => "w3m",
             Self::FSLOneDotOneMIT => "FSL-1.1-MIT",
             Self::TexinfoException => "Texinfo-exception",
             Self::GFDLOneDotTwoNoInvariantsOrLater => "GFDL-1.2-no-invariants-or-later",
+            Self::ArtisticOneDotZero => "Artistic-1.0",
             Self::EFLOneDotZero => "EFL-1.0",
             Self::WatcomOneDotZero => "Watcom-1.0",
             Self::CCBYThreeDotZeroAU => "CC-BY-3.0-AU",
@@ -1528,6 +1768,7 @@ impl License {
             Self::OLDAPTwoDotTwoDotOne => "OLDAP-2.2.1",
             Self::GFDLOneDotThreeNoInvariantsOnly => "GFDL-1.3-no-invariants-only",
             Self::EGenix => "eGenix",
+            Self::AGPLOneDotZeroOnly => "AGPL-1.0-only",
             Self::FSFAP => "FSFAP",
             Self::SpencerNineNine => "Spencer-99",
             Self::OLDAPTwoDotThree => "OLDAP-2.3",
@@ -1557,9 +1798,13 @@ impl License {
             Self::WidgetWorkshop => "Widget-Workshop",
             Self::CATOSLOneDotOne => "CATOSL-1.1",
             Self::CryptsetupOpenSslException => "cryptsetup-OpenSSL-exception",
+            Self::BSDFourDotThreeReno => "BSD-4.3RENO",
             Self::BSDSystemics => "BSD-Systemics",
+            Self::BoehmGCWithoutFee => "Boehm-GC-without-fee",
             Self::GCCExceptionTwoDotZeroNote => "GCC-exception-2.0-note",
+            Self::AGPLThreeDotZeroOnly => "AGPL-3.0-only",
             Self::BSDSystemicsWThreeWorks => "BSD-Systemics-W3Works",
+            Self::BSDThreeClauseOpenMPI => "BSD-3-Clause-Open-MPI",
             Self::OCLCTwoDotZero => "OCLC-2.0",
             Self::LALOneDotTwo => "LAL-1.2",
             Self::XdebugOneDotZeroThree => "Xdebug-1.03",
@@ -1568,6 +1813,7 @@ impl License {
             Self::ECLOneDotZero => "ECL-1.0",
             Self::CCBYNCNDThreeDotZeroIGO => "CC-BY-NC-ND-3.0-IGO",
             Self::OGLCanadaTwoDotZero => "OGL-Canada-2.0",
+            Self::AGPLOneDotZeroOrLater => "AGPL-1.0-or-later",
             Self::LGPLLR => "LGPLLR",
             Self::Fair => "Fair",
             Self::SwiftException => "Swift-exception",
@@ -1580,23 +1826,30 @@ impl License {
             Self::VSLOneDotZero => "VSL-1.0",
             Self::LPPLOneDotThreec => "LPPL-1.3c",
             Self::Furuseth => "Furuseth",
+            Self::BSDThreeClauseAcpica => "BSD-3-Clause-acpica",
             Self::CNRIJython => "CNRI-Jython",
             Self::LiLiQPOneDotOne => "LiLiQ-P-1.1",
             Self::FergusonTwofish => "Ferguson-Twofish",
             Self::HPNDINRIAIMAG => "HPND-INRIA-IMAG",
+            Self::BitstreamCharter => "Bitstream-Charter",
             Self::UnicodeDFSTwoZeroOneSix => "Unicode-DFS-2016",
             Self::MITModernVariant => "MIT-Modern-Variant",
             Self::DeprecatedGPLThreeDotZeroPlus => "deprecated_GPL-3.0+",
+            Self::Afmparse => "Afmparse",
             Self::HPNDFennebergLivingston => "HPND-Fenneberg-Livingston",
             Self::Wwl => "wwl",
             Self::ClArtistic => "ClArtistic",
             Self::HPNDMarkusKuhn => "HPND-Markus-Kuhn",
+            Self::Blessing => "blessing",
             Self::SoftSurfer => "softSurfer",
+            Self::BisonExceptionOneDotTwoFour => "Bison-exception-1.24",
             Self::CrystalStacker => "CrystalStacker",
+            Self::AML => "AML",
             Self::NCBIPD => "NCBI-PD",
             Self::GFDLOneDotTwoInvariantsOrLater => "GFDL-1.2-invariants-or-later",
             Self::DeprecatedECosTwoDotZero => "deprecated_eCos-2.0",
             Self::OLDAPTwoDotFive => "OLDAP-2.5",
+            Self::AMPAS => "AMPAS",
             Self::GFDLOneDotOneNoInvariantsOrLater => "GFDL-1.1-no-invariants-or-later",
             Self::CCBYFourDotZero => "CC-BY-4.0",
             Self::OLDAPTwoDotTwo => "OLDAP-2.2",
@@ -1627,7 +1880,9 @@ impl License {
             Self::UMichMerit => "UMich-Merit",
             Self::CornellLosslessJPEG => "Cornell-Lossless-JPEG",
             Self::OGDLTaiwanOneDotZero => "OGDL-Taiwan-1.0",
+            Self::BSDThreeClauseHP => "BSD-3-Clause-HP",
             Self::Plexus => "Plexus",
+            Self::BcryptSolarDesigner => "bcrypt-Solar-Designer",
             Self::CCBYNCSATwoDotZeroUK => "CC-BY-NC-SA-2.0-UK",
             Self::SGIBTwoDotZero => "SGI-B-2.0",
             Self::CCBYThreeDotZeroIGO => "CC-BY-3.0-IGO",
@@ -1648,6 +1903,7 @@ impl License {
             Self::DeprecatedGPLTwoDotZeroWithFontException => {
                 "deprecated_GPL-2.0-with-font-exception"
             }
+            Self::APAFML => "APAFML",
             Self::Motosoto => "Motosoto",
             Self::CheckCvs => "check-cvs",
             Self::Sendmail => "Sendmail",
@@ -1659,25 +1915,32 @@ impl License {
             Self::IBMPibs => "IBM-pibs",
             Self::CERNOHLOneDotTwo => "CERN-OHL-1.2",
             Self::IntelACPI => "Intel-ACPI",
+            Self::AdobeTwoZeroZeroSix => "Adobe-2006",
             Self::DeprecatedLGPLTwoDotZeroPlus => "deprecated_LGPL-2.0+",
             Self::SPLOneDotZero => "SPL-1.0",
             Self::OML => "OML",
             Self::DOC => "DOC",
             Self::MITClick => "MIT-Click",
             Self::MxmlException => "mxml-exception",
+            Self::ApacheTwoDotZero => "Apache-2.0",
             Self::NCGLUKTwoDotZero => "NCGL-UK-2.0",
             Self::HTMLTIDY => "HTMLTIDY",
+            Self::ANTLRPD => "ANTLR-PD",
             Self::LALOneDotThree => "LAL-1.3",
             Self::BSDInfernoNettverk => "BSD-Inferno-Nettverk",
             Self::RPLOneDotFive => "RPL-1.5",
             Self::CcZeroOneDotZero => "CC0-1.0",
             Self::CECILLOneDotOne => "CECILL-1.1",
+            Self::AMLGlslang => "AML-glslang",
+            Self::DigiaQtLGPLExceptionOneDotOne => "Digia-Qt-LGPL-exception-1.1",
             Self::GCRDocs => "GCR-docs",
             Self::Glide => "Glide",
             Self::CCBYSATwoDotZeroUK => "CC-BY-SA-2.0-UK",
             Self::Glulxe => "Glulxe",
             Self::MITZero => "MIT-0",
+            Self::BSDFourClauseUC => "BSD-4-Clause-UC",
             Self::DeprecatedLGPLTwoDotOne => "deprecated_LGPL-2.1",
+            Self::AFLTwoDotOne => "AFL-2.1",
             Self::ECosExceptionTwoDotZero => "eCos-exception-2.0",
             Self::CERNOHLWTwoDotZero => "CERN-OHL-W-2.0",
             Self::Minpack => "Minpack",
@@ -1687,6 +1950,7 @@ impl License {
             Self::LGPLTwoDotOneOrLater => "LGPL-2.1-or-later",
             Self::CMUMach => "CMU-Mach",
             Self::OLDAPTwoDotZero => "OLDAP-2.0",
+            Self::Borceux => "Borceux",
             Self::PHPThreeDotZero => "PHP-3.0",
             Self::HPNDDEC => "HPND-DEC",
             Self::Radvd => "radvd",
@@ -1702,6 +1966,7 @@ impl License {
             Self::Diffmark => "diffmark",
             Self::WThreeC => "W3C",
             Self::HPNDSellVariantMITDisclaimer => "HPND-sell-variant-MIT-disclaimer",
+            Self::ArtisticOneDotZeroPerl => "Artistic-1.0-Perl",
             Self::OCamlLGPLLinkingException => "OCaml-LGPL-linking-exception",
             Self::PythonTwoDotZero => "Python-2.0",
             Self::MackerrasThreeClauseAcknowledgment => "Mackerras-3-Clause-acknowledgment",
@@ -1712,12 +1977,14 @@ impl License {
             Self::HIDAPI => "HIDAPI",
             Self::InfoZIP => "Info-ZIP",
             Self::DeprecatedLGPLThreeDotZero => "deprecated_LGPL-3.0",
+            Self::AFLThreeDotZero => "AFL-3.0",
             Self::HPOneNineEightNine => "HP-1989",
             Self::FSFULLRWD => "FSFULLRWD",
             Self::Leptonica => "Leptonica",
             Self::GraphicsGems => "Graphics-Gems",
             Self::UnicodeDFSTwoZeroOneFive => "Unicode-DFS-2015",
             Self::TrustedQsl => "TrustedQSL",
+            Self::APSLTwoDotZero => "APSL-2.0",
             Self::NLPL => "NLPL",
             Self::Giftware => "Giftware",
             Self::SSPLOneDotZero => "SSPL-1.0",
@@ -1733,28 +2000,36 @@ impl License {
             Self::Pkgconf => "pkgconf",
             Self::BSDProtection => "BSD-Protection",
             Self::GFDLOneDotTwoNoInvariantsOnly => "GFDL-1.2-no-invariants-only",
+            Self::AdobeGlyph => "Adobe-Glyph",
             Self::EPLOneDotZero => "EPL-1.0",
             Self::DeprecatedLGPLTwoDotOnePlus => "deprecated_LGPL-2.1+",
             Self::ITwopGplJavaException => "i2p-gpl-java-exception",
             Self::DeprecatedGPLThreeDotZeroWithGCCException => {
                 "deprecated_GPL-3.0-with-GCC-exception"
             }
+            Self::AMDNewlib => "AMD-newlib",
             Self::Jam => "Jam",
             Self::DeprecatedAGPLOneDotZero => "deprecated_AGPL-1.0",
+            Self::Baekmuk => "Baekmuk",
             Self::Qhull => "Qhull",
             Self::OpenSslStandalone => "OpenSSL-standalone",
             Self::PcreTwoException => "PCRE2-exception",
+            Self::BSDTwoClausePkgconfDisclaimer => "BSD-2-Clause-pkgconf-disclaimer",
             Self::NBPLOneDotZero => "NBPL-1.0",
             Self::MulanPslTwoDotZero => "MulanPSL-2.0",
             Self::CCBYThreeDotZeroUS => "CC-BY-3.0-US",
             Self::LucidaBitmapFonts => "Lucida-Bitmap-Fonts",
             Self::CCBYNCSATwoDotZeroFR => "CC-BY-NC-SA-2.0-FR",
+            Self::ANTLRPDFallback => "ANTLR-PD-fallback",
             Self::MITAdvertising => "MIT-advertising",
             Self::HPNDExportUSModify => "HPND-export-US-modify",
             Self::Swrule => "swrule",
+            Self::Beerware => "Beerware",
             Self::SMLNJ => "SMLNJ",
             Self::MPEGSSG => "MPEG-SSG",
             Self::PolyFormSmallBusinessOneDotZeroDotZero => "PolyForm-Small-Business-1.0.0",
+            Self::AGPLThreeDotZeroOrLater => "AGPL-3.0-or-later",
+            Self::BSDAdvertisingAcknowledgement => "BSD-Advertising-Acknowledgement",
             Self::ZPLTwoDotZero => "ZPL-2.0",
             Self::Xpp => "xpp",
             Self::Nokia => "Nokia",
@@ -1773,22 +2048,29 @@ impl License {
             Self::FawkesRuntimeException => "Fawkes-Runtime-exception",
             Self::CCPDDC => "CC-PDDC",
             Self::Xerox => "Xerox",
+            Self::BSDThreeClauseNoNuclearWarranty => "BSD-3-Clause-No-Nuclear-Warranty",
+            Self::AnyOSIPerlModules => "any-OSI-perl-modules",
             Self::BUSLOneDotOne => "BUSL-1.1",
             Self::MakeIndex => "MakeIndex",
+            Self::NTIAPD => "NTIA-PD",
             Self::LGPLThreeDotZeroOrLater => "LGPL-3.0-or-later",
             Self::DeprecatedNunit => "deprecated_Nunit",
             Self::OFFIS => "OFFIS",
             Self::LatexTwoe => "Latex2e",
             Self::SSHOpenSsh => "SSH-OpenSSH",
             Self::Entessa => "Entessa",
+            Self::AFLTwoDotZero => "AFL-2.0",
             Self::DeprecatedLGPLTwoDotZero => "deprecated_LGPL-2.0",
             Self::ZendTwoDotZero => "Zend-2.0",
             Self::MifException => "mif-exception",
             Self::Xfig => "Xfig",
             Self::Caldera => "Caldera",
             Self::LibutilDavidNugent => "libutil-David-Nugent",
+            Self::AsteriskLinkingProtocolsException => "Asterisk-linking-protocols-exception",
             Self::OLDAPTwoDotSix => "OLDAP-2.6",
+            Self::ZeroBsd => "0BSD",
             Self::GNUCompilerException => "GNU-compiler-exception",
+            Self::Barr => "Barr",
             Self::SGIOpenGl => "SGI-OpenGL",
             Self::CCPDMOneDotZero => "CC-PDM-1.0",
             Self::MITEnna => "MIT-enna",
@@ -1798,22 +2080,28 @@ impl License {
             Self::LOOP => "LOOP",
             Self::OLDAPTwoDotOne => "OLDAP-2.1",
             Self::SISSLOneDotTwo => "SISSL-1.2",
+            Self::ThreeDSlicerOneDotZero => "3D-Slicer-1.0",
             Self::OCCTExceptionOneDotZero => "OCCT-exception-1.0",
+            Self::ThreeEightNineException => "389-exception",
             Self::SL => "SL",
             Self::FLTKException => "FLTK-exception",
             Self::GFDLOneDotOneOnly => "GFDL-1.1-only",
             Self::CALOneDotZeroCombinedWorkException => "CAL-1.0-Combined-Work-Exception",
             Self::DeprecatedStandardMlNJ => "deprecated_StandardML-NJ",
+            Self::ADSL => "ADSL",
+            Self::BSDFourDotThreeTahoe => "BSD-4.3TAHOE",
             Self::ZPLTwoDotOne => "ZPL-2.1",
             Self::ImlibTwo => "Imlib2",
             Self::RPLOneDotOne => "RPL-1.1",
             Self::Gnuplot => "gnuplot",
             Self::DFSLOneDotZero => "D-FSL-1.0",
+            Self::AdobeUtopia => "Adobe-Utopia",
             Self::OpenSsl => "OpenSSL",
             Self::GPLThreeDotZeroOrLater => "GPL-3.0-or-later",
             Self::OSETPLTwoDotOne => "OSET-PL-2.1",
             Self::LZMASDKNineDotOneOneToNineDotTwoZero => "LZMA-SDK-9.11-to-9.20",
             Self::SAXPDTwoDotZero => "SAX-PD-2.0",
+            Self::BSDThreeClauseClear => "BSD-3-Clause-Clear",
             Self::NASAOneDotThree => "NASA-1.3",
             Self::EuDatagrid => "EUDatagrid",
             Self::CERNOHLOneDotOne => "CERN-OHL-1.1",
@@ -1840,6 +2128,7 @@ impl License {
             Self::GPLThreeDotZeroOnly => "GPL-3.0-only",
             Self::CryptoSwift => "CryptoSwift",
             Self::WTFPL => "WTFPL",
+            Self::BSDThreeClauseNoNuclearLicense => "BSD-3-Clause-No-Nuclear-License",
             Self::CveTou => "cve-tou",
             Self::HPNDMITDisclaimer => "HPND-MIT-disclaimer",
             Self::CCBYNDTwoDotZero => "CC-BY-ND-2.0",
@@ -1851,6 +2140,7 @@ impl License {
             Self::CopyleftNextZeroDotThreeDotOne => "copyleft-next-0.3.1",
             Self::MITCMU => "MIT-CMU",
             Self::RPSLOneDotZero => "RPSL-1.0",
+            Self::BSDTwoClausePatent => "BSD-2-Clause-Patent",
             Self::Dtoa => "dtoa",
             Self::NCSA => "NCSA",
             Self::NPLOneDotOne => "NPL-1.1",
@@ -1860,12 +2150,19 @@ impl License {
             Self::OFLOneDotZeroRFN => "OFL-1.0-RFN",
             Self::NPOSLThreeDotZero => "NPOSL-3.0",
             Self::ImageMagick => "ImageMagick",
+            Self::BSDFourClauseShortened => "BSD-4-Clause-Shortened",
+            Self::AsteriskException => "Asterisk-exception",
             Self::LibpriOpenHThreeTwoThreeException => "libpri-OpenH323-exception",
+            Self::Aladdin => "Aladdin",
             Self::UnicodeTOU => "Unicode-TOU",
             Self::OpenPbsTwoDotThree => "OpenPBS-2.3",
+            Self::AnyOSI => "any-OSI",
             Self::UCLOneDotZero => "UCL-1.0",
             Self::ZimbraOneDotFour => "Zimbra-1.4",
+            Self::BootloaderException => "Bootloader-exception",
+            Self::BisonExceptionTwoDotTwo => "Bison-exception-2.2",
             Self::TGPPLOneDotZero => "TGPPL-1.0",
+            Self::BitTorrentOneDotOne => "BitTorrent-1.1",
             Self::Wsuipa => "Wsuipa",
             Self::DeprecatedNokiaQtExceptionOneDotOne => "deprecated_Nokia-Qt-exception-1.1",
             Self::CCBYNCSATwoDotZeroDE => "CC-BY-NC-SA-2.0-DE",
@@ -1876,6 +2173,7 @@ impl License {
             Self::ZimbraOneDotThree => "Zimbra-1.3",
             Self::GPLTwoDotZeroOnly => "GPL-2.0-only",
             Self::OGLUKOneDotZero => "OGL-UK-1.0",
+            Self::AFLOneDotOne => "AFL-1.1",
             Self::SsLeayStandalone => "SSLeay-standalone",
             Self::XOneOneSwapped => "X11-swapped",
             Self::OpenJdkAssemblyExceptionOneDotZero => "OpenJDK-assembly-exception-1.0",
@@ -1896,6 +2194,7 @@ impl License {
             Self::DeprecatedWxWindows => "deprecated_wxWindows",
             Self::OGCOneDotZero => "OGC-1.0",
             Self::Ulem => "ulem",
+            Self::AutoconfExceptionThreeDotZero => "Autoconf-exception-3.0",
             Self::HarbourException => "harbour-exception",
             Self::UCAR => "UCAR",
             Self::MSPL => "MS-PL",
@@ -1932,6 +2231,8 @@ impl License {
             Self::MITWu => "MIT-Wu",
             Self::Snprintf => "snprintf",
             Self::EUPLOneDotZero => "EUPL-1.0",
+            Self::AMDPLPA => "AMDPLPA",
+            Self::APSLOneDotZero => "APSL-1.0",
             Self::BSDSourceBeginningFile => "BSD-Source-beginning-file",
             Self::SunPro => "SunPro",
             Self::HPNDIntel => "HPND-Intel",
@@ -1940,12 +2241,16 @@ impl License {
             Self::DeprecatedGPLTwoDotZeroWithGCCException => {
                 "deprecated_GPL-2.0-with-GCC-exception"
             }
+            Self::AutoconfExceptionGenericThreeDotZero => "Autoconf-exception-generic-3.0",
             Self::CCBYSAThreeDotZero => "CC-BY-SA-3.0",
             Self::CCBYNCSAThreeDotZero => "CC-BY-NC-SA-3.0",
+            Self::Bahyph => "Bahyph",
             Self::DSDP => "DSDP",
             Self::McPheeSlideshow => "McPhee-slideshow",
+            Self::BitTorrentOneDotZero => "BitTorrent-1.0",
             Self::CCBYThreeDotZeroNL => "CC-BY-3.0-NL",
             Self::OLDAPOneDotOne => "OLDAP-1.1",
+            Self::BitstreamVera => "Bitstream-Vera",
             Self::GFDLOneDotTwoInvariantsOnly => "GFDL-1.2-invariants-only",
             Self::SchemeReport => "SchemeReport",
             Self::HPNDExportTwoUS => "HPND-export2-US",
@@ -1955,12 +2260,14 @@ impl License {
             Self::NetCdf => "NetCDF",
             Self::Symlinks => "Symlinks",
             Self::OpenvpnOpensslException => "openvpn-openssl-exception",
+            Self::ArphicOneNineNineNine => "Arphic-1999",
             Self::HPNDPbmplus => "HPND-Pbmplus",
             Self::OAR => "OAR",
             Self::CopyleftNextZeroDotThreeDotZero => "copyleft-next-0.3.0",
             Self::YPLOneDotZero => "YPL-1.0",
             Self::LPPLOneDotOne => "LPPL-1.1",
             Self::CCBYNDFourDotZero => "CC-BY-ND-4.0",
+            Self::AutoconfExceptionTwoDotZero => "Autoconf-exception-2.0",
             Self::XFreeEightSixOneDotOne => "XFree86-1.1",
             Self::CCBYNCNDFourDotZero => "CC-BY-NC-ND-4.0",
             Self::CCBYNCSAThreeDotZeroDE => "CC-BY-NC-SA-3.0-DE",
@@ -1975,26 +2282,35 @@ impl License {
             Self::DeprecatedAGPLThreeDotZero => "deprecated_AGPL-3.0",
             Self::RSCPL => "RSCPL",
             Self::NPLOneDotZero => "NPL-1.0",
+            Self::BSDThreeClauseNoNuclearLicenseTwoZeroOneFour => {
+                "BSD-3-Clause-No-Nuclear-License-2014"
+            }
             Self::Sleepycat => "Sleepycat",
             Self::CDLASharingOneDotZero => "CDLA-Sharing-1.0",
             Self::GFDLOneDotThreeOnly => "GFDL-1.3-only",
             Self::Lsof => "lsof",
             Self::ParitySevenDotZeroDotZero => "Parity-7.0.0",
+            Self::AAL => "AAL",
             Self::Zeeff => "Zeeff",
             Self::CCBYNCSAFourDotZero => "CC-BY-NC-SA-4.0",
+            Self::BlueOakOneDotZeroDotZero => "BlueOak-1.0.0",
             Self::CCBYSAFourDotZero => "CC-BY-SA-4.0",
             Self::GFDLOneDotTwoOrLater => "GFDL-1.2-or-later",
             Self::OFLOneDotOne => "OFL-1.1",
+            Self::APSLOneDotOne => "APSL-1.1",
             Self::GPLThreeDotZeroInterfaceException => "GPL-3.0-interface-exception",
             Self::QtLGPLExceptionOneDotOne => "Qt-LGPL-exception-1.1",
             Self::MackerrasThreeClause => "Mackerras-3-Clause",
             Self::EUPLOneDotOne => "EUPL-1.1",
+            Self::AutoconfExceptionGeneric => "Autoconf-exception-generic",
             Self::SunPPP => "Sun-PPP",
             Self::CECILLB => "CECILL-B",
             Self::LinuxOpenIb => "Linux-OpenIB",
+            Self::BSDAttributionHPNDDisclaimer => "BSD-Attribution-HPND-disclaimer",
             Self::FmtException => "fmt-exception",
             Self::MITFeh => "MIT-feh",
             Self::RubyPty => "Ruby-pty",
+            Self::BSDThreeClauseNoMilitaryLicense => "BSD-3-Clause-No-Military-License",
             Self::HPNDSellVariant => "HPND-sell-variant",
             Self::DECThreeClause => "DEC-3-Clause",
             Self::ZPLOneDotOne => "ZPL-1.1",
@@ -2017,17 +2333,801 @@ impl License {
             Self::GFDLOneDotOneNoInvariantsOnly => "GFDL-1.1-no-invariants-only",
             Self::TAPROHLOneDotZero => "TAPR-OHL-1.0",
             Self::Rdisc => "Rdisc",
+            Self::BSDTwoClauseViews => "BSD-2-Clause-Views",
+            Self::ArtisticOneDotZeroClEight => "Artistic-1.0-cl8",
             Self::HPNDDoc => "HPND-doc",
+            Self::BSDThreeClauseSun => "BSD-3-Clause-Sun",
             Self::URTRLE => "URT-RLE",
             Self::MpichTwo => "mpich2",
             Self::CGALLinkingException => "CGAL-linking-exception",
             Self::MPLOneDotOne => "MPL-1.1",
         }
     }
+    #[doc = r" Returns an iterator over all available license variants."]
+    pub fn iter() -> impl Iterator<Item = Self> {
+        [
+            Self::AFLOneDotTwo,
+            Self::LinuxSyscallNote,
+            Self::DocBookStylesheet,
+            Self::HPNDSellMITDisclaimerXserver,
+            Self::OSLTwoDotOne,
+            Self::SWL,
+            Self::CCBYNCFourDotZero,
+            Self::NLODTwoDotZero,
+            Self::Unlicense,
+            Self::ODCByOneDotZero,
+            Self::UPLOneDotZero,
+            Self::SNIA,
+            Self::GCCExceptionThreeDotOne,
+            Self::OLDAPOneDotThree,
+            Self::Dotseqn,
+            Self::TMate,
+            Self::GFDLOneDotOneInvariantsOrLater,
+            Self::MmiXware,
+            Self::Crossword,
+            Self::OLDAPOneDotFour,
+            Self::GLWTPL,
+            Self::Curl,
+            Self::GPLTwoDotZeroOrLater,
+            Self::OFLOneDotOneNoRFN,
+            Self::MSLPL,
+            Self::CCBYOneDotZero,
+            Self::CDLAPermissiveOneDotZero,
+            Self::QPLOneDotZeroINRIATwoZeroZeroFourException,
+            Self::ClasspathExceptionTwoDotZero,
+            Self::BSDThreeClause,
+            Self::OPLOneDotZero,
+            Self::ODbLOneDotZero,
+            Self::IndependentModulesException,
+            Self::MITFestival,
+            Self::CalderaNoPreamble,
+            Self::SGIBOneDotOne,
+            Self::Soundex,
+            Self::SANEException,
+            Self::MirOs,
+            Self::Ruby,
+            Self::PolyparseException,
+            Self::BSDThreeClauseLBNL,
+            Self::BSDTwoClause,
+            Self::EFLTwoDotZero,
+            Self::LLGPL,
+            Self::VsftpdOpensslException,
+            Self::OFLOneDotZeroNoRFN,
+            Self::CCBYNCNDThreeDotZeroDE,
+            Self::ArtisticTwoDotZero,
+            Self::CDDLOneDotZero,
+            Self::SWIException,
+            Self::GFDLOneDotThreeInvariantsOnly,
+            Self::MSRL,
+            Self::ASWFDigitalAssetsOneDotOne,
+            Self::LGPLTwoDotOneOnly,
+            Self::HPOneNineEightSix,
+            Self::PythonTwoDotZeroDotOne,
+            Self::Abstyles,
+            Self::RHeCosOneDotOne,
+            Self::MIT,
+            Self::BSDOneClause,
+            Self::RomicException,
+            Self::OSLThreeDotZero,
+            Self::CCBYNCThreeDotZero,
+            Self::GCCExceptionTwoDotZero,
+            Self::DeprecatedLGPLThreeDotZeroPlus,
+            Self::Clips,
+            Self::BSDTwoClauseDarwin,
+            Self::CNRIPythonGPLCompatible,
+            Self::LPDDocument,
+            Self::GPLCCOneDotZero,
+            Self::BSDThreeClauseFlex,
+            Self::HPNDUC,
+            Self::ISCVeillard,
+            Self::PDDLOneDotZero,
+            Self::LGPLTwoDotZeroOrLater,
+            Self::CCBYNCSAThreeDotZeroIGO,
+            Self::TORQUEOneDotOne,
+            Self::FrameworxOneDotZero,
+            Self::OLDAPTwoDotEight,
+            Self::DeprecatedGPLThreeDotZero,
+            Self::QwtExceptionOneDotZero,
+            Self::DocBookDTD,
+            Self::Psfrag,
+            Self::IJGShort,
+            Self::Psutils,
+            Self::DRLOneDotOne,
+            Self::BoehmGC,
+            Self::CECILLTwoDotZero,
+            Self::WThreeCOneNineNineEightZeroSevenTwoZero,
+            Self::OUDAOneDotZero,
+            Self::CLISPExceptionTwoDotZero,
+            Self::DLDEZEROTwoDotZero,
+            Self::DeprecatedGFDLOneDotThree,
+            Self::SgpFour,
+            Self::FDKAAC,
+            Self::ApacheOneDotOne,
+            Self::TTWL,
+            Self::MartinBirgmeier,
+            Self::CCBYNDThreeDotZeroDE,
+            Self::ECLTwoDotZero,
+            Self::ICU,
+            Self::StunnelException,
+            Self::GameProgrammingGems,
+            Self::BSDThreeClauseAttribution,
+            Self::SGIBOneDotZero,
+            Self::NRL,
+            Self::Kazlib,
+            Self::PHPThreeDotZeroOne,
+            Self::Magaz,
+            Self::CPALOneDotZero,
+            Self::AppSTwop,
+            Self::RrDtoolFLOSSExceptionTwoDotZero,
+            Self::LibtoolException,
+            Self::PSOrPDFFontExceptionTwoZeroOneSevenZeroEightOneSeven,
+            Self::BrianGladmanTwoClause,
+            Self::DeprecatedGPLTwoDotZero,
+            Self::LGPLThreeDotZeroOnly,
+            Self::DigiRuleFOSSException,
+            Self::GPLThreeDotZeroLinkingException,
+            Self::ASWFDigitalAssetsOneDotZero,
+            Self::Mailprio,
+            Self::LPPLOneDotTwo,
+            Self::CDDLOneDotOne,
+            Self::HPND,
+            Self::NTPZero,
+            Self::CCBYNDTwoDotFive,
+            Self::CCBYNCNDTwoDotFive,
+            Self::FreertosExceptionTwoDotZero,
+            Self::BrianGladmanThreeClause,
+            Self::DeprecatedGPLTwoDotZeroWithBisonException,
+            Self::SugarCrmOneDotOneDotThree,
+            Self::SISSL,
+            Self::CFITSIO,
+            Self::TUBerlinTwoDotZero,
+            Self::CMUMachNodoc,
+            Self::CondorOneDotOne,
+            Self::OSLTwoDotZero,
+            Self::CCBYNCTwoDotZero,
+            Self::AdaCoreDoc,
+            Self::TermReadKey,
+            Self::UnixCrypt,
+            Self::Jove,
+            Self::NTP,
+            Self::AdobeDisplayPostScript,
+            Self::CCBYThreeDotZeroDE,
+            Self::Kastrup,
+            Self::LGPLTwoDotZeroOnly,
+            Self::OLDAPOneDotTwo,
+            Self::LinuxManPagesOnePara,
+            Self::DLDEBYTwoDotZero,
+            Self::CCBYNCThreeDotZeroDE,
+            Self::FreeImage,
+            Self::CECILLTwoDotOne,
+            Self::DRLOneDotZero,
+            Self::HPNDExportUSAcknowledgement,
+            Self::OLDAPTwoDotZeroDotOne,
+            Self::Threeparttable,
+            Self::MITOpenGroup,
+            Self::FSFULLR,
+            Self::AutoconfExceptionMacro,
+            Self::NCL,
+            Self::EPICS,
+            Self::ApacheOneDotZero,
+            Self::JSON,
+            Self::DeprecatedGFDLOneDotTwo,
+            Self::SpencerEightSix,
+            Self::BSDFourClause,
+            Self::SHLZeroDotFiveOne,
+            Self::IJG,
+            Self::APSLOneDotTwo,
+            Self::DeprecatedGPLTwoDotZeroPlus,
+            Self::ErlangOtpLinkingException,
+            Self::SAXPD,
+            Self::PSFTwoDotZero,
+            Self::BSDThreeClauseModification,
+            Self::QPLOneDotZeroINRIATwoZeroZeroFour,
+            Self::DeprecatedGPLTwoDotZeroWithClasspathException,
+            Self::EUPLOneDotTwo,
+            Self::BSDTwoClauseFirstLines,
+            Self::GNOMEExamplesException,
+            Self::XOneOneDistributeModificationsVariant,
+            Self::LPLOneDotZero,
+            Self::SpencerNineFour,
+            Self::CCBYNCSATwoDotFive,
+            Self::UBootExceptionTwoDotZero,
+            Self::CCBYSATwoDotFive,
+            Self::Newsletr,
+            Self::Noweb,
+            Self::APLOneDotZero,
+            Self::WThreem,
+            Self::FSLOneDotOneMIT,
+            Self::TexinfoException,
+            Self::GFDLOneDotTwoNoInvariantsOrLater,
+            Self::ArtisticOneDotZero,
+            Self::EFLOneDotZero,
+            Self::WatcomOneDotZero,
+            Self::CCBYThreeDotZeroAU,
+            Self::ISC,
+            Self::ZlibAcknowledgement,
+            Self::TCPWrappers,
+            Self::UniversalFOSSExceptionOneDotZero,
+            Self::Hdparm,
+            Self::SHLTwoDotZero,
+            Self::OLDAPTwoDotTwoDotOne,
+            Self::GFDLOneDotThreeNoInvariantsOnly,
+            Self::EGenix,
+            Self::AGPLOneDotZeroOnly,
+            Self::FSFAP,
+            Self::SpencerNineNine,
+            Self::OLDAPTwoDotThree,
+            Self::GmshException,
+            Self::Dvipdfm,
+            Self::DeprecatedNetSNMP,
+            Self::LZMAException,
+            Self::Libpng,
+            Self::Xnet,
+            Self::HPNDMerchantabilityVariant,
+            Self::Intel,
+            Self::OLDAPTwoDotFour,
+            Self::WThreeCTwoZeroOneFiveZeroFiveOneThree,
+            Self::MITKhronosOld,
+            Self::CDLAPermissiveTwoDotZero,
+            Self::CCBYTwoDotZero,
+            Self::MpiPermissive,
+            Self::DeprecatedGPLTwoDotZeroWithAutoconfException,
+            Self::MIPS,
+            Self::Cube,
+            Self::OSLOneDotOne,
+            Self::MPLTwoDotZeroNoCopyleftException,
+            Self::NLODOneDotZero,
+            Self::GFDLOneDotOneOrLater,
+            Self::WidgetWorkshop,
+            Self::CATOSLOneDotOne,
+            Self::CryptsetupOpenSslException,
+            Self::BSDFourDotThreeReno,
+            Self::BSDSystemics,
+            Self::BoehmGCWithoutFee,
+            Self::GCCExceptionTwoDotZeroNote,
+            Self::AGPLThreeDotZeroOnly,
+            Self::BSDSystemicsWThreeWorks,
+            Self::BSDThreeClauseOpenMPI,
+            Self::OCLCTwoDotZero,
+            Self::LALOneDotTwo,
+            Self::XdebugOneDotZeroThree,
+            Self::FSLOneDotOneALvTwo,
+            Self::HPNDUCExportUS,
+            Self::ECLOneDotZero,
+            Self::CCBYNCNDThreeDotZeroIGO,
+            Self::OGLCanadaTwoDotZero,
+            Self::AGPLOneDotZeroOrLater,
+            Self::LGPLLR,
+            Self::Fair,
+            Self::SwiftException,
+            Self::JasPerTwoDotZero,
+            Self::CECILLOneDotZero,
+            Self::GPLThreeDotZeroLinkingSourceException,
+            Self::BSDSourceCode,
+            Self::Metamail,
+            Self::LLVMException,
+            Self::VSLOneDotZero,
+            Self::LPPLOneDotThreec,
+            Self::Furuseth,
+            Self::BSDThreeClauseAcpica,
+            Self::CNRIJython,
+            Self::LiLiQPOneDotOne,
+            Self::FergusonTwofish,
+            Self::HPNDINRIAIMAG,
+            Self::BitstreamCharter,
+            Self::UnicodeDFSTwoZeroOneSix,
+            Self::MITModernVariant,
+            Self::DeprecatedGPLThreeDotZeroPlus,
+            Self::Afmparse,
+            Self::HPNDFennebergLivingston,
+            Self::Wwl,
+            Self::ClArtistic,
+            Self::HPNDMarkusKuhn,
+            Self::Blessing,
+            Self::SoftSurfer,
+            Self::BisonExceptionOneDotTwoFour,
+            Self::CrystalStacker,
+            Self::AML,
+            Self::NCBIPD,
+            Self::GFDLOneDotTwoInvariantsOrLater,
+            Self::DeprecatedECosTwoDotZero,
+            Self::OLDAPTwoDotFive,
+            Self::AMPAS,
+            Self::GFDLOneDotOneNoInvariantsOrLater,
+            Self::CCBYFourDotZero,
+            Self::OLDAPTwoDotTwo,
+            Self::CNRIPython,
+            Self::BSLOneDotZero,
+            Self::SMAILGPL,
+            Self::TUBerlinOneDotZero,
+            Self::VOSTROM,
+            Self::LibpngTwoDotZero,
+            Self::GnuJavamailException,
+            Self::CCBYNCOneDotZero,
+            Self::GPLThreeDotZeroThreeEightNineDsBaseException,
+            Self::OSLOneDotZero,
+            Self::UnicodeThreeDotZero,
+            Self::GFDLOneDotThreeOrLater,
+            Self::InnoSetup,
+            Self::CALOneDotZero,
+            Self::CCBYSAThreeDotZeroIGO,
+            Self::Saxpath,
+            Self::OPUBLOneDotZero,
+            Self::LinuxManPagesCopyleftTwoPara,
+            Self::CCBYThreeDotZeroAT,
+            Self::GNATException,
+            Self::CERNOHLPTwoDotZero,
+            Self::XOneOnevncOpensslException,
+            Self::FSFUL,
+            Self::OPLUKThreeDotZero,
+            Self::UMichMerit,
+            Self::CornellLosslessJPEG,
+            Self::OGDLTaiwanOneDotZero,
+            Self::BSDThreeClauseHP,
+            Self::Plexus,
+            Self::BcryptSolarDesigner,
+            Self::CCBYNCSATwoDotZeroUK,
+            Self::SGIBTwoDotZero,
+            Self::CCBYThreeDotZeroIGO,
+            Self::HippocraticTwoDotOne,
+            Self::SHLTwoDotOne,
+            Self::KiCadLibrariesException,
+            Self::CPOLOneDotZeroTwo,
+            Self::DeprecatedGPLOneDotZero,
+            Self::Cronyx,
+            Self::LatexTwoeTranslatedNotice,
+            Self::KnuthCTAN,
+            Self::CCBYThreeDotZero,
+            Self::BzipTwoOneDotZeroDotSix,
+            Self::OCCTPL,
+            Self::SendmailEightDotTwoThree,
+            Self::Catharon,
+            Self::IPLOneDotZero,
+            Self::DeprecatedGPLTwoDotZeroWithFontException,
+            Self::APAFML,
+            Self::Motosoto,
+            Self::CheckCvs,
+            Self::Sendmail,
+            Self::PPL,
+            Self::PostgreSql,
+            Self::CDLOneDotZero,
+            Self::GPLOneDotZeroOrLater,
+            Self::CCSAOneDotZero,
+            Self::IBMPibs,
+            Self::CERNOHLOneDotTwo,
+            Self::IntelACPI,
+            Self::AdobeTwoZeroZeroSix,
+            Self::DeprecatedLGPLTwoDotZeroPlus,
+            Self::SPLOneDotZero,
+            Self::OML,
+            Self::DOC,
+            Self::MITClick,
+            Self::MxmlException,
+            Self::ApacheTwoDotZero,
+            Self::NCGLUKTwoDotZero,
+            Self::HTMLTIDY,
+            Self::ANTLRPD,
+            Self::LALOneDotThree,
+            Self::BSDInfernoNettverk,
+            Self::RPLOneDotFive,
+            Self::CcZeroOneDotZero,
+            Self::CECILLOneDotOne,
+            Self::AMLGlslang,
+            Self::DigiaQtLGPLExceptionOneDotOne,
+            Self::GCRDocs,
+            Self::Glide,
+            Self::CCBYSATwoDotZeroUK,
+            Self::Glulxe,
+            Self::MITZero,
+            Self::BSDFourClauseUC,
+            Self::DeprecatedLGPLTwoDotOne,
+            Self::AFLTwoDotOne,
+            Self::ECosExceptionTwoDotZero,
+            Self::CERNOHLWTwoDotZero,
+            Self::Minpack,
+            Self::HPNDNetrek,
+            Self::DocBookSchema,
+            Self::ManTwohtml,
+            Self::LGPLTwoDotOneOrLater,
+            Self::CMUMach,
+            Self::OLDAPTwoDotZero,
+            Self::Borceux,
+            Self::PHPThreeDotZero,
+            Self::HPNDDEC,
+            Self::Radvd,
+            Self::OGTSL,
+            Self::OLDAPTwoDotSeven,
+            Self::OGLUKTwoDotZero,
+            Self::LGPLThreeDotZeroLinkingException,
+            Self::TtypZero,
+            Self::Zed,
+            Self::PADL,
+            Self::OFLOneDotOneRFN,
+            Self::OLDAPTwoDotTwoDotTwo,
+            Self::Diffmark,
+            Self::WThreeC,
+            Self::HPNDSellVariantMITDisclaimer,
+            Self::ArtisticOneDotZeroPerl,
+            Self::OCamlLGPLLinkingException,
+            Self::PythonTwoDotZero,
+            Self::MackerrasThreeClauseAcknowledgment,
+            Self::CCBYNCNDOneDotZero,
+            Self::CCBYNDOneDotZero,
+            Self::Mup,
+            Self::TPDL,
+            Self::HIDAPI,
+            Self::InfoZIP,
+            Self::DeprecatedLGPLThreeDotZero,
+            Self::AFLThreeDotZero,
+            Self::HPOneNineEightNine,
+            Self::FSFULLRWD,
+            Self::Leptonica,
+            Self::GraphicsGems,
+            Self::UnicodeDFSTwoZeroOneFive,
+            Self::TrustedQsl,
+            Self::APSLTwoDotZero,
+            Self::NLPL,
+            Self::Giftware,
+            Self::SSPLOneDotZero,
+            Self::CCBYTwoDotFiveAU,
+            Self::HPNDSellVariantMITDisclaimerRev,
+            Self::DeprecatedGPLOneDotZeroPlus,
+            Self::Libtiff,
+            Self::IPA,
+            Self::CCBYSAOneDotZero,
+            Self::CCBYNCSAOneDotZero,
+            Self::ErlPlOneDotOne,
+            Self::MPLTwoDotZero,
+            Self::Pkgconf,
+            Self::BSDProtection,
+            Self::GFDLOneDotTwoNoInvariantsOnly,
+            Self::AdobeGlyph,
+            Self::EPLOneDotZero,
+            Self::DeprecatedLGPLTwoDotOnePlus,
+            Self::ITwopGplJavaException,
+            Self::DeprecatedGPLThreeDotZeroWithGCCException,
+            Self::AMDNewlib,
+            Self::Jam,
+            Self::DeprecatedAGPLOneDotZero,
+            Self::Baekmuk,
+            Self::Qhull,
+            Self::OpenSslStandalone,
+            Self::PcreTwoException,
+            Self::BSDTwoClausePkgconfDisclaimer,
+            Self::NBPLOneDotZero,
+            Self::MulanPslTwoDotZero,
+            Self::CCBYThreeDotZeroUS,
+            Self::LucidaBitmapFonts,
+            Self::CCBYNCSATwoDotZeroFR,
+            Self::ANTLRPDFallback,
+            Self::MITAdvertising,
+            Self::HPNDExportUSModify,
+            Self::Swrule,
+            Self::Beerware,
+            Self::SMLNJ,
+            Self::MPEGSSG,
+            Self::PolyFormSmallBusinessOneDotZeroDotZero,
+            Self::AGPLThreeDotZeroOrLater,
+            Self::BSDAdvertisingAcknowledgement,
+            Self::ZPLTwoDotZero,
+            Self::Xpp,
+            Self::Nokia,
+            Self::HPNDKevlinHenney,
+            Self::PolyFormNoncommercialOneDotZeroDotZero,
+            Self::CCBYSATwoDotOneJP,
+            Self::XkeyboardConfigZinoviev,
+            Self::NAISTTwoZeroZeroThree,
+            Self::HPNDExportUS,
+            Self::GStreamerExceptionTwoZeroZeroEight,
+            Self::DeprecatedBSDTwoClauseNetBsd,
+            Self::WxWindowsExceptionThreeDotOne,
+            Self::LibselinuxOneDotZero,
+            Self::QPLOneDotZero,
+            Self::Pixar,
+            Self::FawkesRuntimeException,
+            Self::CCPDDC,
+            Self::Xerox,
+            Self::BSDThreeClauseNoNuclearWarranty,
+            Self::AnyOSIPerlModules,
+            Self::BUSLOneDotOne,
+            Self::MakeIndex,
+            Self::NTIAPD,
+            Self::LGPLThreeDotZeroOrLater,
+            Self::DeprecatedNunit,
+            Self::OFFIS,
+            Self::LatexTwoe,
+            Self::SSHOpenSsh,
+            Self::Entessa,
+            Self::AFLTwoDotZero,
+            Self::DeprecatedLGPLTwoDotZero,
+            Self::ZendTwoDotZero,
+            Self::MifException,
+            Self::Xfig,
+            Self::Caldera,
+            Self::LibutilDavidNugent,
+            Self::AsteriskLinkingProtocolsException,
+            Self::OLDAPTwoDotSix,
+            Self::ZeroBsd,
+            Self::GNUCompilerException,
+            Self::Barr,
+            Self::SGIOpenGl,
+            Self::CCPDMOneDotZero,
+            Self::MITEnna,
+            Self::NISTPD,
+            Self::CCBYTwoDotFive,
+            Self::HPNDSellRegexpr,
+            Self::LOOP,
+            Self::OLDAPTwoDotOne,
+            Self::SISSLOneDotTwo,
+            Self::ThreeDSlicerOneDotZero,
+            Self::OCCTExceptionOneDotZero,
+            Self::ThreeEightNineException,
+            Self::SL,
+            Self::FLTKException,
+            Self::GFDLOneDotOneOnly,
+            Self::CALOneDotZeroCombinedWorkException,
+            Self::DeprecatedStandardMlNJ,
+            Self::ADSL,
+            Self::BSDFourDotThreeTahoe,
+            Self::ZPLTwoDotOne,
+            Self::ImlibTwo,
+            Self::RPLOneDotOne,
+            Self::Gnuplot,
+            Self::DFSLOneDotZero,
+            Self::AdobeUtopia,
+            Self::OpenSsl,
+            Self::GPLThreeDotZeroOrLater,
+            Self::OSETPLTwoDotOne,
+            Self::LZMASDKNineDotOneOneToNineDotTwoZero,
+            Self::SAXPDTwoDotZero,
+            Self::BSDThreeClauseClear,
+            Self::NASAOneDotThree,
+            Self::EuDatagrid,
+            Self::CERNOHLOneDotOne,
+            Self::EtalabTwoDotZero,
+            Self::DeprecatedGPLThreeDotZeroWithAutoconfException,
+            Self::CERNOHLSTwoDotZero,
+            Self::Gutmann,
+            Self::OLFLOneDotThree,
+            Self::LinuxManPagesCopyleftVar,
+            Self::OGLUKThreeDotZero,
+            Self::ParitySixDotZeroDotZero,
+            Self::LPPLOneDotThreea,
+            Self::Mplus,
+            Self::COILOneDotZero,
+            Self::Gtkbook,
+            Self::XSkat,
+            Self::HPNDDocSell,
+            Self::RSAMD,
+            Self::CCBYSAThreeDotZeroAT,
+            Self::NISTPDFallback,
+            Self::IMatix,
+            Self::GPLThreeDotZeroOnly,
+            Self::CryptoSwift,
+            Self::WTFPL,
+            Self::BSDThreeClauseNoNuclearLicense,
+            Self::CveTou,
+            Self::HPNDMITDisclaimer,
+            Self::CCBYNDTwoDotZero,
+            Self::Vim,
+            Self::NISTSoftware,
+            Self::LPPLOneDotZero,
+            Self::YPLOneDotOne,
+            Self::CCBYNCNDTwoDotZero,
+            Self::CopyleftNextZeroDotThreeDotOne,
+            Self::MITCMU,
+            Self::RPSLOneDotZero,
+            Self::BSDTwoClausePatent,
+            Self::Dtoa,
+            Self::NCSA,
+            Self::NPLOneDotOne,
+            Self::SCEA,
+            Self::SMPPL,
+            Self::LiLiQROneDotOne,
+            Self::OFLOneDotZeroRFN,
+            Self::NPOSLThreeDotZero,
+            Self::ImageMagick,
+            Self::BSDFourClauseShortened,
+            Self::AsteriskException,
+            Self::LibpriOpenHThreeTwoThreeException,
+            Self::Aladdin,
+            Self::UnicodeTOU,
+            Self::OpenPbsTwoDotThree,
+            Self::AnyOSI,
+            Self::UCLOneDotZero,
+            Self::ZimbraOneDotFour,
+            Self::BootloaderException,
+            Self::BisonExceptionTwoDotTwo,
+            Self::TGPPLOneDotZero,
+            Self::BitTorrentOneDotOne,
+            Self::Wsuipa,
+            Self::DeprecatedNokiaQtExceptionOneDotOne,
+            Self::CCBYNCSATwoDotZeroDE,
+            Self::LinuxManPagesCopyleft,
+            Self::Xlock,
+            Self::LiLiQRplusOneDotOne,
+            Self::GenericXts,
+            Self::ZimbraOneDotThree,
+            Self::GPLTwoDotZeroOnly,
+            Self::OGLUKOneDotZero,
+            Self::AFLOneDotOne,
+            Self::SsLeayStandalone,
+            Self::XOneOneSwapped,
+            Self::OpenJdkAssemblyExceptionOneDotZero,
+            Self::GFDLOneDotThreeNoInvariantsOrLater,
+            Self::MTLL,
+            Self::UbuntuFontOneDotZero,
+            Self::DocBookXML,
+            Self::MITTestregex,
+            Self::CCBYNCTwoDotFive,
+            Self::PythonLdap,
+            Self::GlTwoPs,
+            Self::LPLOneDotZeroTwo,
+            Self::MITNFA,
+            Self::Checkmk,
+            Self::GFDLOneDotTwoOnly,
+            Self::NGPL,
+            Self::MulanPslOneDotZero,
+            Self::DeprecatedWxWindows,
+            Self::OGCOneDotZero,
+            Self::Ulem,
+            Self::AutoconfExceptionThreeDotZero,
+            Self::HarbourException,
+            Self::UCAR,
+            Self::MSPL,
+            Self::JPLImage,
+            Self::FontExceptionTwoDotZero,
+            Self::GFDLOneDotThreeInvariantsOrLater,
+            Self::Fwlw,
+            Self::InnerNetTwoDotZero,
+            Self::MPLOneDotZero,
+            Self::CommunitySpecOneDotZero,
+            Self::CUAOPLOneDotZero,
+            Self::UBDLException,
+            Self::GFDLOneDotOneInvariantsOnly,
+            Self::FreeBsdDOC,
+            Self::EPLTwoDotZero,
+            Self::SendmailOpenSourceOneDotOne,
+            Self::Eurosym,
+            Self::GPLOneDotZeroOnly,
+            Self::DeprecatedBSDTwoClauseFreeBsd,
+            Self::SHLZeroDotFive,
+            Self::XOneOne,
+            Self::ThirdEye,
+            Self::FSFAPNoWarrantyDisclaimer,
+            Self::SimPlTwoDotZero,
+            Self::InterbaseOneDotZero,
+            Self::DeprecatedBzipTwoOneDotZeroDotFive,
+            Self::Multics,
+            Self::GStreamerExceptionTwoZeroZeroFive,
+            Self::CCBYNCSATwoDotZero,
+            Self::GD,
+            Self::CCBYSATwoDotZero,
+            Self::CECILLC,
+            Self::ElasticTwoDotZero,
+            Self::MITWu,
+            Self::Snprintf,
+            Self::EUPLOneDotZero,
+            Self::AMDPLPA,
+            Self::APSLOneDotZero,
+            Self::BSDSourceBeginningFile,
+            Self::SunPro,
+            Self::HPNDIntel,
+            Self::LZMASDKNineDotTwoTwo,
+            Self::OFLOneDotZero,
+            Self::DeprecatedGPLTwoDotZeroWithGCCException,
+            Self::AutoconfExceptionGenericThreeDotZero,
+            Self::CCBYSAThreeDotZero,
+            Self::CCBYNCSAThreeDotZero,
+            Self::Bahyph,
+            Self::DSDP,
+            Self::McPheeSlideshow,
+            Self::BitTorrentOneDotZero,
+            Self::CCBYThreeDotZeroNL,
+            Self::OLDAPOneDotOne,
+            Self::BitstreamVera,
+            Self::GFDLOneDotTwoInvariantsOnly,
+            Self::SchemeReport,
+            Self::HPNDExportTwoUS,
+            Self::Xinetd,
+            Self::HaskellReport,
+            Self::TCL,
+            Self::NetCdf,
+            Self::Symlinks,
+            Self::OpenvpnOpensslException,
+            Self::ArphicOneNineNineNine,
+            Self::HPNDPbmplus,
+            Self::OAR,
+            Self::CopyleftNextZeroDotThreeDotZero,
+            Self::YPLOneDotZero,
+            Self::LPPLOneDotOne,
+            Self::CCBYNDFourDotZero,
+            Self::AutoconfExceptionTwoDotZero,
+            Self::XFreeEightSixOneDotOne,
+            Self::CCBYNCNDFourDotZero,
+            Self::CCBYNCSAThreeDotZeroDE,
+            Self::TPLOneDotZero,
+            Self::Naumen,
+            Self::NICTAOneDotZero,
+            Self::NOSL,
+            Self::Pnmstitch,
+            Self::CPLOneDotZero,
+            Self::Xzoom,
+            Self::IECCodeComponentsEULA,
+            Self::DeprecatedAGPLThreeDotZero,
+            Self::RSCPL,
+            Self::NPLOneDotZero,
+            Self::BSDThreeClauseNoNuclearLicenseTwoZeroOneFour,
+            Self::Sleepycat,
+            Self::CDLASharingOneDotZero,
+            Self::GFDLOneDotThreeOnly,
+            Self::Lsof,
+            Self::ParitySevenDotZeroDotZero,
+            Self::AAL,
+            Self::Zeeff,
+            Self::CCBYNCSAFourDotZero,
+            Self::BlueOakOneDotZeroDotZero,
+            Self::CCBYSAFourDotZero,
+            Self::GFDLOneDotTwoOrLater,
+            Self::OFLOneDotOne,
+            Self::APSLOneDotOne,
+            Self::GPLThreeDotZeroInterfaceException,
+            Self::QtLGPLExceptionOneDotOne,
+            Self::MackerrasThreeClause,
+            Self::EUPLOneDotOne,
+            Self::AutoconfExceptionGeneric,
+            Self::SunPPP,
+            Self::CECILLB,
+            Self::LinuxOpenIb,
+            Self::BSDAttributionHPNDDisclaimer,
+            Self::FmtException,
+            Self::MITFeh,
+            Self::RubyPty,
+            Self::BSDThreeClauseNoMilitaryLicense,
+            Self::HPNDSellVariant,
+            Self::DECThreeClause,
+            Self::ZPLOneDotOne,
+            Self::Zlib,
+            Self::FTL,
+            Self::CCBYSAThreeDotZeroDE,
+            Self::CCBYNCNDThreeDotZero,
+            Self::TOSL,
+            Self::FBM,
+            Self::CCBYNDThreeDotZero,
+            Self::CUDAOneDotZero,
+            Self::QtGPLExceptionOneDotZero,
+            Self::SunPPPTwoZeroZeroZero,
+            Self::OpenVision,
+            Self::DeprecatedGFDLOneDotOne,
+            Self::SshKeyscan,
+            Self::SSHShort,
+            Self::GSoapOneDotThreeb,
+            Self::JPNIC,
+            Self::GFDLOneDotOneNoInvariantsOnly,
+            Self::TAPROHLOneDotZero,
+            Self::Rdisc,
+            Self::BSDTwoClauseViews,
+            Self::ArtisticOneDotZeroClEight,
+            Self::HPNDDoc,
+            Self::BSDThreeClauseSun,
+            Self::URTRLE,
+            Self::MpichTwo,
+            Self::CGALLinkingException,
+            Self::MPLOneDotOne,
+        ]
+        .iter()
+        .copied()
+    }
     #[doc = r" Returns the embedded template content for the license."]
     #[doc = r" The content will be from `.template.txt` if available, otherwise `.txt`."]
     pub fn template_content(&self) -> &'static str {
         match self {
+            Self::AFLOneDotTwo => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "AFL-1.2",
+                ".template.txt"
+            )),
             Self::LinuxSyscallNote => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -2196,6 +3296,12 @@ impl License {
                 "Classpath-exception-2.0",
                 ".template.txt"
             )),
+            Self::BSDThreeClause => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-3-Clause",
+                ".template.txt"
+            )),
             Self::OPLOneDotZero => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -2262,6 +3368,18 @@ impl License {
                 "polyparse-exception",
                 ".template.txt"
             )),
+            Self::BSDThreeClauseLBNL => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-3-Clause-LBNL",
+                ".template.txt"
+            )),
+            Self::BSDTwoClause => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-2-Clause",
+                ".template.txt"
+            )),
             Self::EFLTwoDotZero => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -2292,6 +3410,12 @@ impl License {
                 "CC-BY-NC-ND-3.0-DE",
                 ".template.txt"
             )),
+            Self::ArtisticTwoDotZero => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Artistic-2.0",
+                ".template.txt"
+            )),
             Self::CDDLOneDotZero => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -2316,6 +3440,12 @@ impl License {
                 "MS-RL",
                 ".template.txt"
             )),
+            Self::ASWFDigitalAssetsOneDotOne => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "ASWF-Digital-Assets-1.1",
+                ".template.txt"
+            )),
             Self::LGPLTwoDotOneOnly => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -2334,6 +3464,12 @@ impl License {
                 "Python-2.0.1",
                 ".template.txt"
             )),
+            Self::Abstyles => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Abstyles",
+                ".template.txt"
+            )),
             Self::RHeCosOneDotOne => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -2344,6 +3480,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "MIT",
+                ".template.txt"
+            )),
+            Self::BSDOneClause => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-1-Clause",
                 ".template.txt"
             )),
             Self::RomicException => include_str!(concat!(
@@ -2382,6 +3524,12 @@ impl License {
                 "Clips",
                 ".template.txt"
             )),
+            Self::BSDTwoClauseDarwin => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-2-Clause-Darwin",
+                ".template.txt"
+            )),
             Self::CNRIPythonGPLCompatible => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -2398,6 +3546,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "GPL-CC-1.0",
+                ".template.txt"
+            )),
+            Self::BSDThreeClauseFlex => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-3-Clause-flex",
                 ".template.txt"
             )),
             Self::HPNDUC => include_str!(concat!(
@@ -2490,6 +3644,12 @@ impl License {
                 "DRL-1.1",
                 ".template.txt"
             )),
+            Self::BoehmGC => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Boehm-GC",
+                ".template.txt"
+            )),
             Self::CECILLTwoDotZero => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -2538,6 +3698,12 @@ impl License {
                 "FDK-AAC",
                 ".template.txt"
             )),
+            Self::ApacheOneDotOne => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Apache-1.1",
+                ".template.txt"
+            )),
             Self::TTWL => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -2580,6 +3746,12 @@ impl License {
                 "Game-Programming-Gems",
                 ".template.txt"
             )),
+            Self::BSDThreeClauseAttribution => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-3-Clause-Attribution",
+                ".template.txt"
+            )),
             Self::SGIBOneDotZero => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -2616,6 +3788,12 @@ impl License {
                 "CPAL-1.0",
                 ".template.txt"
             )),
+            Self::AppSTwop => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "App-s2p",
+                ".template.txt"
+            )),
             Self::RrDtoolFLOSSExceptionTwoDotZero => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -2632,6 +3810,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "PS-or-PDF-font-exception-20170817",
+                ".template.txt"
+            )),
+            Self::BrianGladmanTwoClause => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Brian-Gladman-2-Clause",
                 ".template.txt"
             )),
             Self::DeprecatedGPLTwoDotZero => include_str!(concat!(
@@ -2656,6 +3840,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "GPL-3.0-linking-exception",
+                ".template.txt"
+            )),
+            Self::ASWFDigitalAssetsOneDotZero => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "ASWF-Digital-Assets-1.0",
                 ".template.txt"
             )),
             Self::Mailprio => include_str!(concat!(
@@ -2704,6 +3894,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "freertos-exception-2.0",
+                ".template.txt"
+            )),
+            Self::BrianGladmanThreeClause => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Brian-Gladman-3-Clause",
                 ".template.txt"
             )),
             Self::DeprecatedGPLTwoDotZeroWithBisonException => include_str!(concat!(
@@ -2760,6 +3956,12 @@ impl License {
                 "CC-BY-NC-2.0",
                 ".template.txt"
             )),
+            Self::AdaCoreDoc => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "AdaCore-doc",
+                ".template.txt"
+            )),
             Self::TermReadKey => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -2772,10 +3974,22 @@ impl License {
                 "UnixCrypt",
                 ".template.txt"
             )),
+            Self::Jove => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "jove",
+                ".template.txt"
+            )),
             Self::NTP => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "NTP",
+                ".template.txt"
+            )),
+            Self::AdobeDisplayPostScript => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Adobe-Display-PostScript",
                 ".template.txt"
             )),
             Self::CCBYThreeDotZeroDE => include_str!(concat!(
@@ -2868,6 +4082,12 @@ impl License {
                 "FSFULLR",
                 ".template.txt"
             )),
+            Self::AutoconfExceptionMacro => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Autoconf-exception-macro",
+                ".template.txt"
+            )),
             Self::NCL => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -2878,6 +4098,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "EPICS",
+                ".template.txt"
+            )),
+            Self::ApacheOneDotZero => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Apache-1.0",
                 ".template.txt"
             )),
             Self::JSON => include_str!(concat!(
@@ -2898,6 +4124,12 @@ impl License {
                 "Spencer-86",
                 ".template.txt"
             )),
+            Self::BSDFourClause => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-4-Clause",
+                ".template.txt"
+            )),
             Self::SHLZeroDotFiveOne => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -2908,6 +4140,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "IJG",
+                ".template.txt"
+            )),
+            Self::APSLOneDotTwo => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "APSL-1.2",
                 ".template.txt"
             )),
             Self::DeprecatedGPLTwoDotZeroPlus => include_str!(concat!(
@@ -2934,6 +4172,12 @@ impl License {
                 "PSF-2.0",
                 ".template.txt"
             )),
+            Self::BSDThreeClauseModification => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-3-Clause-Modification",
+                ".template.txt"
+            )),
             Self::QPLOneDotZeroINRIATwoZeroZeroFour => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -2950,6 +4194,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "EUPL-1.2",
+                ".template.txt"
+            )),
+            Self::BSDTwoClauseFirstLines => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-2-Clause-first-lines",
                 ".template.txt"
             )),
             Self::GNOMEExamplesException => include_str!(concat!(
@@ -3006,6 +4256,12 @@ impl License {
                 "Noweb",
                 ".template.txt"
             )),
+            Self::APLOneDotZero => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "APL-1.0",
+                ".template.txt"
+            )),
             Self::WThreem => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -3028,6 +4284,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "GFDL-1.2-no-invariants-or-later",
+                ".template.txt"
+            )),
+            Self::ArtisticOneDotZero => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Artistic-1.0",
                 ".template.txt"
             )),
             Self::EFLOneDotZero => include_str!(concat!(
@@ -3100,6 +4362,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "eGenix",
+                ".template.txt"
+            )),
+            Self::AGPLOneDotZeroOnly => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "AGPL-1.0-only",
                 ".template.txt"
             )),
             Self::FSFAP => include_str!(concat!(
@@ -3264,10 +4532,22 @@ impl License {
                 "cryptsetup-OpenSSL-exception",
                 ".template.txt"
             )),
+            Self::BSDFourDotThreeReno => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-4.3RENO",
+                ".template.txt"
+            )),
             Self::BSDSystemics => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "BSD-Systemics",
+                ".template.txt"
+            )),
+            Self::BoehmGCWithoutFee => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Boehm-GC-without-fee",
                 ".template.txt"
             )),
             Self::GCCExceptionTwoDotZeroNote => include_str!(concat!(
@@ -3276,10 +4556,22 @@ impl License {
                 "GCC-exception-2.0-note",
                 ".template.txt"
             )),
+            Self::AGPLThreeDotZeroOnly => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "AGPL-3.0-only",
+                ".template.txt"
+            )),
             Self::BSDSystemicsWThreeWorks => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "BSD-Systemics-W3Works",
+                ".template.txt"
+            )),
+            Self::BSDThreeClauseOpenMPI => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-3-Clause-Open-MPI",
                 ".template.txt"
             )),
             Self::OCLCTwoDotZero => include_str!(concat!(
@@ -3328,6 +4620,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "OGL-Canada-2.0",
+                ".template.txt"
+            )),
+            Self::AGPLOneDotZeroOrLater => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "AGPL-1.0-or-later",
                 ".template.txt"
             )),
             Self::LGPLLR => include_str!(concat!(
@@ -3402,6 +4700,12 @@ impl License {
                 "Furuseth",
                 ".template.txt"
             )),
+            Self::BSDThreeClauseAcpica => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-3-Clause-acpica",
+                ".template.txt"
+            )),
             Self::CNRIJython => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -3426,6 +4730,12 @@ impl License {
                 "HPND-INRIA-IMAG",
                 ".template.txt"
             )),
+            Self::BitstreamCharter => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Bitstream-Charter",
+                ".template.txt"
+            )),
             Self::UnicodeDFSTwoZeroOneSix => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -3442,6 +4752,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "deprecated_GPL-3.0+",
+                ".template.txt"
+            )),
+            Self::Afmparse => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Afmparse",
                 ".template.txt"
             )),
             Self::HPNDFennebergLivingston => include_str!(concat!(
@@ -3468,16 +4784,34 @@ impl License {
                 "HPND-Markus-Kuhn",
                 ".template.txt"
             )),
+            Self::Blessing => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "blessing",
+                ".template.txt"
+            )),
             Self::SoftSurfer => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "softSurfer",
                 ".template.txt"
             )),
+            Self::BisonExceptionOneDotTwoFour => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Bison-exception-1.24",
+                ".template.txt"
+            )),
             Self::CrystalStacker => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "CrystalStacker",
+                ".template.txt"
+            )),
+            Self::AML => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "AML",
                 ".template.txt"
             )),
             Self::NCBIPD => include_str!(concat!(
@@ -3502,6 +4836,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "OLDAP-2.5",
+                ".template.txt"
+            )),
+            Self::AMPAS => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "AMPAS",
                 ".template.txt"
             )),
             Self::GFDLOneDotOneNoInvariantsOrLater => include_str!(concat!(
@@ -3684,10 +5024,22 @@ impl License {
                 "OGDL-Taiwan-1.0",
                 ".template.txt"
             )),
+            Self::BSDThreeClauseHP => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-3-Clause-HP",
+                ".template.txt"
+            )),
             Self::Plexus => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "Plexus",
+                ".template.txt"
+            )),
+            Self::BcryptSolarDesigner => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "bcrypt-Solar-Designer",
                 ".template.txt"
             )),
             Self::CCBYNCSATwoDotZeroUK => include_str!(concat!(
@@ -3798,6 +5150,12 @@ impl License {
                 "deprecated_GPL-2.0-with-font-exception",
                 ".template.txt"
             )),
+            Self::APAFML => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "APAFML",
+                ".template.txt"
+            )),
             Self::Motosoto => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -3864,6 +5222,12 @@ impl License {
                 "Intel-ACPI",
                 ".template.txt"
             )),
+            Self::AdobeTwoZeroZeroSix => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Adobe-2006",
+                ".template.txt"
+            )),
             Self::DeprecatedLGPLTwoDotZeroPlus => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -3900,6 +5264,12 @@ impl License {
                 "mxml-exception",
                 ".template.txt"
             )),
+            Self::ApacheTwoDotZero => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Apache-2.0",
+                ".template.txt"
+            )),
             Self::NCGLUKTwoDotZero => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -3910,6 +5280,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "HTMLTIDY",
+                ".template.txt"
+            )),
+            Self::ANTLRPD => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "ANTLR-PD",
                 ".template.txt"
             )),
             Self::LALOneDotThree => include_str!(concat!(
@@ -3942,6 +5318,18 @@ impl License {
                 "CECILL-1.1",
                 ".template.txt"
             )),
+            Self::AMLGlslang => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "AML-glslang",
+                ".template.txt"
+            )),
+            Self::DigiaQtLGPLExceptionOneDotOne => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Digia-Qt-LGPL-exception-1.1",
+                ".template.txt"
+            )),
             Self::GCRDocs => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -3972,10 +5360,22 @@ impl License {
                 "MIT-0",
                 ".template.txt"
             )),
+            Self::BSDFourClauseUC => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-4-Clause-UC",
+                ".template.txt"
+            )),
             Self::DeprecatedLGPLTwoDotOne => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "deprecated_LGPL-2.1",
+                ".template.txt"
+            )),
+            Self::AFLTwoDotOne => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "AFL-2.1",
                 ".template.txt"
             )),
             Self::ECosExceptionTwoDotZero => include_str!(concat!(
@@ -4030,6 +5430,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "OLDAP-2.0",
+                ".template.txt"
+            )),
+            Self::Borceux => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Borceux",
                 ".template.txt"
             )),
             Self::PHPThreeDotZero => include_str!(concat!(
@@ -4122,6 +5528,12 @@ impl License {
                 "HPND-sell-variant-MIT-disclaimer",
                 ".template.txt"
             )),
+            Self::ArtisticOneDotZeroPerl => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Artistic-1.0-Perl",
+                ".template.txt"
+            )),
             Self::OCamlLGPLLinkingException => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -4182,6 +5594,12 @@ impl License {
                 "deprecated_LGPL-3.0",
                 ".template.txt"
             )),
+            Self::AFLThreeDotZero => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "AFL-3.0",
+                ".template.txt"
+            )),
             Self::HPOneNineEightNine => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -4216,6 +5634,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "TrustedQSL",
+                ".template.txt"
+            )),
+            Self::APSLTwoDotZero => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "APSL-2.0",
                 ".template.txt"
             )),
             Self::NLPL => include_str!(concat!(
@@ -4308,6 +5732,12 @@ impl License {
                 "GFDL-1.2-no-invariants-only",
                 ".template.txt"
             )),
+            Self::AdobeGlyph => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Adobe-Glyph",
+                ".template.txt"
+            )),
             Self::EPLOneDotZero => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -4332,6 +5762,12 @@ impl License {
                 "deprecated_GPL-3.0-with-GCC-exception",
                 ".template.txt"
             )),
+            Self::AMDNewlib => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "AMD-newlib",
+                ".template.txt"
+            )),
             Self::Jam => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -4342,6 +5778,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "deprecated_AGPL-1.0",
+                ".template.txt"
+            )),
+            Self::Baekmuk => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Baekmuk",
                 ".template.txt"
             )),
             Self::Qhull => include_str!(concat!(
@@ -4360,6 +5802,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "PCRE2-exception",
+                ".template.txt"
+            )),
+            Self::BSDTwoClausePkgconfDisclaimer => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-2-Clause-pkgconf-disclaimer",
                 ".template.txt"
             )),
             Self::NBPLOneDotZero => include_str!(concat!(
@@ -4392,6 +5840,12 @@ impl License {
                 "CC-BY-NC-SA-2.0-FR",
                 ".template.txt"
             )),
+            Self::ANTLRPDFallback => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "ANTLR-PD-fallback",
+                ".template.txt"
+            )),
             Self::MITAdvertising => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -4410,6 +5864,12 @@ impl License {
                 "swrule",
                 ".template.txt"
             )),
+            Self::Beerware => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Beerware",
+                ".template.txt"
+            )),
             Self::SMLNJ => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -4426,6 +5886,18 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "PolyForm-Small-Business-1.0.0",
+                ".template.txt"
+            )),
+            Self::AGPLThreeDotZeroOrLater => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "AGPL-3.0-or-later",
+                ".template.txt"
+            )),
+            Self::BSDAdvertisingAcknowledgement => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-Advertising-Acknowledgement",
                 ".template.txt"
             )),
             Self::ZPLTwoDotZero => include_str!(concat!(
@@ -4536,6 +6008,18 @@ impl License {
                 "Xerox",
                 ".template.txt"
             )),
+            Self::BSDThreeClauseNoNuclearWarranty => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-3-Clause-No-Nuclear-Warranty",
+                ".template.txt"
+            )),
+            Self::AnyOSIPerlModules => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "any-OSI-perl-modules",
+                ".template.txt"
+            )),
             Self::BUSLOneDotOne => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -4546,6 +6030,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "MakeIndex",
+                ".template.txt"
+            )),
+            Self::NTIAPD => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "NTIA-PD",
                 ".template.txt"
             )),
             Self::LGPLThreeDotZeroOrLater => include_str!(concat!(
@@ -4584,6 +6074,12 @@ impl License {
                 "Entessa",
                 ".template.txt"
             )),
+            Self::AFLTwoDotZero => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "AFL-2.0",
+                ".template.txt"
+            )),
             Self::DeprecatedLGPLTwoDotZero => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -4620,16 +6116,34 @@ impl License {
                 "libutil-David-Nugent",
                 ".template.txt"
             )),
+            Self::AsteriskLinkingProtocolsException => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Asterisk-linking-protocols-exception",
+                ".template.txt"
+            )),
             Self::OLDAPTwoDotSix => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "OLDAP-2.6",
                 ".template.txt"
             )),
+            Self::ZeroBsd => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "0BSD",
+                ".template.txt"
+            )),
             Self::GNUCompilerException => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "GNU-compiler-exception",
+                ".template.txt"
+            )),
+            Self::Barr => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Barr",
                 ".template.txt"
             )),
             Self::SGIOpenGl => include_str!(concat!(
@@ -4686,10 +6200,22 @@ impl License {
                 "SISSL-1.2",
                 ".template.txt"
             )),
+            Self::ThreeDSlicerOneDotZero => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "3D-Slicer-1.0",
+                ".template.txt"
+            )),
             Self::OCCTExceptionOneDotZero => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "OCCT-exception-1.0",
+                ".template.txt"
+            )),
+            Self::ThreeEightNineException => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "389-exception",
                 ".template.txt"
             )),
             Self::SL => include_str!(concat!(
@@ -4722,6 +6248,18 @@ impl License {
                 "deprecated_StandardML-NJ",
                 ".template.txt"
             )),
+            Self::ADSL => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "ADSL",
+                ".template.txt"
+            )),
+            Self::BSDFourDotThreeTahoe => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-4.3TAHOE",
+                ".template.txt"
+            )),
             Self::ZPLTwoDotOne => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -4752,6 +6290,12 @@ impl License {
                 "D-FSL-1.0",
                 ".template.txt"
             )),
+            Self::AdobeUtopia => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Adobe-Utopia",
+                ".template.txt"
+            )),
             Self::OpenSsl => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -4780,6 +6324,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "SAX-PD-2.0",
+                ".template.txt"
+            )),
+            Self::BSDThreeClauseClear => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-3-Clause-Clear",
                 ".template.txt"
             )),
             Self::NASAOneDotThree => include_str!(concat!(
@@ -4926,6 +6476,12 @@ impl License {
                 "WTFPL",
                 ".template.txt"
             )),
+            Self::BSDThreeClauseNoNuclearLicense => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-3-Clause-No-Nuclear-License",
+                ".template.txt"
+            )),
             Self::CveTou => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -4992,6 +6548,12 @@ impl License {
                 "RPSL-1.0",
                 ".template.txt"
             )),
+            Self::BSDTwoClausePatent => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-2-Clause-Patent",
+                ".template.txt"
+            )),
             Self::Dtoa => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -5046,10 +6608,28 @@ impl License {
                 "ImageMagick",
                 ".template.txt"
             )),
+            Self::BSDFourClauseShortened => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-4-Clause-Shortened",
+                ".template.txt"
+            )),
+            Self::AsteriskException => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Asterisk-exception",
+                ".template.txt"
+            )),
             Self::LibpriOpenHThreeTwoThreeException => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "libpri-OpenH323-exception",
+                ".template.txt"
+            )),
+            Self::Aladdin => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Aladdin",
                 ".template.txt"
             )),
             Self::UnicodeTOU => include_str!(concat!(
@@ -5064,6 +6644,12 @@ impl License {
                 "OpenPBS-2.3",
                 ".template.txt"
             )),
+            Self::AnyOSI => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "any-OSI",
+                ".template.txt"
+            )),
             Self::UCLOneDotZero => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -5076,10 +6662,28 @@ impl License {
                 "Zimbra-1.4",
                 ".template.txt"
             )),
+            Self::BootloaderException => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Bootloader-exception",
+                ".template.txt"
+            )),
+            Self::BisonExceptionTwoDotTwo => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Bison-exception-2.2",
+                ".template.txt"
+            )),
             Self::TGPPLOneDotZero => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "TGPPL-1.0",
+                ".template.txt"
+            )),
+            Self::BitTorrentOneDotOne => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BitTorrent-1.1",
                 ".template.txt"
             )),
             Self::Wsuipa => include_str!(concat!(
@@ -5140,6 +6744,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "OGL-UK-1.0",
+                ".template.txt"
+            )),
+            Self::AFLOneDotOne => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "AFL-1.1",
                 ".template.txt"
             )),
             Self::SsLeayStandalone => include_str!(concat!(
@@ -5260,6 +6870,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "ulem",
+                ".template.txt"
+            )),
+            Self::AutoconfExceptionThreeDotZero => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Autoconf-exception-3.0",
                 ".template.txt"
             )),
             Self::HarbourException => include_str!(concat!(
@@ -5478,6 +7094,18 @@ impl License {
                 "EUPL-1.0",
                 ".template.txt"
             )),
+            Self::AMDPLPA => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "AMDPLPA",
+                ".template.txt"
+            )),
+            Self::APSLOneDotZero => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "APSL-1.0",
+                ".template.txt"
+            )),
             Self::BSDSourceBeginningFile => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -5514,6 +7142,12 @@ impl License {
                 "deprecated_GPL-2.0-with-GCC-exception",
                 ".template.txt"
             )),
+            Self::AutoconfExceptionGenericThreeDotZero => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Autoconf-exception-generic-3.0",
+                ".template.txt"
+            )),
             Self::CCBYSAThreeDotZero => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -5524,6 +7158,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "CC-BY-NC-SA-3.0",
+                ".template.txt"
+            )),
+            Self::Bahyph => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Bahyph",
                 ".template.txt"
             )),
             Self::DSDP => include_str!(concat!(
@@ -5538,6 +7178,12 @@ impl License {
                 "McPhee-slideshow",
                 ".template.txt"
             )),
+            Self::BitTorrentOneDotZero => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BitTorrent-1.0",
+                ".template.txt"
+            )),
             Self::CCBYThreeDotZeroNL => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -5548,6 +7194,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "OLDAP-1.1",
+                ".template.txt"
+            )),
+            Self::BitstreamVera => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Bitstream-Vera",
                 ".template.txt"
             )),
             Self::GFDLOneDotTwoInvariantsOnly => include_str!(concat!(
@@ -5604,6 +7256,12 @@ impl License {
                 "openvpn-openssl-exception",
                 ".template.txt"
             )),
+            Self::ArphicOneNineNineNine => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Arphic-1999",
+                ".template.txt"
+            )),
             Self::HPNDPbmplus => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -5638,6 +7296,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "CC-BY-ND-4.0",
+                ".template.txt"
+            )),
+            Self::AutoconfExceptionTwoDotZero => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Autoconf-exception-2.0",
                 ".template.txt"
             )),
             Self::XFreeEightSixOneDotOne => include_str!(concat!(
@@ -5724,6 +7388,12 @@ impl License {
                 "NPL-1.0",
                 ".template.txt"
             )),
+            Self::BSDThreeClauseNoNuclearLicenseTwoZeroOneFour => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-3-Clause-No-Nuclear-License-2014",
+                ".template.txt"
+            )),
             Self::Sleepycat => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -5754,6 +7424,12 @@ impl License {
                 "Parity-7.0.0",
                 ".template.txt"
             )),
+            Self::AAL => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "AAL",
+                ".template.txt"
+            )),
             Self::Zeeff => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -5764,6 +7440,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "CC-BY-NC-SA-4.0",
+                ".template.txt"
+            )),
+            Self::BlueOakOneDotZeroDotZero => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BlueOak-1.0.0",
                 ".template.txt"
             )),
             Self::CCBYSAFourDotZero => include_str!(concat!(
@@ -5782,6 +7464,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "OFL-1.1",
+                ".template.txt"
+            )),
+            Self::APSLOneDotOne => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "APSL-1.1",
                 ".template.txt"
             )),
             Self::GPLThreeDotZeroInterfaceException => include_str!(concat!(
@@ -5808,6 +7496,12 @@ impl License {
                 "EUPL-1.1",
                 ".template.txt"
             )),
+            Self::AutoconfExceptionGeneric => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Autoconf-exception-generic",
+                ".template.txt"
+            )),
             Self::SunPPP => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -5826,6 +7520,12 @@ impl License {
                 "Linux-OpenIB",
                 ".template.txt"
             )),
+            Self::BSDAttributionHPNDDisclaimer => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-Attribution-HPND-disclaimer",
+                ".template.txt"
+            )),
             Self::FmtException => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
@@ -5842,6 +7542,12 @@ impl License {
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "Ruby-pty",
+                ".template.txt"
+            )),
+            Self::BSDThreeClauseNoMilitaryLicense => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-3-Clause-No-Military-License",
                 ".template.txt"
             )),
             Self::HPNDSellVariant => include_str!(concat!(
@@ -5976,10 +7682,28 @@ impl License {
                 "Rdisc",
                 ".template.txt"
             )),
+            Self::BSDTwoClauseViews => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-2-Clause-Views",
+                ".template.txt"
+            )),
+            Self::ArtisticOneDotZeroClEight => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "Artistic-1.0-cl8",
+                ".template.txt"
+            )),
             Self::HPNDDoc => include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/assets/licenses/",
                 "HPND-doc",
+                ".template.txt"
+            )),
+            Self::BSDThreeClauseSun => include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/assets/licenses/",
+                "BSD-3-Clause-Sun",
                 ".template.txt"
             )),
             Self::URTRLE => include_str!(concat!(
@@ -6018,6 +7742,7 @@ impl std::str::FromStr for License {
     type Err = ParseLicenseError;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
+            "AFL-1.2" => Ok(Self::AFLOneDotTwo),
             "Linux-syscall-note" => Ok(Self::LinuxSyscallNote),
             "DocBook-Stylesheet" => Ok(Self::DocBookStylesheet),
             "HPND-sell-MIT-disclaimer-xserver" => Ok(Self::HPNDSellMITDisclaimerXserver),
@@ -6046,6 +7771,7 @@ impl std::str::FromStr for License {
             "CDLA-Permissive-1.0" => Ok(Self::CDLAPermissiveOneDotZero),
             "QPL-1.0-INRIA-2004-exception" => Ok(Self::QPLOneDotZeroINRIATwoZeroZeroFourException),
             "Classpath-exception-2.0" => Ok(Self::ClasspathExceptionTwoDotZero),
+            "BSD-3-Clause" => Ok(Self::BSDThreeClause),
             "OPL-1.0" => Ok(Self::OPLOneDotZero),
             "ODbL-1.0" => Ok(Self::ODbLOneDotZero),
             "Independent-modules-exception" => Ok(Self::IndependentModulesException),
@@ -6057,29 +7783,37 @@ impl std::str::FromStr for License {
             "MirOS" => Ok(Self::MirOs),
             "Ruby" => Ok(Self::Ruby),
             "polyparse-exception" => Ok(Self::PolyparseException),
+            "BSD-3-Clause-LBNL" => Ok(Self::BSDThreeClauseLBNL),
+            "BSD-2-Clause" => Ok(Self::BSDTwoClause),
             "EFL-2.0" => Ok(Self::EFLTwoDotZero),
             "LLGPL" => Ok(Self::LLGPL),
             "vsftpd-openssl-exception" => Ok(Self::VsftpdOpensslException),
             "OFL-1.0-no-RFN" => Ok(Self::OFLOneDotZeroNoRFN),
             "CC-BY-NC-ND-3.0-DE" => Ok(Self::CCBYNCNDThreeDotZeroDE),
+            "Artistic-2.0" => Ok(Self::ArtisticTwoDotZero),
             "CDDL-1.0" => Ok(Self::CDDLOneDotZero),
             "SWI-exception" => Ok(Self::SWIException),
             "GFDL-1.3-invariants-only" => Ok(Self::GFDLOneDotThreeInvariantsOnly),
             "MS-RL" => Ok(Self::MSRL),
+            "ASWF-Digital-Assets-1.1" => Ok(Self::ASWFDigitalAssetsOneDotOne),
             "LGPL-2.1-only" => Ok(Self::LGPLTwoDotOneOnly),
             "HP-1986" => Ok(Self::HPOneNineEightSix),
             "Python-2.0.1" => Ok(Self::PythonTwoDotZeroDotOne),
+            "Abstyles" => Ok(Self::Abstyles),
             "RHeCos-1.1" => Ok(Self::RHeCosOneDotOne),
             "MIT" => Ok(Self::MIT),
+            "BSD-1-Clause" => Ok(Self::BSDOneClause),
             "romic-exception" => Ok(Self::RomicException),
             "OSL-3.0" => Ok(Self::OSLThreeDotZero),
             "CC-BY-NC-3.0" => Ok(Self::CCBYNCThreeDotZero),
             "GCC-exception-2.0" => Ok(Self::GCCExceptionTwoDotZero),
             "deprecated_LGPL-3.0+" => Ok(Self::DeprecatedLGPLThreeDotZeroPlus),
             "Clips" => Ok(Self::Clips),
+            "BSD-2-Clause-Darwin" => Ok(Self::BSDTwoClauseDarwin),
             "CNRI-Python-GPL-Compatible" => Ok(Self::CNRIPythonGPLCompatible),
             "LPD-document" => Ok(Self::LPDDocument),
             "GPL-CC-1.0" => Ok(Self::GPLCCOneDotZero),
+            "BSD-3-Clause-flex" => Ok(Self::BSDThreeClauseFlex),
             "HPND-UC" => Ok(Self::HPNDUC),
             "ISC-Veillard" => Ok(Self::ISCVeillard),
             "PDDL-1.0" => Ok(Self::PDDLOneDotZero),
@@ -6095,6 +7829,7 @@ impl std::str::FromStr for License {
             "IJG-short" => Ok(Self::IJGShort),
             "psutils" => Ok(Self::Psutils),
             "DRL-1.1" => Ok(Self::DRLOneDotOne),
+            "Boehm-GC" => Ok(Self::BoehmGC),
             "CECILL-2.0" => Ok(Self::CECILLTwoDotZero),
             "W3C-19980720" => Ok(Self::WThreeCOneNineNineEightZeroSevenTwoZero),
             "O-UDA-1.0" => Ok(Self::OUDAOneDotZero),
@@ -6103,6 +7838,7 @@ impl std::str::FromStr for License {
             "deprecated_GFDL-1.3" => Ok(Self::DeprecatedGFDLOneDotThree),
             "SGP4" => Ok(Self::SgpFour),
             "FDK-AAC" => Ok(Self::FDKAAC),
+            "Apache-1.1" => Ok(Self::ApacheOneDotOne),
             "TTWL" => Ok(Self::TTWL),
             "Martin-Birgmeier" => Ok(Self::MartinBirgmeier),
             "CC-BY-ND-3.0-DE" => Ok(Self::CCBYNDThreeDotZeroDE),
@@ -6110,21 +7846,25 @@ impl std::str::FromStr for License {
             "ICU" => Ok(Self::ICU),
             "stunnel-exception" => Ok(Self::StunnelException),
             "Game-Programming-Gems" => Ok(Self::GameProgrammingGems),
+            "BSD-3-Clause-Attribution" => Ok(Self::BSDThreeClauseAttribution),
             "SGI-B-1.0" => Ok(Self::SGIBOneDotZero),
             "NRL" => Ok(Self::NRL),
             "Kazlib" => Ok(Self::Kazlib),
             "PHP-3.01" => Ok(Self::PHPThreeDotZeroOne),
             "magaz" => Ok(Self::Magaz),
             "CPAL-1.0" => Ok(Self::CPALOneDotZero),
+            "App-s2p" => Ok(Self::AppSTwop),
             "RRDtool-FLOSS-exception-2.0" => Ok(Self::RrDtoolFLOSSExceptionTwoDotZero),
             "Libtool-exception" => Ok(Self::LibtoolException),
             "PS-or-PDF-font-exception-20170817" => {
                 Ok(Self::PSOrPDFFontExceptionTwoZeroOneSevenZeroEightOneSeven)
             }
+            "Brian-Gladman-2-Clause" => Ok(Self::BrianGladmanTwoClause),
             "deprecated_GPL-2.0" => Ok(Self::DeprecatedGPLTwoDotZero),
             "LGPL-3.0-only" => Ok(Self::LGPLThreeDotZeroOnly),
             "DigiRule-FOSS-exception" => Ok(Self::DigiRuleFOSSException),
             "GPL-3.0-linking-exception" => Ok(Self::GPLThreeDotZeroLinkingException),
+            "ASWF-Digital-Assets-1.0" => Ok(Self::ASWFDigitalAssetsOneDotZero),
             "mailprio" => Ok(Self::Mailprio),
             "LPPL-1.2" => Ok(Self::LPPLOneDotTwo),
             "CDDL-1.1" => Ok(Self::CDDLOneDotOne),
@@ -6133,6 +7873,7 @@ impl std::str::FromStr for License {
             "CC-BY-ND-2.5" => Ok(Self::CCBYNDTwoDotFive),
             "CC-BY-NC-ND-2.5" => Ok(Self::CCBYNCNDTwoDotFive),
             "freertos-exception-2.0" => Ok(Self::FreertosExceptionTwoDotZero),
+            "Brian-Gladman-3-Clause" => Ok(Self::BrianGladmanThreeClause),
             "deprecated_GPL-2.0-with-bison-exception" => {
                 Ok(Self::DeprecatedGPLTwoDotZeroWithBisonException)
             }
@@ -6144,9 +7885,12 @@ impl std::str::FromStr for License {
             "Condor-1.1" => Ok(Self::CondorOneDotOne),
             "OSL-2.0" => Ok(Self::OSLTwoDotZero),
             "CC-BY-NC-2.0" => Ok(Self::CCBYNCTwoDotZero),
+            "AdaCore-doc" => Ok(Self::AdaCoreDoc),
             "TermReadKey" => Ok(Self::TermReadKey),
             "UnixCrypt" => Ok(Self::UnixCrypt),
+            "jove" => Ok(Self::Jove),
             "NTP" => Ok(Self::NTP),
+            "Adobe-Display-PostScript" => Ok(Self::AdobeDisplayPostScript),
             "CC-BY-3.0-DE" => Ok(Self::CCBYThreeDotZeroDE),
             "Kastrup" => Ok(Self::Kastrup),
             "LGPL-2.0-only" => Ok(Self::LGPLTwoDotZeroOnly),
@@ -6162,22 +7906,28 @@ impl std::str::FromStr for License {
             "threeparttable" => Ok(Self::Threeparttable),
             "MIT-open-group" => Ok(Self::MITOpenGroup),
             "FSFULLR" => Ok(Self::FSFULLR),
+            "Autoconf-exception-macro" => Ok(Self::AutoconfExceptionMacro),
             "NCL" => Ok(Self::NCL),
             "EPICS" => Ok(Self::EPICS),
+            "Apache-1.0" => Ok(Self::ApacheOneDotZero),
             "JSON" => Ok(Self::JSON),
             "deprecated_GFDL-1.2" => Ok(Self::DeprecatedGFDLOneDotTwo),
             "Spencer-86" => Ok(Self::SpencerEightSix),
+            "BSD-4-Clause" => Ok(Self::BSDFourClause),
             "SHL-0.51" => Ok(Self::SHLZeroDotFiveOne),
             "IJG" => Ok(Self::IJG),
+            "APSL-1.2" => Ok(Self::APSLOneDotTwo),
             "deprecated_GPL-2.0+" => Ok(Self::DeprecatedGPLTwoDotZeroPlus),
             "erlang-otp-linking-exception" => Ok(Self::ErlangOtpLinkingException),
             "SAX-PD" => Ok(Self::SAXPD),
             "PSF-2.0" => Ok(Self::PSFTwoDotZero),
+            "BSD-3-Clause-Modification" => Ok(Self::BSDThreeClauseModification),
             "QPL-1.0-INRIA-2004" => Ok(Self::QPLOneDotZeroINRIATwoZeroZeroFour),
             "deprecated_GPL-2.0-with-classpath-exception" => {
                 Ok(Self::DeprecatedGPLTwoDotZeroWithClasspathException)
             }
             "EUPL-1.2" => Ok(Self::EUPLOneDotTwo),
+            "BSD-2-Clause-first-lines" => Ok(Self::BSDTwoClauseFirstLines),
             "GNOME-examples-exception" => Ok(Self::GNOMEExamplesException),
             "X11-distribute-modifications-variant" => {
                 Ok(Self::XOneOneDistributeModificationsVariant)
@@ -6189,10 +7939,12 @@ impl std::str::FromStr for License {
             "CC-BY-SA-2.5" => Ok(Self::CCBYSATwoDotFive),
             "Newsletr" => Ok(Self::Newsletr),
             "Noweb" => Ok(Self::Noweb),
+            "APL-1.0" => Ok(Self::APLOneDotZero),
             "w3m" => Ok(Self::WThreem),
             "FSL-1.1-MIT" => Ok(Self::FSLOneDotOneMIT),
             "Texinfo-exception" => Ok(Self::TexinfoException),
             "GFDL-1.2-no-invariants-or-later" => Ok(Self::GFDLOneDotTwoNoInvariantsOrLater),
+            "Artistic-1.0" => Ok(Self::ArtisticOneDotZero),
             "EFL-1.0" => Ok(Self::EFLOneDotZero),
             "Watcom-1.0" => Ok(Self::WatcomOneDotZero),
             "CC-BY-3.0-AU" => Ok(Self::CCBYThreeDotZeroAU),
@@ -6205,6 +7957,7 @@ impl std::str::FromStr for License {
             "OLDAP-2.2.1" => Ok(Self::OLDAPTwoDotTwoDotOne),
             "GFDL-1.3-no-invariants-only" => Ok(Self::GFDLOneDotThreeNoInvariantsOnly),
             "eGenix" => Ok(Self::EGenix),
+            "AGPL-1.0-only" => Ok(Self::AGPLOneDotZeroOnly),
             "FSFAP" => Ok(Self::FSFAP),
             "Spencer-99" => Ok(Self::SpencerNineNine),
             "OLDAP-2.3" => Ok(Self::OLDAPTwoDotThree),
@@ -6234,9 +7987,13 @@ impl std::str::FromStr for License {
             "Widget-Workshop" => Ok(Self::WidgetWorkshop),
             "CATOSL-1.1" => Ok(Self::CATOSLOneDotOne),
             "cryptsetup-OpenSSL-exception" => Ok(Self::CryptsetupOpenSslException),
+            "BSD-4.3RENO" => Ok(Self::BSDFourDotThreeReno),
             "BSD-Systemics" => Ok(Self::BSDSystemics),
+            "Boehm-GC-without-fee" => Ok(Self::BoehmGCWithoutFee),
             "GCC-exception-2.0-note" => Ok(Self::GCCExceptionTwoDotZeroNote),
+            "AGPL-3.0-only" => Ok(Self::AGPLThreeDotZeroOnly),
             "BSD-Systemics-W3Works" => Ok(Self::BSDSystemicsWThreeWorks),
+            "BSD-3-Clause-Open-MPI" => Ok(Self::BSDThreeClauseOpenMPI),
             "OCLC-2.0" => Ok(Self::OCLCTwoDotZero),
             "LAL-1.2" => Ok(Self::LALOneDotTwo),
             "Xdebug-1.03" => Ok(Self::XdebugOneDotZeroThree),
@@ -6245,6 +8002,7 @@ impl std::str::FromStr for License {
             "ECL-1.0" => Ok(Self::ECLOneDotZero),
             "CC-BY-NC-ND-3.0-IGO" => Ok(Self::CCBYNCNDThreeDotZeroIGO),
             "OGL-Canada-2.0" => Ok(Self::OGLCanadaTwoDotZero),
+            "AGPL-1.0-or-later" => Ok(Self::AGPLOneDotZeroOrLater),
             "LGPLLR" => Ok(Self::LGPLLR),
             "Fair" => Ok(Self::Fair),
             "Swift-exception" => Ok(Self::SwiftException),
@@ -6257,23 +8015,30 @@ impl std::str::FromStr for License {
             "VSL-1.0" => Ok(Self::VSLOneDotZero),
             "LPPL-1.3c" => Ok(Self::LPPLOneDotThreec),
             "Furuseth" => Ok(Self::Furuseth),
+            "BSD-3-Clause-acpica" => Ok(Self::BSDThreeClauseAcpica),
             "CNRI-Jython" => Ok(Self::CNRIJython),
             "LiLiQ-P-1.1" => Ok(Self::LiLiQPOneDotOne),
             "Ferguson-Twofish" => Ok(Self::FergusonTwofish),
             "HPND-INRIA-IMAG" => Ok(Self::HPNDINRIAIMAG),
+            "Bitstream-Charter" => Ok(Self::BitstreamCharter),
             "Unicode-DFS-2016" => Ok(Self::UnicodeDFSTwoZeroOneSix),
             "MIT-Modern-Variant" => Ok(Self::MITModernVariant),
             "deprecated_GPL-3.0+" => Ok(Self::DeprecatedGPLThreeDotZeroPlus),
+            "Afmparse" => Ok(Self::Afmparse),
             "HPND-Fenneberg-Livingston" => Ok(Self::HPNDFennebergLivingston),
             "wwl" => Ok(Self::Wwl),
             "ClArtistic" => Ok(Self::ClArtistic),
             "HPND-Markus-Kuhn" => Ok(Self::HPNDMarkusKuhn),
+            "blessing" => Ok(Self::Blessing),
             "softSurfer" => Ok(Self::SoftSurfer),
+            "Bison-exception-1.24" => Ok(Self::BisonExceptionOneDotTwoFour),
             "CrystalStacker" => Ok(Self::CrystalStacker),
+            "AML" => Ok(Self::AML),
             "NCBI-PD" => Ok(Self::NCBIPD),
             "GFDL-1.2-invariants-or-later" => Ok(Self::GFDLOneDotTwoInvariantsOrLater),
             "deprecated_eCos-2.0" => Ok(Self::DeprecatedECosTwoDotZero),
             "OLDAP-2.5" => Ok(Self::OLDAPTwoDotFive),
+            "AMPAS" => Ok(Self::AMPAS),
             "GFDL-1.1-no-invariants-or-later" => Ok(Self::GFDLOneDotOneNoInvariantsOrLater),
             "CC-BY-4.0" => Ok(Self::CCBYFourDotZero),
             "OLDAP-2.2" => Ok(Self::OLDAPTwoDotTwo),
@@ -6306,7 +8071,9 @@ impl std::str::FromStr for License {
             "UMich-Merit" => Ok(Self::UMichMerit),
             "Cornell-Lossless-JPEG" => Ok(Self::CornellLosslessJPEG),
             "OGDL-Taiwan-1.0" => Ok(Self::OGDLTaiwanOneDotZero),
+            "BSD-3-Clause-HP" => Ok(Self::BSDThreeClauseHP),
             "Plexus" => Ok(Self::Plexus),
+            "bcrypt-Solar-Designer" => Ok(Self::BcryptSolarDesigner),
             "CC-BY-NC-SA-2.0-UK" => Ok(Self::CCBYNCSATwoDotZeroUK),
             "SGI-B-2.0" => Ok(Self::SGIBTwoDotZero),
             "CC-BY-3.0-IGO" => Ok(Self::CCBYThreeDotZeroIGO),
@@ -6327,6 +8094,7 @@ impl std::str::FromStr for License {
             "deprecated_GPL-2.0-with-font-exception" => {
                 Ok(Self::DeprecatedGPLTwoDotZeroWithFontException)
             }
+            "APAFML" => Ok(Self::APAFML),
             "Motosoto" => Ok(Self::Motosoto),
             "check-cvs" => Ok(Self::CheckCvs),
             "Sendmail" => Ok(Self::Sendmail),
@@ -6338,25 +8106,32 @@ impl std::str::FromStr for License {
             "IBM-pibs" => Ok(Self::IBMPibs),
             "CERN-OHL-1.2" => Ok(Self::CERNOHLOneDotTwo),
             "Intel-ACPI" => Ok(Self::IntelACPI),
+            "Adobe-2006" => Ok(Self::AdobeTwoZeroZeroSix),
             "deprecated_LGPL-2.0+" => Ok(Self::DeprecatedLGPLTwoDotZeroPlus),
             "SPL-1.0" => Ok(Self::SPLOneDotZero),
             "OML" => Ok(Self::OML),
             "DOC" => Ok(Self::DOC),
             "MIT-Click" => Ok(Self::MITClick),
             "mxml-exception" => Ok(Self::MxmlException),
+            "Apache-2.0" => Ok(Self::ApacheTwoDotZero),
             "NCGL-UK-2.0" => Ok(Self::NCGLUKTwoDotZero),
             "HTMLTIDY" => Ok(Self::HTMLTIDY),
+            "ANTLR-PD" => Ok(Self::ANTLRPD),
             "LAL-1.3" => Ok(Self::LALOneDotThree),
             "BSD-Inferno-Nettverk" => Ok(Self::BSDInfernoNettverk),
             "RPL-1.5" => Ok(Self::RPLOneDotFive),
             "CC0-1.0" => Ok(Self::CcZeroOneDotZero),
             "CECILL-1.1" => Ok(Self::CECILLOneDotOne),
+            "AML-glslang" => Ok(Self::AMLGlslang),
+            "Digia-Qt-LGPL-exception-1.1" => Ok(Self::DigiaQtLGPLExceptionOneDotOne),
             "GCR-docs" => Ok(Self::GCRDocs),
             "Glide" => Ok(Self::Glide),
             "CC-BY-SA-2.0-UK" => Ok(Self::CCBYSATwoDotZeroUK),
             "Glulxe" => Ok(Self::Glulxe),
             "MIT-0" => Ok(Self::MITZero),
+            "BSD-4-Clause-UC" => Ok(Self::BSDFourClauseUC),
             "deprecated_LGPL-2.1" => Ok(Self::DeprecatedLGPLTwoDotOne),
+            "AFL-2.1" => Ok(Self::AFLTwoDotOne),
             "eCos-exception-2.0" => Ok(Self::ECosExceptionTwoDotZero),
             "CERN-OHL-W-2.0" => Ok(Self::CERNOHLWTwoDotZero),
             "Minpack" => Ok(Self::Minpack),
@@ -6366,6 +8141,7 @@ impl std::str::FromStr for License {
             "LGPL-2.1-or-later" => Ok(Self::LGPLTwoDotOneOrLater),
             "CMU-Mach" => Ok(Self::CMUMach),
             "OLDAP-2.0" => Ok(Self::OLDAPTwoDotZero),
+            "Borceux" => Ok(Self::Borceux),
             "PHP-3.0" => Ok(Self::PHPThreeDotZero),
             "HPND-DEC" => Ok(Self::HPNDDEC),
             "radvd" => Ok(Self::Radvd),
@@ -6381,6 +8157,7 @@ impl std::str::FromStr for License {
             "diffmark" => Ok(Self::Diffmark),
             "W3C" => Ok(Self::WThreeC),
             "HPND-sell-variant-MIT-disclaimer" => Ok(Self::HPNDSellVariantMITDisclaimer),
+            "Artistic-1.0-Perl" => Ok(Self::ArtisticOneDotZeroPerl),
             "OCaml-LGPL-linking-exception" => Ok(Self::OCamlLGPLLinkingException),
             "Python-2.0" => Ok(Self::PythonTwoDotZero),
             "Mackerras-3-Clause-acknowledgment" => Ok(Self::MackerrasThreeClauseAcknowledgment),
@@ -6391,12 +8168,14 @@ impl std::str::FromStr for License {
             "HIDAPI" => Ok(Self::HIDAPI),
             "Info-ZIP" => Ok(Self::InfoZIP),
             "deprecated_LGPL-3.0" => Ok(Self::DeprecatedLGPLThreeDotZero),
+            "AFL-3.0" => Ok(Self::AFLThreeDotZero),
             "HP-1989" => Ok(Self::HPOneNineEightNine),
             "FSFULLRWD" => Ok(Self::FSFULLRWD),
             "Leptonica" => Ok(Self::Leptonica),
             "Graphics-Gems" => Ok(Self::GraphicsGems),
             "Unicode-DFS-2015" => Ok(Self::UnicodeDFSTwoZeroOneFive),
             "TrustedQSL" => Ok(Self::TrustedQsl),
+            "APSL-2.0" => Ok(Self::APSLTwoDotZero),
             "NLPL" => Ok(Self::NLPL),
             "Giftware" => Ok(Self::Giftware),
             "SSPL-1.0" => Ok(Self::SSPLOneDotZero),
@@ -6412,28 +8191,36 @@ impl std::str::FromStr for License {
             "pkgconf" => Ok(Self::Pkgconf),
             "BSD-Protection" => Ok(Self::BSDProtection),
             "GFDL-1.2-no-invariants-only" => Ok(Self::GFDLOneDotTwoNoInvariantsOnly),
+            "Adobe-Glyph" => Ok(Self::AdobeGlyph),
             "EPL-1.0" => Ok(Self::EPLOneDotZero),
             "deprecated_LGPL-2.1+" => Ok(Self::DeprecatedLGPLTwoDotOnePlus),
             "i2p-gpl-java-exception" => Ok(Self::ITwopGplJavaException),
             "deprecated_GPL-3.0-with-GCC-exception" => {
                 Ok(Self::DeprecatedGPLThreeDotZeroWithGCCException)
             }
+            "AMD-newlib" => Ok(Self::AMDNewlib),
             "Jam" => Ok(Self::Jam),
             "deprecated_AGPL-1.0" => Ok(Self::DeprecatedAGPLOneDotZero),
+            "Baekmuk" => Ok(Self::Baekmuk),
             "Qhull" => Ok(Self::Qhull),
             "OpenSSL-standalone" => Ok(Self::OpenSslStandalone),
             "PCRE2-exception" => Ok(Self::PcreTwoException),
+            "BSD-2-Clause-pkgconf-disclaimer" => Ok(Self::BSDTwoClausePkgconfDisclaimer),
             "NBPL-1.0" => Ok(Self::NBPLOneDotZero),
             "MulanPSL-2.0" => Ok(Self::MulanPslTwoDotZero),
             "CC-BY-3.0-US" => Ok(Self::CCBYThreeDotZeroUS),
             "Lucida-Bitmap-Fonts" => Ok(Self::LucidaBitmapFonts),
             "CC-BY-NC-SA-2.0-FR" => Ok(Self::CCBYNCSATwoDotZeroFR),
+            "ANTLR-PD-fallback" => Ok(Self::ANTLRPDFallback),
             "MIT-advertising" => Ok(Self::MITAdvertising),
             "HPND-export-US-modify" => Ok(Self::HPNDExportUSModify),
             "swrule" => Ok(Self::Swrule),
+            "Beerware" => Ok(Self::Beerware),
             "SMLNJ" => Ok(Self::SMLNJ),
             "MPEG-SSG" => Ok(Self::MPEGSSG),
             "PolyForm-Small-Business-1.0.0" => Ok(Self::PolyFormSmallBusinessOneDotZeroDotZero),
+            "AGPL-3.0-or-later" => Ok(Self::AGPLThreeDotZeroOrLater),
+            "BSD-Advertising-Acknowledgement" => Ok(Self::BSDAdvertisingAcknowledgement),
             "ZPL-2.0" => Ok(Self::ZPLTwoDotZero),
             "xpp" => Ok(Self::Xpp),
             "Nokia" => Ok(Self::Nokia),
@@ -6452,22 +8239,29 @@ impl std::str::FromStr for License {
             "Fawkes-Runtime-exception" => Ok(Self::FawkesRuntimeException),
             "CC-PDDC" => Ok(Self::CCPDDC),
             "Xerox" => Ok(Self::Xerox),
+            "BSD-3-Clause-No-Nuclear-Warranty" => Ok(Self::BSDThreeClauseNoNuclearWarranty),
+            "any-OSI-perl-modules" => Ok(Self::AnyOSIPerlModules),
             "BUSL-1.1" => Ok(Self::BUSLOneDotOne),
             "MakeIndex" => Ok(Self::MakeIndex),
+            "NTIA-PD" => Ok(Self::NTIAPD),
             "LGPL-3.0-or-later" => Ok(Self::LGPLThreeDotZeroOrLater),
             "deprecated_Nunit" => Ok(Self::DeprecatedNunit),
             "OFFIS" => Ok(Self::OFFIS),
             "Latex2e" => Ok(Self::LatexTwoe),
             "SSH-OpenSSH" => Ok(Self::SSHOpenSsh),
             "Entessa" => Ok(Self::Entessa),
+            "AFL-2.0" => Ok(Self::AFLTwoDotZero),
             "deprecated_LGPL-2.0" => Ok(Self::DeprecatedLGPLTwoDotZero),
             "Zend-2.0" => Ok(Self::ZendTwoDotZero),
             "mif-exception" => Ok(Self::MifException),
             "Xfig" => Ok(Self::Xfig),
             "Caldera" => Ok(Self::Caldera),
             "libutil-David-Nugent" => Ok(Self::LibutilDavidNugent),
+            "Asterisk-linking-protocols-exception" => Ok(Self::AsteriskLinkingProtocolsException),
             "OLDAP-2.6" => Ok(Self::OLDAPTwoDotSix),
+            "0BSD" => Ok(Self::ZeroBsd),
             "GNU-compiler-exception" => Ok(Self::GNUCompilerException),
+            "Barr" => Ok(Self::Barr),
             "SGI-OpenGL" => Ok(Self::SGIOpenGl),
             "CC-PDM-1.0" => Ok(Self::CCPDMOneDotZero),
             "MIT-enna" => Ok(Self::MITEnna),
@@ -6477,22 +8271,28 @@ impl std::str::FromStr for License {
             "LOOP" => Ok(Self::LOOP),
             "OLDAP-2.1" => Ok(Self::OLDAPTwoDotOne),
             "SISSL-1.2" => Ok(Self::SISSLOneDotTwo),
+            "3D-Slicer-1.0" => Ok(Self::ThreeDSlicerOneDotZero),
             "OCCT-exception-1.0" => Ok(Self::OCCTExceptionOneDotZero),
+            "389-exception" => Ok(Self::ThreeEightNineException),
             "SL" => Ok(Self::SL),
             "FLTK-exception" => Ok(Self::FLTKException),
             "GFDL-1.1-only" => Ok(Self::GFDLOneDotOneOnly),
             "CAL-1.0-Combined-Work-Exception" => Ok(Self::CALOneDotZeroCombinedWorkException),
             "deprecated_StandardML-NJ" => Ok(Self::DeprecatedStandardMlNJ),
+            "ADSL" => Ok(Self::ADSL),
+            "BSD-4.3TAHOE" => Ok(Self::BSDFourDotThreeTahoe),
             "ZPL-2.1" => Ok(Self::ZPLTwoDotOne),
             "Imlib2" => Ok(Self::ImlibTwo),
             "RPL-1.1" => Ok(Self::RPLOneDotOne),
             "gnuplot" => Ok(Self::Gnuplot),
             "D-FSL-1.0" => Ok(Self::DFSLOneDotZero),
+            "Adobe-Utopia" => Ok(Self::AdobeUtopia),
             "OpenSSL" => Ok(Self::OpenSsl),
             "GPL-3.0-or-later" => Ok(Self::GPLThreeDotZeroOrLater),
             "OSET-PL-2.1" => Ok(Self::OSETPLTwoDotOne),
             "LZMA-SDK-9.11-to-9.20" => Ok(Self::LZMASDKNineDotOneOneToNineDotTwoZero),
             "SAX-PD-2.0" => Ok(Self::SAXPDTwoDotZero),
+            "BSD-3-Clause-Clear" => Ok(Self::BSDThreeClauseClear),
             "NASA-1.3" => Ok(Self::NASAOneDotThree),
             "EUDatagrid" => Ok(Self::EuDatagrid),
             "CERN-OHL-1.1" => Ok(Self::CERNOHLOneDotOne),
@@ -6519,6 +8319,7 @@ impl std::str::FromStr for License {
             "GPL-3.0-only" => Ok(Self::GPLThreeDotZeroOnly),
             "CryptoSwift" => Ok(Self::CryptoSwift),
             "WTFPL" => Ok(Self::WTFPL),
+            "BSD-3-Clause-No-Nuclear-License" => Ok(Self::BSDThreeClauseNoNuclearLicense),
             "cve-tou" => Ok(Self::CveTou),
             "HPND-MIT-disclaimer" => Ok(Self::HPNDMITDisclaimer),
             "CC-BY-ND-2.0" => Ok(Self::CCBYNDTwoDotZero),
@@ -6530,6 +8331,7 @@ impl std::str::FromStr for License {
             "copyleft-next-0.3.1" => Ok(Self::CopyleftNextZeroDotThreeDotOne),
             "MIT-CMU" => Ok(Self::MITCMU),
             "RPSL-1.0" => Ok(Self::RPSLOneDotZero),
+            "BSD-2-Clause-Patent" => Ok(Self::BSDTwoClausePatent),
             "dtoa" => Ok(Self::Dtoa),
             "NCSA" => Ok(Self::NCSA),
             "NPL-1.1" => Ok(Self::NPLOneDotOne),
@@ -6539,12 +8341,19 @@ impl std::str::FromStr for License {
             "OFL-1.0-RFN" => Ok(Self::OFLOneDotZeroRFN),
             "NPOSL-3.0" => Ok(Self::NPOSLThreeDotZero),
             "ImageMagick" => Ok(Self::ImageMagick),
+            "BSD-4-Clause-Shortened" => Ok(Self::BSDFourClauseShortened),
+            "Asterisk-exception" => Ok(Self::AsteriskException),
             "libpri-OpenH323-exception" => Ok(Self::LibpriOpenHThreeTwoThreeException),
+            "Aladdin" => Ok(Self::Aladdin),
             "Unicode-TOU" => Ok(Self::UnicodeTOU),
             "OpenPBS-2.3" => Ok(Self::OpenPbsTwoDotThree),
+            "any-OSI" => Ok(Self::AnyOSI),
             "UCL-1.0" => Ok(Self::UCLOneDotZero),
             "Zimbra-1.4" => Ok(Self::ZimbraOneDotFour),
+            "Bootloader-exception" => Ok(Self::BootloaderException),
+            "Bison-exception-2.2" => Ok(Self::BisonExceptionTwoDotTwo),
             "TGPPL-1.0" => Ok(Self::TGPPLOneDotZero),
+            "BitTorrent-1.1" => Ok(Self::BitTorrentOneDotOne),
             "Wsuipa" => Ok(Self::Wsuipa),
             "deprecated_Nokia-Qt-exception-1.1" => Ok(Self::DeprecatedNokiaQtExceptionOneDotOne),
             "CC-BY-NC-SA-2.0-DE" => Ok(Self::CCBYNCSATwoDotZeroDE),
@@ -6555,6 +8364,7 @@ impl std::str::FromStr for License {
             "Zimbra-1.3" => Ok(Self::ZimbraOneDotThree),
             "GPL-2.0-only" => Ok(Self::GPLTwoDotZeroOnly),
             "OGL-UK-1.0" => Ok(Self::OGLUKOneDotZero),
+            "AFL-1.1" => Ok(Self::AFLOneDotOne),
             "SSLeay-standalone" => Ok(Self::SsLeayStandalone),
             "X11-swapped" => Ok(Self::XOneOneSwapped),
             "OpenJDK-assembly-exception-1.0" => Ok(Self::OpenJdkAssemblyExceptionOneDotZero),
@@ -6575,6 +8385,7 @@ impl std::str::FromStr for License {
             "deprecated_wxWindows" => Ok(Self::DeprecatedWxWindows),
             "OGC-1.0" => Ok(Self::OGCOneDotZero),
             "ulem" => Ok(Self::Ulem),
+            "Autoconf-exception-3.0" => Ok(Self::AutoconfExceptionThreeDotZero),
             "harbour-exception" => Ok(Self::HarbourException),
             "UCAR" => Ok(Self::UCAR),
             "MS-PL" => Ok(Self::MSPL),
@@ -6611,6 +8422,8 @@ impl std::str::FromStr for License {
             "MIT-Wu" => Ok(Self::MITWu),
             "snprintf" => Ok(Self::Snprintf),
             "EUPL-1.0" => Ok(Self::EUPLOneDotZero),
+            "AMDPLPA" => Ok(Self::AMDPLPA),
+            "APSL-1.0" => Ok(Self::APSLOneDotZero),
             "BSD-Source-beginning-file" => Ok(Self::BSDSourceBeginningFile),
             "SunPro" => Ok(Self::SunPro),
             "HPND-Intel" => Ok(Self::HPNDIntel),
@@ -6619,12 +8432,16 @@ impl std::str::FromStr for License {
             "deprecated_GPL-2.0-with-GCC-exception" => {
                 Ok(Self::DeprecatedGPLTwoDotZeroWithGCCException)
             }
+            "Autoconf-exception-generic-3.0" => Ok(Self::AutoconfExceptionGenericThreeDotZero),
             "CC-BY-SA-3.0" => Ok(Self::CCBYSAThreeDotZero),
             "CC-BY-NC-SA-3.0" => Ok(Self::CCBYNCSAThreeDotZero),
+            "Bahyph" => Ok(Self::Bahyph),
             "DSDP" => Ok(Self::DSDP),
             "McPhee-slideshow" => Ok(Self::McPheeSlideshow),
+            "BitTorrent-1.0" => Ok(Self::BitTorrentOneDotZero),
             "CC-BY-3.0-NL" => Ok(Self::CCBYThreeDotZeroNL),
             "OLDAP-1.1" => Ok(Self::OLDAPOneDotOne),
+            "Bitstream-Vera" => Ok(Self::BitstreamVera),
             "GFDL-1.2-invariants-only" => Ok(Self::GFDLOneDotTwoInvariantsOnly),
             "SchemeReport" => Ok(Self::SchemeReport),
             "HPND-export2-US" => Ok(Self::HPNDExportTwoUS),
@@ -6634,12 +8451,14 @@ impl std::str::FromStr for License {
             "NetCDF" => Ok(Self::NetCdf),
             "Symlinks" => Ok(Self::Symlinks),
             "openvpn-openssl-exception" => Ok(Self::OpenvpnOpensslException),
+            "Arphic-1999" => Ok(Self::ArphicOneNineNineNine),
             "HPND-Pbmplus" => Ok(Self::HPNDPbmplus),
             "OAR" => Ok(Self::OAR),
             "copyleft-next-0.3.0" => Ok(Self::CopyleftNextZeroDotThreeDotZero),
             "YPL-1.0" => Ok(Self::YPLOneDotZero),
             "LPPL-1.1" => Ok(Self::LPPLOneDotOne),
             "CC-BY-ND-4.0" => Ok(Self::CCBYNDFourDotZero),
+            "Autoconf-exception-2.0" => Ok(Self::AutoconfExceptionTwoDotZero),
             "XFree86-1.1" => Ok(Self::XFreeEightSixOneDotOne),
             "CC-BY-NC-ND-4.0" => Ok(Self::CCBYNCNDFourDotZero),
             "CC-BY-NC-SA-3.0-DE" => Ok(Self::CCBYNCSAThreeDotZeroDE),
@@ -6654,26 +8473,35 @@ impl std::str::FromStr for License {
             "deprecated_AGPL-3.0" => Ok(Self::DeprecatedAGPLThreeDotZero),
             "RSCPL" => Ok(Self::RSCPL),
             "NPL-1.0" => Ok(Self::NPLOneDotZero),
+            "BSD-3-Clause-No-Nuclear-License-2014" => {
+                Ok(Self::BSDThreeClauseNoNuclearLicenseTwoZeroOneFour)
+            }
             "Sleepycat" => Ok(Self::Sleepycat),
             "CDLA-Sharing-1.0" => Ok(Self::CDLASharingOneDotZero),
             "GFDL-1.3-only" => Ok(Self::GFDLOneDotThreeOnly),
             "lsof" => Ok(Self::Lsof),
             "Parity-7.0.0" => Ok(Self::ParitySevenDotZeroDotZero),
+            "AAL" => Ok(Self::AAL),
             "Zeeff" => Ok(Self::Zeeff),
             "CC-BY-NC-SA-4.0" => Ok(Self::CCBYNCSAFourDotZero),
+            "BlueOak-1.0.0" => Ok(Self::BlueOakOneDotZeroDotZero),
             "CC-BY-SA-4.0" => Ok(Self::CCBYSAFourDotZero),
             "GFDL-1.2-or-later" => Ok(Self::GFDLOneDotTwoOrLater),
             "OFL-1.1" => Ok(Self::OFLOneDotOne),
+            "APSL-1.1" => Ok(Self::APSLOneDotOne),
             "GPL-3.0-interface-exception" => Ok(Self::GPLThreeDotZeroInterfaceException),
             "Qt-LGPL-exception-1.1" => Ok(Self::QtLGPLExceptionOneDotOne),
             "Mackerras-3-Clause" => Ok(Self::MackerrasThreeClause),
             "EUPL-1.1" => Ok(Self::EUPLOneDotOne),
+            "Autoconf-exception-generic" => Ok(Self::AutoconfExceptionGeneric),
             "Sun-PPP" => Ok(Self::SunPPP),
             "CECILL-B" => Ok(Self::CECILLB),
             "Linux-OpenIB" => Ok(Self::LinuxOpenIb),
+            "BSD-Attribution-HPND-disclaimer" => Ok(Self::BSDAttributionHPNDDisclaimer),
             "fmt-exception" => Ok(Self::FmtException),
             "MIT-feh" => Ok(Self::MITFeh),
             "Ruby-pty" => Ok(Self::RubyPty),
+            "BSD-3-Clause-No-Military-License" => Ok(Self::BSDThreeClauseNoMilitaryLicense),
             "HPND-sell-variant" => Ok(Self::HPNDSellVariant),
             "DEC-3-Clause" => Ok(Self::DECThreeClause),
             "ZPL-1.1" => Ok(Self::ZPLOneDotOne),
@@ -6696,7 +8524,10 @@ impl std::str::FromStr for License {
             "GFDL-1.1-no-invariants-only" => Ok(Self::GFDLOneDotOneNoInvariantsOnly),
             "TAPR-OHL-1.0" => Ok(Self::TAPROHLOneDotZero),
             "Rdisc" => Ok(Self::Rdisc),
+            "BSD-2-Clause-Views" => Ok(Self::BSDTwoClauseViews),
+            "Artistic-1.0-cl8" => Ok(Self::ArtisticOneDotZeroClEight),
             "HPND-doc" => Ok(Self::HPNDDoc),
+            "BSD-3-Clause-Sun" => Ok(Self::BSDThreeClauseSun),
             "URT-RLE" => Ok(Self::URTRLE),
             "mpich2" => Ok(Self::MpichTwo),
             "CGAL-linking-exception" => Ok(Self::CGALLinkingException),
