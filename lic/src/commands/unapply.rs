@@ -5,8 +5,13 @@ use log::{debug, info};
 
 pub async fn handle_unapply(args: UnapplyArgs) -> Result<(), LichenError> {
     // Load options
-    let targets = args.targets;
-    let exclude = utils::build_exclude_regex(&args.exclude, None, args.all, None)?;
+    let targets = args.file_args.targets.unwrap_or(vec![".".into()]);
+    let exclude = utils::build_exclude_regex(
+        &args.file_args.exclude,
+        None,
+        args.file_args.all.unwrap_or_default(),
+        None,
+    )?;
 
     // ▰▰▰ Find Files ▰▰▰
     let files_to_process = utils::get_valid_files(&targets, &exclude)?;

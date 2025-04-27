@@ -2,6 +2,7 @@
 use crate::error::AppError;
 use html_escape::{self, decode_html_entities};
 use html_parser::{Dom, Node};
+use log::{debug, trace};
 use once_cell::sync::Lazy;
 use regex::Regex;
 use std::sync::atomic::{AtomicUsize, Ordering}; // Ensure decode_html_entities is imported
@@ -146,10 +147,10 @@ pub fn parse_html_to_markdown_handlebars_v2(html_content: &str) -> Result<String
 
     let mut processed_html = String::with_capacity(html_content.len());
     process_and_mark_html_nodes(&dom.children, &mut processed_html, &mut replacements)?;
-    log::trace!("Replacements map created: {:?}", replacements.keys());
+    trace!("Replacements map created: {:?}", replacements.keys());
 
     // |2| Convert modified HTML to Markdown
-    log::trace!("Converting marked HTML to Markdown:\n{}", processed_html);
+    trace!("Converting marked HTML to Markdown:\n{}", processed_html);
     let mut markdown = html2md::parse_html(&processed_html);
     log::trace!(
         "Initial Markdown conversion (may contain escaped markers):\n{}",
@@ -157,7 +158,7 @@ pub fn parse_html_to_markdown_handlebars_v2(html_content: &str) -> Result<String
     );
 
     // |3| Post-process Markdown to insert Handlebars
-    log::info!(
+    debug!(
         "Inserting Handlebars into Markdown for {} placeholders",
         replacements.len()
     );

@@ -25,7 +25,7 @@ pub struct ApplySettings {
 
 impl ApplySettings {
     pub fn new(cli: &ApplyArgs, cfg: &Config, index: Option<usize>) -> Result<Self, LichenError> {
-        let license = if let Some(cli_lic) = cli.license {
+        let license = if let Some(cli_lic) = cli.license_args.license {
             // An explicity passed CLI license
             cli_lic
         } else if let Some(idx) = index {
@@ -44,7 +44,7 @@ impl ApplySettings {
 
         let default_target = vec![PathBuf::from(".")];
 
-        let targets: Vec<PathBuf> = if let Some(cli_targets) = cli.targets.clone() {
+        let targets: Vec<PathBuf> = if let Some(cli_targets) = cli.file_args.targets.clone() {
             // User passed targets on the command line, max priority
             cli_targets
         } else if let Some(idx) = index {
@@ -60,7 +60,7 @@ impl ApplySettings {
             default_target
         };
 
-        let authors: Option<Authors> = if let Some(cli_authors) = cli.authors.clone() {
+        let authors: Option<Authors> = if let Some(cli_authors) = cli.license_args.authors.clone() {
             // User passed authors on the command line
             Some(cli_authors)
         } else if let Some(idx) = index {
@@ -75,7 +75,7 @@ impl ApplySettings {
             None
         };
 
-        let date = if let Some(cli_date) = cli.date {
+        let date = if let Some(cli_date) = cli.license_args.date {
             cli_date
         } else if let Some(idx) = index {
             cfg.licenses
@@ -88,11 +88,11 @@ impl ApplySettings {
             jiff::Zoned::now().date()
         };
 
-        let all = cli.all.or(cfg.all).unwrap_or(false);
+        let all = cli.file_args.all.or(cfg.all).unwrap_or(false);
 
-        let exclude = utils::build_exclude_regex(&cli.exclude, Some(cfg), all, index)?;
+        let exclude = utils::build_exclude_regex(&cli.file_args.exclude, Some(cfg), all, index)?;
 
-        let multiple = cli.multiple.or(cfg.multiple).unwrap_or(false);
+        let multiple = cli.license_args.multiple.or(cfg.multiple).unwrap_or(false);
 
         let prefer_block = cli.prefer_block.or(cfg.prefer_block).unwrap_or(false);
 

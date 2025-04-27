@@ -83,12 +83,50 @@ const STYLES: styling::Styles = styling::Styles::styled()
 /// A license management cli tool
 #[derive(Parser, Debug)]
 #[command(author, version, about, styles = STYLES, long_about = None, color = ColorChoice::Auto)]
+
 pub struct Cli {
     #[command(subcommand)]
     pub command: Commands,
 
     #[command(flatten)]
     pub verbose: Verbosity<InfoLevel>,
+}
+
+// Common arguments related to license information
+#[derive(Args, Debug)]
+pub struct LicenseArgs {
+    /// SPDX identifier of the license to generate (e.g., MIT, Apache-2.0).
+    /// Can be omitted if specified in configuration.
+    #[arg()]
+    pub license: Option<License>,
+
+    /// Author names and emails (In the format NAME:EMAIL; entries seperated by a comma. Email optional).
+    #[arg(short, long, value_parser = parse_to_author)]
+    pub authors: Option<Authors>,
+
+    /// Date for the license copyright notice (defaults to the current year).
+    #[arg(short, long, value_parser = parse_year_to_date)]
+    pub date: Option<Date>,
+
+    /// Enable support for multiple licenses in the same project (Default is replace)
+    #[arg(long, action = clap::ArgAction::SetTrue)]
+    pub multiple: Option<bool>,
+}
+
+// Common arguments for file processing
+#[derive(Args, Debug)]
+pub struct FileProcessingArgs {
+    /// Files or directories to process. Defaults to the current directory (`.`).
+    #[arg(num_args = 1..)]
+    pub targets: Option<Vec<PathBuf>>,
+
+    /// Regex pattern for files/directories to exclude. Applied during directory traversal.
+    #[arg(short, long)]
+    pub exclude: Option<Regex>,
+
+    /// Do not respect the git_ignore file (If present in directory) and other pattern defaults
+    #[arg(short = 'A', long, action = clap::ArgAction::SetTrue)]
+    pub all: Option<bool>,
 }
 
 #[derive(Subcommand, Debug)]
@@ -108,63 +146,26 @@ pub enum Commands {
 
 #[derive(Args, Debug)]
 pub struct GenArgs {
-    /// SPDX identifier of the license to generate (e.g., MIT, Apache-2.0).
-    /// Can be omitted if specified in configuration.
-    #[arg()]
-    pub license: Option<License>,
-
-    /// Author names and emails (In the format NAME:EMAIL; entries seperated by a comma. Email optional).
-    #[arg(short, long, value_parser = parse_to_author)]
-    pub authors: Option<Authors>,
-
-    /// Enable support for multiple licenses in the same project (Default is replace)
-    #[arg(long, action = clap::ArgAction::SetTrue)]
-    pub multiple: Option<bool>,
+    #[command(flatten)]
+    pub license_args: LicenseArgs,
 
     /// Files or directories to process. Defaults to the current directory (`.`).
     #[arg(num_args = 1..)]
     pub targets: Option<Vec<PathBuf>>,
-
-    /// Date for the license copyright notice (defaults to the current year).
-    #[arg(short, long, value_parser = parse_year_to_date)]
-    pub date: Option<Date>,
 }
 
 #[derive(Args, Debug)]
 pub struct ApplyArgs {
-    /// SPDX identifier of the license header to apply (e.g., MIT, Apache-2.0).
-    /// Can be omitted if specified in configuration.
-    #[arg()]
-    pub license: Option<License>,
+    #[command(flatten)]
+    pub license_args: LicenseArgs,
 
-    /// Enable support for multiple licenses in the same project (Default is replace)
-    #[arg(long, action = clap::ArgAction::SetTrue)]
-    pub multiple: Option<bool>,
+    #[command(flatten)]
+    pub file_args: FileProcessingArgs,
 
     /// When applying headers, which kind of comment token the user *wants*
     /// Completely possible line or block doesn't exist, in which case it falls back to the other.
     #[arg(long, action = clap::ArgAction::SetTrue)]
     pub prefer_block: Option<bool>,
-
-    /// Date for the license copyright notice (defaults to the current year).
-    #[arg(short, long, value_parser = parse_year_to_date)]
-    pub date: Option<Date>,
-
-    /// Regex pattern for files/directories to exclude. Applied during directory traversal.
-    #[arg(short, long)] // Removed value_delimiter, regex parsing handles it
-    pub exclude: Option<Regex>,
-
-    /// Files or directories to process. Defaults to the current directory (`.`).
-    #[arg(num_args = 1..)]
-    pub targets: Option<Vec<PathBuf>>,
-
-    /// Do not respect the git_ignore file (If present in directory) and other pattern defaults
-    #[arg(short = 'A', long, action = clap::ArgAction::SetTrue)]
-    pub all: Option<bool>,
-
-    /// Author names and emails (comma-separated).
-    #[arg(short, long, value_parser = parse_to_author)]
-    pub authors: Option<Authors>,
 }
 
 #[derive(Args, Debug)]
@@ -177,17 +178,8 @@ pub struct InitArgs {
 
 #[derive(Args, Debug)]
 pub struct UnapplyArgs {
-    /// Regex pattern for files/directories to exclude. Applied during directory traversal.
-    #[arg(short, long)] // Removed value_delimiter, regex parsing handles it
-    pub exclude: Option<Regex>,
-
-    /// Files or directories to process. Defaults to the current directory (`.`).
-    #[arg(num_args = 1..)]
-    pub targets: Vec<PathBuf>,
-
-    /// Do not respect the git_ignore file (If present in directory) and other pattern defaults
-    #[arg(long, action = clap::ArgAction::SetTrue)]
-    pub all: bool,
+    #[command(flatten)]
+    pub file_args: FileProcessingArgs,
 }
 
 #[cfg(test)]

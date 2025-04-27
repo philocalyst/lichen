@@ -23,7 +23,7 @@ pub struct GenSettings {
 
 impl GenSettings {
     pub fn new(cli: &GenArgs, cfg: &Config, index: Option<usize>) -> Result<Self, LichenError> {
-        let license = if let Some(cli_lic) = cli.license {
+        let license = if let Some(cli_lic) = cli.license_args.license {
             // user explicitly passed one on the command line
             cli_lic
         } else if let Some(idx) = index {
@@ -58,7 +58,7 @@ impl GenSettings {
             default_target
         };
 
-        let authors: Option<Authors> = if let Some(cli_authors) = cli.authors.clone() {
+        let authors: Option<Authors> = if let Some(cli_authors) = cli.license_args.authors.clone() {
             // user passed authors on the command line
             Some(cli_authors)
         } else if let Some(idx) = index {
@@ -73,7 +73,7 @@ impl GenSettings {
             None
         };
 
-        let date = if let Some(cli_date) = cli.date {
+        let date = if let Some(cli_date) = cli.license_args.date {
             cli_date
         } else if let Some(idx) = index {
             cfg.licenses
@@ -86,7 +86,7 @@ impl GenSettings {
             jiff::Zoned::now().date()
         };
 
-        let multiple = cli.multiple.or(cfg.multiple).unwrap_or(false);
+        let multiple = cli.license_args.multiple.or(cfg.multiple).unwrap_or(false);
 
         Ok(GenSettings {
             license,
