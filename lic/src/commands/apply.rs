@@ -26,10 +26,10 @@ pub struct ApplySettings {
 impl ApplySettings {
     pub fn new(cli: &ApplyArgs, cfg: &Config, index: Option<usize>) -> Result<Self, LichenError> {
         let license = if let Some(cli_lic) = cli.license {
-            // user explicitly passed one on the command line
+            // An explicity passed CLI license
             cli_lic
         } else if let Some(idx) = index {
-            // user did `lichen gen` without `--license` but we have a config entry
+            // User did `lichen gen` without `--license` but we have a config entry
             let lic = cfg
                 .licenses
                 .as_ref()
@@ -38,17 +38,17 @@ impl ApplySettings {
                 .ok_or(LichenError::InvalidIndex(idx))?;
             lic.id
         } else {
-            // no CLI value, no config entry
+            // no CLI value, no config entry, nothing.
             return Err(LichenError::MissingLicense);
         };
 
         let default_target = vec![PathBuf::from(".")];
 
         let targets: Vec<PathBuf> = if let Some(cli_targets) = cli.targets.clone() {
-            // user passed authors on the command line
+            // User passed targets on the command line, max priority
             cli_targets
         } else if let Some(idx) = index {
-            // fall back to config’s optional authors
+            // fall back to the targets inscribed in config
             cfg.licenses
                 .as_ref()
                 .expect("If an index is passed, assume there is a license")
@@ -61,10 +61,10 @@ impl ApplySettings {
         };
 
         let authors: Option<Authors> = if let Some(cli_authors) = cli.authors.clone() {
-            // user passed authors on the command line
+            // User passed authors on the command line
             Some(cli_authors)
         } else if let Some(idx) = index {
-            // fall back to config’s optional authors
+            // Fall back to config’s optional authors
             cfg.licenses
                 .as_ref()
                 .expect("If an index is passed, assume there is a license")
@@ -112,7 +112,7 @@ impl ApplySettings {
 pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
     debug!("Starting handle_apply with args: {:?}", settings);
 
-    // ▰▰▰ Parameter Resolution (CLI vs. Config - Placeholder) ▰▰▰
+    // ▰▰▰ Get options from setting struct ▰▰▰
     let license = settings.license;
     let exclude_pattern = &settings.exclude;
     let targets = &settings.targets;
@@ -122,13 +122,13 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
     let preference = settings.prefer_block;
     //
 
-    info!(
+    debug!(
         "Applying license header for: {} to targets: {:?}",
         license.spdx_id(),
         targets
     );
-    info!("Exclusion pattern: {:?}", exclude_pattern);
-    info!("Prefer block comments: {}", preference);
+    debug!("Exclusion pattern: {:?}", exclude_pattern);
+    debug!("Block comments preferred?: {}", preference);
 
     // ▰▰▰ Get License Header Content ▰▰▰ //
     let template_content = settings.license.template_content();
@@ -136,12 +136,12 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
         "Using embedded template content for {}",
         settings.license.spdx_id()
     );
-    trace!("Embedded template content:\n{}", template_content);
+    debug!("Embedded template content:\n{}", template_content);
 
     let rendered_license =
-        utils::render_license(template_content, year, authors).map_err(LichenError::RenderError)?; // Convert RenderError
-    debug!("License content rendered successfully.");
-    trace!("Rendered content:\n{}", rendered_license);
+        utils::render_license(template_content, year, authors).map_err(LichenError::RenderError)?; // Convert RenderError for compatibility
+    trace!("License content rendered successfully.");
+    debug!("Rendered content:\n{}", rendered_license);
 
     // ▰▰▰ Find Files ▰▰▰
     let files_to_process = utils::get_valid_files(targets, exclude_pattern)?;
@@ -149,7 +149,7 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
         return Err(LichenError::Msg(
             "No files require processing based on targets and exclusions. Exiting 'apply' command."
                 .to_string(),
-        )); // Nothing to do, error. SOMETHING needs to be done.
+        )); // Nothing to do, error. 
     }
 
     // ▰▰▰ Apply Headers ▰▰▰
@@ -164,7 +164,6 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
         multiple,
     )
     .await?;
-    // ---
 
     info!("Finished applying license headers.");
     Ok(())

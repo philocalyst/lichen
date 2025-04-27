@@ -102,8 +102,7 @@ impl GenSettings {
 pub fn handle_gen(settings: &GenSettings) -> Result<(), LichenError> {
     debug!("Starting handle_gen with args: {:?}", settings);
 
-    // --- Parameter Resolution (CLI vs. Config - Placeholder) ---
-    // TODO: Load license, author, year from config if not provided in args.
+    // ▰▰▰ Resolve options from settings ▰▰▰
     let license = settings.license;
     let targets = &settings.targets;
     let multiple = settings.multiple;
@@ -111,9 +110,8 @@ pub fn handle_gen(settings: &GenSettings) -> Result<(), LichenError> {
     let year = settings.date;
     let output_extension = "txt"; // Default output extension
     // let output_extension = if args.markdown { "md" } else { "txt" };
-    // ---
 
-    info!(
+    debug!(
         "Generating license file for: {}, Year: {}, Authors: {:?}, Format: {}",
         license.spdx_id(),
         year.year(), // Log only the year for simplicity
@@ -129,7 +127,7 @@ pub fn handle_gen(settings: &GenSettings) -> Result<(), LichenError> {
     );
     trace!("Embedded template content:\n{}", template_content);
 
-    // --- Render Template ---
+    // ▰▰▰ Render Template ▰▰▰
     let rendered_license = utils::render_license(template_content, &year, authors)
         .map_err(LichenError::RenderError)?; // Convert RenderError
     debug!("License content rendered successfully.");
@@ -158,7 +156,6 @@ pub fn handle_gen(settings: &GenSettings) -> Result<(), LichenError> {
         fs::write(&output_filename, &rendered_license)?;
         info!("License file written to '{}'", output_filename.display());
     }
-    // ---
 
     Ok(())
 }

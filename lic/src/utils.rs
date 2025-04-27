@@ -635,7 +635,7 @@ pub async fn remove_headers_from_files(
                     }
                 } else {
                     // Header marker not found after shebang (or at start if no shebang)
-                    info!(
+                    debug!(
                         "Header marker not found in '{}'. Skipping removal.",
                         path.display()
                     );
@@ -790,7 +790,7 @@ pub async fn apply_headers_to_files(
                 if !multiple {
                     // |6| If header is already present, simply replace it.
                     if content.contains(HEADER_MARKER) {
-                        info!(
+                        debug!(
                             "Already contains header marker, replacing '{}'",
                             path.display()
                         );
@@ -842,7 +842,7 @@ pub async fn apply_headers_to_files(
                 // |8| Write the modified content back to the file
                 match fs::write(&path, new_text).await {
                     Ok(_) => {
-                        info!("Applied header to '{}'", path.display());
+                        debug!("Applied header to '{}'", path.display());
                         Ok((1, 0, 0)) // Applied
                     }
                     Err(e) => {

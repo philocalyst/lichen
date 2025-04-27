@@ -1,35 +1,124 @@
 {
-  "rust": {
+  "arduino": {
+    "file_types": [
+      "ino",
+      "pde"
+    ],
+    "block_comment_tokens": {
+      "end": "//%s",
+      "start": "/*%s*/"
+    },
+    "language-servers": [
+      "arduino-language-server"
+    ],
+    "injection-regex": "ard",
+    "roots": [
+      "platformio.ini"
+    ],
+    "scope": "source.cpp"
+  },
+  "autohotkey": {
+    "file_types": [
+      "ahk"
+    ],
+    "comment_token": ";",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "injection-regex": "ahk",
+    "roots": [],
+    "scope": "source.autohotkey"
+  },
+  "ada": {
+    "comment_token": "--",
+    "file_types": [
+      "adb",
+      "ads"
+    ],
+    "indent": {
+      "tab-width": 3,
+      "unit": "   "
+    },
+    "injection-regex": "ada",
+    "language-servers": [
+      "ada-language-server"
+    ],
+    "roots": [
+      "alire.toml"
+    ],
+    "scope": "source.ada"
+  },
+  "adl": {
+    "auto-pairs": {
+      "\"": "\"",
+      "\u003c": "\u003e",
+      "{": "}"
+    },
     "comment_token": "//",
-    "block_comment_tokens": [
-      {
-        "start": "/*",
-        "end": "*/"
-      },
-      {
-        "start": "/**",
-        "end": "*/"
-      },
-      {
-        "start": "/*!",
-        "end": "*/"
-      }
+    "file_types": [
+      "adl"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "adl",
+    "roots": [],
+    "scope": "source.adl"
+  },
+  "agda": {
+    "auto-format": false,
+    "auto-pairs": {
+      "\"": "\"",
+      "'": "'",
+      "(": ")",
+      "[": "]",
+      "{": "}"
+    },
+    "comment_token": "--",
+    "file_types": [
+      "agda"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "agda",
+    "roots": [],
+    "scope": "source.agda"
+  },
+  "amber": {
+    "comment_token": [
+      "//",
+      "///"
     ],
     "file_types": [
-      "rs"
-    ]
+      "ab"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "scope": "source.ab"
   },
-  "sway": {
-    "comment_token": "//",
+  "astro": {
+    "block_comment_tokens": {
+      "end": "--\u003e",
+      "start": "\u003c!--"
+    },
     "file_types": [
-      "sw"
-    ]
-  },
-  "toml": {
-    "comment_token": "#",
-    "file_types": [
-      "toml"
-    ]
+      "astro"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "astro",
+    "language-servers": [
+      "astro-ls"
+    ],
+    "scope": "source.astro"
   },
   "awk": {
     "comment_token": "#",
@@ -38,345 +127,16 @@
       "gawk",
       "nawk",
       "mawk"
-    ]
-  },
-  "protobuf": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
     },
-    "file_types": [
-      "proto"
-    ]
-  },
-  "textproto": {
-    "comment_token": "#",
-    "file_types": [
-      "txtpb",
-      "textpb",
-      "textproto"
-    ]
-  },
-  "elixir": {
-    "comment_token": "#",
-    "file_types": [
-      "ex",
-      "exs"
-    ]
-  },
-  "fish": {
-    "comment_token": "#",
-    "file_types": [
-      "fish"
-    ]
-  },
-  "mint": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "mint"
-    ]
-  },
-  "mojo": {
-    "comment_token": "#",
-    "file_types": [
-      "mojo",
-      "🔥"
-    ]
-  },
-  "janet": {
-    "comment_token": "#",
-    "file_types": [
-      "cgen",
-      "janet",
-      "jdn"
-    ]
-  },
-  "json": {
-    "file_types": [
-      "json",
-      "arb",
-      "ipynb",
-      "geojson",
-      "gltf",
-      "webmanifest",
-      "js.map",
-      "ts.map",
-      "css.map",
-      "jsonl",
-      "jsonld",
-      "avsc",
-      "ldtk",
-      "ldtkl",
-      "sublime-build",
-      "sublime-color-scheme",
-      "sublime-commands",
-      "sublime-completions",
-      "sublime-keymap",
-      "sublime-macro",
-      "sublime-menu",
-      "sublime-mousemap",
-      "sublime-project",
-      "sublime-settings",
-      "sublime-theme",
-      "sublime-workspace"
-    ]
-  },
-  "jsonc": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "jsonc"
-    ]
-  },
-  "json5": {
-    "comment_token": "//",
-    "file_types": [
-      "json5"
-    ]
-  },
-  "c": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "c"
-    ]
-  },
-  "cpp": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "cc",
-      "hh",
-      "c++",
-      "cpp",
-      "hpp",
-      "h",
-      "ipp",
-      "tpp",
-      "cxx",
-      "hxx",
-      "ixx",
-      "txx",
-      "ino",
-      "C",
-      "H",
-      "cu",
-      "cuh",
-      "cppm",
-      "h++",
-      "ii",
-      "inl"
-    ]
-  },
-  "crystal": {
-    "comment_token": "#",
-    "file_types": [
-      "cr"
-    ]
-  },
-  "c-sharp": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "cs",
-      "csx",
-      "cake"
-    ]
-  },
-  "cel": {
-    "comment_token": "//",
-    "file_types": [
-      "cel"
-    ]
-  },
-  "spicedb": {
-    "comment_token": "//",
-    "file_types": [
-      "zed"
-    ]
-  },
-  "go": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "go"
-    ]
-  },
-  "gomod": {
-    "comment_token": "//",
-    "file_types": []
-  },
-  "gotmpl": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "gotmpl"
-    ]
-  },
-  "gowork": {
-    "comment_token": "//",
-    "file_types": []
-  },
-  "javascript": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "js",
-      "mjs",
-      "cjs",
-      "rules",
-      "es6",
-      "pac"
-    ]
-  },
-  "jsx": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "jsx"
-    ]
-  },
-  "typescript": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "ts",
-      "mts",
-      "cts"
-    ]
-  },
-  "typespec": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "tsp"
-    ]
-  },
-  "tsx": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "tsx"
-    ]
-  },
-  "css": {
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "css",
-      "scss"
-    ]
-  },
-  "scss": {
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "scss"
-    ]
-  },
-  "html": {
-    "block_comment_tokens": {
-      "start": "<!--",
-      "end": "-->"
-    },
-    "file_types": [
-      "html",
-      "htm",
-      "shtml",
-      "xhtml",
-      "xht",
-      "jsp",
-      "asp",
-      "aspx",
-      "jshtm",
-      "volt",
-      "rhtml",
-      "cshtml"
-    ]
-  },
-  "python": {
-    "comment_token": "#",
-    "file_types": [
-      "py",
-      "pyi",
-      "py3",
-      "pyw",
-      "ptl",
-      "rpy",
-      "cpy",
-      "ipy",
-      "pyt"
-    ]
-  },
-  "nickel": {
-    "comment_token": "#",
-    "file_types": [
-      "ncl"
-    ]
-  },
-  "nix": {
-    "comment_token": "#",
-    "file_types": [
-      "nix"
-    ]
-  },
-  "ruby": {
-    "comment_token": "#",
-    "file_types": [
-      "rb",
-      "rake",
-      "irb",
-      "gemspec",
-      "rabl",
-      "jbuilder",
-      "jb",
-      "podspec",
-      "rjs",
-      "rbi",
-      "rbs"
-    ]
+    "injection-regex": "awk",
+    "language-servers": [
+      "awk-language-server"
+    ],
+    "scope": "source.awk"
   },
   "bash": {
     "comment_token": "#",
@@ -401,46 +161,2829 @@
       "cshrc",
       "tcshrc",
       "bashrc_Apple_Terminal",
-      "zshrc_Apple_Terminal"
-    ]
-  },
-  "php": {
-    "comment_token": "//",
-    "block_comment_tokens": [
+      "zshrc_Apple_Terminal",
       {
-        "start": "/**",
-        "end": "*/"
+        "glob": "i3/config"
       },
       {
-        "start": "/*",
-        "end": "*/"
+        "glob": "sway/config"
+      },
+      {
+        "glob": "tmux.conf"
+      },
+      {
+        "glob": ".bash_history"
+      },
+      {
+        "glob": ".bash_login"
+      },
+      {
+        "glob": ".bash_logout"
+      },
+      {
+        "glob": ".bash_profile"
+      },
+      {
+        "glob": ".bashrc"
+      },
+      {
+        "glob": ".profile"
+      },
+      {
+        "glob": ".zshenv"
+      },
+      {
+        "glob": ".zlogin"
+      },
+      {
+        "glob": ".zlogout"
+      },
+      {
+        "glob": ".zprofile"
+      },
+      {
+        "glob": ".zshrc"
+      },
+      {
+        "glob": ".zimrc"
+      },
+      {
+        "glob": "APKBUILD"
+      },
+      {
+        "glob": ".bash_aliases"
+      },
+      {
+        "glob": ".Renviron"
+      },
+      {
+        "glob": ".xprofile"
+      },
+      {
+        "glob": ".xsession"
+      },
+      {
+        "glob": ".xsessionrc"
+      },
+      {
+        "glob": ".yashrc"
+      },
+      {
+        "glob": ".yash_profile"
+      },
+      {
+        "glob": ".hushlogin"
       }
     ],
-    "file_types": [
-      "php",
-      "inc",
-      "php4",
-      "php5",
-      "phtml",
-      "ctp"
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "(shell|bash|zsh|sh)",
+    "language-servers": [
+      "bash-language-server"
+    ],
+    "scope": "source.bash",
+    "shebangs": [
+      "sh",
+      "bash",
+      "dash",
+      "zsh"
     ]
   },
-  "php-only": {
-    "file_types": []
+  "bass": {
+    "comment_token": ";",
+    "file_types": [
+      "bass"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "bass",
+    "language-servers": [
+      "bass"
+    ],
+    "scope": "source.bass"
+  },
+  "beancount": {
+    "comment_token": ";",
+    "file_types": [
+      "beancount",
+      "bean"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "beancount",
+    "language-servers": [
+      "beancount-language-server"
+    ],
+    "scope": "source.beancount"
+  },
+  "bibtex": {
+    "auto-format": true,
+    "comment_token": "%",
+    "file_types": [
+      "bib"
+    ],
+    "formatter": {
+      "args": [
+        "-",
+        "--curly",
+        "--drop-all-caps",
+        "--remove-empty-fields",
+        "--sort-fields",
+        "--sort=year,author,id",
+        "--strip-enclosing-braces",
+        "--trailing-commas"
+      ],
+      "command": "bibtex-tidy"
+    },
+    "indent": {
+      "tab-width": 4,
+      "unit": "\t"
+    },
+    "injection-regex": "bib",
+    "language-servers": [
+      "texlab"
+    ],
+    "scope": "source.bib"
+  },
+  "bicep": {
+    "auto-format": true,
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "bicep",
+      "bicepparam"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": " "
+    },
+    "language-servers": [
+      "bicep-langserver"
+    ],
+    "scope": "source.bicep"
+  },
+  "bitbake": {
+    "comment_token": "#",
+    "file_types": [
+      "bb",
+      "bbappend",
+      "bbclass",
+      {
+        "glob": "conf/*.conf"
+      },
+      {
+        "glob": "conf/*/*.{inc,conf}"
+      },
+      {
+        "glob": "recipe-*/*/*.inc"
+      }
+    ],
+    "language-servers": [
+      "bitbake-language-server"
+    ],
+    "scope": "source.bitbake"
   },
   "blade": {
     "file_types": [
+      {
+        "glob": "*.blade.php"
+      },
       "blade"
-    ]
+    ],
+    "injection-regex": "blade",
+    "roots": [
+      "composer.json",
+      "index.php"
+    ],
+    "scope": "source.blade.php"
   },
-  "twig": {
+  "blueprint": {
     "block_comment_tokens": {
-      "start": "{#",
-      "end": "#}"
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "blp"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "blueprint",
+    "language-servers": [
+      "blueprint-compiler"
+    ],
+    "scope": "source.blueprint"
+  },
+  "c": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "debugger": {
+      "command": "lldb-dap",
+      "name": "lldb-dap",
+      "templates": [
+        {
+          "args": {
+            "console": "internalConsole",
+            "program": "{0}"
+          },
+          "completion": [
+            {
+              "completion": "filename",
+              "name": "binary"
+            }
+          ],
+          "name": "binary",
+          "request": "launch"
+        },
+        {
+          "args": {
+            "console": "internalConsole",
+            "pid": "{0}"
+          },
+          "completion": [
+            "pid"
+          ],
+          "name": "attach",
+          "request": "attach"
+        },
+        {
+          "args": {
+            "attachCommands": [
+              "platform select remote-gdb-server",
+              "platform connect {0}",
+              "file {1}",
+              "attach {2}"
+            ],
+            "console": "internalConsole"
+          },
+          "completion": [
+            {
+              "default": "connect://localhost:3333",
+              "name": "lldb connect url"
+            },
+            {
+              "completion": "filename",
+              "name": "file"
+            },
+            "pid"
+          ],
+          "name": "gdbserver attach",
+          "request": "attach"
+        }
+      ],
+      "transport": "stdio"
     },
     "file_types": [
-      "twig"
+      "c"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "c",
+    "language-servers": [
+      "clangd"
+    ],
+    "scope": "source.c"
+  },
+  "c-sharp": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "debugger": {
+      "args": [
+        "--interpreter=vscode"
+      ],
+      "command": "netcoredbg",
+      "name": "netcoredbg",
+      "port-arg": "--server={}",
+      "templates": [
+        {
+          "args": {
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart",
+            "program": "{0}",
+            "type": "coreclr"
+          },
+          "completion": [
+            {
+              "completion": "filename",
+              "name": "path to dll"
+            }
+          ],
+          "name": "launch",
+          "request": "launch"
+        },
+        {
+          "args": {
+            "processId": "{0}"
+          },
+          "completion": [
+            "pid"
+          ],
+          "name": "attach",
+          "request": "attach"
+        }
+      ],
+      "transport": "tcp"
+    },
+    "file_types": [
+      "cs",
+      "csx",
+      "cake"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "\t"
+    },
+    "injection-regex": "c-?sharp",
+    "language-servers": [
+      "omnisharp"
+    ],
+    "roots": [
+      "sln",
+      "csproj"
+    ],
+    "scope": "source.csharp"
+  },
+  "cabal": {
+    "comment_token": "--",
+    "file_types": [
+      "cabal"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "language-servers": [
+      "haskell-language-server"
+    ],
+    "roots": [
+      "cabal.project",
+      "Setup.hs"
+    ],
+    "scope": "source.cabal"
+  },
+  "cairo": {
+    "comment_token": "//",
+    "file_types": [
+      "cairo"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "cairo",
+    "language-servers": [
+      "cairo-language-server"
+    ],
+    "scope": "source.cairo"
+  },
+  "capnp": {
+    "comment_token": "#",
+    "file_types": [
+      "capnp"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "capnp",
+    "scope": "source.capnp"
+  },
+  "cel": {
+    "comment_token": "//",
+    "file_types": [
+      "cel"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "cel",
+    "scope": "source.cel"
+  },
+  "circom": {
+    "auto-format": false,
+    "comment_tokens": "//",
+    "file_types": [
+      "circom"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "circom",
+    "language-servers": [
+      "circom-lsp"
+    ],
+    "roots": [
+      "package.json"
+    ],
+    "scope": "source.circom"
+  },
+  "clojure": {
+    "comment_token": ";",
+    "file_types": [
+      "clj",
+      "cljs",
+      "cljc",
+      "clje",
+      "cljr",
+      "cljx",
+      "edn",
+      "boot"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "(clojure|clj|edn|boot)",
+    "language-servers": [
+      "clojure-lsp"
+    ],
+    "roots": [
+      "project.clj",
+      "build.boot",
+      "deps.edn",
+      "shadow-cljs.edn"
+    ],
+    "scope": "source.clojure"
+  },
+  "cmake": {
+    "block_comment_tokens": {
+      "end": "]]",
+      "start": "#[["
+    },
+    "comment_token": "#",
+    "file_types": [
+      "cmake",
+      {
+        "glob": "CMakeLists.txt"
+      }
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "cmake",
+    "language-servers": [
+      "cmake-language-server"
+    ],
+    "scope": "source.cmake"
+  },
+  "codeql": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "ql",
+      "qll"
+    ],
+    "grammar": "ql",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "codeql",
+    "language-servers": [
+      "codeql"
+    ],
+    "scope": "source.ql"
+  },
+  "comment": {
+    "file_types": [],
+    "injection-regex": "comment",
+    "scope": "scope.comment"
+  },
+  "common-lisp": {
+    "auto-pairs": {
+      "\"": "\"",
+      "(": ")",
+      "[": "]",
+      "{": "}"
+    },
+    "comment_token": ";",
+    "file_types": [
+      "lisp",
+      "asd",
+      "cl",
+      "l",
+      "lsp",
+      "ny",
+      "podsl",
+      "sexp"
+    ],
+    "grammar": "scheme",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "language-servers": [
+      "cl-lsp"
+    ],
+    "scope": "source.lisp",
+    "shebangs": [
+      "lisp",
+      "sbcl",
+      "ccl",
+      "clisp",
+      "ecl"
     ]
+  },
+  "cpon": {
+    "auto-format": true,
+    "comment_token": "//",
+    "file_types": [
+      "cpon",
+      "cp"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "cpon",
+    "scope": "scope.cpon"
+  },
+  "cpp": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "debugger": {
+      "command": "lldb-dap",
+      "name": "lldb-dap",
+      "templates": [
+        {
+          "args": {
+            "console": "internalConsole",
+            "program": "{0}"
+          },
+          "completion": [
+            {
+              "completion": "filename",
+              "name": "binary"
+            }
+          ],
+          "name": "binary",
+          "request": "launch"
+        },
+        {
+          "args": {
+            "console": "internalConsole",
+            "pid": "{0}"
+          },
+          "completion": [
+            "pid"
+          ],
+          "name": "attach",
+          "request": "attach"
+        },
+        {
+          "args": {
+            "attachCommands": [
+              "platform select remote-gdb-server",
+              "platform connect {0}",
+              "file {1}",
+              "attach {2}"
+            ],
+            "console": "internalConsole"
+          },
+          "completion": [
+            {
+              "default": "connect://localhost:3333",
+              "name": "lldb connect url"
+            },
+            {
+              "completion": "filename",
+              "name": "file"
+            },
+            "pid"
+          ],
+          "name": "gdbserver attach",
+          "request": "attach"
+        }
+      ],
+      "transport": "stdio"
+    },
+    "file_types": [
+      "cc",
+      "hh",
+      "c++",
+      "cpp",
+      "hpp",
+      "h",
+      "ipp",
+      "tpp",
+      "cxx",
+      "hxx",
+      "ixx",
+      "txx",
+      "ino",
+      "C",
+      "H",
+      "cu",
+      "cuh",
+      "cppm",
+      "h++",
+      "ii",
+      "inl",
+      {
+        "glob": ".hpp.in"
+      },
+      {
+        "glob": ".h.in"
+      }
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "cpp",
+    "language-servers": [
+      "clangd"
+    ],
+    "scope": "source.cpp"
+  },
+  "crystal": {
+    "comment_token": "#",
+    "file_types": [
+      "cr"
+    ],
+    "grammar": "ruby",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "language-servers": [
+      "crystalline"
+    ],
+    "roots": [
+      "shard.yml",
+      "shard.lock"
+    ],
+    "scope": "source.cr"
+  },
+  "css": {
+    "auto-format": true,
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "file_types": [
+      "css",
+      "scss"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "css",
+    "language-servers": [
+      "vscode-css-language-server"
+    ],
+    "scope": "source.css"
+  },
+  "csv": {
+    "file_types": [
+      "csv"
+    ],
+    "scope": "source.csv"
+  },
+  "cue": {
+    "auto-format": true,
+    "comment_token": "//",
+    "file_types": [
+      "cue"
+    ],
+    "formatter": {
+      "args": [
+        "fmt",
+        "-"
+      ],
+      "command": "cue"
+    },
+    "indent": {
+      "tab-width": 4,
+      "unit": "\t"
+    },
+    "injection-regex": "cue",
+    "language-servers": [
+      "cuelsp"
+    ],
+    "roots": [
+      "cue.mod"
+    ],
+    "scope": "source.cue"
+  },
+  "cylc": {
+    "comment_tokens": "#",
+    "file_types": [
+      "cylc",
+      {
+        "glob": "suite.rc"
+      }
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "cylc",
+    "scope": "source.cylc"
+  },
+  "d": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "d",
+      "dd"
+    ],
+    "formatter": {
+      "command": "dfmt"
+    },
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "d",
+    "language-servers": [
+      "serve-d"
+    ],
+    "scope": "source.d"
+  },
+  "dart": {
+    "auto-format": true,
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_tokens": [
+      "//",
+      "///"
+    ],
+    "file_types": [
+      "dart"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "language-servers": [
+      "dart"
+    ],
+    "roots": [
+      "pubspec.yaml"
+    ],
+    "scope": "source.dart"
+  },
+  "dbml": {
+    "comment_token": ";",
+    "file_types": [
+      "dbml"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "dbml",
+    "scope": "source.dbml"
+  },
+  "debian": {
+    "comment_tokens": "#",
+    "file_types": [
+      "dsc",
+      "changes",
+      {
+        "glob": "debian/**/control"
+      },
+      {
+        "glob": "etc/apt/sources.list.d/*.sources"
+      }
+    ],
+    "scope": "text.debian"
+  },
+  "devicetree": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "dts",
+      "dtsi"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "\t"
+    },
+    "injection-regex": "(dtsi?|devicetree|fdt)",
+    "scope": "source.devicetree"
+  },
+  "dhall": {
+    "block_comment_tokens": {
+      "end": "-}",
+      "start": "{-"
+    },
+    "comment_token": "--",
+    "file_types": [
+      "dhall"
+    ],
+    "formatter": {
+      "args": [
+        "format"
+      ],
+      "command": "dhall"
+    },
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "dhall",
+    "language-servers": [
+      "dhall-lsp-server"
+    ],
+    "scope": "source.dhall"
+  },
+  "diff": {
+    "comment_token": "#",
+    "file_types": [
+      "diff",
+      "patch",
+      "rej"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "diff",
+    "scope": "source.diff"
+  },
+  "djot": {
+    "block_comment_tokens": {
+      "end": "%}",
+      "start": "{%"
+    },
+    "file_types": [
+      "dj",
+      "djot"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "dj|djot",
+    "scope": "source.djot"
+  },
+  "docker-compose": {
+    "comment_token": "#",
+    "file_types": [
+      {
+        "glob": "docker-compose.yaml"
+      },
+      {
+        "glob": "docker-compose.yml"
+      }
+    ],
+    "grammar": "yaml",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "language-servers": [
+      "docker-compose-langserver",
+      "yaml-language-server"
+    ],
+    "roots": [
+      "docker-compose.yaml",
+      "docker-compose.yml"
+    ],
+    "scope": "source.yaml.docker-compose"
+  },
+  "dockerfile": {
+    "comment_token": "#",
+    "file_types": [
+      "Dockerfile",
+      {
+        "glob": "Dockerfile"
+      },
+      {
+        "glob": "Dockerfile.*"
+      },
+      "dockerfile",
+      {
+        "glob": "dockerfile"
+      },
+      {
+        "glob": "dockerfile.*"
+      },
+      "Containerfile",
+      {
+        "glob": "Containerfile"
+      },
+      {
+        "glob": "Containerfile.*"
+      },
+      "containerfile",
+      {
+        "glob": "containerfile"
+      },
+      {
+        "glob": "containerfile.*"
+      }
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "docker|dockerfile",
+    "language-servers": [
+      "docker-langserver"
+    ],
+    "roots": [
+      "Dockerfile",
+      "Containerfile"
+    ],
+    "scope": "source.dockerfile"
+  },
+  "dot": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "dot"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "dot",
+    "language-servers": [
+      "dot-language-server"
+    ],
+    "scope": "source.dot"
+  },
+  "dtd": {
+    "auto-pairs": {
+      "\"": "\"",
+      "'": "'",
+      "(": ")",
+      "\u003c": "\u003e",
+      "[": "]"
+    },
+    "file_types": [
+      "dtd",
+      "ent"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "dtd",
+    "scope": "source.dtd"
+  },
+  "dune": {
+    "auto-format": true,
+    "auto-pairs": {
+      "\"": "\"",
+      "(": ")",
+      "[": "]",
+      "{": "}"
+    },
+    "comment_token": ";",
+    "file_types": [
+      {
+        "glob": "dune-project"
+      },
+      {
+        "glob": "dune"
+      }
+    ],
+    "formatter": {
+      "args": [
+        "format-dune-file"
+      ],
+      "command": "dune"
+    },
+    "grammar": "scheme",
+    "indent": {
+      "tab-width": 1,
+      "unit": " "
+    },
+    "roots": [
+      "dune-project"
+    ],
+    "scope": "source.dune"
+  },
+  "earthfile": {
+    "comment_token": "#",
+    "file_types": [
+      {
+        "glob": "Earthfile"
+      }
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "earthfile",
+    "language-servers": [
+      "earthlyls"
+    ],
+    "roots": [
+      "Earthfile"
+    ],
+    "scope": "source.earthfile"
+  },
+  "edoc": {
+    "file_types": [
+      "edoc",
+      "edoc.in"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "edoc",
+    "scope": "source.edoc"
+  },
+  "eex": {
+    "block_comment_tokens": {
+      "end": "--\u003e",
+      "start": "\u003c!--"
+    },
+    "file_types": [
+      "eex"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "eex",
+    "roots": [
+      "mix.exs",
+      "mix.lock"
+    ],
+    "scope": "source.eex"
+  },
+  "ejs": {
+    "block_comment_tokens": {
+      "end": "--\u003e",
+      "start": "\u003c!--"
+    },
+    "file_types": [
+      "ejs"
+    ],
+    "grammar": "embedded-template",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "ejs",
+    "scope": "text.html.ejs"
+  },
+  "elisp": {
+    "auto-pairs": {
+      "\"": "\"",
+      "(": ")"
+    },
+    "comment_tokens": [
+      ";"
+    ],
+    "file_types": [
+      "el"
+    ],
+    "scope": "source.elisp"
+  },
+  "elixir": {
+    "comment_token": "#",
+    "file_types": [
+      "ex",
+      "exs",
+      {
+        "glob": "mix.lock"
+      }
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "(elixir|ex)",
+    "language-servers": [
+      "elixir-ls"
+    ],
+    "roots": [
+      "mix.exs",
+      "mix.lock"
+    ],
+    "scope": "source.elixir",
+    "shebangs": [
+      "elixir"
+    ]
+  },
+  "elm": {
+    "auto-format": true,
+    "block_comment_tokens": {
+      "end": "-}",
+      "start": "{-"
+    },
+    "comment_token": "--",
+    "file_types": [
+      "elm"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "elm",
+    "language-servers": [
+      "elm-language-server"
+    ],
+    "roots": [
+      "elm.json"
+    ],
+    "scope": "source.elm"
+  },
+  "elvish": {
+    "comment_token": "#",
+    "file_types": [
+      "elv"
+    ],
+    "grammar": "elvish",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "language-servers": [
+      "elvish"
+    ],
+    "scope": "source.elvish",
+    "shebangs": [
+      "elvish"
+    ]
+  },
+  "env": {
+    "comment_token": "#",
+    "file_types": [
+      {
+        "glob": ".env"
+      },
+      {
+        "glob": ".env.*"
+      },
+      {
+        "glob": ".envrc"
+      },
+      {
+        "glob": ".envrc.*"
+      }
+    ],
+    "grammar": "bash",
+    "indent": {
+      "tab-width": 4,
+      "unit": "\t"
+    },
+    "injection-regex": "env",
+    "scope": "source.env"
+  },
+  "erb": {
+    "block_comment_tokens": {
+      "end": "--\u003e",
+      "start": "\u003c!--"
+    },
+    "file_types": [
+      "erb"
+    ],
+    "grammar": "embedded-template",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "erb",
+    "scope": "text.html.erb"
+  },
+  "erlang": {
+    "comment_token": "%%",
+    "file_types": [
+      "erl",
+      "hrl",
+      "app",
+      {
+        "glob": "rebar.config"
+      },
+      {
+        "glob": "rebar.lock"
+      },
+      {
+        "glob": "*.app.src"
+      }
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "erl(ang)?",
+    "language-servers": [
+      "erlang-ls",
+      "elp"
+    ],
+    "roots": [
+      "rebar.config"
+    ],
+    "scope": "source.erlang",
+    "shebangs": [
+      "escript"
+    ]
+  },
+  "esdl": {
+    "comment_token": "#",
+    "file_types": [
+      "esdl"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "esdl",
+    "roots": [
+      "edgedb.toml"
+    ],
+    "scope": "source.esdl"
+  },
+  "fga": {
+    "comment_token": "#",
+    "file_types": [
+      "fga"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "fga",
+    "scope": "source.fga"
+  },
+  "fidl": {
+    "auto-pairs": {
+      "\"": "\"",
+      "(": ")",
+      "\u003c": "\u003e",
+      "{": "}"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "fidl"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "fidl",
+    "scope": "source.fidl"
+  },
+  "fish": {
+    "auto-format": true,
+    "comment_token": "#",
+    "file_types": [
+      "fish"
+    ],
+    "formatter": {
+      "command": "fish_indent"
+    },
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "fish",
+    "language-servers": [
+      "fish-lsp"
+    ],
+    "scope": "source.fish",
+    "shebangs": [
+      "fish"
+    ]
+  },
+  "forth": {
+    "comment_token": "\\",
+    "file_types": [
+      "fs",
+      "forth",
+      "fth",
+      "4th"
+    ],
+    "indent": {
+      "tab-width": 3,
+      "unit": "   "
+    },
+    "injection-regex": "forth",
+    "language-servers": [
+      "forth-lsp"
+    ],
+    "scope": "source.forth"
+  },
+  "fortran": {
+    "comment_token": "!",
+    "file_types": [
+      "f",
+      "for",
+      "f90",
+      "f95",
+      "f03"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "fortran",
+    "language-servers": [
+      "fortls"
+    ],
+    "roots": [
+      "fpm.toml"
+    ],
+    "scope": "source.fortran"
+  },
+  "fsharp": {
+    "auto-format": true,
+    "block_comment_tokens": {
+      "end": "*)",
+      "start": "(*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "fs",
+      "fsx",
+      "fsi",
+      "fsscript"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "fsharp",
+    "language-servers": [
+      "fsharp-ls"
+    ],
+    "roots": [
+      "sln",
+      "fsproj"
+    ],
+    "scope": "source.fs"
+  },
+  "gas": {
+    "comment_token": "#",
+    "file_types": [
+      "s"
+    ],
+    "indent": {
+      "tab-width": 8,
+      "unit": "        "
+    },
+    "injection-regex": "gas",
+    "language-servers": [
+      "asm-lsp"
+    ],
+    "scope": "source.gas"
+  },
+  "gdscript": {
+    "auto-format": true,
+    "comment_tokens": [
+      "#",
+      "##"
+    ],
+    "file_types": [
+      "gd"
+    ],
+    "formatter": {
+      "args": [
+        "-"
+      ],
+      "command": "gdformat"
+    },
+    "indent": {
+      "tab-width": 4,
+      "unit": "\t"
+    },
+    "injection-regex": "gdscript",
+    "roots": [
+      "project.godot"
+    ],
+    "scope": "source.gdscript",
+    "shebangs": []
+  },
+  "gemini": {
+    "file_types": [
+      "gmi"
+    ],
+    "scope": "source.gmi"
+  },
+  "gherkin": {
+    "comment_token": "#",
+    "file_types": [
+      "feature"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "scope": "source.feature"
+  },
+  "ghostty": {
+    "comment_tokens": "#",
+    "file_types": [
+      {
+        "glob": "ghostty/config"
+      }
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "scope": "source.ghostty"
+  },
+  "git-attributes": {
+    "comment_token": "#",
+    "file_types": [
+      {
+        "glob": ".gitattributes"
+      }
+    ],
+    "grammar": "gitattributes",
+    "injection-regex": "git-attributes",
+    "scope": "source.gitattributes"
+  },
+  "git-commit": {
+    "comment_token": "#",
+    "file_types": [
+      {
+        "glob": "COMMIT_EDITMSG"
+      },
+      {
+        "glob": "MERGE_MSG"
+      }
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "rulers": [
+      51,
+      73
+    ],
+    "scope": "git.commitmsg",
+    "text-width": 72
+  },
+  "git-config": {
+    "comment_token": "#",
+    "file_types": [
+      "gitconfig",
+      {
+        "glob": ".gitmodules"
+      },
+      {
+        "glob": ".gitconfig"
+      },
+      {
+        "glob": ".git/config"
+      },
+      {
+        "glob": ".config/git/config"
+      }
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "\t"
+    },
+    "injection-regex": "git-config",
+    "scope": "source.gitconfig"
+  },
+  "git-ignore": {
+    "comment_token": "#",
+    "file_types": [
+      {
+        "glob": ".gitignore_global"
+      },
+      {
+        "glob": "git/ignore"
+      },
+      {
+        "glob": ".ignore"
+      },
+      {
+        "glob": "CODEOWNERS"
+      },
+      {
+        "glob": ".config/helix/ignore"
+      },
+      {
+        "glob": ".helix/ignore"
+      },
+      {
+        "glob": ".*ignore"
+      }
+    ],
+    "grammar": "gitignore",
+    "injection-regex": "git-ignore",
+    "scope": "source.gitignore"
+  },
+  "git-rebase": {
+    "comment_token": "#",
+    "file_types": [
+      {
+        "glob": "git-rebase-todo"
+      }
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "\t"
+    },
+    "injection-regex": "git-rebase",
+    "scope": "source.gitrebase"
+  },
+  "gjs": {
+    "auto-pairs": {
+      "\"": "\"",
+      "'": "'",
+      "(": ")",
+      "\u003c": "\u003e",
+      "{": "}"
+    },
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "gjs"
+    ],
+    "grammar": "javascript",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "language-servers": [
+      {
+        "except-features": [
+          "format",
+          "diagnostics"
+        ],
+        "name": "typescript-language-server"
+      },
+      "vscode-eslint-language-server",
+      "ember-language-server"
+    ],
+    "roots": [
+      "package.json",
+      "ember-cli-build.js"
+    ],
+    "scope": "source.gjs"
+  },
+  "jai": {
+    "file_types": [
+      "jai"
+    ],
+    "comment_token": "//",
+    "block_comment_tokens": {
+      "start": "/*",
+      "end": "*/"
+    },
+    "language-servers": [
+      "jails"
+    ],
+    "injection-regex": "jai",
+    "roots": [],
+    "scope": "source.jai"
+  },
+  "gleam": {
+    "auto-format": true,
+    "comment_token": "//",
+    "file_types": [
+      "gleam"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "gleam",
+    "language-servers": [
+      "gleam"
+    ],
+    "roots": [
+      "gleam.toml"
+    ],
+    "scope": "source.gleam"
+  },
+  "glimmer": {
+    "auto-pairs": {
+      "\"": "\"",
+      "'": "'",
+      "(": ")",
+      "\u003c": "\u003e",
+      "{": "}"
+    },
+    "block_comment_tokens": {
+      "end": "}}",
+      "start": "{{!"
+    },
+    "file_types": [
+      {
+        "glob": "{app,addon}/{components,templates}/*.hbs"
+      }
+    ],
+    "formatter": {
+      "args": [
+        "--parser",
+        "glimmer"
+      ],
+      "command": "prettier"
+    },
+    "grammar": "glimmer",
+    "injection-regex": "hbs",
+    "language-servers": [
+      "ember-language-server"
+    ],
+    "roots": [
+      "package.json",
+      "ember-cli-build.js"
+    ],
+    "scope": "source.glimmer"
+  },
+  "glsl": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "glsl",
+      "vert",
+      "tesc",
+      "tese",
+      "geom",
+      "frag",
+      "comp"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "glsl",
+    "language-servers": [
+      "glsl_analyzer"
+    ],
+    "scope": "source.glsl"
+  },
+  "gn": {
+    "comment_token": "#",
+    "file_types": [
+      "gn",
+      "gni"
+    ],
+    "formatter": {
+      "args": [
+        "format",
+        "--stdin"
+      ],
+      "command": "gn"
+    },
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "gn",
+    "roots": [],
+    "scope": "source.gn"
+  },
+  "go": {
+    "auto-format": true,
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "debugger": {
+      "args": [
+        "dap"
+      ],
+      "command": "dlv",
+      "name": "go",
+      "port-arg": "-l 127.0.0.1:{}",
+      "templates": [
+        {
+          "args": {
+            "mode": "debug",
+            "program": "{0}"
+          },
+          "completion": [
+            {
+              "completion": "filename",
+              "default": ".",
+              "name": "entrypoint"
+            }
+          ],
+          "name": "source",
+          "request": "launch"
+        },
+        {
+          "args": {
+            "mode": "exec",
+            "program": "{0}"
+          },
+          "completion": [
+            {
+              "completion": "filename",
+              "name": "binary"
+            }
+          ],
+          "name": "binary",
+          "request": "launch"
+        },
+        {
+          "args": {
+            "mode": "test",
+            "program": "{0}"
+          },
+          "completion": [
+            {
+              "completion": "directory",
+              "default": ".",
+              "name": "tests"
+            }
+          ],
+          "name": "test",
+          "request": "launch"
+        },
+        {
+          "args": {
+            "mode": "local",
+            "processId": "{0}"
+          },
+          "completion": [
+            "pid"
+          ],
+          "name": "attach",
+          "request": "attach"
+        },
+        {
+          "args": {
+            "coreFilePath": "{1}",
+            "mode": "core",
+            "program": "{0}"
+          },
+          "completion": [
+            {
+              "completion": "filename",
+              "name": "binary"
+            },
+            {
+              "completion": "filename",
+              "name": "core"
+            }
+          ],
+          "name": "core",
+          "request": "launch"
+        }
+      ],
+      "transport": "tcp"
+    },
+    "file_types": [
+      "go"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "\t"
+    },
+    "injection-regex": "go",
+    "language-servers": [
+      "gopls",
+      "golangci-lint-lsp"
+    ],
+    "roots": [
+      "go.work",
+      "go.mod"
+    ],
+    "scope": "source.go"
+  },
+  "godot-resource": {
+    "auto-format": false,
+    "comment_token": ";",
+    "file_types": [
+      "tscn",
+      "tres",
+      "godot",
+      "gdextension"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "\t"
+    },
+    "injection-regex": "godot",
+    "roots": [
+      "project.godot"
+    ],
+    "scope": "source.tscn",
+    "shebangs": []
+  },
+  "gomod": {
+    "auto-format": true,
+    "comment_token": "//",
+    "file_types": [
+      {
+        "glob": "go.mod"
+      }
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "\t"
+    },
+    "injection-regex": "gomod",
+    "language-servers": [
+      "gopls"
+    ],
+    "scope": "source.gomod"
+  },
+  "gotmpl": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "gotmpl"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": " "
+    },
+    "injection-regex": "gotmpl",
+    "language-servers": [
+      "gopls"
+    ],
+    "scope": "source.gotmpl"
+  },
+  "gowork": {
+    "auto-format": true,
+    "comment_token": "//",
+    "file_types": [
+      {
+        "glob": "go.work"
+      }
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "\t"
+    },
+    "injection-regex": "gowork",
+    "language-servers": [
+      "gopls"
+    ],
+    "scope": "source.gowork"
+  },
+  "gpr": {
+    "comment_token": "--",
+    "file_types": [
+      "gpr"
+    ],
+    "indent": {
+      "tab-width": 3,
+      "unit": "   "
+    },
+    "injection-regex": "gpr",
+    "language-servers": [
+      "ada-gpr-language-server"
+    ],
+    "roots": [
+      "alire.toml"
+    ],
+    "scope": "source.gpr"
+  },
+  "graphql": {
+    "block_comment_tokens": {
+      "end": "\"\"\"",
+      "start": "\"\"\""
+    },
+    "comment_token": "#",
+    "file_types": [
+      "gql",
+      "graphql",
+      "graphqls"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "graphql",
+    "language-servers": [
+      "graphql-language-service"
+    ],
+    "scope": "source.graphql"
+  },
+  "gren": {
+    "block_comment_tokens": {
+      "end": "-}",
+      "start": "{-"
+    },
+    "comment_tokens": "--",
+    "file_types": [
+      "gren"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "gren",
+    "roots": [
+      "gren.json"
+    ],
+    "scope": "source.gren"
+  },
+  "groovy": {
+    "comment_token": "//",
+    "file_types": [
+      "gradle",
+      "groovy",
+      "jenkinsfile",
+      {
+        "glob": "Jenkinsfile"
+      },
+      {
+        "glob": "Jenkinsfile.*"
+      }
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "language-id": "groovy",
+    "scope": "source.groovy",
+    "shebangs": [
+      "groovy"
+    ]
+  },
+  "gts": {
+    "auto-pairs": {
+      "\"": "\"",
+      "'": "'",
+      "(": ")",
+      "\u003c": "\u003e",
+      "{": "}"
+    },
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "gts"
+    ],
+    "grammar": "typescript",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "language-servers": [
+      {
+        "except-features": [
+          "format",
+          "diagnostics"
+        ],
+        "name": "typescript-language-server"
+      },
+      "vscode-eslint-language-server",
+      "ember-language-server"
+    ],
+    "roots": [
+      "package.json",
+      "ember-cli-build.js"
+    ],
+    "scope": "source.gts"
+  },
+  "hare": {
+    "comment_token": "//",
+    "file_types": [
+      "ha"
+    ],
+    "indent": {
+      "tab-width": 8,
+      "unit": "\t"
+    },
+    "injection-regex": "hare",
+    "scope": "source.hare"
+  },
+  "haskell": {
+    "block_comment_tokens": {
+      "end": "-}",
+      "start": "{-"
+    },
+    "comment_token": "--",
+    "file_types": [
+      "hs",
+      "hs-boot",
+      "hsc"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "hs|haskell",
+    "language-servers": [
+      "haskell-language-server"
+    ],
+    "roots": [
+      "Setup.hs",
+      "stack.yaml",
+      "cabal.project"
+    ],
+    "scope": "source.haskell"
+  },
+  "haskell-persistent": {
+    "comment_token": "--",
+    "file_types": [
+      "persistentmodels"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "scope": "source.persistentmodels"
+  },
+  "hcl": {
+    "auto-format": true,
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "#",
+    "file_types": [
+      "hcl",
+      "tf",
+      "nomad"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "(hcl|tf|nomad)",
+    "language-id": "terraform",
+    "language-servers": [
+      "terraform-ls"
+    ],
+    "scope": "source.hcl"
+  },
+  "heex": {
+    "block_comment_tokens": {
+      "end": "--\u003e",
+      "start": "\u003c!--"
+    },
+    "file_types": [
+      "heex"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "heex",
+    "language-servers": [
+      "elixir-ls"
+    ],
+    "roots": [
+      "mix.exs",
+      "mix.lock"
+    ],
+    "scope": "source.heex"
+  },
+  "helm": {
+    "comment_token": "#",
+    "file_types": [
+      {
+        "glob": "templates/*.yaml"
+      },
+      {
+        "glob": "templates/*.yml"
+      },
+      {
+        "glob": "templates/_*.tpl"
+      },
+      {
+        "glob": "templates/NOTES.txt"
+      }
+    ],
+    "grammar": "gotmpl",
+    "language-servers": [
+      "helm_ls"
+    ],
+    "roots": [
+      "Chart.yaml"
+    ],
+    "scope": "source.helm"
+  },
+  "hocon": {
+    "auto-format": true,
+    "comment_token": "#",
+    "file_types": [
+      {
+        "glob": "**/src/*/resources/**/*.conf"
+      },
+      {
+        "glob": "*scalafmt*.conf"
+      },
+      {
+        "glob": "*scalafix*.conf"
+      }
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "scope": "source.conf"
+  },
+  "hoon": {
+    "comment_token": "::",
+    "file_types": [
+      "hoon"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "hoon",
+    "scope": "source.hoon"
+  },
+  "hosts": {
+    "comment_token": "#",
+    "file_types": [
+      {
+        "glob": "hosts"
+      }
+    ],
+    "scope": "source.hosts"
+  },
+  "html": {
+    "auto-format": true,
+    "block_comment_tokens": {
+      "end": "--\u003e",
+      "start": "\u003c!--"
+    },
+    "file_types": [
+      "html",
+      "htm",
+      "shtml",
+      "xhtml",
+      "xht",
+      "jsp",
+      "asp",
+      "aspx",
+      "jshtm",
+      "volt",
+      "rhtml",
+      "cshtml"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "html",
+    "language-servers": [
+      "vscode-html-language-server",
+      "superhtml"
+    ],
+    "scope": "text.html.basic"
+  },
+  "hurl": {
+    "comment_token": "#",
+    "file_types": [
+      "hurl"
+    ],
+    "formatter": {
+      "command": "hurlfmt"
+    },
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "hurl",
+    "scope": "source.hurl"
+  },
+  "hyprlang": {
+    "comment_token": "#",
+    "file_types": [
+      {
+        "glob": "hypr/*.conf"
+      }
+    ],
+    "grammar": "hyprlang",
+    "language-servers": [
+      "hyprls"
+    ],
+    "roots": [
+      "hyprland.conf"
+    ],
+    "scope": "source.hyprlang"
+  },
+  "idris": {
+    "block_comment_tokens": {
+      "end": "-}",
+      "start": "{-"
+    },
+    "comment_token": "--",
+    "file_types": [
+      "idr"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "idr",
+    "language-servers": [
+      "idris2-lsp"
+    ],
+    "scope": "source.idr",
+    "shebangs": []
+  },
+  "iex": {
+    "comment_token": "#",
+    "file_types": [
+      "iex"
+    ],
+    "injection-regex": "iex",
+    "scope": "source.iex"
+  },
+  "ini": {
+    "comment_token": "#",
+    "file_types": [
+      "ini",
+      "service",
+      "automount",
+      "desktop",
+      "device",
+      "mount",
+      "nspawn",
+      "path",
+      "scope",
+      "slice",
+      "socket",
+      "swap",
+      "target",
+      "timer",
+      {
+        "glob": "systemd/**/*.conf"
+      },
+      "container",
+      "volume",
+      "kube",
+      "network",
+      {
+        "glob": ".editorconfig"
+      },
+      {
+        "glob": ".npmrc"
+      },
+      {
+        "glob": "hgrc"
+      },
+      {
+        "glob": "npmrc"
+      },
+      {
+        "glob": "rclone.conf"
+      },
+      "properties",
+      "cfg",
+      "directory"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "\t"
+    },
+    "injection-regex": "ini",
+    "scope": "source.ini"
+  },
+  "ink": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "ink"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "\t"
+    },
+    "injection-regex": "ink",
+    "scope": "source.ink",
+    "soft-wrap": {
+      "enable": true
+    }
+  },
+  "inko": {
+    "auto-format": true,
+    "comment_token": "#",
+    "file_types": [
+      "inko"
+    ],
+    "formatter": {
+      "args": [
+        "fmt",
+        "-"
+      ],
+      "command": "inko"
+    },
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "inko",
+    "roots": [
+      "inko.pkg"
+    ],
+    "scope": "source.inko"
+  },
+  "janet": {
+    "auto-pairs": {
+      "\"": "\"",
+      "(": ")",
+      "[": "]",
+      "`": "`",
+      "{": "}"
+    },
+    "comment_token": "#",
+    "file_types": [
+      "cgen",
+      "janet",
+      "jdn"
+    ],
+    "formatter": {
+      "command": "janet-format"
+    },
+    "grammar": "janet-simple",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "janet",
+    "roots": [
+      "project.janet"
+    ],
+    "scope": "source.janet",
+    "shebangs": [
+      "janet"
+    ]
+  },
+  "java": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_tokens": [
+      "//"
+    ],
+    "file_types": [
+      "java",
+      "jav",
+      "pde"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "java",
+    "language-servers": [
+      "jdtls"
+    ],
+    "roots": [
+      "pom.xml",
+      "build.gradle",
+      "build.gradle.kts"
+    ],
+    "scope": "source.java"
+  },
+  "javascript": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "debugger": {
+      "name": "node-debug2",
+      "quirks": {
+        "absolute-paths": true
+      },
+      "templates": [
+        {
+          "args": {
+            "program": "{0}"
+          },
+          "completion": [
+            {
+              "completion": "filename",
+              "default": "index.js",
+              "name": "main"
+            }
+          ],
+          "name": "source",
+          "request": "launch"
+        }
+      ],
+      "transport": "stdio"
+    },
+    "file_types": [
+      "js",
+      "mjs",
+      "cjs",
+      "rules",
+      "es6",
+      "pac",
+      {
+        "glob": ".node_repl_history"
+      },
+      {
+        "glob": "jakefile"
+      }
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "(js|javascript)",
+    "language-id": "javascript",
+    "language-servers": [
+      "typescript-language-server"
+    ],
+    "roots": [
+      "package.json"
+    ],
+    "scope": "source.js",
+    "shebangs": [
+      "node"
+    ]
+  },
+  "jinja": {
+    "block_comment_tokens": {
+      "end": "#}",
+      "start": "{#"
+    },
+    "file_types": [
+      "jinja",
+      "jinja2",
+      "j2"
+    ],
+    "grammar": "jinja2",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "jinja",
+    "scope": "text.html.jinja"
+  },
+  "jjdescription": {
+    "comment_token": "JJ:",
+    "file_types": [
+      {
+        "glob": "*.jjdescription"
+      }
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "rulers": [
+      51,
+      73
+    ],
+    "scope": "jj.description",
+    "text-width": 72
+  },
+  "jq": {
+    "comment_token": "#",
+    "file_types": [
+      "jq"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "jq",
+    "language-servers": [
+      "jq-lsp"
+    ],
+    "scope": "source.jq"
+  },
+  "jsdoc": {
+    "file_types": [
+      "jsdoc"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "jsdoc",
+    "scope": "source.jsdoc"
+  },
+  "json": {
+    "auto-format": true,
+    "file_types": [
+      "json",
+      "arb",
+      "ipynb",
+      "geojson",
+      "gltf",
+      "webmanifest",
+      {
+        "glob": "flake.lock"
+      },
+      {
+        "glob": ".babelrc"
+      },
+      {
+        "glob": ".bowerrc"
+      },
+      {
+        "glob": ".jscrc"
+      },
+      "js.map",
+      "ts.map",
+      "css.map",
+      {
+        "glob": ".jslintrc"
+      },
+      "jsonl",
+      "jsonld",
+      {
+        "glob": ".vuerc"
+      },
+      {
+        "glob": "composer.lock"
+      },
+      {
+        "glob": ".watchmanconfig"
+      },
+      "avsc",
+      "ldtk",
+      "ldtkl",
+      {
+        "glob": ".swift-format"
+      },
+      "sublime-build",
+      "sublime-color-scheme",
+      "sublime-commands",
+      "sublime-completions",
+      "sublime-keymap",
+      "sublime-macro",
+      "sublime-menu",
+      "sublime-mousemap",
+      "sublime-project",
+      "sublime-settings",
+      "sublime-theme",
+      "sublime-workspace"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "json",
+    "language-servers": [
+      "vscode-json-language-server"
+    ],
+    "scope": "source.json"
+  },
+  "json5": {
+    "comment_token": "//",
+    "file_types": [
+      "json5"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "json5",
+    "language-servers": [],
+    "scope": "source.json5"
+  },
+  "jsonc": {
+    "auto-format": true,
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "jsonc",
+      {
+        "glob": "tsconfig.json"
+      },
+      {
+        "glob": "bun.lock"
+      }
+    ],
+    "grammar": "json",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "jsonc",
+    "language-servers": [
+      "vscode-json-language-server"
+    ],
+    "scope": "source.json"
+  },
+  "jsonnet": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "libsonnet",
+      "jsonnet"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "language-servers": [
+      "jsonnet-language-server"
+    ],
+    "roots": [
+      "jsonnetfile.json"
+    ],
+    "scope": "source.jsonnet"
+  },
+  "jsx": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "jsx"
+    ],
+    "grammar": "javascript",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "jsx",
+    "language-id": "javascriptreact",
+    "language-servers": [
+      "typescript-language-server"
+    ],
+    "roots": [
+      "package.json"
+    ],
+    "scope": "source.jsx"
+  },
+  "julia": {
+    "block_comment_tokens": {
+      "end": "=#",
+      "start": "#="
+    },
+    "comment_token": "#",
+    "file_types": [
+      "jl"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "julia",
+    "language-servers": [
+      "julia"
+    ],
+    "roots": [
+      "Manifest.toml",
+      "Project.toml"
+    ],
+    "scope": "source.julia",
+    "shebangs": [
+      "julia"
+    ]
+  },
+  "just": {
+    "comment_token": "#",
+    "file_types": [
+      "just",
+      {
+        "glob": "justfile"
+      },
+      {
+        "glob": "Justfile"
+      },
+      {
+        "glob": ".justfile"
+      },
+      {
+        "glob": ".Justfile"
+      }
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "just",
+    "language-servers": [
+      "just-lsp"
+    ],
+    "scope": "source.just"
+  },
+  "kdl": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "kdl"
+    ],
+    "formatter": {
+      "args": [
+        "format",
+        "-"
+      ],
+      "command": "kdlfmt"
+    },
+    "injection-regex": "kdl",
+    "scope": "source.kdl"
+  },
+  "koka": {
+    "comment_token": "//",
+    "file_types": [
+      "kk"
+    ],
+    "indent": {
+      "tab-width": 8,
+      "unit": "  "
+    },
+    "injection-regex": "koka",
+    "language-servers": [
+      "koka"
+    ],
+    "scope": "source.koka"
+  },
+  "kotlin": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "kt",
+      "kts"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "language-servers": [
+      "kotlin-language-server"
+    ],
+    "roots": [
+      "settings.gradle",
+      "settings.gradle.kts"
+    ],
+    "scope": "source.kotlin"
+  },
+  "koto": {
+    "block_comment_tokens": [
+      "#-",
+      "-#"
+    ],
+    "comment_token": "#",
+    "file_types": [
+      "koto"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "koto",
+    "language-servers": [
+      "koto-ls"
+    ],
+    "scope": "source.koto"
   },
   "latex": {
     "comment_token": "%",
@@ -451,57 +2994,72 @@
       "Rd",
       "bbx",
       "cbx"
-    ]
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "\t"
+    },
+    "injection-regex": "tex",
+    "language-servers": [
+      "texlab"
+    ],
+    "scope": "source.tex"
   },
-  "bibtex": {
-    "comment_token": "%",
+  "ld": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
     "file_types": [
-      "bib"
-    ]
+      "ld"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "ld",
+    "scope": "source.ld"
+  },
+  "ldif": {
+    "comment_token": "#",
+    "file_types": [
+      "ldif"
+    ],
+    "injection-regex": "ldif",
+    "scope": "source.ldif"
   },
   "lean": {
-    "comment_token": "--",
-    "block_comment_tokens": {
-      "start": "/-",
-      "end": "-/"
+    "auto-pairs": {
+      "\"": "\"",
+      "(": ")",
+      "[": "]",
+      "{": "}",
+      "⟨": "⟩"
     },
+    "block_comment_tokens": {
+      "end": "-/",
+      "start": "/-"
+    },
+    "comment_token": "--",
     "file_types": [
       "lean"
-    ]
-  },
-  "lpf": {
-    "comment_token": "#",
-    "file_types": [
-      "lpf"
-    ]
-  },
-  "julia": {
-    "comment_token": "#",
-    "block_comment_tokens": {
-      "start": "#=",
-      "end": "=#"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
     },
-    "file_types": [
-      "jl"
-    ]
-  },
-  "java": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "java",
-      "jav",
-      "pde"
-    ]
-  },
-  "smali": {
-    "comment_token": "#",
-    "file_types": [
-      "smali"
-    ]
+    "injection-regex": "lean",
+    "language-servers": [
+      "lean"
+    ],
+    "roots": [
+      "lakefile.lean"
+    ],
+    "rulers": [
+      101
+    ],
+    "scope": "source.lean",
+    "text-width": 100
   },
   "ledger": {
     "comment_token": ";",
@@ -509,175 +3067,736 @@
       "ldg",
       "ledger",
       "journal"
-    ]
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "ledger",
+    "scope": "source.ledger"
   },
-  "beancount": {
+  "llvm": {
     "comment_token": ";",
     "file_types": [
-      "beancount",
-      "bean"
-    ]
-  },
-  "ocaml": {
-    "block_comment_tokens": {
-      "start": "(*",
-      "end": "*)"
+      "ll"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
     },
-    "file_types": [
-      "ml"
-    ]
+    "injection-regex": "llvm",
+    "scope": "source.llvm"
   },
-  "ocaml-interface": {
-    "comment_token": "(**)",
-    "block_comment_tokens": {
-      "start": "(*",
-      "end": "*)"
-    },
-    "file_types": [
-      "mli"
-    ]
-  },
-  "dune": {
+  "llvm-mir": {
     "comment_token": ";",
-    "file_types": []
+    "file_types": [],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "mir",
+    "scope": "source.llvm_mir"
+  },
+  "llvm-mir-yaml": {
+    "comment_token": "#",
+    "file_types": [
+      "mir"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "scope": "source.yaml"
+  },
+  "log": {
+    "file_types": [
+      "log"
+    ],
+    "scope": "source.log"
+  },
+  "lpf": {
+    "comment_token": "#",
+    "file_types": [
+      "lpf"
+    ],
+    "scope": "source.lpf"
   },
   "lua": {
-    "comment_token": "--",
     "block_comment_tokens": {
-      "start": "--[[",
-      "end": "--]]"
+      "end": "--]]",
+      "start": "--[["
     },
+    "comment_token": "--",
     "file_types": [
       "lua",
       "rockspec"
-    ]
-  },
-  "teal": {
-    "comment_token": "--",
-    "block_comment_tokens": {
-      "start": "--[[",
-      "end": "--]]"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
     },
-    "file_types": [
-      "tl"
+    "injection-regex": "lua",
+    "language-servers": [
+      "lua-language-server"
+    ],
+    "roots": [
+      ".luarc.json",
+      ".luacheckrc",
+      ".stylua.toml",
+      "selene.toml",
+      ".git"
+    ],
+    "scope": "source.lua",
+    "shebangs": [
+      "lua",
+      "luajit"
     ]
   },
-  "svelte": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
+  "mail": {
     "file_types": [
-      "svelte"
-    ]
+      "eml"
+    ],
+    "injection-regex": "mail|eml|email",
+    "scope": "text.mail"
   },
-  "vue": {
-    "block_comment_tokens": {
-      "start": "<!--",
-      "end": "-->"
-    },
-    "file_types": [
-      "vue"
-    ]
-  },
-  "yaml": {
+  "make": {
     "comment_token": "#",
     "file_types": [
-      "yml",
-      "yaml",
-      "sublime-syntax"
+      {
+        "glob": "Makefile"
+      },
+      {
+        "glob": "makefile"
+      },
+      "make",
+      "mk",
+      "mak",
+      {
+        "glob": "GNUmakefile"
+      },
+      {
+        "glob": "OCamlMakefile"
+      }
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "\t"
+    },
+    "injection-regex": "(make|makefile|Makefile|mk)",
+    "scope": "source.make",
+    "shebangs": [
+      "make",
+      "gmake"
     ]
+  },
+  "markdoc": {
+    "block_comment_tokens": {
+      "end": "--\u003e",
+      "start": "\u003c!--"
+    },
+    "file_types": [
+      "mdoc"
+    ],
+    "language-servers": [
+      "markdoc-ls"
+    ],
+    "scope": "text.markdoc"
+  },
+  "markdown": {
+    "block_comment_tokens": {
+      "end": "--\u003e",
+      "start": "\u003c!--"
+    },
+    "file_types": [
+      "md",
+      "livemd",
+      "markdown",
+      "mdx",
+      "mkd",
+      "mkdn",
+      "mdwn",
+      "mdown",
+      "markdn",
+      "mdtxt",
+      "mdtext",
+      "workbook",
+      {
+        "glob": "PULLREQ_EDITMSG"
+      }
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "md|markdown",
+    "language-servers": [
+      "marksman",
+      "markdown-oxide"
+    ],
+    "roots": [
+      ".marksman.toml"
+    ],
+    "scope": "source.md"
+  },
+  "markdown.inline": {
+    "file_types": [],
+    "grammar": "markdown_inline",
+    "injection-regex": "markdown\\.inline",
+    "scope": "source.markdown.inline"
+  },
+  "matlab": {
+    "comment_token": "%",
+    "file_types": [
+      "m"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "scope": "source.m",
+    "shebangs": [
+      "octave-cli",
+      "matlab"
+    ]
+  },
+  "mermaid": {
+    "comment_token": "%%",
+    "file_types": [
+      "mermaid",
+      "mmd"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "mermaid",
+    "scope": "source.mermaid"
+  },
+  "meson": {
+    "comment_token": "#",
+    "file_types": [
+      {
+        "glob": "meson.build"
+      },
+      {
+        "glob": "meson.options"
+      },
+      {
+        "glob": "meson_options.txt"
+      }
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "meson",
+    "language-servers": [
+      "mesonlsp"
+    ],
+    "scope": "source.meson"
+  },
+  "mint": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "mint"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "mint",
+    "language-servers": [
+      "mint"
+    ],
+    "scope": "source.mint",
+    "shebangs": []
+  },
+  "mojo": {
+    "auto-format": true,
+    "comment_token": "#",
+    "file_types": [
+      "mojo",
+      "🔥"
+    ],
+    "formatter": {
+      "args": [
+        "run",
+        "mojo",
+        "format",
+        "-q",
+        "-"
+      ],
+      "command": "magic"
+    },
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "mojo",
+    "language-servers": [
+      "mojo-lsp"
+    ],
+    "roots": [
+      "__init__.mojo"
+    ],
+    "scope": "source.mojo"
+  },
+  "move": {
+    "comment_token": "//",
+    "file_types": [
+      "move"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "move",
+    "language-servers": [],
+    "roots": [
+      "Move.toml"
+    ],
+    "scope": "source.move"
+  },
+  "msbuild": {
+    "auto-pairs": {
+      "\"": "\"",
+      "'": "'",
+      "(": ")",
+      "\u003c": "\u003e",
+      "[": "]",
+      "{": "}"
+    },
+    "block_comment_tokens": {
+      "end": "--\u003e",
+      "start": "\u003c!--"
+    },
+    "file_types": [
+      "proj",
+      "vbproj",
+      "csproj",
+      "fsproj",
+      "targets",
+      "props"
+    ],
+    "grammar": "xml",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "msbuild",
+    "scope": "source.msbuild"
+  },
+  "nasm": {
+    "comment_token": ";",
+    "file_types": [
+      "asm",
+      "S",
+      "nasm"
+    ],
+    "indent": {
+      "tab-width": 8,
+      "unit": "        "
+    },
+    "injection-regex": "n?asm",
+    "language-servers": [
+      "asm-lsp"
+    ],
+    "scope": "source.nasm"
   },
   "nestedtext": {
     "comment_token": "#",
     "file_types": [
       "nt"
-    ]
-  },
-  "haskell": {
-    "comment_token": "--",
-    "block_comment_tokens": {
-      "start": "{-",
-      "end": "-}"
+    ],
+    "grammar": "yaml",
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
     },
-    "file_types": [
-      "hs",
-      "hs-boot",
-      "hsc"
-    ]
+    "injection-regex": "nestedtext",
+    "scope": "text.nested"
   },
-  "haskell-persistent": {
-    "comment_token": "--",
-    "file_types": [
-      "persistentmodels"
-    ]
-  },
-  "purescript": {
-    "comment_token": "--",
-    "block_comment_tokens": {
-      "start": "{-",
-      "end": "-}"
-    },
-    "file_types": [
-      "purs"
-    ]
-  },
-  "zig": {
-    "comment_token": "//",
-    "file_types": [
-      "zig",
-      "zon"
-    ]
-  },
-  "prolog": {
-    "comment_token": "%",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "pl",
-      "prolog"
-    ]
-  },
-  "tsq": {
-    "comment_token": ";",
-    "file_types": []
-  },
-  "cmake": {
-    "comment_token": "#",
-    "block_comment_tokens": {
-      "start": "#[[",
-      "end": "]]"
-    },
-    "file_types": [
-      "cmake"
-    ]
-  },
-  "make": {
+  "nginx": {
     "comment_token": "#",
     "file_types": [
-      "make",
-      "mk",
-      "mak"
+      {
+        "glob": "sites-available/*.conf"
+      },
+      {
+        "glob": "sites-enabled/*.conf"
+      },
+      {
+        "glob": "nginx.conf"
+      },
+      {
+        "glob": "conf.d/*.conf"
+      }
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "nginx",
+    "roots": [
+      "nginx.conf"
+    ],
+    "scope": "source.nginx"
+  },
+  "nickel": {
+    "auto-pairs": {
+      "\"": "\"",
+      "(": ")",
+      "[": "]",
+      "{": "}"
+    },
+    "comment_token": "#",
+    "file_types": [
+      "ncl"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "nickel",
+    "language-servers": [
+      "nls"
+    ],
+    "scope": "source.nickel",
+    "shebangs": []
+  },
+  "nim": {
+    "auto-pairs": {
+      "\"": "\"",
+      "'": "'",
+      "(": ")",
+      "[": "]",
+      "{": "}"
+    },
+    "block_comment_tokens": {
+      "end": "]#",
+      "start": "#["
+    },
+    "comment_token": "#",
+    "file_types": [
+      "nim",
+      "nims",
+      "nimble"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "nim",
+    "language-servers": [
+      "nimlangserver"
+    ],
+    "scope": "source.nim",
+    "shebangs": []
+  },
+  "nix": {
+    "comment_token": "#",
+    "file_types": [
+      "nix"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "nix",
+    "language-servers": [
+      "nil",
+      "nixd"
+    ],
+    "scope": "source.nix",
+    "shebangs": []
+  },
+  "nu": {
+    "comment_token": "#",
+    "file_types": [
+      "nu",
+      "nuon"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "nu",
+    "language-servers": [
+      "nu-lsp"
+    ],
+    "scope": "source.nu",
+    "shebangs": [
+      "nu"
     ]
   },
-  "glsl": {
-    "comment_token": "//",
+  "nunjucks": {
     "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
+      "end": "#}",
+      "start": "{#"
     },
     "file_types": [
-      "glsl",
-      "vert",
-      "tesc",
-      "tese",
-      "geom",
-      "frag",
-      "comp"
+      "njk"
+    ],
+    "grammar": "jinja2",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "nunjucks",
+    "scope": "text.html.nunjucks"
+  },
+  "ocaml": {
+    "auto-pairs": {
+      "\"": "\"",
+      "(": ")",
+      "[": "]",
+      "{": "}"
+    },
+    "block_comment_tokens": {
+      "end": "*)",
+      "start": "(*"
+    },
+    "file_types": [
+      "ml"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "ocaml",
+    "language-servers": [
+      "ocamllsp"
+    ],
+    "scope": "source.ocaml",
+    "shebangs": [
+      "ocaml",
+      "ocamlrun",
+      "ocamlscript"
     ]
+  },
+  "ocaml-interface": {
+    "auto-pairs": {
+      "\"": "\"",
+      "(": ")",
+      "[": "]",
+      "{": "}"
+    },
+    "block_comment_tokens": {
+      "end": "*)",
+      "start": "(*"
+    },
+    "comment_token": "(**)",
+    "file_types": [
+      "mli"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "language-servers": [
+      "ocamllsp"
+    ],
+    "scope": "source.ocaml.interface",
+    "shebangs": []
+  },
+  "odin": {
+    "auto-format": true,
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "debugger": {
+      "command": "lldb-dap",
+      "name": "lldb-dap",
+      "templates": [
+        {
+          "args": {
+            "console": "internalConsole",
+            "program": "{0}"
+          },
+          "completion": [
+            {
+              "completion": "filename",
+              "name": "binary"
+            }
+          ],
+          "name": "binary",
+          "request": "launch"
+        },
+        {
+          "args": {
+            "console": "internalConsole",
+            "pid": "{0}"
+          },
+          "completion": [
+            "pid"
+          ],
+          "name": "attach",
+          "request": "attach"
+        },
+        {
+          "args": {
+            "attachCommands": [
+              "platform select remote-gdb-server",
+              "platform connect {0}",
+              "file {1}",
+              "attach {2}"
+            ],
+            "console": "internalConsole"
+          },
+          "completion": [
+            {
+              "default": "connect://localhost:3333",
+              "name": "lldb connect url"
+            },
+            {
+              "completion": "filename",
+              "name": "file"
+            },
+            "pid"
+          ],
+          "name": "gdbserver attach",
+          "request": "attach"
+        }
+      ],
+      "transport": "stdio"
+    },
+    "file_types": [
+      "odin"
+    ],
+    "formatter": {
+      "args": [
+        "-stdin"
+      ],
+      "command": "odinfmt"
+    },
+    "indent": {
+      "tab-width": 4,
+      "unit": "\t"
+    },
+    "language-servers": [
+      "ols"
+    ],
+    "roots": [
+      "ols.json",
+      "main.odin"
+    ],
+    "scope": "source.odin"
+  },
+  "ohm": {
+    "auto-pairs": {
+      "\"": "\"",
+      "(": ")",
+      "\u003c": "\u003e",
+      "{": "}"
+    },
+    "block_comment_tokens": [
+      {
+        "end": "*/",
+        "start": "/*"
+      },
+      {
+        "end": "*/",
+        "start": "/**"
+      }
+    ],
+    "comment_token": "//",
+    "file_types": [
+      "ohm"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "ohm",
+    "scope": "source.ohm"
+  },
+  "opencl": {
+    "comment_token": "//",
+    "file_types": [
+      "cl"
+    ],
+    "injection-regex": "(cl|opencl)",
+    "language-servers": [
+      "clangd"
+    ],
+    "scope": "source.cl"
+  },
+  "openscad": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "scad"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "\t"
+    },
+    "injection-regex": "openscad",
+    "language-servers": [
+      "openscad-lsp"
+    ],
+    "scope": "source.openscad"
+  },
+  "org": {
+    "file_types": [
+      "org"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "org",
+    "scope": "source.org"
+  },
+  "pascal": {
+    "block_comment_tokens": {
+      "end": "}",
+      "start": "{"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "pas",
+      "pp",
+      "inc",
+      "lpr",
+      "lfm"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "pascal",
+    "language-servers": [
+      "pasls"
+    ],
+    "scope": "source.pascal"
+  },
+  "passwd": {
+    "file_types": [
+      {
+        "glob": "passwd"
+      }
+    ],
+    "scope": "source.passwd"
+  },
+  "pem": {
+    "file_types": [
+      "pem",
+      "cert",
+      "crt"
+    ],
+    "grammar": "pem",
+    "injection-regex": "pem",
+    "scope": "source.pem"
   },
   "perl": {
     "comment_token": "#",
@@ -694,732 +3813,1917 @@
       "p6",
       "pl6",
       "pm6"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "language-servers": [
+      "perlnavigator"
+    ],
+    "scope": "source.perl",
+    "shebangs": [
+      "perl"
     ]
+  },
+  "pest": {
+    "auto-pairs": {
+      "\"": "\"",
+      "(": ")",
+      "[": "]",
+      "{": "}"
+    },
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_tokens": [
+      "//",
+      "///",
+      "//!"
+    ],
+    "file_types": [
+      "pest"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "pest",
+    "language-servers": [
+      "pest-language-server"
+    ],
+    "scope": "source.pest"
+  },
+  "php": {
+    "block_comment_tokens": [
+      {
+        "end": "*/",
+        "start": "/**"
+      },
+      {
+        "end": "*/",
+        "start": "/*"
+      }
+    ],
+    "comment_token": "//",
+    "file_types": [
+      "php",
+      "inc",
+      "php4",
+      "php5",
+      "phtml",
+      "ctp"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "php",
+    "language-servers": [
+      "intelephense"
+    ],
+    "roots": [
+      "composer.json",
+      "index.php"
+    ],
+    "scope": "source.php",
+    "shebangs": [
+      "php"
+    ]
+  },
+  "php-only": {
+    "file_types": [],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "php-only",
+    "roots": [
+      "composer.json",
+      "index.php"
+    ],
+    "scope": "source.php-only"
+  },
+  "pkgbuild": {
+    "comment_token": "#",
+    "file_types": [
+      {
+        "glob": "PKGBUILD"
+      }
+    ],
+    "grammar": "bash",
+    "language-servers": [
+      "termux-language-server",
+      {
+        "except-features": [
+          "diagnostics"
+        ],
+        "name": "bash-language-server"
+      }
+    ],
+    "scope": "source.bash"
+  },
+  "pkl": {
+    "comment_token": "//",
+    "file_types": [
+      "pkl",
+      "pcf"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "pkl",
+    "language-servers": [
+      "pkl-lsp"
+    ],
+    "scope": "source.pkl"
+  },
+  "po": {
+    "comment_token": "#",
+    "file_types": [
+      "po",
+      "pot"
+    ],
+    "scope": "source.po"
   },
   "pod": {
     "file_types": [
       "pod"
-    ]
+    ],
+    "injection-regex": "pod",
+    "scope": "source.pod"
   },
-  "racket": {
-    "comment_token": ";",
+  "ponylang": {
     "block_comment_tokens": {
-      "start": "#|",
-      "end": "|#"
+      "end": "*/",
+      "start": "/*"
     },
-    "file_types": [
-      "rkt",
-      "rktd",
-      "rktl",
-      "scrbl"
-    ]
-  },
-  "common-lisp": {
-    "comment_token": ";",
-    "file_types": [
-      "lisp",
-      "asd",
-      "cl",
-      "l",
-      "lsp",
-      "ny",
-      "podsl",
-      "sexp"
-    ]
-  },
-  "comment": {
-    "file_types": []
-  },
-  "wesl": {
     "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
+    "file_types": [
+      "pony"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
     },
-    "file_types": [
-      "wesl"
-    ]
+    "injection-regex": "pony",
+    "roots": [
+      "corral.json",
+      "lock.json"
+    ],
+    "scope": "source.pony"
   },
-  "wgsl": {
-    "comment_token": "//",
+  "powershell": {
     "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
+      "end": "#\u003e",
+      "start": "\u003c#"
     },
-    "file_types": [
-      "wgsl"
-    ]
-  },
-  "llvm": {
-    "comment_token": ";",
-    "file_types": [
-      "ll"
-    ]
-  },
-  "llvm-mir": {
-    "comment_token": ";",
-    "file_types": []
-  },
-  "llvm-mir-yaml": {
     "comment_token": "#",
     "file_types": [
-      "mir"
-    ]
-  },
-  "tablegen": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
+      "ps1",
+      "psm1",
+      "psd1",
+      "pscc",
+      "psrc"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
     },
-    "file_types": [
-      "td"
-    ]
-  },
-  "mail": {
-    "file_types": [
-      "eml"
-    ]
-  },
-  "markdown": {
-    "block_comment_tokens": {
-      "start": "<!--",
-      "end": "-->"
-    },
-    "file_types": [
-      "md",
-      "livemd",
-      "markdown",
-      "mdx",
-      "mkd",
-      "mkdn",
-      "mdwn",
-      "mdown",
-      "markdn",
-      "mdtxt",
-      "mdtext",
-      "workbook"
-    ]
-  },
-  "markdown.inline": {
-    "file_types": []
-  },
-  "djot": {
-    "block_comment_tokens": {
-      "start": "{%",
-      "end": "%}"
-    },
-    "file_types": [
-      "dj",
-      "djot"
-    ]
-  },
-  "dart": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "dart"
-    ]
-  },
-  "scala": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "scala",
-      "sbt",
-      "sc"
-    ]
-  },
-  "dockerfile": {
-    "comment_token": "#",
-    "file_types": [
-      "Dockerfile",
-      "dockerfile",
-      "Containerfile",
-      "containerfile"
-    ]
-  },
-  "docker-compose": {
-    "comment_token": "#",
-    "file_types": []
-  },
-  "git-commit": {
-    "comment_token": "#",
-    "file_types": []
-  },
-  "diff": {
-    "comment_token": "#",
-    "file_types": [
-      "diff",
-      "patch",
-      "rej"
-    ]
-  },
-  "git-rebase": {
-    "comment_token": "#",
-    "file_types": []
-  },
-  "regex": {
-    "file_types": [
-      "regex"
-    ]
-  },
-  "git-config": {
-    "comment_token": "#",
-    "file_types": [
-      "gitconfig"
-    ]
-  },
-  "git-attributes": {
-    "comment_token": "#",
-    "file_types": []
-  },
-  "git-ignore": {
-    "comment_token": "#",
-    "file_types": []
-  },
-  "graphql": {
-    "comment_token": "#",
-    "block_comment_tokens": {
-      "start": "\"\"\"",
-      "end": "\"\"\""
-    },
-    "file_types": [
-      "gql",
-      "graphql",
-      "graphqls"
-    ]
-  },
-  "elm": {
-    "comment_token": "--",
-    "block_comment_tokens": {
-      "start": "{-",
-      "end": "-}"
-    },
-    "file_types": [
-      "elm"
-    ]
-  },
-  "iex": {
-    "comment_token": "#",
-    "file_types": [
-      "iex"
-    ]
-  },
-  "rescript": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "res"
-    ]
-  },
-  "erlang": {
-    "comment_token": "%%",
-    "file_types": [
-      "erl",
-      "hrl",
-      "app"
-    ]
-  },
-  "kotlin": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "kt",
-      "kts"
-    ]
-  },
-  "hcl": {
-    "comment_token": "#",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "hcl",
-      "tf",
-      "nomad"
-    ]
-  },
-  "tfvars": {
-    "comment_token": "#",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "tfvars"
-    ]
-  },
-  "org": {
-    "file_types": [
-      "org"
-    ]
-  },
-  "solidity": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "sol"
-    ]
-  },
-  "gleam": {
-    "comment_token": "//",
-    "file_types": [
-      "gleam"
-    ]
-  },
-  "ron": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "ron"
-    ]
-  },
-  "robot": {
-    "comment_token": "#",
-    "file_types": [
-      "robot",
-      "resource"
-    ]
-  },
-  "r": {
-    "comment_token": "#",
-    "file_types": [
-      "r",
-      "R"
-    ]
-  },
-  "rmarkdown": {
-    "block_comment_tokens": {
-      "start": "<!--",
-      "end": "-->"
-    },
-    "file_types": [
-      "rmd",
-      "Rmd"
-    ]
-  },
-  "swift": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "swift",
-      "swiftinterface"
-    ]
-  },
-  "erb": {
-    "block_comment_tokens": {
-      "start": "<!--",
-      "end": "-->"
-    },
-    "file_types": [
-      "erb"
-    ]
-  },
-  "ejs": {
-    "block_comment_tokens": {
-      "start": "<!--",
-      "end": "-->"
-    },
-    "file_types": [
-      "ejs"
-    ]
-  },
-  "eex": {
-    "block_comment_tokens": {
-      "start": "<!--",
-      "end": "-->"
-    },
-    "file_types": [
-      "eex"
-    ]
-  },
-  "heex": {
-    "block_comment_tokens": {
-      "start": "<!--",
-      "end": "-->"
-    },
-    "file_types": [
-      "heex"
-    ]
-  },
-  "sql": {
-    "comment_token": "--",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "sql",
-      "dsql"
-    ]
-  },
-  "gdscript": {
-    "comment_token": "#",
-    "file_types": [
-      "gd"
-    ]
-  },
-  "godot-resource": {
-    "comment_token": ";",
-    "file_types": [
-      "tscn",
-      "tres",
-      "godot",
-      "gdextension"
-    ]
-  },
-  "nu": {
-    "comment_token": "#",
-    "file_types": [
-      "nu",
-      "nuon"
-    ]
-  },
-  "vala": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "vala",
-      "vapi"
-    ]
-  },
-  "hare": {
-    "comment_token": "//",
-    "file_types": [
-      "ha"
-    ]
-  },
-  "devicetree": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "dts",
-      "dtsi"
-    ]
-  },
-  "cairo": {
-    "comment_token": "//",
-    "file_types": [
-      "cairo"
-    ]
-  },
-  "cpon": {
-    "comment_token": "//",
-    "file_types": [
-      "cpon",
-      "cp"
-    ]
-  },
-  "odin": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "odin"
-    ]
-  },
-  "meson": {
-    "comment_token": "#",
-    "file_types": []
-  },
-  "sshclientconfig": {
-    "comment_token": "#",
-    "file_types": []
-  },
-  "scheme": {
-    "comment_token": ";",
-    "file_types": [
-      "ss",
-      "scm"
-    ]
-  },
-  "v": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "v",
-      "vv",
-      "vsh"
-    ]
-  },
-  "verilog": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "v",
-      "vh",
-      "sv",
-      "svh"
-    ]
-  },
-  "edoc": {
-    "file_types": [
-      "edoc",
-      "edoc.in"
-    ]
-  },
-  "jsdoc": {
-    "file_types": [
-      "jsdoc"
-    ]
-  },
-  "openscad": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "scad"
+    "injection-regex": "(pwsh|powershell)",
+    "scope": "source.powershell",
+    "shebangs": [
+      "pwsh",
+      "powershell"
     ]
   },
   "prisma": {
     "comment_token": "//",
     "file_types": [
       "prisma"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "prisma",
+    "language-servers": [
+      "prisma-language-server"
+    ],
+    "roots": [
+      "package.json"
+    ],
+    "scope": "source.prisma"
+  },
+  "prolog": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "%",
+    "file_types": [
+      "pl",
+      "prolog"
+    ],
+    "language-servers": [
+      "swipl"
+    ],
+    "scope": "source.prolog",
+    "shebangs": [
+      "swipl"
     ]
   },
-  "clojure": {
+  "protobuf": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "proto"
+    ],
+    "grammar": "proto",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "proto",
+    "language-servers": [
+      "buf",
+      "pbkit",
+      "protols"
+    ],
+    "scope": "source.proto"
+  },
+  "prql": {
+    "comment_token": "#",
+    "file_types": [
+      "prql"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "prql",
+    "scope": "source.prql"
+  },
+  "purescript": {
+    "auto-format": true,
+    "block_comment_tokens": {
+      "end": "-}",
+      "start": "{-"
+    },
+    "comment_token": "--",
+    "file_types": [
+      "purs"
+    ],
+    "formatter": {
+      "args": [
+        "format"
+      ],
+      "command": "purs-tidy"
+    },
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "purescript",
+    "language-servers": [
+      "purescript-language-server"
+    ],
+    "roots": [
+      "spago.yaml",
+      "spago.dhall",
+      "bower.json"
+    ],
+    "scope": "source.purescript"
+  },
+  "python": {
+    "comment_token": "#",
+    "file_types": [
+      "py",
+      "pyi",
+      "py3",
+      "pyw",
+      "ptl",
+      "rpy",
+      "cpy",
+      "ipy",
+      "pyt",
+      {
+        "glob": ".python_history"
+      },
+      {
+        "glob": ".pythonstartup"
+      },
+      {
+        "glob": ".pythonrc"
+      },
+      {
+        "glob": "*SConstruct"
+      },
+      {
+        "glob": "*SConscript"
+      },
+      {
+        "glob": "*sconstruct"
+      }
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "py(thon)?",
+    "language-servers": [
+      "ruff",
+      "jedi",
+      "pylsp"
+    ],
+    "roots": [
+      "pyproject.toml",
+      "setup.py",
+      "poetry.lock",
+      "pyrightconfig.json"
+    ],
+    "scope": "source.python",
+    "shebangs": [
+      "python",
+      "uv"
+    ]
+  },
+  "qml": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "qml"
+    ],
+    "grammar": "qmljs",
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "language-servers": [
+      "qmlls"
+    ],
+    "scope": "source.qml"
+  },
+  "quint": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "qnt"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "language-servers": [
+      "quint-language-server"
+    ],
+    "scope": "source.quint"
+  },
+  "r": {
+    "comment_tokens": [
+      "#",
+      "#'"
+    ],
+    "file_types": [
+      "r",
+      "R",
+      {
+        "glob": ".Rprofile"
+      },
+      {
+        "glob": "Rprofile.site"
+      },
+      {
+        "glob": ".RHistory"
+      }
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "(r|R)",
+    "language-servers": [
+      "r"
+    ],
+    "scope": "source.r",
+    "shebangs": [
+      "r",
+      "R"
+    ]
+  },
+  "racket": {
+    "block_comment_tokens": {
+      "end": "|#",
+      "start": "#|"
+    },
     "comment_token": ";",
     "file_types": [
-      "clj",
-      "cljs",
-      "cljc",
-      "clje",
-      "cljr",
-      "cljx",
-      "edn",
-      "boot"
+      "rkt",
+      "rktd",
+      "rktl",
+      "scrbl"
+    ],
+    "grammar": "scheme",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "language-servers": [
+      "racket"
+    ],
+    "scope": "source.racket",
+    "shebangs": [
+      "racket"
     ]
+  },
+  "regex": {
+    "file_types": [
+      "regex",
+      {
+        "glob": ".Rbuildignore"
+      }
+    ],
+    "injection-regex": "regex",
+    "scope": "source.regex"
+  },
+  "rego": {
+    "auto-format": true,
+    "comment_token": "#",
+    "file_types": [
+      "rego"
+    ],
+    "grammar": "rego",
+    "injection-regex": "rego",
+    "language-servers": [
+      "regols"
+    ],
+    "scope": "source.rego"
+  },
+  "rescript": {
+    "auto-format": true,
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "res"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "rescript",
+    "language-servers": [
+      "rescript-language-server"
+    ],
+    "roots": [
+      "bsconfig.json"
+    ],
+    "scope": "source.rescript"
+  },
+  "rmarkdown": {
+    "block_comment_tokens": {
+      "end": "--\u003e",
+      "start": "\u003c!--"
+    },
+    "file_types": [
+      "rmd",
+      "Rmd"
+    ],
+    "grammar": "markdown",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "(r|R)md",
+    "language-id": "rmd",
+    "language-servers": [
+      "r"
+    ],
+    "scope": "source.rmd"
+  },
+  "robot": {
+    "comment_token": "#",
+    "file_types": [
+      "robot",
+      "resource"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": " "
+    },
+    "injection-regex": "robot",
+    "language-servers": [
+      "robotframework_ls"
+    ],
+    "scope": "source.robot"
+  },
+  "ron": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "ron"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "ron",
+    "scope": "source.ron"
+  },
+  "rst": {
+    "comment_token": "..",
+    "file_types": [
+      "rst"
+    ],
+    "scope": "source.rst"
+  },
+  "ruby": {
+    "comment_token": "#",
+    "file_types": [
+      "rb",
+      "rake",
+      "irb",
+      "gemspec",
+      "rabl",
+      "jbuilder",
+      "jb",
+      "podspec",
+      "rjs",
+      "rbi",
+      "rbs",
+      {
+        "glob": "rakefile"
+      },
+      {
+        "glob": "gemfile"
+      },
+      {
+        "glob": "Rakefile"
+      },
+      {
+        "glob": "Gemfile"
+      },
+      {
+        "glob": "Podfile"
+      },
+      {
+        "glob": "Vagrantfile"
+      },
+      {
+        "glob": "Brewfile"
+      },
+      {
+        "glob": "Guardfile"
+      },
+      {
+        "glob": "Capfile"
+      },
+      {
+        "glob": "Cheffile"
+      },
+      {
+        "glob": "Hobofile"
+      },
+      {
+        "glob": "Appraisals"
+      },
+      {
+        "glob": "Rantfile"
+      },
+      {
+        "glob": "Berksfile"
+      },
+      {
+        "glob": "Berksfile.lock"
+      },
+      {
+        "glob": "Thorfile"
+      },
+      {
+        "glob": "Puppetfile"
+      },
+      {
+        "glob": "Fastfile"
+      },
+      {
+        "glob": "Appfile"
+      },
+      {
+        "glob": "Deliverfile"
+      },
+      {
+        "glob": "Matchfile"
+      },
+      {
+        "glob": "Scanfile"
+      },
+      {
+        "glob": "Snapfile"
+      },
+      {
+        "glob": "Gymfile"
+      }
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "ruby",
+    "language-servers": [
+      "ruby-lsp",
+      "solargraph"
+    ],
+    "scope": "source.ruby",
+    "shebangs": [
+      "ruby"
+    ]
+  },
+  "rust": {
+    "auto-format": true,
+    "auto-pairs": {
+      "\"": "\"",
+      "(": ")",
+      "[": "]",
+      "`": "`",
+      "{": "}"
+    },
+    "block_comment_tokens": [
+      {
+        "end": "*/",
+        "start": "/*"
+      },
+      {
+        "end": "*/",
+        "start": "/**"
+      },
+      {
+        "end": "*/",
+        "start": "/*!"
+      }
+    ],
+    "comment_tokens": [
+      "//",
+      "///",
+      "//!"
+    ],
+    "debugger": {
+      "command": "lldb-dap",
+      "name": "lldb-dap",
+      "templates": [
+        {
+          "args": {
+            "program": "{0}"
+          },
+          "completion": [
+            {
+              "completion": "filename",
+              "name": "binary"
+            }
+          ],
+          "name": "binary",
+          "request": "launch"
+        },
+        {
+          "args": {
+            "program": "{0}",
+            "runInTerminal": true
+          },
+          "completion": [
+            {
+              "completion": "filename",
+              "name": "binary"
+            }
+          ],
+          "name": "binary (terminal)",
+          "request": "launch"
+        },
+        {
+          "args": {
+            "pid": "{0}"
+          },
+          "completion": [
+            "pid"
+          ],
+          "name": "attach",
+          "request": "attach"
+        },
+        {
+          "args": {
+            "attachCommands": [
+              "platform select remote-gdb-server",
+              "platform connect {0}",
+              "file {1}",
+              "attach {2}"
+            ]
+          },
+          "completion": [
+            {
+              "default": "connect://localhost:3333",
+              "name": "lldb connect url"
+            },
+            {
+              "completion": "filename",
+              "name": "file"
+            },
+            "pid"
+          ],
+          "name": "gdbserver attach",
+          "request": "attach"
+        }
+      ],
+      "transport": "stdio"
+    },
+    "file_types": [
+      "rs"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "rs|rust",
+    "language-servers": [
+      "rust-analyzer"
+    ],
+    "persistent-diagnostic-sources": [
+      "rustc",
+      "clippy"
+    ],
+    "roots": [
+      "Cargo.toml",
+      "Cargo.lock"
+    ],
+    "scope": "source.rust",
+    "shebangs": [
+      "rust-script",
+      "cargo"
+    ]
+  },
+  "sage": {
+    "comment_token": "#",
+    "file_types": [
+      "sage"
+    ],
+    "grammar": "python",
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "sage",
+    "scope": "source.sage"
+  },
+  "scala": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "scala",
+      "sbt",
+      "sc"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "language-servers": [
+      "metals"
+    ],
+    "roots": [
+      "build.sbt",
+      "build.sc",
+      "build.gradle",
+      "build.gradle.kts",
+      "pom.xml",
+      ".scala-build"
+    ],
+    "scope": "source.scala"
+  },
+  "scheme": {
+    "auto-pairs": {
+      "\"": "\"",
+      "(": ")",
+      "[": "]",
+      "{": "}"
+    },
+    "comment_token": ";",
+    "file_types": [
+      "ss",
+      "scm"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "scheme",
+    "scope": "source.scheme",
+    "shebangs": [
+      "scheme",
+      "guile",
+      "chicken"
+    ]
+  },
+  "scss": {
+    "auto-format": true,
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "file_types": [
+      "scss"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "scss",
+    "language-servers": [
+      "vscode-css-language-server"
+    ],
+    "scope": "source.scss"
+  },
+  "slint": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "slint"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "slint",
+    "language-servers": [
+      "slint-lsp"
+    ],
+    "scope": "source.slint"
+  },
+  "smali": {
+    "comment_token": "#",
+    "file_types": [
+      "smali"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "smali",
+    "roots": [],
+    "scope": "source.smali"
+  },
+  "smithy": {
+    "comment_token": "//",
+    "file_types": [
+      "smithy"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "smithy",
+    "language-servers": [
+      "cs"
+    ],
+    "roots": [
+      "smithy-build.json"
+    ],
+    "scope": "source.smithy"
+  },
+  "sml": {
+    "auto-pairs": {
+      "\"": "\"",
+      "(": ")",
+      "[": "]",
+      "{": "}"
+    },
+    "block_comment_tokens": {
+      "end": "*)",
+      "start": "(*"
+    },
+    "file_types": [
+      "sml"
+    ],
+    "injection-regex": "sml",
+    "scope": "source.sml"
+  },
+  "snakemake": {
+    "comment_tokens": [
+      "#",
+      "##"
+    ],
+    "file_types": [
+      "smk",
+      {
+        "glob": "Snakefile"
+      }
+    ],
+    "formatter": {
+      "args": [
+        "-"
+      ],
+      "command": "snakefmt"
+    },
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "language-servers": [
+      "pylsp"
+    ],
+    "roots": [
+      "Snakefile",
+      "config.yaml",
+      "environment.yaml",
+      "workflow/"
+    ],
+    "scope": "source.snakemake"
+  },
+  "solidity": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "sol"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "(sol|solidity)",
+    "language-servers": [
+      "solc"
+    ],
+    "scope": "source.sol"
+  },
+  "sourcepawn": {
+    "comment_token": "//",
+    "file_types": [
+      "sp",
+      "inc"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "  "
+    },
+    "language-servers": [
+      "sourcepawn-studio"
+    ],
+    "scope": "source.sourcepawn"
+  },
+  "spade": {
+    "auto-pairs": {
+      "\"": "\"",
+      "(": ")",
+      "\u003c": "\u003e",
+      "[": "]",
+      "{": "}"
+    },
+    "block_comment_tokens": [
+      {
+        "end": "*/",
+        "start": "/*"
+      },
+      {
+        "end": "*/",
+        "start": "/**"
+      }
+    ],
+    "comment_tokens": [
+      "//",
+      "///"
+    ],
+    "file_types": [
+      "spade"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "spade",
+    "language-servers": [
+      "spade-language-server"
+    ],
+    "roots": [
+      "swim.toml"
+    ],
+    "scope": "source.spade"
+  },
+  "spicedb": {
+    "comment_token": "//",
+    "file_types": [
+      "zed"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "spicedb",
+    "scope": "source.zed"
+  },
+  "sql": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "--",
+    "file_types": [
+      "sql",
+      "dsql"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "sql",
+    "scope": "source.sql"
+  },
+  "sshclientconfig": {
+    "comment_token": "#",
+    "file_types": [
+      {
+        "glob": ".ssh/config"
+      },
+      {
+        "glob": "/etc/ssh/ssh_config"
+      },
+      {
+        "glob": "ssh_config.d/*.conf"
+      }
+    ],
+    "scope": "source.sshclientconfig"
   },
   "starlark": {
     "comment_token": "#",
     "file_types": [
       "bzl",
       "bazel",
-      "star"
-    ]
+      "star",
+      {
+        "glob": "BUILD"
+      },
+      {
+        "glob": "BUILD.*"
+      },
+      {
+        "glob": "Tiltfile"
+      },
+      {
+        "glob": "WORKSPACE"
+      },
+      {
+        "glob": "WORKSPACE.bzlmod"
+      }
+    ],
+    "grammar": "python",
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "(starlark|bzl|bazel)",
+    "language-servers": [
+      "starpls"
+    ],
+    "scope": "source.starlark"
   },
-  "elvish": {
+  "strace": {
+    "file_types": [
+      "strace"
+    ],
+    "scope": "source.strace"
+  },
+  "supercollider": {
+    "comment_token": "//",
+    "file_types": [
+      "scd",
+      "sc",
+      "quark"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "\t"
+    },
+    "injection-regex": "supercollider",
+    "scope": "source.supercollider"
+  },
+  "svelte": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "svelte"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "svelte",
+    "language-servers": [
+      "svelteserver"
+    ],
+    "scope": "source.svelte"
+  },
+  "sway": {
+    "comment_token": "//",
+    "file_types": [
+      "sw"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "sway",
+    "language-servers": [
+      "forc"
+    ],
+    "roots": [
+      "Forc.toml",
+      "Forc.lock"
+    ],
+    "scope": "source.sway"
+  },
+  "swift": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "swift",
+      "swiftinterface"
+    ],
+    "formatter": {
+      "command": "swift-format"
+    },
+    "injection-regex": "swift",
+    "language-servers": [
+      "sourcekit-lsp"
+    ],
+    "roots": [
+      "Package.swift"
+    ],
+    "scope": "source.swift"
+  },
+  "t32": {
+    "comment_token": ";",
+    "file_types": [
+      "cmm",
+      "t32"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "t32",
+    "scope": "source.t32"
+  },
+  "tablegen": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "td"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "tablegen",
+    "scope": "source.tablegen"
+  },
+  "tact": {
+    "auto-pairs": {
+      "\"": "\"",
+      "(": ")",
+      "\u003c": "\u003e",
+      "{": "}"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "tact"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "tact",
+    "scope": "source.tact"
+  },
+  "task": {
     "comment_token": "#",
     "file_types": [
-      "elv"
+      "task"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "task",
+    "scope": "source.task"
+  },
+  "tcl": {
+    "comment_token": "#",
+    "file_types": [
+      "tcl"
+    ],
+    "injection-regex": "tcl",
+    "scope": "source.tcl",
+    "shebangs": [
+      "tclsh",
+      "tclish",
+      "jimsh",
+      "wish"
     ]
   },
-  "idris": {
-    "comment_token": "--",
+  "teal": {
     "block_comment_tokens": {
-      "start": "{-",
-      "end": "-}"
+      "end": "--]]",
+      "start": "--[["
+    },
+    "comment_tokens": "--",
+    "file_types": [
+      "tl"
+    ],
+    "injection-regex": "teal",
+    "language-servers": [
+      "teal-language-server"
+    ],
+    "roots": [
+      "tlconfig.lua"
+    ],
+    "scope": "source.tl"
+  },
+  "templ": {
+    "comment_token": "//",
+    "file_types": [
+      "templ"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "language-servers": [
+      "templ"
+    ],
+    "roots": [
+      "go.work",
+      "go.mod"
+    ],
+    "scope": "source.templ"
+  },
+  "tera": {
+    "block_comment_tokens": [
+      {
+        "end": "#}",
+        "start": "{#"
+      },
+      {
+        "end": "-#}",
+        "start": "{#-"
+      },
+      {
+        "end": "-#}",
+        "start": "{#"
+      },
+      {
+        "end": "#}",
+        "start": "{#-"
+      }
+    ],
+    "file_types": [
+      "tera"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "scope": "source.tera"
+  },
+  "textproto": {
+    "auto-format": true,
+    "comment_token": "#",
+    "file_types": [
+      "txtpb",
+      "textpb",
+      "textproto"
+    ],
+    "formatter": {
+      "command": "txtpbfmt"
+    },
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "scope": "source.textproto"
+  },
+  "tfvars": {
+    "auto-format": true,
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "#",
+    "file_types": [
+      "tfvars"
+    ],
+    "grammar": "hcl",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "language-id": "terraform-vars",
+    "language-servers": [
+      "terraform-ls"
+    ],
+    "scope": "source.tfvars"
+  },
+  "thrift": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "thrift"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "scope": "source.thrift"
+  },
+  "tlaplus": {
+    "block_comment_tokens": {
+      "end": "*)",
+      "start": "(*"
+    },
+    "comment_tokens": "\\*",
+    "file_types": [
+      "tla"
+    ],
+    "formatter": {
+      "args": [
+        "--stdin"
+      ],
+      "command": "tlafmt"
+    },
+    "indent": {
+      "tab-width": 4,
+      "unit": " "
+    },
+    "injection-regex": "tla",
+    "scope": "scope.tlaplus"
+  },
+  "todotxt": {
+    "auto-format": true,
+    "file_types": [
+      {
+        "glob": "*.todo.txt"
+      },
+      "todotxt"
+    ],
+    "formatter": {
+      "command": "sort"
+    },
+    "scope": "text.todotxt"
+  },
+  "toml": {
+    "comment_token": "#",
+    "file_types": [
+      "toml",
+      {
+        "glob": "pdm.lock"
+      },
+      {
+        "glob": "poetry.lock"
+      },
+      {
+        "glob": "Cargo.lock"
+      },
+      {
+        "glob": "uv.lock"
+      }
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "toml",
+    "language-servers": [
+      "taplo"
+    ],
+    "scope": "source.toml"
+  },
+  "tsq": {
+    "auto-pairs": {
+      "\"": "\"",
+      "(": ")",
+      "[": "]"
+    },
+    "comment_token": ";",
+    "file_types": [
+      {
+        "glob": "queries/*.scm"
+      },
+      {
+        "glob": "injections.scm"
+      },
+      {
+        "glob": "highlights.scm"
+      },
+      {
+        "glob": "indents.scm"
+      },
+      {
+        "glob": "textobjects.scm"
+      },
+      {
+        "glob": "locals.scm"
+      },
+      {
+        "glob": "tags.scm"
+      }
+    ],
+    "grammar": "query",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "tsq",
+    "language-servers": [
+      "ts_query_ls"
+    ],
+    "scope": "source.tsq"
+  },
+  "tsx": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "tsx"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "(tsx)",
+    "language-id": "typescriptreact",
+    "language-servers": [
+      "typescript-language-server"
+    ],
+    "roots": [
+      "package.json",
+      "tsconfig.json"
+    ],
+    "scope": "source.tsx"
+  },
+  "twig": {
+    "block_comment_tokens": {
+      "end": "#}",
+      "start": "{#"
     },
     "file_types": [
-      "idr"
+      "twig"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "twig",
+    "scope": "source.twig"
+  },
+  "typescript": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "ts",
+      "mts",
+      "cts"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "(ts|typescript)",
+    "language-id": "typescript",
+    "language-servers": [
+      "typescript-language-server"
+    ],
+    "roots": [
+      "package.json",
+      "tsconfig.json"
+    ],
+    "scope": "source.ts",
+    "shebangs": [
+      "deno",
+      "bun",
+      "ts-node"
     ]
   },
-  "fortran": {
-    "comment_token": "!",
+  "typespec": {
+    "auto-format": true,
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
     "file_types": [
-      "f",
-      "for",
-      "f90",
-      "f95",
-      "f03"
-    ]
+      "tsp"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "(tsp|typespec)",
+    "language-id": "typespec",
+    "language-servers": [
+      "typespec"
+    ],
+    "roots": [
+      "tspconfig.yaml"
+    ],
+    "scope": "source.typespec"
+  },
+  "typst": {
+    "auto-pairs": {
+      "\"": "\"",
+      "$": "$",
+      "(": ")",
+      "[": "]",
+      "{": "}"
+    },
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "typst",
+      "typ"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "typ(st)?",
+    "language-servers": [
+      "tinymist"
+    ],
+    "scope": "source.typst"
   },
   "ungrammar": {
     "comment_token": "//",
     "file_types": [
       "ungram",
       "ungrammar"
-    ]
-  },
-  "dot": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
     },
-    "file_types": [
-      "dot"
-    ]
+    "injection-regex": "ungrammar",
+    "scope": "source.ungrammar"
   },
-  "cue": {
-    "comment_token": "//",
-    "file_types": [
-      "cue"
-    ]
-  },
-  "slint": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
+  "unison": {
+    "auto-format": false,
+    "auto-pairs": {
+      "\"": "\"",
+      "(": ")",
+      "[": "]",
+      "`": "`",
+      "{": "}"
     },
-    "file_types": [
-      "slint"
-    ]
-  },
-  "task": {
-    "comment_token": "#",
-    "file_types": [
-      "task"
-    ]
-  },
-  "xit": {
-    "file_types": [
-      "xit"
-    ]
-  },
-  "esdl": {
-    "comment_token": "#",
-    "file_types": [
-      "esdl"
-    ]
-  },
-  "pascal": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "{",
-      "end": "}"
-    },
-    "file_types": [
-      "pas",
-      "pp",
-      "inc",
-      "lpr",
-      "lfm"
-    ]
-  },
-  "sml": {
-    "block_comment_tokens": {
-      "start": "(*",
-      "end": "*)"
-    },
-    "file_types": [
-      "sml"
-    ]
-  },
-  "jsonnet": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "libsonnet",
-      "jsonnet"
-    ]
-  },
-  "ada": {
     "comment_token": "--",
     "file_types": [
-      "adb",
-      "ads"
-    ]
+      "u"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "unison",
+    "scope": "source.unison",
+    "shebangs": []
   },
-  "astro": {
+  "uxntal": {
+    "auto-format": false,
     "block_comment_tokens": {
-      "start": "<!--",
-      "end": "-->"
+      "end": ")",
+      "start": "("
     },
     "file_types": [
-      "astro"
-    ]
+      "tal"
+    ],
+    "injection-regex": "tal",
+    "scope": "source.tal"
   },
-  "bass": {
-    "comment_token": ";",
-    "file_types": [
-      "bass"
-    ]
-  },
-  "wat": {
-    "comment_token": ";;",
+  "v": {
+    "auto-format": true,
     "block_comment_tokens": {
-      "start": "(;",
-      "end": ";)"
+      "end": "*/",
+      "start": "/*"
     },
-    "file_types": [
-      "wat"
-    ]
-  },
-  "wast": {
-    "comment_token": ";;",
-    "block_comment_tokens": {
-      "start": "(;",
-      "end": ";)"
-    },
-    "file_types": [
-      "wast"
-    ]
-  },
-  "d": {
     "comment_token": "//",
+    "file_types": [
+      "v",
+      "vv",
+      "vsh"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "\t"
+    },
+    "language-servers": [
+      "vlang-language-server"
+    ],
+    "roots": [
+      "v.mod"
+    ],
+    "scope": "source.v",
+    "shebangs": [
+      "v run"
+    ]
+  },
+  "vala": {
     "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "vala",
+      "vapi"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "vala",
+    "language-servers": [
+      "vala-language-server"
+    ],
+    "scope": "source.vala"
+  },
+  "vento": {
+    "block_comment_tokens": {
+      "end": "#}}",
+      "start": "{{#"
     },
     "file_types": [
-      "d",
-      "dd"
-    ]
+      "vto"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "scope": "text.html.vto"
+  },
+  "verilog": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "v",
+      "vh",
+      "sv",
+      "svh"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "verilog",
+    "language-servers": [
+      "svlangserver"
+    ],
+    "scope": "source.verilog"
+  },
+  "vhdl": {
+    "comment_token": "--",
+    "file_types": [
+      "vhd",
+      "vhdl"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "vhdl",
+    "language-servers": [
+      "vhdl_ls"
+    ],
+    "scope": "source.vhdl"
   },
   "vhs": {
     "comment_token": "#",
     "file_types": [
       "tape"
-    ]
+    ],
+    "grammar": "vhs",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "scope": "source.vhs"
   },
-  "kdl": {
-    "comment_token": "//",
+  "vue": {
     "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
+      "end": "--\u003e",
+      "start": "\u003c!--"
     },
     "file_types": [
-      "kdl"
-    ]
+      "vue"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "vue",
+    "language-servers": [
+      "vuels"
+    ],
+    "roots": [
+      "package.json"
+    ],
+    "scope": "source.vue"
+  },
+  "wast": {
+    "block_comment_tokens": {
+      "end": ";)",
+      "start": "(;"
+    },
+    "comment_token": ";;",
+    "file_types": [
+      "wast"
+    ],
+    "scope": "source.wast"
+  },
+  "wat": {
+    "block_comment_tokens": {
+      "end": ";)",
+      "start": "(;"
+    },
+    "comment_token": ";;",
+    "file_types": [
+      "wat"
+    ],
+    "language-servers": [
+      "wasm-language-tools"
+    ],
+    "scope": "source.wat"
+  },
+  "webc": {
+    "block_comment_tokens": {
+      "end": "--\u003e",
+      "start": "\u003c!--"
+    },
+    "file_types": [
+      "webc"
+    ],
+    "grammar": "html",
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "webc",
+    "scope": "text.html.webc"
+  },
+  "werk": {
+    "comment_token": "#",
+    "file_types": [
+      "werk",
+      {
+        "glob": "Werkfile"
+      }
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "scope": "source.werk"
+  },
+  "wesl": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "wesl"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "scope": "source.wesl"
+  },
+  "wgsl": {
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "wgsl"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "language-servers": [
+      "wgsl-analyzer"
+    ],
+    "scope": "source.wgsl"
+  },
+  "wit": {
+    "auto-pairs": {
+      "\"": "\"",
+      "'": "'",
+      "(": ")",
+      "\u003c": "\u003e",
+      "[": "]",
+      "{": "}"
+    },
+    "block_comment_tokens": {
+      "end": "*/",
+      "start": "/*"
+    },
+    "comment_token": "//",
+    "file_types": [
+      "wit"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "wit",
+    "scope": "source.wit"
+  },
+  "wren": {
+    "file_types": [
+      "wren"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "wren",
+    "scope": "source.wren"
+  },
+  "xit": {
+    "file_types": [
+      "xit"
+    ],
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "xit",
+    "scope": "source.xit"
   },
   "xml": {
+    "auto-pairs": {
+      "\"": "\"",
+      "'": "'",
+      "(": ")",
+      "\u003c": "\u003e",
+      "[": "]",
+      "{": "}"
+    },
     "block_comment_tokens": {
-      "start": "<!--",
-      "end": "-->"
+      "end": "--\u003e",
+      "start": "\u003c!--"
     },
     "file_types": [
       "xml",
@@ -1465,6 +5769,9 @@
       "rng",
       "shproj",
       "tld",
+      {
+        "glob": "*.tm[Tt]heme"
+      },
       "tmx",
       "vbproj.user",
       "vcxproj",
@@ -1485,549 +5792,13 @@
       "xsl",
       "mpd",
       "smil"
-    ]
-  },
-  "dtd": {
-    "file_types": [
-      "dtd",
-      "ent"
-    ]
-  },
-  "wit": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "wit"
-    ]
-  },
-  "env": {
-    "comment_token": "#",
-    "file_types": []
-  },
-  "ini": {
-    "comment_token": "#",
-    "file_types": [
-      "ini",
-      "service",
-      "automount",
-      "desktop",
-      "device",
-      "mount",
-      "nspawn",
-      "path",
-      "scope",
-      "slice",
-      "socket",
-      "swap",
-      "target",
-      "timer",
-      "container",
-      "volume",
-      "kube",
-      "network",
-      "properties",
-      "cfg",
-      "directory"
-    ]
-  },
-  "inko": {
-    "comment_token": "#",
-    "file_types": [
-      "inko"
-    ]
-  },
-  "bicep": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "bicep",
-      "bicepparam"
-    ]
-  },
-  "qml": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "qml"
-    ]
-  },
-  "mermaid": {
-    "comment_token": "%%",
-    "file_types": [
-      "mermaid",
-      "mmd"
-    ]
-  },
-  "matlab": {
-    "comment_token": "%",
-    "file_types": [
-      "m"
-    ]
-  },
-  "ponylang": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "pony"
-    ]
-  },
-  "dhall": {
-    "comment_token": "--",
-    "block_comment_tokens": {
-      "start": "{-",
-      "end": "-}"
-    },
-    "file_types": [
-      "dhall"
-    ]
-  },
-  "sage": {
-    "comment_token": "#",
-    "file_types": [
-      "sage"
-    ]
-  },
-  "msbuild": {
-    "block_comment_tokens": {
-      "start": "<!--",
-      "end": "-->"
-    },
-    "file_types": [
-      "proj",
-      "vbproj",
-      "csproj",
-      "fsproj",
-      "targets",
-      "props"
-    ]
-  },
-  "pem": {
-    "file_types": [
-      "pem",
-      "cert",
-      "crt"
-    ]
-  },
-  "passwd": {
-    "file_types": []
-  },
-  "hosts": {
-    "comment_token": "#",
-    "file_types": []
-  },
-  "uxntal": {
-    "block_comment_tokens": {
-      "start": "(",
-      "end": ")"
-    },
-    "file_types": [
-      "tal"
-    ]
-  },
-  "yuck": {
-    "comment_token": ";",
-    "file_types": [
-      "yuck"
-    ]
-  },
-  "prql": {
-    "comment_token": "#",
-    "file_types": [
-      "prql"
-    ]
-  },
-  "po": {
-    "comment_token": "#",
-    "file_types": [
-      "po",
-      "pot"
-    ]
-  },
-  "nasm": {
-    "comment_token": ";",
-    "file_types": [
-      "asm",
-      "S",
-      "nasm"
-    ]
-  },
-  "gas": {
-    "comment_token": "#",
-    "file_types": [
-      "s"
-    ]
-  },
-  "rst": {
-    "comment_token": "..",
-    "file_types": [
-      "rst"
-    ]
-  },
-  "capnp": {
-    "comment_token": "#",
-    "file_types": [
-      "capnp"
-    ]
-  },
-  "smithy": {
-    "comment_token": "//",
-    "file_types": [
-      "smithy"
-    ]
-  },
-  "vhdl": {
-    "comment_token": "--",
-    "file_types": [
-      "vhd",
-      "vhdl"
-    ]
-  },
-  "rego": {
-    "comment_token": "#",
-    "file_types": [
-      "rego"
-    ]
-  },
-  "nim": {
-    "comment_token": "#",
-    "block_comment_tokens": {
-      "start": "#[",
-      "end": "]#"
-    },
-    "file_types": [
-      "nim",
-      "nims",
-      "nimble"
-    ]
-  },
-  "cabal": {
-    "comment_token": "--",
-    "file_types": [
-      "cabal"
-    ]
-  },
-  "hurl": {
-    "comment_token": "#",
-    "file_types": [
-      "hurl"
-    ]
-  },
-  "markdoc": {
-    "block_comment_tokens": {
-      "start": "<!--",
-      "end": "-->"
-    },
-    "file_types": [
-      "mdoc"
-    ]
-  },
-  "opencl": {
-    "comment_token": "//",
-    "file_types": [
-      "cl"
-    ]
-  },
-  "just": {
-    "comment_token": "#",
-    "file_types": [
-      "just"
-    ]
-  },
-  "gn": {
-    "comment_token": "#",
-    "file_types": [
-      "gn",
-      "gni"
-    ]
-  },
-  "blueprint": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "blp"
-    ]
-  },
-  "forth": {
-    "comment_token": "\\",
-    "file_types": [
-      "fs",
-      "forth",
-      "fth",
-      "4th"
-    ]
-  },
-  "fsharp": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "(*",
-      "end": "*)"
-    },
-    "file_types": [
-      "fs",
-      "fsx",
-      "fsi",
-      "fsscript"
-    ]
-  },
-  "t32": {
-    "comment_token": ";",
-    "file_types": [
-      "cmm",
-      "t32"
-    ]
-  },
-  "webc": {
-    "block_comment_tokens": {
-      "start": "<!--",
-      "end": "-->"
-    },
-    "file_types": [
-      "webc"
-    ]
-  },
-  "typst": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "typst",
-      "typ"
-    ]
-  },
-  "nunjucks": {
-    "block_comment_tokens": {
-      "start": "{#",
-      "end": "#}"
-    },
-    "file_types": [
-      "njk"
-    ]
-  },
-  "jinja": {
-    "block_comment_tokens": {
-      "start": "{#",
-      "end": "#}"
-    },
-    "file_types": [
-      "jinja",
-      "jinja2",
-      "j2"
-    ]
-  },
-  "jjdescription": {
-    "comment_token": "JJ:",
-    "file_types": []
-  },
-  "jq": {
-    "comment_token": "#",
-    "file_types": [
-      "jq"
-    ]
-  },
-  "wren": {
-    "file_types": [
-      "wren"
-    ]
-  },
-  "unison": {
-    "comment_token": "--",
-    "file_types": [
-      "u"
-    ]
-  },
-  "todotxt": {
-    "file_types": [
-      "todotxt"
-    ]
-  },
-  "strace": {
-    "file_types": [
-      "strace"
-    ]
-  },
-  "gemini": {
-    "file_types": [
-      "gmi"
-    ]
-  },
-  "agda": {
-    "comment_token": "--",
-    "file_types": [
-      "agda"
-    ]
-  },
-  "templ": {
-    "comment_token": "//",
-    "file_types": [
-      "templ"
-    ]
-  },
-  "dbml": {
-    "comment_token": ";",
-    "file_types": [
-      "dbml"
-    ]
-  },
-  "bitbake": {
-    "comment_token": "#",
-    "file_types": [
-      "bb",
-      "bbappend",
-      "bbclass"
-    ]
-  },
-  "log": {
-    "file_types": [
-      "log"
-    ]
-  },
-  "hoon": {
-    "comment_token": "::",
-    "file_types": [
-      "hoon"
-    ]
-  },
-  "hocon": {
-    "comment_token": "#",
-    "file_types": []
-  },
-  "koka": {
-    "comment_token": "//",
-    "file_types": [
-      "kk"
-    ]
-  },
-  "tact": {
-    "comment_token": "//",
-    "file_types": [
-      "tact"
-    ]
-  },
-  "pkl": {
-    "comment_token": "//",
-    "file_types": [
-      "pkl",
-      "pcf"
-    ]
-  },
-  "groovy": {
-    "comment_token": "//",
-    "file_types": [
-      "gradle",
-      "groovy",
-      "jenkinsfile"
-    ]
-  },
-  "fidl": {
-    "comment_token": "//",
-    "file_types": [
-      "fidl"
-    ]
-  },
-  "powershell": {
-    "comment_token": "#",
-    "block_comment_tokens": {
-      "start": "<#",
-      "end": "#>"
-    },
-    "file_types": [
-      "ps1",
-      "psm1",
-      "psd1",
-      "pscc",
-      "psrc"
-    ]
-  },
-  "ld": {
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "ld"
-    ]
-  },
-  "hyprlang": {
-    "comment_token": "#",
-    "file_types": []
-  },
-  "tcl": {
-    "comment_token": "#",
-    "file_types": [
-      "tcl"
-    ]
-  },
-  "supercollider": {
-    "comment_token": "//",
-    "file_types": [
-      "scd",
-      "sc",
-      "quark"
-    ]
-  },
-  "pkgbuild": {
-    "comment_token": "#",
-    "file_types": []
-  },
-  "helm": {
-    "comment_token": "#",
-    "file_types": []
-  },
-  "glimmer": {
-    "block_comment_tokens": {
-      "start": "{{!",
-      "end": "}}"
-    },
-    "file_types": []
-  },
-  "ohm": {
-    "comment_token": "//",
-    "block_comment_tokens": [
-      {
-        "start": "/*",
-        "end": "*/"
-      },
-      {
-        "start": "/**",
-        "end": "*/"
-      }
     ],
-    "file_types": [
-      "ohm"
-    ]
-  },
-  "earthfile": {
-    "comment_token": "#",
-    "file_types": []
-  },
-  "adl": {
-    "comment_token": "//",
-    "file_types": [
-      "adl"
-    ]
-  },
-  "ldif": {
-    "comment_token": "#",
-    "file_types": [
-      "ldif"
-    ]
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "xml",
+    "scope": "source.xml"
   },
   "xtc": {
     "comment_token": ";",
@@ -2035,253 +5806,155 @@
       "xtc",
       "xpc",
       "xoa"
-    ]
-  },
-  "move": {
-    "comment_token": "//",
-    "file_types": [
-      "move"
-    ]
-  },
-  "pest": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "pest"
-    ]
-  },
-  "elisp": {
-    "comment_token": ";",
-    "file_types": [
-      "el"
-    ]
-  },
-  "gjs": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "gjs"
-    ]
-  },
-  "gts": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "gts"
-    ]
-  },
-  "gherkin": {
-    "comment_token": "#",
-    "file_types": [
-      "feature"
-    ]
-  },
-  "thrift": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "thrift"
-    ]
-  },
-  "circom": {
-    "comment_token": "//",
-    "file_types": [
-      "circom"
-    ]
-  },
-  "snakemake": {
-    "comment_token": "#",
-    "file_types": [
-      "smk"
-    ]
-  },
-  "cylc": {
-    "comment_token": "#",
-    "file_types": [
-      "cylc"
-    ]
-  },
-  "quint": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "qnt"
-    ]
-  },
-  "spade": {
-    "comment_token": "//",
-    "block_comment_tokens": [
-      {
-        "start": "/*",
-        "end": "*/"
-      },
-      {
-        "start": "/**",
-        "end": "*/"
-      }
     ],
-    "file_types": [
-      "spade"
-    ]
+    "scope": "source.xtc"
   },
-  "amber": {
-    "comment_token": "//",
-    "file_types": [
-      "ab"
-    ]
-  },
-  "koto": {
+  "yaml": {
     "comment_token": "#",
-    "block_comment_tokens": [
-      "#-",
-      "-#"
+    "file_types": [
+      "yml",
+      "yaml",
+      {
+        "glob": ".prettierrc"
+      },
+      {
+        "glob": ".clangd"
+      },
+      {
+        "glob": ".clang-format"
+      },
+      {
+        "glob": ".clang-tidy"
+      },
+      "sublime-syntax"
     ],
-    "file_types": [
-      "koto"
-    ]
-  },
-  "gpr": {
-    "comment_token": "--",
-    "file_types": [
-      "gpr"
-    ]
-  },
-  "vento": {
-    "block_comment_tokens": {
-      "start": "{{#",
-      "end": "#}}"
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
     },
-    "file_types": [
-      "vto"
-    ]
-  },
-  "nginx": {
-    "comment_token": "#",
-    "file_types": []
-  },
-  "codeql": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
-    },
-    "file_types": [
-      "ql",
-      "qll"
-    ]
-  },
-  "gren": {
-    "comment_token": "--",
-    "block_comment_tokens": {
-      "start": "{-",
-      "end": "-}"
-    },
-    "file_types": [
-      "gren"
-    ]
-  },
-  "ghostty": {
-    "comment_token": "#",
-    "file_types": []
-  },
-  "tera": {
-    "block_comment_tokens": [
-      {
-        "start": "{#",
-        "end": "#}"
-      },
-      {
-        "start": "{#-",
-        "end": "-#}"
-      },
-      {
-        "start": "{#",
-        "end": "-#}"
-      },
-      {
-        "start": "{#-",
-        "end": "#}"
-      }
+    "injection-regex": "yml|yaml",
+    "language-servers": [
+      "yaml-language-server",
+      "ansible-language-server"
     ],
-    "file_types": [
-      "tera"
-    ]
-  },
-  "fga": {
-    "comment_token": "#",
-    "file_types": [
-      "fga"
-    ]
-  },
-  "csv": {
-    "file_types": [
-      "csv"
-    ]
+    "scope": "source.yaml"
   },
   "yara": {
-    "comment_token": "//",
     "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
+      "end": "*/",
+      "start": "/*"
     },
+    "comment_tokens": "//",
     "file_types": [
       "yara",
       "yar"
-    ]
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "language-servers": [
+      "yls"
+    ],
+    "scope": "source.yara"
   },
-  "ink": {
-    "comment_token": "//",
-    "block_comment_tokens": {
-      "start": "/*",
-      "end": "*/"
+  "yuck": {
+    "comment_token": ";",
+    "file_types": [
+      "yuck"
+    ],
+    "indent": {
+      "tab-width": 2,
+      "unit": "  "
+    },
+    "injection-regex": "yuck",
+    "scope": "source.yuck"
+  },
+  "zig": {
+    "auto-format": true,
+    "comment_tokens": [
+      "//",
+      "///",
+      "//!"
+    ],
+    "debugger": {
+      "command": "lldb-dap",
+      "name": "lldb-dap",
+      "templates": [
+        {
+          "args": {
+            "console": "internalConsole",
+            "program": "{0}"
+          },
+          "completion": [
+            {
+              "completion": "filename",
+              "name": "binary"
+            }
+          ],
+          "name": "binary",
+          "request": "launch"
+        },
+        {
+          "args": {
+            "console": "internalConsole",
+            "pid": "{0}"
+          },
+          "completion": [
+            "pid"
+          ],
+          "name": "attach",
+          "request": "attach"
+        },
+        {
+          "args": {
+            "attachCommands": [
+              "platform select remote-gdb-server",
+              "platform connect {0}",
+              "file {1}",
+              "attach {2}"
+            ],
+            "console": "internalConsole"
+          },
+          "completion": [
+            {
+              "default": "connect://localhost:3333",
+              "name": "lldb connect url"
+            },
+            {
+              "completion": "filename",
+              "name": "file"
+            },
+            "pid"
+          ],
+          "name": "gdbserver attach",
+          "request": "attach"
+        }
+      ],
+      "transport": "stdio"
     },
     "file_types": [
-      "ink"
-    ]
-  },
-  "sourcepawn": {
-    "comment_token": "//",
-    "file_types": [
-      "sp",
-      "inc"
-    ]
-  },
-  "tlaplus": {
-    "comment_token": "\\*",
-    "block_comment_tokens": {
-      "start": "(*",
-      "end": "*)"
+      "zig",
+      "zon"
+    ],
+    "formatter": {
+      "args": [
+        "fmt",
+        "--stdin"
+      ],
+      "command": "zig"
     },
-    "file_types": [
-      "tla"
-    ]
-  },
-  "werk": {
-    "comment_token": "#",
-    "file_types": [
-      "werk"
-    ]
-  },
-  "debian": {
-    "comment_token": "#",
-    "file_types": [
-      "dsc",
-      "changes"
-    ]
+    "indent": {
+      "tab-width": 4,
+      "unit": "    "
+    },
+    "injection-regex": "zig",
+    "language-servers": [
+      "zls"
+    ],
+    "roots": [
+      "build.zig"
+    ],
+    "scope": "source.zig"
   }
 }

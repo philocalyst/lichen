@@ -4,7 +4,7 @@
 
 use crate::cli::InitArgs;
 use crate::error::LichenError;
-use log::{debug, info};
+use log::debug;
 use std::fs;
 
 /// Handles the `init` command logic (currently a placeholder).
@@ -26,8 +26,8 @@ pub fn handle_init(args: InitArgs) -> Result<(), LichenError> {
         }
     };
 
-    info!(
-        "Initializing configuration (placeholder) in: '{}'",
+    debug!(
+        "Initializing default configuration in: '{}'",
         project_root.display()
     );
 

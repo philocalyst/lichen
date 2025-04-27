@@ -21,7 +21,7 @@ use std::process::ExitCode;
 
 // External crate imports
 use clap::Parser;
-use log::{debug, error, info};
+use log::{debug, error, trace};
 
 // Main application logic
 #[tokio::main]
@@ -36,7 +36,7 @@ async fn main() -> ExitCode {
         .filter_level(cli.verbose.log_level_filter())
         .init();
 
-    info!("Lichen starting...");
+    trace!("Lichen starting...");
     debug!("CLI arguments parsed: {:?}", cli);
     debug!("Effective log level: {}", cli.verbose.log_level_filter());
 

@@ -5,7 +5,7 @@
 use crate::error::LichenError;
 use crate::license::License;
 use jiff::civil::Date;
-use log::{info, warn};
+use log::{debug, warn};
 use regex::Regex;
 use serde::Deserialize;
 use std::fmt;
@@ -49,7 +49,7 @@ impl Config {
     pub fn load_or_default<P: AsRef<Path>>(path: P) -> Result<Self, LichenError> {
         match Self::load(&path) {
             Ok(cfg) => {
-                info!("Running with config");
+                debug!("Running with config");
                 Ok(cfg)
             }
             Err(LichenError::IoError(ref io_err))
