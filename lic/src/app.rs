@@ -2,6 +2,8 @@
 //!
 //! Defines the main application struct `LichenApp` and its core execution logic.
 
+use std::path::PathBuf;
+
 use crate::cli::Commands;
 use crate::commands::{apply, generate, init, unapply}; // Import handlers
 use crate::config::Config;
@@ -29,9 +31,9 @@ impl LichenApp {
     /// # Returns
     ///
     /// A `Result` indicating success or a `FileProcessingError`.
-    pub async fn run(&self, command: Commands) -> Result<(), LichenError> {
+    pub async fn run(&self, command: Commands, config_path: PathBuf) -> Result<(), LichenError> {
         debug!("Dispatching command: {:?}", command);
-        let cfg = Config::load_or_default(".lichen.toml")?;
+        let cfg = Config::load_or_default(config_path)?;
         match command {
             Commands::Gen(args) => {
                 // If there are no licenses in your configuration, no need for multiple runs, and so you can safely fallback to a single run.

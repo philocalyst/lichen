@@ -90,6 +90,10 @@ pub struct Cli {
 
     #[command(flatten)]
     pub verbose: Verbosity<InfoLevel>,
+
+    /// A configuration file. Defaults to a ".lichen.toml" in the current dir
+    #[arg(long, short)]
+    pub config: Option<PathBuf>,
 }
 
 // Common arguments related to license information

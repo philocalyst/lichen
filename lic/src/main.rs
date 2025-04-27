@@ -45,8 +45,11 @@ async fn main() -> ExitCode {
     // |3| Create the application instance
     let lichen_app = LichenApp::new();
 
+    // Find config
+    let config_path = cli.config.unwrap_or(".lichen.toml".into());
+
     // |4| Run the dispatched command
-    let result = lichen_app.run(cli.command).await; // Pass the command enum
+    let result = lichen_app.run(cli.command, config_path).await; // Pass the command enum
 
     // |5| Handle command results and exit
     match result {
