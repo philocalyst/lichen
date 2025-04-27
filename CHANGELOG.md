@@ -3,6 +3,34 @@
 All notable changes to this project are documented in this file.  
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [0.3.6] – 2025-04-27
+
+### Added
+- Added platform-support badges (Rust version, macOS, Windows, Linux) to README.md.  
+- Recipes for downloading comment tokens and license data
+- Acknowledged the [Licensure](https://github.com/chasinglogic/licensure) project in README.md.
+
+### Changed
+- Refactored CLI to leverage Clap’s argument groups and flattened common structs (`LicenseArgs`, `FileProcessingArgs`).
+- Switched many logs from `info!` to `debug!` and `trace!` for more granular output.
+- Enhanced `render_license` to use the full `Date` type (not just year) when generating copyright.
+- Applied broad code formatting and idiomatic Rust improvements across modules (`app`, `cli`, `commands`, `utils`).
+- Updated CI workflow: the packaging step now runs `just package` instead of `just build-release`.
+- Improved Justfile:
+  - `build-release` and `package` recipes now accept `--bin` and dynamic target flags.
+  - Refined defaults, alias definitions, and checksum generation for clarity.
+- Pinned all dependencies in Cargo.toml to exact versions; regenerated Cargo.lock with updated checksums.
+- Brought CHANGELOG.md up to date with the current release structure.
+
+### Deprecated
+- Deprecated and removed the Python-based `scripts/parse_comments` comment-token generator (moved to its own repository).
+
+### Fixed
+- Corrected `cargo install` instructions in README.md to install the `lic` binary only.
+- Fixed Justfile recipes for `run`, `run-release`, `install`, `install-force`, and `checksum` to reference the correct package names and flags.
+
 ## [0.3.5] – 2025-04-23
 ### Fixed
 - CI workflow
@@ -79,6 +107,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [0.2.8] – 2025‑04‑22
 - This is when I started keeping a changelog
 
+[Unreleased]: https://github.com/your-org/your-repo/compare/v0.3.5...HEAD
+[0.3.6]: https://github.com/philocalyst/lichen/compare/v0.3.5...v0.3.6  
+[0.3.5]: https://github.com/philocalyst/lichen/compare/v0.3.4...v0.3.5
 [0.3.4]:    https://github.com/philocalyst/lichen/compare/v0.3.3...v0.3.4  
 [0.3.3]:    https://github.com/philocalyst/lichen/compare/v0.3.2...v0.3.3  
 [0.3.2]:    https://github.com/philocalyst/lichen/compare/v0.3.1...v0.3.2  

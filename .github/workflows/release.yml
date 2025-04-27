@@ -27,10 +27,14 @@ jobs:
       - name: Prerelease Check
         id: prerelease
         run: |
-          if [[ ${{ github.ref_name }} =~ ^[0-9]+[.][0-9]+[.][0-9]+$ ]]; then
-              echo "value=false" >> $GITHUB_OUTPUT
+          # extract just the tag name (e.g. v1.2.3-alpha)
+          tag=${GITHUB_REF##*/}
+
+          # if it ends in -alpha or -beta → prerelease
+          if [[ "$tag" =~ -(alpha|beta)$ ]]; then
+            echo "value=true" >> $GITHUB_OUTPUT
           else
-              echo "value=true" >> $GITHUB_OUTPUT
+            echo "value=false" >> $GITHUB_OUTPUT
           fi
 
   package:
@@ -180,6 +184,7 @@ jobs:
           files: ${{ steps.artifact_name.outputs.path }}
           body_path: release_notes.md
           draft: false
+          make_latest: true
           prerelease: ${{ needs.prerelease.outputs.value }}
           token: ${{ secrets.PAT }}
 
