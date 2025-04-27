@@ -43,6 +43,13 @@ build target="aarch64-apple-darwin" package=(main_package):
     @echo "🔨 Building workspace (debug)..."
     cargo build {{workspace_flag}} --bin {{package}} --target {{target}}
 
+download-templates:
+    git init
+    git remote add origin https://github.com/spdx/license-list-data.git
+    git config core.sparseCheckout true
+    echo "template/" >> .git/info/sparse-checkout
+    git pull origin main
+
 download-languages:
     curl -f -L -O -X GET https://github.com/philocalyst/lang-config/releases/latest/download/languages.json
     mv languages.json /Users/philocalyst/Projects/lichen/lic/assets/comment-tokens.json
