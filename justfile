@@ -128,18 +128,25 @@ checksum directory=(output_directory):
     @echo "✅ Checksums created!"
 
 [no-cd]
-compress-binaries target_directory=("."): # Compress the binaries in the passed-in file
+compress-binaries target_directory=("."): 
     #!/usr/bin/env bash
     
     find "{{target_directory}}" -maxdepth 1 -type f -print0 | while IFS= read -r -d $'\0' file; do
-
     # Check if the file command output indicates a binary/executable type
     if file "$file" | grep -q -E 'executable|ELF|Mach-O|shared object'; then
-        # Get the base filename without the prepending components
+        # Get the base filename without the path
         filename=$(basename "$file")
+        
+        # Get the base name without version number
+        basename="${filename%%-*}"
+        
         echo "Archiving binary file: $filename"
-        # Create a compressed tar archive named after the original file
-        tar -czvf "${file}.tar.gz" "$file"
+        
+        # Create archive with just the basename, no directory structure
+        tar -czf "${file}.tar.gz" \
+            -C "$(dirname "$file")" \
+            -s "|^${filename}$|${basename}|" \
+            "$(basename "$file")"
     fi
     done
 
