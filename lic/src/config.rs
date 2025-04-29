@@ -3,7 +3,7 @@
 //! Manages the loading of options from a TOML config input
 
 use crate::error::LichenError;
-use crate::license::License;
+use crate::models::License;
 use jiff::civil::Date;
 use log::{debug, warn};
 use regex::Regex;

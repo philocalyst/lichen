@@ -3,7 +3,7 @@
 //! Defines the CLI struct and how argument parsing is handled with Clap.
 
 use crate::config::{Author, Authors};
-use crate::license::License;
+use crate::models::License;
 use clap::{Args, ColorChoice, Parser, Subcommand, builder::styling};
 use clap_verbosity_flag::{InfoLevel, Verbosity};
 use jiff::civil::Date;

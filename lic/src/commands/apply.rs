@@ -5,7 +5,7 @@
 use crate::cli::ApplyArgs;
 use crate::config::{Authors, Config};
 use crate::error::LichenError;
-use crate::license::License; // Ensure License is imported
+use crate::models::License; // Ensure License is imported
 use crate::utils;
 use jiff::civil::Date;
 use log::{debug, info, trace};
