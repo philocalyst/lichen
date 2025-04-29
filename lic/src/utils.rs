@@ -3,8 +3,9 @@
 //! General helper functions for file processing, text formatting, etc.
 
 // Internal imports
-use crate::config::{Authors, Config};
+use crate::config::Config;
 use crate::error::LichenError;
+use crate::models::Authors;
 use crate::models::CommentToken;
 
 // External imports
@@ -1075,8 +1076,7 @@ pub fn build_exclude_regex(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::config::Author;
-    use crate::config::Authors;
+    use crate::models::{Author, Authors};
     use jiff::civil::Date;
     use std::borrow::Cow;
 

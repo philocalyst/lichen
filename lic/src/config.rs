@@ -4,6 +4,7 @@
 
 use crate::error::LichenError;
 use crate::models::License;
+use crate::models::{Author, Authors};
 use jiff::civil::Date;
 use log::{debug, warn};
 use regex::Regex;
@@ -87,13 +88,6 @@ pub struct LicenseConfig {
     pub authors: Option<Authors>,
 }
 
-/// Author struct
-#[derive(Debug, Deserialize, Clone, PartialEq)]
-pub struct Author {
-    pub name: String,
-    pub email: Option<String>,
-}
-
 impl fmt::Display for Author {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         // Open to this being changed, just what made sense at the time.
@@ -115,9 +109,6 @@ impl fmt::Display for Author {
         }
     }
 }
-
-#[derive(Debug, Deserialize, Clone, PartialEq)]
-pub struct Authors(pub Vec<Author>);
 
 impl fmt::Display for Authors {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -177,7 +168,7 @@ mod tests {
 mod tests_load {
     // Separate module to avoid conflicts with existing tests mod
     use super::*;
-    use crate::license::License;
+    use crate::models::License;
     use std::fs;
     use tempfile::NamedTempFile; // Import License
 

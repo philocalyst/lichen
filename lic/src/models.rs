@@ -1,6 +1,7 @@
 //! # Data Models
 //!
 //! Defines shared data structures used across the Lichen application.
+use jiff::civil::Date;
 use serde::Deserialize;
 
 /// Represents different types of comment tokens found in languages.
@@ -11,6 +12,16 @@ pub enum CommentToken {
     /// A block comment token pair (e.g., "/*", "*/").
     Block { start: String, end: String },
 }
+
+/// Author struct
+#[derive(Debug, Deserialize, Clone, PartialEq)]
+pub struct Author {
+    pub name: String,
+    pub email: Option<String>,
+}
+
+#[derive(Debug, Deserialize, Clone, PartialEq)]
+pub struct Authors(pub Vec<Author>);
 
 #[derive(Debug, Clone, Deserialize, Copy, PartialEq, Eq, Hash, clap :: ValueEnum)]
 #[allow(non_camel_case_types)]
@@ -1551,4 +1562,67 @@ pub enum License {
     CGALLinkingException,
     #[value(name = "MPL-1.1")]
     MPLOneDotOne,
+}
+
+// ▰▰▰ CLI Argument Structs ▰▰▰ //
+
+pub fn parse_year_to_date(s: &str) -> Result<Date, String> {
+    println!("{s}");
+    // Attempt to parse as a full date; If parsing fails, it's only a problem if it was *meant* to be a full-date.
+    match s.parse::<Date>() {
+        Ok(date) => return Ok(date),
+        Err(e) => {
+            // Basic assumption here is that anything longer than 4 chars, the modern length for a year, is an incorrectly formatted date string.
+            if s.len() > 4 {
+                return Err(e.to_string());
+            }
+        }
+    }
+
+    // Fallback to parsing as year only. This fails if there are any non-numbers in the string
+    let year: i16 = s
+        .parse()
+        .map_err(|e| format!("invalid year `{}`: {} Please use only numerals", s, e))?;
+
+    // Construct to a chill, January 1st of that year.
+    Date::new(year, 1, 1).map_err(|e| format!("invalid date: {}", e))
+}
+
+pub fn parse_to_author(input: &str) -> Result<Authors, String> {
+    // If the whole string is only whitespace, reject it.
+    if input.trim().is_empty() {
+        return Err("You need to provide at least one author in the format NAME[:EMAIL]".into());
+    }
+
+    let authors = input
+        .split(',') // Delimter for consecutive authors is a comma
+        .map(str::trim) // Whitespace is bad
+        .filter(|entry| !entry.is_empty())
+        .map(|entry| {
+            // Split at most once on ':'
+            let mut parts = entry.splitn(2, ':');
+            let name = parts
+                .next()
+                .expect("splitn always yields at least one element")
+                .trim();
+
+            if name.is_empty() {
+                return Err(format!("entry `{}` has empty name", entry));
+            }
+
+            // If an email exists, and isn't blank, use it.
+            let email = parts
+                .next()
+                .map(str::trim)
+                .filter(|s| !s.is_empty())
+                .map(str::to_string);
+
+            Ok(Author {
+                name: name.to_string(),
+                email,
+            })
+        })
+        .collect::<Result<Vec<Author>, String>>()?; // Fails immeidately with any errors.
+
+    Ok(Authors(authors))
 }
