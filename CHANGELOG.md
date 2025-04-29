@@ -5,6 +5,21 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+## [1.0.0] - 2025-04-29
+
+### Added
+- Configuration option
+- New license templates
+- A test suite
+- Compress binaries recipe
+- Clap-complete and completions
+
+### Changed
+- All struct definitions now reside in the models.rs file
+
+### Removed
+- Weird trailer
+
 ## [0.3.6] – 2025-04-27
 
 ### Added
@@ -107,7 +122,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [0.2.8] – 2025‑04‑22
 - This is when I started keeping a changelog
 
-[Unreleased]: https://github.com/your-org/your-repo/compare/v0.3.5...HEAD
+[Unreleased]: https://github.com/your-org/your-repo/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/philocalyst/lichen/compare/v0.3.6...v1.0.0  
 [0.3.6]: https://github.com/philocalyst/lichen/compare/v0.3.5...v0.3.6  
 [0.3.5]: https://github.com/philocalyst/lichen/compare/v0.3.4...v0.3.5
 [0.3.4]:    https://github.com/philocalyst/lichen/compare/v0.3.3...v0.3.4  

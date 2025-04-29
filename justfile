@@ -140,7 +140,7 @@ compress-binaries target_directory=("."):
         # Get the base name without version number
         basename="${filename%%-*}"
         
-        echo "Archiving binary file: $filename"
+        echo "Archiving binary file: $filename, with internal file $basename"
         
         # Create archive with just the basename, no directory structure
         tar -czf "${file}.tar.gz" \

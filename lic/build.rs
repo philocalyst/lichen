@@ -4,8 +4,6 @@ use clap_complete::{Shell, generate_to};
 use std::env;
 use std::error::Error;
 
-// Include the self-contained CLI definitions
-// Make sure this path is correct relative to your project root
 include!("src/models.rs");
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -44,8 +42,8 @@ fn main() -> Result<(), Box<dyn Error>> {
         }
     }
 
-    // Tell cargo to rerun the build script if cli_defs.rs changes.
-    println!("cargo:rerun-if-changed=src/cli_defs.rs");
+    // Tell cargo to rerun the build script if models.rs changes.
+    println!("cargo:rerun-if-changed=src/models.rs");
     // Keep if build.rs itself changes
     println!("cargo:rerun-if-changed=build.rs");
 
