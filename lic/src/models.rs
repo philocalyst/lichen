@@ -1,7 +1,8 @@
 //! # Data Models
 //!
 //! Defines shared data structures used across the Lichen application.
-use clap::{Args, Subcommand};
+use clap::{Args, Parser, Subcommand};
+use clap_verbosity_flag::{InfoLevel, Verbosity};
 use jiff::civil::Date;
 use regex::Regex;
 use serde::Deserialize;
@@ -1726,4 +1727,21 @@ pub struct UnapplyArgs {
     /// Run without modification. See what would be changed.
     #[arg(short = 'D', long)]
     pub dry_run: Option<bool>,
+}
+
+// The main Cli struct
+#[derive(Parser, Debug)]
+#[command(author, version, about, styles = clap::builder::styling::Styles::styled() // Define styles inline or omit for build
+    .header(clap::builder::styling::AnsiColor::Green.on_default().bold())
+    .usage(clap::builder::styling::AnsiColor::Green.on_default().bold())
+    .literal(clap::builder::styling::AnsiColor::Blue.on_default().bold())
+    .placeholder(clap::builder::styling::AnsiColor::Cyan.on_default()),
+    long_about = None, color = clap::ColorChoice::Auto)]
+pub struct Cli {
+    #[command(subcommand)]
+    pub command: Commands,
+    #[command(flatten)]
+    pub verbose: Verbosity<InfoLevel>,
+    #[arg(long, short)]
+    pub config: Option<PathBuf>,
 }
