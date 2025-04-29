@@ -2,10 +2,10 @@
 //!
 //! Logic for the `lichen gen` command.
 
-use crate::cli::GenArgs;
 use crate::config::Config;
 use crate::error::LichenError;
 use crate::models::Authors;
+use crate::models::GenArgs;
 use crate::models::License; // Make sure License is imported
 use crate::utils;
 use jiff::civil::Date;

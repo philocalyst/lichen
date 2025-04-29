@@ -2,9 +2,9 @@
 //!
 //! Logic for the `lichen apply` command.
 
-use crate::cli::ApplyArgs;
 use crate::config::Config;
 use crate::error::LichenError;
+use crate::models::ApplyArgs;
 use crate::models::Authors;
 use crate::models::License; // Ensure License is imported
 use crate::utils;

@@ -2,8 +2,8 @@
 //!
 //! Logic for the `lichen init` command (currently placeholder).
 
-use crate::cli::InitArgs;
 use crate::error::LichenError;
+use crate::models::InitArgs;
 use log::debug;
 use std::fs;
 

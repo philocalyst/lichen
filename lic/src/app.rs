@@ -4,10 +4,10 @@
 
 use std::path::PathBuf;
 
-use crate::cli::Commands;
 use crate::commands::{apply, generate, init, unapply}; // Import handlers
 use crate::config::Config;
 use crate::error::LichenError;
+use crate::models::Commands;
 use log::debug;
 
 /// The main application structure for Lichen.

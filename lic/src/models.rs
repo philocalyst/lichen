@@ -1,8 +1,11 @@
 //! # Data Models
 //!
 //! Defines shared data structures used across the Lichen application.
+use clap::{Args, Subcommand};
 use jiff::civil::Date;
+use regex::Regex;
 use serde::Deserialize;
+use std::path::PathBuf;
 
 /// Represents different types of comment tokens found in languages.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -1625,4 +1628,102 @@ pub fn parse_to_author(input: &str) -> Result<Authors, String> {
         .collect::<Result<Vec<Author>, String>>()?; // Fails immeidately with any errors.
 
     Ok(Authors(authors))
+}
+
+// Common arguments related to license information
+#[derive(Args, Debug)]
+pub struct LicenseArgs {
+    /// SPDX identifier of the license to generate (e.g., MIT, Apache-2.0).
+    /// Can be omitted if specified in configuration.
+    #[arg()]
+    pub license: Option<License>,
+
+    /// Author names and emails (In the format NAME:EMAIL; entries seperated by a comma. Email optional).
+    #[arg(short, long, value_parser = parse_to_author)]
+    pub authors: Option<Authors>,
+
+    /// Date for the license copyright notice (defaults to the current year).
+    #[arg(short, long, value_parser = parse_year_to_date)]
+    pub date: Option<Date>,
+
+    /// Enable support for multiple licenses in the same project (Default is replace)
+    #[arg(long, action = clap::ArgAction::SetTrue)]
+    pub multiple: Option<bool>,
+}
+
+// Common arguments for file processing
+#[derive(Args, Debug)]
+pub struct FileProcessingArgs {
+    /// Files or directories to process. Defaults to the current directory (`.`).
+    #[arg(num_args = 1..)]
+    pub targets: Option<Vec<PathBuf>>,
+
+    /// Regex pattern for files/directories to exclude. Applied during directory traversal.
+    #[arg(short, long)]
+    pub exclude: Option<Regex>,
+
+    /// Do not respect the git_ignore file (If present in directory) and other pattern defaults
+    #[arg(short = 'A', long, action = clap::ArgAction::SetTrue)]
+    pub all: Option<bool>,
+}
+
+#[derive(Subcommand, Debug)]
+pub enum Commands {
+    /// Generate a license file
+    Gen(GenArgs),
+
+    /// Remove license headers in source files
+    Unapply(UnapplyArgs),
+
+    /// Apply license headers to source files
+    Apply(ApplyArgs),
+
+    /// Initialize a default configuration file
+    Init(InitArgs),
+}
+
+#[derive(Args, Debug)]
+pub struct GenArgs {
+    #[command(flatten)]
+    pub license_args: LicenseArgs,
+
+    /// Files or directories to process. Defaults to the current directory (`.`).
+    #[arg(num_args = 1..)]
+    pub targets: Option<Vec<PathBuf>>,
+}
+
+#[derive(Args, Debug)]
+pub struct ApplyArgs {
+    #[command(flatten)]
+    pub license_args: LicenseArgs,
+
+    #[command(flatten)]
+    pub file_args: FileProcessingArgs,
+
+    /// Run without modification. See what would be changed.
+    #[arg(short = 'D', long, action = clap::ArgAction::SetTrue)]
+    pub dry_run: Option<bool>,
+
+    /// When applying headers, which kind of comment token the user *wants*
+    /// Completely possible line or block doesn't exist, in which case it falls back to the other.
+    #[arg(long, action = clap::ArgAction::SetTrue)]
+    pub prefer_block: Option<bool>,
+}
+
+#[derive(Args, Debug)]
+pub struct InitArgs {
+    /// Optional path where the configuration should be initialized.
+    /// Defaults to the current directory.
+    #[arg()]
+    pub target: Option<PathBuf>,
+}
+
+#[derive(Args, Debug)]
+pub struct UnapplyArgs {
+    #[command(flatten)]
+    pub file_args: FileProcessingArgs,
+
+    /// Run without modification. See what would be changed.
+    #[arg(short = 'D', long)]
+    pub dry_run: Option<bool>,
 }

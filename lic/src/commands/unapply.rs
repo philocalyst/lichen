@@ -1,5 +1,5 @@
-use crate::cli::UnapplyArgs;
 use crate::error::LichenError;
+use crate::models::UnapplyArgs;
 use crate::utils;
 use log::{debug, info};
 
@@ -45,7 +45,7 @@ pub async fn handle_unapply(args: UnapplyArgs) -> Result<(), LichenError> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::cli::{FileProcessingArgs, UnapplyArgs};
+    use crate::models::{FileProcessingArgs, UnapplyArgs};
     use crate::utils::{HEADER_MARKER, HEADER_MARKER_STR}; // Import marker
     use std::fs;
     use tempfile::tempdir;
