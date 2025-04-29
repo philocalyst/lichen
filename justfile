@@ -101,22 +101,39 @@ build-release target=(system) package=(main_package):
     cargo build {{workspace_flag}} {{release_flag}} --bin {{package}} --target {{target}}
 
 package target=(system):
+    #!/usr/bin/env bash
     just build-release {{target}}
-    @echo "📦 Packaging release binary…"
-    @mkdir -p dist
+    echo "📦 Packaging release binary…"
 
-    @bash -euo pipefail -c '\
-      ext=""; \
-      if [[ "{{target}}" == *windows-msvc ]]; then \
-        ext=".exe"; \
-      fi; \
-      bin="target/{{target}}/release/{{main_package}}${ext}"; \
-      out="dist/{{main_package}}-{{target}}${ext}"; \
-      \
-      echo " - cp $bin → $out"; \
-      cp "$bin" "$out"; \
-      \
-    '
+    ext=""; 
+    if [[ "{{target}}" == *windows-msvc ]]; then 
+        ext=".exe"; 
+    fi; 
+
+    full_name="dist/"{{main_package}}-{{target}}
+    mkdir -p $full_name
+
+    bin="target/{{target}}/release/{{main_package}}${ext}"; 
+    out="${full_name}"/{{main_package}}"${ext}"; 
+
+    # now copy all completion scripts
+    comp_dir="target/{{target}}/release"
+    completions=( lic.bash lic.elv lic.fish _lic.ps1 _lic )
+
+    for comp in "${completions[@]}"; do
+      src="$comp_dir/$comp"
+      dst="${full_name}"/$comp
+      if [[ -f "$src" ]]; then
+        echo " - cp $src → $dst"
+        cp "$src" "$dst"
+      else
+        echo "Warning: completion script missing: $src" >&2
+      fi
+    done
+    
+    echo " - cp $bin → $out"; 
+    cp "$bin" "$out"; 
+    
 
 
 checksum directory=(output_directory):
