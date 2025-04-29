@@ -1,6 +1,3 @@
-//! # Data Models
-//!
-//! Defines shared data structures used across the Lichen application.
 use clap::{Args, Parser, Subcommand};
 use clap_verbosity_flag::{InfoLevel, Verbosity};
 use jiff::civil::Date;
