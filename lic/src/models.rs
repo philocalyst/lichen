@@ -24,6 +24,7 @@ pub struct Author {
 #[derive(Debug, Deserialize, Clone, PartialEq)]
 pub struct Authors(pub Vec<Author>);
 
+#[allow(clippy::all)]
 #[derive(Debug, Clone, Deserialize, Copy, PartialEq, Eq, Hash, clap :: ValueEnum)]
 #[allow(non_camel_case_types)]
 pub enum License {

@@ -17,7 +17,6 @@ const STYLES: styling::Styles = styling::Styles::styled()
 /// A license management cli tool
 #[derive(Parser, Debug)]
 #[command(author, version, about, styles = STYLES, long_about = None, color = ColorChoice::Auto)]
-
 pub struct Cli {
     #[command(subcommand)]
     pub command: Commands,
