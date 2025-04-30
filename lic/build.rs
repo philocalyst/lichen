@@ -13,14 +13,14 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     // 1) grab OUT_DIR
     let out_dir = PathBuf::from(env::var("OUT_DIR")?);
-    println!("cargo:warning=OUT_DIR = {}", out_dir.display());
+    println!("OUT_DIR = {}", out_dir.display());
 
     // 2) grab PROFILE ("debug" or "release")
     let profile = env::var("PROFILE")?;
-    println!("cargo:warning=PROFILE = {}", profile);
+    println!("PROFILE = {}", profile);
 
     // 3) walk up ancestors until we find the profile directory
-    let mut candidate: &Path = &out_dir.as_path();
+    let mut candidate: &Path = out_dir.as_path();
     let dest = loop {
         if let Some(name) = candidate.file_name().and_then(|s| s.to_str()) {
             if name == profile {
@@ -31,10 +31,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             .parent()
             .ok_or("could not locate `debug` or `release` in OUT_DIR")?;
     };
-    println!(
-        "cargo:warning=writing completions into `{}`",
-        dest.display()
-    );
+    println!("writing completions into `{}`", dest.display());
 
     // 4) make sure it exists
     fs::create_dir_all(&dest)?;
@@ -46,10 +43,10 @@ fn main() -> Result<(), Box<dyn Error>> {
     for &shell in Shell::value_variants() {
         match generate_to(shell, &mut cmd, bin_name, &dest) {
             Ok(path) => {
-                println!("cargo:warning=  • {:?} -> {}", shell, path.display());
+                println!("  • {:?} -> {}", shell, path.display());
             }
             Err(e) => {
-                println!("cargo:warning=failed to generate {:?}: {}", shell, e);
+                println!("failed to generate {:?}: {}", shell, e);
             }
         }
     }
