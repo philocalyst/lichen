@@ -13,8 +13,8 @@ mod models;
 mod utils;
 
 // Core imports
+use crate::models::Cli;
 use app::LichenApp;
-use cli::Cli;
 
 // STD
 use std::process::ExitCode;

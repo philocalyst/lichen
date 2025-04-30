@@ -1,33 +1,6 @@
 //! # Command Line Interface
 //!
-//! Defines the CLI struct and how argument parsing is handled with Clap.
-
-use crate::models::Commands;
-use clap::{ColorChoice, Parser, builder::styling};
-use clap_verbosity_flag::{InfoLevel, Verbosity};
-use std::path::PathBuf;
-
-// The styles I got from the docs lol
-const STYLES: styling::Styles = styling::Styles::styled()
-    .header(styling::AnsiColor::Green.on_default().bold())
-    .usage(styling::AnsiColor::Green.on_default().bold())
-    .literal(styling::AnsiColor::Blue.on_default().bold())
-    .placeholder(styling::AnsiColor::Cyan.on_default());
-
-/// A license management cli tool
-#[derive(Parser, Debug)]
-#[command(author, version, about, styles = STYLES, long_about = None, color = ColorChoice::Auto)]
-pub struct Cli {
-    #[command(subcommand)]
-    pub command: Commands,
-
-    #[command(flatten)]
-    pub verbose: Verbosity<InfoLevel>,
-
-    /// A configuration file. Defaults to a ".lichen.toml" in the current dir
-    #[arg(long, short)]
-    pub config: Option<PathBuf>,
-}
+//! Defines unit tests
 
 #[cfg(test)]
 mod tests {

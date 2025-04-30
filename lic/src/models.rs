@@ -1735,6 +1735,7 @@ pub struct UnapplyArgs {
     .literal(clap::builder::styling::AnsiColor::Blue.on_default().bold())
     .placeholder(clap::builder::styling::AnsiColor::Cyan.on_default()),
     long_about = None, color = clap::ColorChoice::Auto)]
+
 pub struct Cli {
     #[command(subcommand)]
     pub command: Commands,
