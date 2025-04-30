@@ -137,12 +137,52 @@ package target=(system):
 
 
 checksum directory=(output_directory):
-    @echo "🔒 Creating checksums..."
-    @find "{{directory}}" -type f \
-    ! -name "checksums.sha256" \
-    ! -name "*.sha256" \
-    -exec sh -c 'sha256sum "$1" > "$1.sha256"' _ {} \;
-    @echo "✅ Checksums created!"
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    dir="{{directory}}"
+    echo "🔒 Generating checksums in '$dir'…"
+
+    if [ ! -d "$dir" ]; then
+        echo "Error: '$dir' is not a directory." >&2
+        exit 1
+    fi
+
+    cd "$dir" || {
+        echo "Error: cannot cd to '$dir'" >&2
+        exit 1
+    }
+
+    # Go ahead and remove any stales
+    [ -f *.sum ] && rm *.sum
+
+    # Creating just a single checksum file for all the files in this directory
+    find . -type f \
+        ! -name "*.sum" \
+        -exec sha256sum {} + \
+      > SHA256.sum || {
+        echo "Error: failed to write checksums.sha256" >&2
+        exit 1
+    }
+
+    find . -type f \
+        ! -name "*.sum" \
+        -exec md5sum {} + \
+      > MD5.sum || {
+        echo "Error: failed to write checksums.sha256" >&2
+        exit 1
+    }
+
+    find . -type f \
+        ! -name "*.sum" \
+        -exec b3sum {} + \
+      > BLAKE3.sum || {
+        echo "Error: failed to write checksums.sha256" >&2
+        exit 1
+    }
+
+    echo "✅ checksums.sha256 created in '$dir'"
+
 
 [no-cd]
 compress-binaries target_directory=("."): 
