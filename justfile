@@ -110,11 +110,11 @@ package target=(system):
         ext=".exe"; 
     fi; 
 
-    full_name={{output_directory}}/{{main_package}}-{{target}}
+    full_name="{{output_directory}}/{{main_package}}-{{target}}"
     mkdir -p $full_name
 
     bin="target/{{target}}/release/{{main_package}}${ext}"; 
-    out="${full_name}"/{{main_package}}"${ext}"; 
+    out="${full_name}/{{main_package}}${ext}"; 
 
     # now copy all completion scripts
     comp_dir="target/{{target}}/release"
@@ -130,6 +130,11 @@ package target=(system):
         echo "Warning: completion script missing: $src" >&2
       fi
     done
+
+    if [[ ! -d "{{output_directory}}" ]]; then
+        echo "Error: Output directory '{{output_directory}}' was not created properly" >&2
+        exit 1
+    fi
     
     echo " - cp $bin → $out"; 
     cp "$bin" "$out"; 
@@ -184,7 +189,6 @@ checksum directory=(output_directory):
     echo "✅ checksums.sha256 created in '$dir'"
 
 
-[no-cd]
 compress directory=(output_directory):
     #!/usr/bin/env bash
     set -e
