@@ -110,7 +110,7 @@ package target=(system):
         ext=".exe"; 
     fi; 
 
-    full_name="dist/"{{main_package}}-{{target}}
+    full_name={{output_directory}}/{{main_package}}-{{target}}
     mkdir -p $full_name
 
     bin="target/{{target}}/release/{{main_package}}${ext}"; 
@@ -185,27 +185,33 @@ checksum directory=(output_directory):
 
 
 [no-cd]
-compress-binaries target_directory=("."): 
+compress-binaries directory=(output_directory):
     #!/usr/bin/env bash
+    set -e
     
-    find "{{target_directory}}" -maxdepth 1 -type f -print0 | while IFS= read -r -d $'\0' file; do
-    # Check if the file command output indicates a binary/executable type
-    if file "$file" | grep -q -E 'executable|ELF|Mach-O|shared object'; then
-        # Get the base filename without the path
-        filename=$(basename "$file")
-        
-        # Get the base name without version number
-        basename="${filename%%-*}"
-        
-        echo "Archiving binary file: $filename, with internal file $basename"
-        
-        # Create archive with just the basename, no directory structure
-        tar -czf "${file}.tar.gz" \
-            -C "$(dirname "$file")" \
-            -s "|^${filename}$|${basename}|" \
-            "$(basename "$file")"
+    echo "🗜️ Compressing release packages..."
+    
+    if [ ! -d "{{directory}}" ]; then
+        echo "Error: Directory '{{directory}}' does not exist" >&2
+        exit 1
     fi
+    
+    # Process each package directory
+    find "{{directory}}" -mindepth 1 -maxdepth 1 -type d | while read -r pkg_dir; do
+        pkg_name=$(basename "$pkg_dir")
+        echo "Compressing package: $pkg_name"
+        
+        # Create archive of the entire directory
+        tar -czf "$pkg_dir.tar.gz" -C "$(dirname "$pkg_dir")" "$pkg_name" || {
+            echo "Error: Failed to create archive for $pkg_name" >&2
+            exit 1
+        }
+        
+        echo "✅ Successfully compressed $pkg_name"
     done
+    
+    echo "🎉 All packages compressed successfully!"
+
 
 
 # ▰▰▰ Run ▰▰▰ #
