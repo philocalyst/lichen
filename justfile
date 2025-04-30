@@ -185,7 +185,7 @@ checksum directory=(output_directory):
 
 
 [no-cd]
-compress-binaries directory=(output_directory):
+compress directory=(output_directory):
     #!/usr/bin/env bash
     set -e
     

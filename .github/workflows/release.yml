@@ -159,8 +159,8 @@ jobs:
         # Run the just recipe, passing the target from the matrix
         run: just package ${{ matrix.target }}
 
-      - name: Compress the binaries
-        run: just compress-binaries "dist/"
+      - name: Compress the package
+        run: just compress "dist/"
 
       # --- Publish Artifact ---
       - name: Determine Artifact Name
