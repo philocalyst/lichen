@@ -157,7 +157,7 @@ checksum directory=(output_directory):
     [ -f *.sum ] && rm *.sum
 
     # Creating just a single checksum file for all the files in this directory
-    find . -type f \
+    find . -maxdepth 1 -type f \
         ! -name "*.sum" \
         -exec sha256sum {} + \
       > SHA256.sum || {
@@ -165,7 +165,7 @@ checksum directory=(output_directory):
         exit 1
     }
 
-    find . -type f \
+    find . -maxdepth 1 -type f \
         ! -name "*.sum" \
         -exec md5sum {} + \
       > MD5.sum || {
@@ -173,7 +173,7 @@ checksum directory=(output_directory):
         exit 1
     }
 
-    find . -type f \
+    find . -maxdepth 1 -type f \
         ! -name "*.sum" \
         -exec b3sum {} + \
       > BLAKE3.sum || {

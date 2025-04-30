@@ -240,7 +240,7 @@ jobs:
           rm -f *.sum
 
           # Generate SHA256 checksums
-          find . -type f \
+          find . -maxdepth 1 -type f \
             ! -name "*.sum" \
             -exec sha256sum {} + \
             > SHA256.sum || {
@@ -249,7 +249,7 @@ jobs:
           }
 
           # Generate MD5 checksums
-          find . -type f \
+          find . -maxdepth 1 -type f \
             ! -name "*.sum" \
             -exec md5sum {} + \
             > MD5.sum || {
