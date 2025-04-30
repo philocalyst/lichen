@@ -5,6 +5,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+## [1.1.1] – 2025-04-29
+
+### Changed
+- Consolidate `Cli` struct: removed its duplicate definition in `cli.rs`, moved the single source-of-truth into `models.rs`, and updated the import in `main.rs`.
+
+### Fixed
+- Improve `justfile` path handling: properly quote `full_name` and verify that `output_directory` is created (erroring out if it isn’t).
+
 ## [1.1.0] – 2025-04-29
 
 ### Added
@@ -143,7 +151,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [0.2.8] – 2025‑04‑22
 - This is when I started keeping a changelog
 
-[Unreleased]: https://github.com/your-org/your-repo/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/your-org/your-repo/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/your-org/your-repo/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/your-org/your-repo/compare/v1.0.0...v1.1.0  
 [1.0.0]: https://github.com/philocalyst/lichen/compare/v0.3.6...v1.0.0  
 [0.3.6]: https://github.com/philocalyst/lichen/compare/v0.3.5...v0.3.6  
