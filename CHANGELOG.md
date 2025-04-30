@@ -5,6 +5,27 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+## [1.1.0] – 2025-04-29
+
+### Added
+- Bundle and install CLI shell completions (Bash, Zsh, Fish, PowerShell, Elvish) alongside release binaries, with correct output-directory handling.
+
+### Changed
+- Overhauled the `compress-binaries` recipe in the Justfile:
+  • Archives entire package directories instead of individual executables  
+  • Improves logging and error handling  
+  • Supports a configurable output directory  
+- Changed compress-binaries to `compress`
+
+### Fixed
+- Clippy errors in `lic/src/cli.rs` and removed the obsolete `License::iter` implementation in `lic/src/license.rs`.  
+- `build.rs` warning output now omits redundant `cargo:warning=` prefixes and correctly logs `OUT_DIR` and `PROFILE`.  
+- Release workflow and Justfile checksum tasks now:
+  • Produce unified `.sum` files (SHA256, MD5, BLAKE3)  
+  • Remove stale checksum files before generation  
+  • Fail on any error instead of silently continuing  
+- Updated the release step to use the new checksum method and upload `.sum` artifacts.
+
 ## [1.0.0] - 2025-04-29
 
 ### Added
@@ -122,7 +143,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [0.2.8] – 2025‑04‑22
 - This is when I started keeping a changelog
 
-[Unreleased]: https://github.com/your-org/your-repo/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/your-org/your-repo/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/your-org/your-repo/compare/v1.0.0...v1.1.0  
 [1.0.0]: https://github.com/philocalyst/lichen/compare/v0.3.6...v1.0.0  
 [0.3.6]: https://github.com/philocalyst/lichen/compare/v0.3.5...v0.3.6  
 [0.3.5]: https://github.com/philocalyst/lichen/compare/v0.3.4...v0.3.5
