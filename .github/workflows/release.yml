@@ -217,22 +217,54 @@ jobs:
             --dir release
 
       - name: Create Checksums
+        shell: bash
         run: |
-          find release/ -type f \
-          ! -name "checksums.sha256" \
-          ! -name "README*" \
-          ! -name "*.sha256" \
-          -print0 \
-          | while IFS= read -r -d '' file; do
-            sha256sum "$file" > "$file.sha256"
-          done
+          set -euo pipefail
+
+          # Directory to checksum
+          dir="release"
+
+          echo "🔒 Generating checksums in '$dir'…"
+
+          if [ ! -d "$dir" ]; then
+            echo "Error: '$dir' is not a directory." >&2
+            exit 1
+          fi
+
+          cd "$dir" || {
+            echo "Error: cannot cd to '$dir'" >&2
+            exit 1
+          }
+
+          # Remove any stale checksum files
+          rm -f *.sum
+
+          # Generate SHA256 checksums
+          find . -type f \
+            ! -name "*.sum" \
+            -exec sha256sum {} + \
+            > SHA256.sum || {
+            echo "Error: failed to write SHA256.sum" >&2
+            exit 1
+          }
+
+          # Generate MD5 checksums
+          find . -type f \
+            ! -name "*.sum" \
+            -exec md5sum {} + \
+            > MD5.sum || {
+            echo "Error: failed to write MD5.sum" >&2
+            exit 1
+          }
+
+          echo "✅ Checksums generated in '$dir'"
 
 
       - name: Publish Individual Checksums
         uses: softprops/action-gh-release@v2
         with:
-          # Use a wildcard to upload all generated .sha256 files from the release dir
-          files: release/*.sha256
+          # Use a wildcard to upload all generated .sum files from the release dir
+          files: release/*.sum
           draft: false
           prerelease: ${{ needs.prerelease.outputs.value }}
           token: ${{ secrets.PAT }}
