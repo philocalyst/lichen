@@ -5,9 +5,7 @@
 [![Windows Platform](https://badgen.net/badge/icon/Windows%2010+?icon=windows&label)](https://www.microsoft.com/en-us/windows)
 [![Linux Platform](https://badgen.net/badge/icon/Linux?icon=gnome&label)](https://www.linuxfoundation.org/)
 
-Lichen(lic) is a command-line tool designed to help manage license files and headers within your software projects. It simplifies generating full license texts (like `LICENSE`) and applying standardized license header comments to your source code files, ensuring compliance and consistency with patterns, configs, and templates. Supporting 600 licenses and counting!.
-
-<img src="Trailer.gif">
+Lichen(lic) is a CLI tool that salves the pain of managing licenses. Whether you're a small project, who just wants a MIT then, there, now; or a large project, who concern themselves with double-licensing and license headers; you'll find sanctuary with Lichen. Who yes, can do all those things by the way and in a config file too! And the world doesn't run without accrediation, so keep the licenses in sync with the maintainers names. Built off the backs of the fine people THE SYSTEM PACKAGE DATA EXCHANGE(Spdx) -- we support over 600 licenses. I dare you to use them all‼️ Ahaha, we certainly have the regex. 
 
 ## Summary
 
@@ -15,8 +13,8 @@ Lichen provides the following core functionalities:
 
 * **License Generation (`gen`):** Creates full license text files based on SPDX identifiers (e.g., `MIT`, `Apache-2.0`). It fetches standard templates and populates them with author, year, and contributor information.
 * **Header Application (`apply`):** Scans source files and adds or replaces license headers using appropriate comment syntax for various programming languages. It intelligently handles existing headers and respects `.gitignore` patterns.
-* **Configuration (`init`, `.lichen.toml`):** Allows project-specific settings via a `.lichen.toml` file, including default license choices, author information, target file patterns, and exclusion rules. CLI arguments override configuration settings. Setup a config once, and run simply "lichen gen" or "lichen apply"
-* **Multiple License Support** Double (or more?) license your code, with patterns and regex allowing you to target specific areas with specific licenses (Keep your code compliant when pulling in licensed snippets)
+* **Configuration (`init`, `.lichen.toml`):** Allows project-specific settings via a `.lichen.toml` file, including default license choices, author information, target file patterns, and exclusion rules. CLI arguments override configuration settings. Setup a config once, and run simply "lichen gen" or "lichen apply" from the same repo forevermore.
+* **Multiple License Support** Double (or more?) license your code, with patterns and regex allowing you to target specific areas with specific licenses, helping you even in complex situation with external code contributions.
 
 ## Get Started
 
@@ -25,8 +23,7 @@ Ready to integrate Lichen into your project? Jump to the [Installation](#install
 ## Coming SOON
 - Contributor option
 - Full date option (Currently just trims to year)
-- Config option (To pass in from wherever you are.)
-- Uploading to all major package managers
+- All major package manager support (I NEED HELP HERE, I DO NOT USE ANY OF THE OTHER SYSTEMS)
 
 ## Tutorial
 
@@ -220,7 +217,7 @@ Pre-compiled binaries for major platforms (Linux, macOS, Windows) are available 
 ## Contributing
 This is my first large rust project, and I'm sure there's so, so, so, much I could be doing better when it comes to following idioms and best practices, and I'm sure there's a ton of small bugs that are in my code.. right now 🥺
 
-Because of that, the barrier to contributing is very low (For now haha), and if you notice something small or large (Could be code issue, design oddity, documentation lack etc.), just file an issue and I'll do the job of making sense of it. Pull requests can feel daunting, so if you *want* to contribute some code, you could even just drop an email to me (Found in my profile) with a line or two with some context :)
+Because of that, the barrier to contributing is very low, and if you notice something small or large (Could be code issue, design oddity, documentation lack etc.), just file an issue and I'll do the job of making sense of it. Pull requests can feel daunting, so if you *want* to contribute some code, you could even just drop an email to me (Found in my profile) with a line or two with some context :)
 
 Some low hanging fruit are the parse_spdx library and the language generator (both of which no longer work/aren't in use), which I shamelessly generated to solve the problem once, and now represent the biggest pieces of debt in my project. I'll get around to integrating these as soon as possible, but are my priority after the promised features. If you want to jump that gun, please, by all means.
 
