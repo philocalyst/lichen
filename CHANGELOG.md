@@ -5,6 +5,19 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+## [1.2.0] – 2025-05-01
+
+### Added
+- Validation in `render_license` to handle missing copyright keys,  
+  falling back to prepending the generated copyright string.
+- Added `.lichen.toml` to the project’s `.gitignore` file.
+
+### Changed
+- Default copyright string now includes “All rights reserved.”
+- Documentation improvements:
+  - Doc comments added to the `lichen init` and `lichen unapply` commands.  
+  - Refined README copy and formatting.
+
 ## [1.1.2] – 2025-04-30
 
 ### Added
@@ -162,7 +175,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [0.2.8] – 2025‑04‑22
 - This is when I started keeping a changelog
 
-[Unreleased]: https://github.com/your-org/your-repo/compare/v1.1.2...HEAD
+[Unreleased]: https://github.com/your-org/your-repo/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/lichen/lichen/compare/v1.1.2...v1.2.0
 [1.1.2]: https://github.com/your-org/your-repo/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/your-org/your-repo/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/your-org/your-repo/compare/v1.0.0...v1.1.0  
