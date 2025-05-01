@@ -63,9 +63,13 @@ pub fn render_license(
     // Copyright string generation
     let copyright_string;
     if let Some(authors) = authors {
-        copyright_string = format!("Copyright (c) {} {}", date.year(), authors);
+        copyright_string = format!(
+            "Copyright (c) {} {}; All rights reserved.",
+            date.year(),
+            authors
+        );
     } else {
-        copyright_string = format!("Copyright (c) {}", date.year());
+        copyright_string = format!("Copyright (c) {}; All rights reserved.", date.year());
     }
 
     // Remember that all generated licenses have their own fields.
