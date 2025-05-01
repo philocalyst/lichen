@@ -1,6 +1,6 @@
 //! # Initialize Command
 //!
-//! Logic for the `lichen init` command (currently placeholder).
+//! Logic for the `lichen init` command.
 
 use crate::error::LichenError;
 use crate::models::InitArgs;

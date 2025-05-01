@@ -1,3 +1,7 @@
+//! # Unapply Command
+//!
+//! Logic for the `lichen unapply` command.
+
 use crate::error::LichenError;
 use crate::models::UnapplyArgs;
 use crate::utils;
