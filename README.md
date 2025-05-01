@@ -207,14 +207,14 @@ Ensure you have the Rust toolchain installed.
 
 ```shell
 # Build and install using cargo (Installing just the public binary, not any helper)
-cargo install --git https://github.com/philocalyst/lichen/ --bin lic
+cargo install lichenn # There were name conflicts... But I promise it's the one you expect!
 ```
 
 The `lichen` binary will be installed in your Cargo bin directory (usually `~/.cargo/bin/`). Ensure this directory is in your system's `PATH`.
 
 ### Pre-built Binaries
 
-Pre-compiled binaries for major platforms (Linux, macOS, Windows) are available on the [GitHub Releases page](https://github.com/philocalyst/lichen/releases) under assets. Download the appropriate archive for your system, extract it, and place the `lichen` executable in a directory included in your system's `PATH`. You will also find `.sha256` files to verify the download integrity.
+Pre-compiled binaries for major platforms (Linux, macOS, Windows) are available on the [GitHub Releases page](https://github.com/philocalyst/lichen/releases) under assets. Download the appropriate archive for your system, extract it, and place the `lichen` executable in a directory included in your system's `PATH`. You will also find `.SUM` files to verify the download integrity.
 
 ## Contributing
 This is my first large rust project, and I'm sure there's so, so, so, much I could be doing better when it comes to following idioms and best practices, and I'm sure there's a ton of small bugs that are in my code.. right now 🥺
