@@ -1,9 +1,9 @@
 # Welcome to Lichen.
 
-[![Language Version](https://badgen.net/static/Rust/2024/orange)](https://developer.apple.com/macOS)
+[![Language Version](https://badgen.net/static/Rust/2024/orange)](https://www.rust-lang.org/)
 [![Apple Platform](https://badgen.net/badge/icon/macOS%2010.15+?icon=apple&label)](https://developer.apple.com/macOS)
-[![Windows Platform](https://badgen.net/badge/icon/Windows%2010+?icon=windows&label)](https://developer.apple.com/macOS)
-[![Linux Platform](https://badgen.net/badge/icon/Linux?icon=gnome&label)](https://developer.apple.com/macOS)
+[![Windows Platform](https://badgen.net/badge/icon/Windows%2010+?icon=windows&label)](https://www.microsoft.com/en-us/windows)
+[![Linux Platform](https://badgen.net/badge/icon/Linux?icon=gnome&label)](https://www.linuxfoundation.org/)
 
 Lichen(lic) is a command-line tool designed to help manage license files and headers within your software projects. It simplifies generating full license texts (like `LICENSE`) and applying standardized license header comments to your source code files, ensuring compliance and consistency with patterns, configs, and templates. Supporting 600 licenses and counting!.
 
