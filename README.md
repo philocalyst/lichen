@@ -5,7 +5,9 @@
 [![Windows Platform](https://badgen.net/badge/icon/Windows%2010+?icon=windows&label)](https://www.microsoft.com/en-us/windows)
 [![Linux Platform](https://badgen.net/badge/icon/Linux?icon=gnome&label)](https://www.linuxfoundation.org/)
 
-Lichen(lic) is a CLI tool that salves the pain of managing licenses. Whether you're a small project, who just wants a MIT then, there, now; or a large project, who concern themselves with double-licensing and license headers; you'll find sanctuary with Lichen. Who yes, can do all those things by the way and in a config file too! And the world doesn't run without accrediation, so keep the licenses in sync with the maintainers names. Built off the backs of the fine people THE SYSTEM PACKAGE DATA EXCHANGE(Spdx) -- we support over 600 licenses. I dare you to use them all‼️ Ahaha, we certainly have the regex. 
+Lichen(lic) is a CLI tool that salves the pain of managing licenses. Whether you're a small project, who just wants a MIT then, there, now; or a large project, who concern themselves with double-licensing and license headers; you'll find sanctuary with Lichen. Who yes, can do all those things by the way and in a config file too!
+
+As developers, sometimes you might need *other* people to pay for your morning coffees, so make sure they know who to thank by embedding your name and email into the license (Thanks lichen!). Built off the backs of the fine people THE SYSTEM PACKAGE DATA EXCHANGE(Spdx) -- we support over 600 licenses. I dare you to use them all‼️ Ahaha, we certainly have the regex. 
 
 ## Summary
 
