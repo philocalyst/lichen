@@ -91,15 +91,16 @@ jobs:
 
       # Cache the Cargo registry/index, registry/cache and git DB
       - name: Cache Cargo registry and git
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry/index
             ~/.cargo/registry/cache
             ~/.cargo/git/db
-          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('Cargo.lock') }}
           restore-keys: |
             ${{ runner.os }}-cargo-registry-
+            ${{ runner.os }}
 
       - name: Set up Rust toolchain
         uses: actions-rust-lang/setup-rust-toolchain@v1
@@ -167,9 +168,6 @@ jobs:
         id: artifact_name
         run: |
           ARTIFACT_PATH="dist/${{ env.BINARY_NAME }}-${{ matrix.target }}"
-          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-            ARTIFACT_PATH="${ARTIFACT_PATH}.exe"
-          fi
           # Use the compressed versions
           echo "path=${ARTIFACT_PATH}.tar.gz" >> $GITHUB_OUTPUT
 
