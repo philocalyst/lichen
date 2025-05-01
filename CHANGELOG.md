@@ -5,6 +5,17 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+## [1.1.2] – 2025-04-30
+
+### Added
+- Added `description` and `license` fields to the Cargo.toml manifest.
+
+### Changed
+- Renamed the package from `lic` to `lichenn` in both Cargo.toml and Cargo.lock.
+
+### Fixed
+- Removed the redundant `.exe` suffix being appended to Windows release artifacts in the GitHub Actions workflow.
+
 ## [1.1.1] – 2025-04-29
 
 ### Changed
@@ -151,7 +162,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [0.2.8] – 2025‑04‑22
 - This is when I started keeping a changelog
 
-[Unreleased]: https://github.com/your-org/your-repo/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/your-org/your-repo/compare/v1.1.2...HEAD
+[1.1.2]: https://github.com/your-org/your-repo/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/your-org/your-repo/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/your-org/your-repo/compare/v1.0.0...v1.1.0  
 [1.0.0]: https://github.com/philocalyst/lichen/compare/v0.3.6...v1.0.0  

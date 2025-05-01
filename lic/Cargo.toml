@@ -1,6 +1,7 @@
 [package]
 name = "lichenn"
-version = "1.1.1"
+readme = "../README.md"
+version = "1.1.2"
 edition = "2024"
 description = "Manage and generate the licenses of your project effectively and mighty quick, with a smooth interface, custom rules and configuration"
 license = "MIT OR Apache-2.0"
