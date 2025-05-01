@@ -2,6 +2,8 @@
 name = "lic"
 version = "1.1.1"
 edition = "2024"
+description = "Manage and generate the licenses of your project effectively and mighty quick, with a smooth interface, custom rules and configuration"
+license = "MIT OR Apache-2.0"
 
 [dependencies]
 chrono = "=0.4.40"
