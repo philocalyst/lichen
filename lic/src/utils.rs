@@ -46,7 +46,7 @@ pub const HEADER_MARKER_STR: &str = "\u{2060}"; // String version for searching
 ///
 /// A `Result` containing the rendered string or a `RenderError`.
 pub fn render_license(
-    source: &str,
+    template: &str,
     date: &Date,
     authors: &Option<Authors>,
 ) -> Result<String, RenderError> {
@@ -54,7 +54,7 @@ pub fn render_license(
     // Creation of the handlebars registry, allowing for the programatic replacement of key/values in the template
     let mut handlebars = Handlebars::new();
     handlebars
-        .register_template_string("license", source)
+        .register_template_string("license", template)
         .map_err(|e| {
             // Wrap the Box<TemplateError> into a RenderError for consistency
             RenderError::from(e)
@@ -79,10 +79,18 @@ pub fn render_license(
         "Rendering handlebars entry copyright with {}",
         &copyright_string
     );
-
     // There's such a variability to the templates, so I'm holding back on the addition of some of these, but from here, they become very easy to add.
 
-    handlebars.render("license", &data)
+    let rendered = handlebars.render("license", &data)?;
+    if rendered.contains(&copyright_string) {
+        Ok(rendered)
+    } else {
+        // Fallback in case the template didn't contain a key for copyright
+        trace!("Failed to render value for copyright, prepending");
+
+        // prepend copyright to the result
+        Ok(format!("{}\n{}", copyright_string, rendered))
+    }
 }
 
 /// Recursively finds all files within the target paths, applying exclusions.
