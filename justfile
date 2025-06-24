@@ -17,7 +17,7 @@ spdx_parser_pkg := "spdx_parser"
     
 [doc('List all available recipes')]
 default:
-    just --list
+    @just --list
 
 # --- Build & Check --- #
 [doc('Check workspace for compilation errors')]
@@ -26,19 +26,13 @@ check:
     @echo "🔎 Checking workspace..."
     cargo check --workspace
 
-[doc('Check workspace for compilation errors (release mode)')]
-[group('build')]
-check-release: 
-    @echo "🔎 Checking workspace (release)..."
-    cargo check --workspace --release
-
-[doc('Build workspace in debug mode for specified target')]
+[doc('Build workspace in debug mode')]
 [group('build')]
 build target="aarch64-apple-darwin" package=(main_package):
     @echo "🔨 Building workspace (debug)..."
     cargo build --workspace --bin {{package}} --target {{target}}
 
-[doc('Build workspace in release mode for specified target')]
+[doc('Build workspace in release mode')]
 [group('build')]
 build-release target=(system) package=(main_package):
     @echo "🚀 Building workspace (release) for {{target}}…"
@@ -86,7 +80,7 @@ package target=(system):
     echo " - cp $bin → $out"; 
     cp "$bin" "$out"; 
 
-[doc('Generate SHA256, MD5, and BLAKE3 checksums for distribution files')]
+[doc('Generate checksums for distribution files')]
 [group('packaging')]
 checksum directory=(output_directory):
     #!/usr/bin/env bash
@@ -170,13 +164,13 @@ release: build-release
     just checksum
 
 # --- Execution --- #
-[doc('Run application in debug mode with optional arguments')]
+[doc('Run application in debug mode')]
 [group('execution')]
 run package=(main_package) +args="":
     @echo "▶️ Running {{package}} (debug)..."
     cargo run --bin {{package}} -- {{args}}
 
-[doc('Run application in release mode with optional arguments')]
+[doc('Run application in release mode')]
 [group('execution')]
 run-release package=(main_package) +args="":
     @echo "▶️ Running {{package}} (release)..."
@@ -333,7 +327,7 @@ install package=(main_package): build-release
     @echo "💾 Installing {{main_package}} binary..."
     cargo install --bin {{package}}
 
-[doc('Force install binary, overwriting existing installation')]
+[doc('Force install binary')]
 [group('installation')]
 install-force package=(main_package): build-release
     @echo "💾 Force installing {{main_package}} binary..."
@@ -343,7 +337,6 @@ install-force package=(main_package): build-release
 alias b    := build
 alias br   := build-release
 alias c    := check
-alias cr   := check-release
 alias t    := test
 alias f    := fmt
 alias l    := lint
