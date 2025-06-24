@@ -9,11 +9,10 @@ set allow-duplicate-recipes := true
 # --- Variables --- #
 project_root    := justfile_directory()
 output_directory := project_root + "/dist"
+build_directory := "target"
 
 system := `rustc --version --verbose |  grep '^host:' | awk '{print $2}'`
-target_dir      := project_root + "/target"
 main_package      := "lic"
-main_bin_flag     := "--bin" + main_package
 spdx_parser_pkg := "spdx_parser"
     
 [doc('List all available recipes')]
@@ -65,7 +64,7 @@ package target=(system):
     out="${full_name}/{{main_package}}${ext}"; 
 
     # now copy all completion scripts
-    comp_dir="target/{{target}}/release"
+    comp_dir="{{build_directory}}/{{target}}/release"
     completions=( lic.bash lic.elv lic.fish _lic.ps1 _lic )
 
     for comp in "${completions[@]}"; do
