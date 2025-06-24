@@ -1,12 +1,12 @@
 #!/usr/bin/env just
 
-# ▰▰▰ Settings ▰▰▰ #
+# --- Settings --- #
 set shell := ["bash", "-euo", "pipefail", "-c"]
 set windows-shell := ["C:/Program Files/Git/usr/bin/bash.exe", "-euo", "pipefail", "-c"]
 set dotenv-load := true
 set allow-duplicate-recipes := true
 
-# ▰▰▰ Variables ▰▰▰ #
+# --- Variables --- #
 project_root    := justfile_directory()
 output_directory := project_root + "/dist"
 
@@ -26,12 +26,11 @@ workspace_flag := "--workspace"
 all_flag       := "--all"
 verbose_flag   := "-vv"
 
-[doc('List all available recipes (default action)')]
+[doc('List all available recipes')]
 default:
-    just --list {{justfile()}}
+    just --list
 
-# ▰▰▰ Build & Check ▰▰▰ #
-
+# --- Build & Check --- #
 [doc('Check workspace for compilation errors')]
 [group('build')]
 check:
@@ -56,8 +55,7 @@ build-release target=(system) package=(main_package):
     @echo "🚀 Building workspace (release) for {{target}}…"
     cargo build {{workspace_flag}} {{release_flag}} --bin {{package}} --target {{target}}
 
-# ▰▰▰ Packaging ▰▰▰ #
-
+# --- Packaging --- #
 [doc('Package release binary with completions for distribution')]
 [group('packaging')]
 package target=(system):
@@ -182,8 +180,7 @@ compress directory=(output_directory):
 release: build-release
     just checksum
 
-# ▰▰▰ Execution ▰▰▰ #
-
+# --- Execution --- #
 [doc('Run application in debug mode with optional arguments')]
 [group('execution')]
 run package=(main_package) +args="":
@@ -208,17 +205,7 @@ run-example-spdx-release:
     @echo "▶️ Running spdx_parser example (basic_conversion, release)..."
     cargo run --bin {{spdx_parser_pkg}} {{release_flag}} --example basic_conversion
 
-# ▰▰▰ Code Generation ▰▰▰
-
-[doc('Generate comment-tokens JSON file from language configurations')]
-[group('codegen')]
-generate-comments:
-    @echo "🔧 Generating comment‐tokens JSON..."
-    @mkdir -p "{{py_script_dir}}"
-    @uv run "{{py_script}}" > "{{json_output}}"
-
-# ▰▰▰ External Resources ▰▰▰ #
-
+# --- External Resources --- #
 [doc('Download SPDX license templates from official repository')]
 [group('resources')]
 download-templates:
@@ -234,8 +221,7 @@ download-languages:
     curl -f -L -O -X GET https://github.com/philocalyst/lang-config/releases/latest/download/languages.json
     mv languages.json /Users/philocalyst/Projects/lichen/lic/assets/comment-tokens.json
 
-# ▰▰▰ Testing ▰▰▰ #
-
+# --- Testing --- #
 [doc('Run all workspace tests')]
 [group('testing')]
 test: 
@@ -248,8 +234,7 @@ test-with +args:
     @echo "🧪 Running workspace tests with args: {{args}}"
     cargo test {{workspace_flag}} -- {{args}}
 
-# ▰▰▰ Code Quality ▰▰▰ #
-
+# --- Code Quality --- #
 [doc('Format all Rust code in the workspace')]
 [group('quality')]
 fmt:
@@ -280,8 +265,7 @@ lint-fix:
     @echo "🩹 Fixing Clippy lints..."
     cargo clippy {{workspace_flag}} --fix --allow-dirty --allow-staged
 
-# ▰▰▰ Documentation ▰▰▰ #
-
+# --- Documentation --- #
 [doc('Generate project documentation')]
 [group('docs')]
 doc:
@@ -294,8 +278,7 @@ doc-open: doc
     @echo "📚 Opening documentation in browser..."
     cargo doc {{workspace_flag}} --no-deps --open
 
-# ▰▰▰ Maintenance ▰▰▰ #
-
+# --- Maintenance --- #
 [doc('Extract release notes from changelog for specified tag')]
 [group('maintenance')]
 create-notes raw_tag outfile changelog:
@@ -362,8 +345,7 @@ clean-all: clean
     @echo "🧹 Cleaning Python cache..."
     cd "{{py_script_dir}}" && rm -rf .uv_cache __pycache__
 
-# ▰▰▰ Installation ▰▰▰ #
-
+# --- Installation --- #
 [doc('Build and install binary to system')]
 [group('installation')]
 install package=(main_package): build-release 
@@ -376,8 +358,7 @@ install-force package=(main_package): build-release
     @echo "💾 Force installing {{main_package}} binary..."
     cargo install --bin {{package}} --force
 
-# ▰▰▰ Aliases ▰▰▰ #
-
+# --- Aliases --- #
 alias b    := build
 alias br   := build-release
 alias c    := check
