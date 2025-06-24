@@ -13,7 +13,6 @@ build_directory := "target"
 
 system := `rustc --version --verbose |  grep '^host:' | awk '{print $2}'`
 main_package      := "lic"
-spdx_parser_pkg := "spdx_parser"
     
 [doc('List all available recipes')]
 default:
@@ -176,22 +175,6 @@ run-release package=(main_package) +args="":
     @echo "▶️ Running {{package}} (release)..."
     cargo run --bin {{package}} --release -- {{args}}
 
-# --- External Resources --- #
-[doc('Download SPDX license templates from official repository')]
-[group('external')]
-download-templates:
-    git init
-    git remote add origin https://github.com/spdx/license-list-data.git
-    git config core.sparseCheckout true
-    echo "template/" >> .git/info/sparse-checkout
-    git pull origin main
-
-[doc('Download language configuration file from external source')]
-[group('external')]
-download-languages:
-    curl -f -L -O -X GET https://github.com/philocalyst/lang-config/releases/latest/download/languages.json
-    mv languages.json /Users/philocalyst/Projects/lichen/lic/assets/comment-tokens.json
-
 # --- Testing --- #
 [doc('Run all workspace tests')]
 [group('testing')]
@@ -314,6 +297,22 @@ install package=(main_package): build-release
 install-force package=(main_package): build-release
     @echo "💾 Force installing {{main_package}} binary..."
     cargo install --bin {{package}} --force
+
+# --- External Resources --- #
+[doc('Download SPDX license templates from official repository')]
+[group('external')]
+download-templates:
+    git init
+    git remote add origin https://github.com/spdx/license-list-data.git
+    git config core.sparseCheckout true
+    echo "template/" >> .git/info/sparse-checkout
+    git pull origin main
+
+[doc('Download language configuration file from external source')]
+[group('external')]
+download-languages:
+    curl -f -L -O -X GET https://github.com/philocalyst/lang-config/releases/latest/download/languages.json
+    mv languages.json /Users/philocalyst/Projects/lichen/lic/assets/comment-tokens.json
 
 # --- Aliases --- #
 alias b    := build
