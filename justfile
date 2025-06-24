@@ -176,21 +176,9 @@ run-release package=(main_package) +args="":
     @echo "▶️ Running {{package}} (release)..."
     cargo run --bin {{package}} --release -- {{args}}
 
-[doc('Run SPDX parser example in debug mode')]
-[group('execution')]
-run-example-spdx: 
-    @echo "▶️ Running spdx_parser example (basic_conversion)..."
-    cargo run --bin {{spdx_parser_pkg}} --example basic_conversion
-
-[doc('Run SPDX parser example in release mode')]
-[group('execution')]
-run-example-spdx-release:
-    @echo "▶️ Running spdx_parser example (basic_conversion, release)..."
-    cargo run --bin {{spdx_parser_pkg}} --release --example basic_conversion
-
 # --- External Resources --- #
 [doc('Download SPDX license templates from official repository')]
-[group('resources')]
+[group('external')]
 download-templates:
     git init
     git remote add origin https://github.com/spdx/license-list-data.git
@@ -199,7 +187,7 @@ download-templates:
     git pull origin main
 
 [doc('Download language configuration file from external source')]
-[group('resources')]
+[group('external')]
 download-languages:
     curl -f -L -O -X GET https://github.com/philocalyst/lang-config/releases/latest/download/languages.json
     mv languages.json /Users/philocalyst/Projects/lichen/lic/assets/comment-tokens.json
@@ -238,12 +226,6 @@ lint:
     @echo "🧹 Linting with Clippy (debug)..."
     cargo clippy --workspace -- -D warnings
 
-[doc('Lint code with Clippy in release mode')]
-[group('quality')]
-lint-release:
-    @echo "🧹 Linting with Clippy (release)..."
-    cargo clippy --workspace --release -- -D warnings
-
 [doc('Automatically fix Clippy lints where possible')]
 [group('quality')]
 lint-fix:
@@ -252,20 +234,20 @@ lint-fix:
 
 # --- Documentation --- #
 [doc('Generate project documentation')]
-[group('docs')]
+[group('common')]
 doc:
     @echo "📚 Generating documentation..."
     cargo doc --workspace --no-deps
 
 [doc('Generate and open project documentation in browser')]
-[group('docs')]
+[group('common')]
 doc-open: doc
     @echo "📚 Opening documentation in browser..."
     cargo doc --workspace --no-deps --open
 
 # --- Maintenance --- #
 [doc('Extract release notes from changelog for specified tag')]
-[group('maintenance')]
+[group('common')]
 create-notes raw_tag outfile changelog:
     #!/usr/bin/env bash
     
@@ -340,11 +322,9 @@ alias c    := check
 alias t    := test
 alias f    := fmt
 alias l    := lint
-alias lr   := lint-release
 alias lf   := lint-fix
 alias cl   := clean
 alias up   := update
 alias i    := install
 alias ifo  := install-force
 alias rr   := run-release
-alias rre  := run-example-spdx-release
