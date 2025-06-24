@@ -375,4 +375,3 @@ alias i    := install
 alias ifo  := install-force
 alias rr   := run-release
 alias rre  := run-example-spdx-release
-alias gc   := generate-comments
