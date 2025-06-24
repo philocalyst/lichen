@@ -15,17 +15,7 @@ target_dir      := project_root + "/target"
 main_package      := "lic"
 main_bin_flag     := "--bin" + main_package
 spdx_parser_pkg := "spdx_parser"
-
-py_script_dir := project_root + "/scripts/parse_comments"
-py_script     := py_script_dir + "/main.py"
-json_output_rel := "../../lic/src/comment-tokens.json"
-json_output     := py_script_dir + "/" + json_output_rel
-
-release_flag   := "--release"
-workspace_flag := "--workspace"
-all_flag       := "--all"
-verbose_flag   := "-vv"
-
+    
 [doc('List all available recipes')]
 default:
     just --list
@@ -35,25 +25,25 @@ default:
 [group('build')]
 check:
     @echo "🔎 Checking workspace..."
-    cargo check {{workspace_flag}}
+    cargo check --workspace
 
 [doc('Check workspace for compilation errors (release mode)')]
 [group('build')]
 check-release: 
     @echo "🔎 Checking workspace (release)..."
-    cargo check {{workspace_flag}} {{release_flag}}
+    cargo check --workspace --release
 
 [doc('Build workspace in debug mode for specified target')]
 [group('build')]
 build target="aarch64-apple-darwin" package=(main_package):
     @echo "🔨 Building workspace (debug)..."
-    cargo build {{workspace_flag}} --bin {{package}} --target {{target}}
+    cargo build --workspace --bin {{package}} --target {{target}}
 
 [doc('Build workspace in release mode for specified target')]
 [group('build')]
 build-release target=(system) package=(main_package):
     @echo "🚀 Building workspace (release) for {{target}}…"
-    cargo build {{workspace_flag}} {{release_flag}} --bin {{package}} --target {{target}}
+    cargo build --workspace --release --bin {{package}} --target {{target}}
 
 # --- Packaging --- #
 [doc('Package release binary with completions for distribution')]
@@ -191,7 +181,7 @@ run package=(main_package) +args="":
 [group('execution')]
 run-release package=(main_package) +args="":
     @echo "▶️ Running {{package}} (release)..."
-    cargo run --bin {{package}} {{release_flag}} -- {{args}}
+    cargo run --bin {{package}} --release -- {{args}}
 
 [doc('Run SPDX parser example in debug mode')]
 [group('execution')]
@@ -203,7 +193,7 @@ run-example-spdx:
 [group('execution')]
 run-example-spdx-release:
     @echo "▶️ Running spdx_parser example (basic_conversion, release)..."
-    cargo run --bin {{spdx_parser_pkg}} {{release_flag}} --example basic_conversion
+    cargo run --bin {{spdx_parser_pkg}} --release --example basic_conversion
 
 # --- External Resources --- #
 [doc('Download SPDX license templates from official repository')]
@@ -226,57 +216,59 @@ download-languages:
 [group('testing')]
 test: 
     @echo "🧪 Running workspace tests..."
-    cargo test {{workspace_flag}}
+    cargo test --workspace
 
 [doc('Run workspace tests with additional arguments')]
 [group('testing')]
 test-with +args: 
     @echo "🧪 Running workspace tests with args: {{args}}"
-    cargo test {{workspace_flag}} -- {{args}}
+    cargo test --workspace -- {{args}}
 
 # --- Code Quality --- #
 [doc('Format all Rust code in the workspace')]
 [group('quality')]
 fmt:
     @echo "💅 Formatting Rust code..."
-    cargo fmt {{all_flag}}
+    cargo fmt 
+    
 
 [doc('Check if Rust code is properly formatted')]
 [group('quality')]
 fmt-check:
     @echo "💅 Checking Rust code formatting..."
-    cargo fmt {{all_flag}} -- --check
+    cargo fmt 
+    
 
 [doc('Lint code with Clippy in debug mode')]
 [group('quality')]
 lint:
     @echo "🧹 Linting with Clippy (debug)..."
-    cargo clippy {{workspace_flag}} -- -D warnings
+    cargo clippy --workspace -- -D warnings
 
 [doc('Lint code with Clippy in release mode')]
 [group('quality')]
 lint-release:
     @echo "🧹 Linting with Clippy (release)..."
-    cargo clippy {{workspace_flag}} {{release_flag}} -- -D warnings
+    cargo clippy --workspace --release -- -D warnings
 
 [doc('Automatically fix Clippy lints where possible')]
 [group('quality')]
 lint-fix:
     @echo "🩹 Fixing Clippy lints..."
-    cargo clippy {{workspace_flag}} --fix --allow-dirty --allow-staged
+    cargo clippy --workspace --fix --allow-dirty --allow-staged
 
 # --- Documentation --- #
 [doc('Generate project documentation')]
 [group('docs')]
 doc:
     @echo "📚 Generating documentation..."
-    cargo doc {{workspace_flag}} --no-deps
+    cargo doc --workspace --no-deps
 
 [doc('Generate and open project documentation in browser')]
 [group('docs')]
 doc-open: doc
     @echo "📚 Opening documentation in browser..."
-    cargo doc {{workspace_flag}} --no-deps --open
+    cargo doc --workspace --no-deps --open
 
 # --- Maintenance --- #
 [doc('Extract release notes from changelog for specified tag')]
@@ -335,16 +327,6 @@ clean:
     @echo "🧹 Cleaning build artifacts..."
     cargo clean
 
-[doc('Clean all artifacts including generated files and caches')]
-[group('maintenance')]
-clean-all: clean
-    @echo "🧹 Removing generated JSON file..."
-    rm -f "{{json_output}}"
-    @echo "🧹 Cleaning Python virtual environment..."
-    cd "{{py_script_dir}}" && rm -rf .venv
-    @echo "🧹 Cleaning Python cache..."
-    cd "{{py_script_dir}}" && rm -rf .uv_cache __pycache__
-
 # --- Installation --- #
 [doc('Build and install binary to system')]
 [group('installation')]
@@ -369,7 +351,6 @@ alias l    := lint
 alias lr   := lint-release
 alias lf   := lint-fix
 alias cl   := clean
-alias cla  := clean-all
 alias up   := update
 alias i    := install
 alias ifo  := install-force
