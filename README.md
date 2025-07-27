@@ -162,7 +162,7 @@ This project uses `just` as a command runner (see `justfile`).
 **Prerequisites:**
 
   * Rust toolchain (latest stable recommended): [rustup.rs](https://rustup.rs/)
-  * `just` (optional but recommended): `cargo install just`
+  * just: `cargo install just`
 
 **Common Commands:**
 
