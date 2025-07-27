@@ -8,7 +8,7 @@ set dotenv-load := true
 # --- Variables --- #
 project_root    := justfile_directory()
 output_directory := project_root + "/dist"
-build_directory := "target"
+build_directory := `cargo metadata --format-version 1 | jq -r .target_directory`
 
 system := `rustc --version --verbose |  grep '^host:' | awk '{print $2}'`
 main_package      := "lic"
