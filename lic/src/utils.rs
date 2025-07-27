@@ -32,7 +32,6 @@ const COMMENT_TOKENS_JSON: &str = include_str!(concat!(
 
 // Marker for start/end of header, blank unicode joiner.
 pub const HEADER_MARKER: char = '\u{2060}';
-pub const HEADER_MARKER_STR: &str = "\u{2060}"; // String version for searching
 
 /// Renders a license template using Handlebars.
 ///
@@ -604,14 +603,14 @@ pub async fn remove_headers_from_files(
             async move {
                 trace!("Processing file for header removal: '{}'", path.display());
 
-                // |1| Skip directories
+                // Skip directories
                 if path.is_dir() {
                     warn!("Skipping directory during removal: '{}'", path.display());
                     // Return Ok with stats: (removed, skipped, errors)
                     return Ok((0, 1, 0));
                 }
 
-                // |2| Read file content as string.
+                // Get the file content as a string
                 let content = match fs::read_to_string(&path).await {
                     Ok(c) => c,
                     Err(e) => {
@@ -625,7 +624,7 @@ pub async fn remove_headers_from_files(
                     }
                 };
 
-                // |3| Handle Shebang
+                // Handle any shebangs found
                 let mut shebang_len = 0;
                 if content.starts_with("#!") {
                     // Find the first newline character
@@ -633,7 +632,7 @@ pub async fn remove_headers_from_files(
                         // Length includes the newline
                         shebang_len = pos + 1;
                     } else {
-                        // The whole file is just a shebang line (unlikely but possible)
+                        // Handle the case where the whole file is just a shebang line (unlikely but possible)
                         // In this case, no header can exist after it.
                         trace!(
                             "File '{}' is only a shebang line. Skipping removal.",
@@ -643,17 +642,18 @@ pub async fn remove_headers_from_files(
                     }
                 }
 
-                // |4| Find the LAST header marker *after* the shebang (if any)
+                // Find the LAST header marker *after* the shebang (if any)
                 let search_area = &content[shebang_len..];
-                let marker_pos_in_search_area = search_area.rfind(HEADER_MARKER_STR);
+                let last_marker_position = search_area.rfind(HEADER_MARKER);
 
-                if let Some(relative_pos) = marker_pos_in_search_area {
-                    // Calculate absolute position of the marker in the original content
+                if let Some(relative_pos) = last_marker_position {
+                    // Calculate position of the marker in the original content
                     let marker_start_pos = shebang_len + relative_pos;
-                    // Calculate the position *after* the marker
-                    let content_after_marker_pos = marker_start_pos + HEADER_MARKER_STR.len();
 
-                    // Construct the new content: shebang (if any) + content after marker
+                    // Calculate the position directly *after* the marker
+                    let content_after_marker_pos = marker_start_pos + 1;
+
+                    // Saved text buffer
                     let mut new_text = String::with_capacity(
                         shebang_len + (content.len() - content_after_marker_pos),
                     );
@@ -668,7 +668,7 @@ pub async fn remove_headers_from_files(
                     let rest_content = &content[content_after_marker_pos..];
                     new_text.push_str(rest_content.trim_start_matches('\n'));
 
-                    // |5| Write the modified content back to the file
+                    // Write it all back
                     match fs::write(&path, new_text).await {
                         Ok(_) => {
                             info!("Removed header from '{}'", path.display());

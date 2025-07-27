@@ -4,7 +4,6 @@
 
 // Application modules
 mod app;
-mod cli;
 mod commands;
 mod config;
 mod error;
@@ -26,12 +25,9 @@ use log::{debug, error, trace};
 // Main application logic
 #[tokio::main]
 async fn main() -> ExitCode {
-    // |1| Parse CLI arguments
     let cli = Cli::parse();
 
-    // |2| Initialize logging
-    // Uses clap_verbosity_flag to set level based on -v, -vv, etc.
-    // Also respects RUST_LOG environment variable.
+    // Initalize the logging
     env_logger::Builder::new()
         .filter_level(cli.verbose.log_level_filter())
         .init();
@@ -42,16 +38,16 @@ async fn main() -> ExitCode {
 
     debug!("Configuration loading step (currently placeholder).");
 
-    // |3| Create the application instance
+    // Create the instance
     let lichen_app = LichenApp::new();
 
-    // Find config
+    // See if there's a config to worry over
     let config_path = cli.config.unwrap_or(".lichen.toml".into());
 
-    // |4| Run the dispatched command
-    let result = lichen_app.run(cli.command, config_path).await; // Pass the command enum
+    // Run the command with the sourced configuration
+    let result = lichen_app.run(cli.command, config_path).await;
 
-    // |5| Handle command results and exit
+    // Handle any errors and exit :)
     match result {
         Ok(_) => ExitCode::SUCCESS,
         Err(e) => {
