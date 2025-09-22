@@ -14,6 +14,7 @@ organist.OrganistExpression
           # For the packaging process
           coreutils = organist.import_nix "nixpkgs#coreutils",
           b3sum = organist.import_nix "nixpkgs#b3sum", # Blake3
+          nushell = organist.import_nix "nixpkgs#nushell", # My scripting shell of choice
         },
       },
 
