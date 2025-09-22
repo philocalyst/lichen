@@ -310,8 +310,7 @@ download-templates:
 [doc('Download language configuration file from external source')]
 [group('external')]
 download-languages:
-    curl -f -L -O -X GET https://github.com/philocalyst/lang-config/releases/latest/download/languages.json
-    mv languages.json /Users/philocalyst/Projects/lichen/lic/assets/comment-tokens.json
+    xh --download --output="./lic/assets/comment-tokens.json" https://github.com/philocalyst/lang-config/releases/latest/download/languages.json
 
 # --- Aliases --- #
 alias b    := build
