@@ -9,5 +9,5 @@
   };
 
   outputs = {organist, ...} @ inputs:
-    organist.flake.outputsFromNickel .config/. inputs {};
+    organist.flake.outputsFromNickel ./. inputs {};
 }
