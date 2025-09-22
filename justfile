@@ -301,6 +301,8 @@ install-force package=(main_package): build-release
 [doc('Download SPDX license templates from official repository')]
 [group('external')]
 download-templates:
+    mkdir templates
+    cd templates
     git init
     git remote add origin https://github.com/spdx/license-list-data.git
     git config core.sparseCheckout true
