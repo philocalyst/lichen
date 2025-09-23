@@ -76,15 +76,15 @@ package target=(system):
         }
 
         # Copy completion scripts
-        let completions = ['lic.bash', 'lic.elv', 'lic.fish', '_lic.ps1', '_lic']
+        let completions = ['lichenn.bash', 'lichenn.elv', 'lichenn.fish', '_lichenn.ps1', '_lichenn']
 
-        for completion in $completion {
+        for completion in $completions {
             let src = $'($artifact_dir)/($completion)'
-            let dst = $'($qualified_name)/($completion)'
+            let dst = $'($out)/($completion)'
             
             if ($src | path exists) {
                 try {
-                    cp $src $dst
+                    cp --force $src $dst
                     print $" - cp ($src) → ($dst)"
                 } catch { |e| 
                     error make --unspanned { 
@@ -114,7 +114,7 @@ package target=(system):
         }
         
     } catch { |e| 
-        error make --unspanned { 
+        error make { 
             msg: $"Packaging failed: ($e.msg)" 
         }
     }
