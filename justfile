@@ -8,7 +8,7 @@ set windows-shell := ["nu", "-c"]
 set dotenv-load := true
 
 # --- Variables --- #
-project_root    := quote(justfile_directory())
+project_root    := justfile_directory()
 output_directory := project_root + "/dist"
 build_directory := `cargo metadata --format-version 1 | jq -r .target_directory`
 
@@ -50,7 +50,7 @@ package target=(system):
     
     let target = '{{target}}'
     let prime = '{{main_package}}'
-    let out = '{{output_directory}}'
+    let out = "{{output_directory}}"
     let artifact_dir = $'{{build_directory}}/($target)/release'
 
     try {
