@@ -84,7 +84,7 @@ package target=(system):
             
             if ($src | path exists) {
                 try {
-                    cp --force $src $dst
+                    cp --force $src $dst # Using force here because default nu copy only works with existing files otherwise
                     print $" - cp ($src) → ($dst)"
                 } catch { |e| 
                     error make --unspanned { 
