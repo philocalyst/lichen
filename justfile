@@ -1,17 +1,23 @@
 #!/usr/bin/env just
 
 # --- Settings --- #
-set shell := ["bash", "-euo", "pipefail", "-c"]
-set windows-shell := ["C:/Program Files/Git/usr/bin/bash.exe", "-euo", "pipefail", "-c"]
+set shell := ["nu", "-c"]
+set positional-arguments := true
+set allow-duplicate-variables := true
+set windows-shell := ["nu", "-c"]
 set dotenv-load := true
 
 # --- Variables --- #
-project_root    := justfile_directory()
+project_root    := quote(justfile_directory())
 output_directory := project_root + "/dist"
 build_directory := `cargo metadata --format-version 1 | jq -r .target_directory`
 
 system := `rustc --version --verbose |  grep '^host:' | awk '{print $2}'`
 main_package      := "lic"
+
+# ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰ #
+#      Recipes      #
+# ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰ #
     
 [doc('List all available recipes')]
 default:
@@ -28,133 +34,233 @@ check:
 [group('build')]
 build target="aarch64-apple-darwin" package=(main_package):
     @echo "🔨 Building workspace (debug)..."
-    cargo build --workspace --bin {{package}} --target {{target}}
+    cargo build --workspace --bin '{{main_package}}' --target '{{target}}'
 
 [doc('Build workspace in release mode')]
 [group('build')]
 build-release target=(system) package=(main_package):
     @echo "🚀 Building workspace (release) for {{target}}…"
-    cargo build --workspace --release --bin {{package}} --target {{target}}
+    cargo build --workspace --release --bin '{{main_package}}' --target '{{target}}'
 
 # --- Packaging --- #
 [doc('Package release binary with completions for distribution')]
 [group('packaging')]
 package target=(system):
-    #!/usr/bin/env bash
-    just build-release {{target}}
-    echo "📦 Packaging release binary…"
-
-    ext=""; 
-    if [[ "{{target}}" == *windows-msvc ]]; then 
-        ext=".exe"; 
-    fi; 
-
-    full_name="{{output_directory}}/{{main_package}}-{{target}}"
-    mkdir -p $full_name
-
-    bin="target/{{target}}/release/{{main_package}}${ext}"; 
-    out="${full_name}/{{main_package}}${ext}"; 
-
-    # now copy all completion scripts
-    comp_dir="{{build_directory}}/{{target}}/release"
-    completions=( lic.bash lic.elv lic.fish _lic.ps1 _lic )
-
-    for comp in "${completions[@]}"; do
-      src="$comp_dir/$comp"
-      dst="${full_name}"/$comp
-      if [[ -f "$src" ]]; then
-        echo " - cp $src → $dst"
-        cp "$src" "$dst"
-      else
-        echo "Warning: completion script missing: $src" >&2
-      fi
-    done
-
-    if [[ ! -d "{{output_directory}}" ]]; then
-        echo "Error: Output directory '{{output_directory}}' was not created properly" >&2
-        exit 1
-    fi
+    #!/usr/bin/env nu
     
-    echo " - cp $bin → $out"; 
-    cp "$bin" "$out"; 
+    let target = '{{target}}'
+    let prime = '{{main_package}}'
+    let out = '{{output_directory}}'
+    let artifact_dir = $'{{build_directory}}/($target)/release'
+
+    try {
+        just build-release $target
+        print "📦 Packaging release binary…"
+
+        # Windows the only one that has an executable extension
+        let ext = if ($target | str contains 'windows-msvc') { '.exe' } else { '' }
+
+        # Example: package-triplet
+        let qualified_name = $"($prime)-($target)"
+        
+        let bin_path = $'($artifact_dir)/($prime)($ext)' # Where rust puts the binary artifact
+        let out_path = $'($out)/($qualified_name)($ext)'
+
+        # Create output directory structure
+        try {
+            mkdir $out
+        } catch {
+            error make --unspanned { 
+                msg: $"Failed to create directory: ($out)" 
+            }
+        }
+
+        # Copy completion scripts
+        let completions = ['lic.bash', 'lic.elv', 'lic.fish', '_lic.ps1', '_lic']
+
+        for completion in $completion {
+            let src = $'($artifact_dir)/($completion)'
+            let dst = $'($qualified_name)/($completion)'
+            
+            if ($src | path exists) {
+                try {
+                    cp $src $dst
+                    print $" - cp ($src) → ($dst)"
+                } catch { |e| 
+                    error make --unspanned { 
+                        msg: $"Failed to copy completion script ($src): ($e.msg)" 
+                    }
+                }
+            } else {
+                print --stderr $"Warning: completion script missing: ($src)"
+            }
+        }
+
+        # Verify output directory exists
+        if not ('{{output_directory}}' | path exists) {
+            error make --unspanned { 
+                msg: "Output directory '{{output_directory}}' was not created properly" 
+            }
+        }
+
+        # Copy main binary
+        try {
+            cp $bin_path $out_path
+            print $" - cp ($bin_path) → ($out_path)"
+        } catch { |e| 
+            error make --unspanned { 
+                msg: $"Failed to copy binary ($bin_path): ($e.msg)" 
+            }
+        }
+        
+    } catch { |e| 
+        error make --unspanned { 
+            msg: $"Packaging failed: ($e.msg)" 
+        }
+    }
 
 [doc('Generate checksums for distribution files')]
 [group('packaging')]
 checksum directory=(output_directory):
-    #!/usr/bin/env bash
-    set -euo pipefail
+    #!/usr/bin/env nu
+    
+    let dir = '{{directory}}'
+    print $"🔒 Generating checksums in '($dir)'…"
 
-    dir="{{directory}}"
-    echo "🔒 Generating checksums in '$dir'…"
-
-    if [ ! -d "$dir" ]; then
-        echo "Error: '$dir' is not a directory." >&2
-        exit 1
-    fi
-
-    cd "$dir" || {
-        echo "Error: cannot cd to '$dir'" >&2
-        exit 1
+    # Validate directory exists
+    if not ($dir | path exists) {
+        error make --unspanned { 
+            msg: $"'($dir)' is not a directory." 
+        }
     }
 
-    # Go ahead and remove any stales
-    [ -f *.sum ] && rm *.sum
+    try {
+        cd $dir
+        
+        # Remove existing checksum files
+        try {
+            glob '*.sum' | each { |file| rm $file }
+        } catch {
+            # Ignore errors if no .sum files exist
+        }
 
-    # Creating just a single checksum file for all the files in this directory
-    find . -maxdepth 1 -type f \
-        ! -name "*.sum" \
-        -exec sha256sum {} + \
-      > SHA256.sum || {
-        echo "Error: failed to write checksums.sha256" >&2
-        exit 1
+        # Get all files except checksum files
+        let files = ls | where type == file | where name !~ '\.sum$' | get name
+
+        if ($files | length) == 0 {
+            print --stderr "Warning: No files found to checksum"
+            return
+        }
+
+        # Generate SHA256 checksums
+        try {
+            let sha256_results = $files | each { |file| 
+                let hash = (open --raw $file | hash sha256)
+                $"($hash)  ./($file | path basename)"
+            }
+            $sha256_results | str join (char newline) | save SHA256.sum
+        } catch |e| {
+            error make --unspanned { 
+                msg: $"Failed to generate SHA256 checksums: ($e.msg)" 
+            }
+        }
+
+        # Generate MD5 checksums
+        try {
+            let md5_results = $files | each { |file| 
+                let hash = (open --raw $file | hash md5)
+                $"($hash)  ./($file | path basename)"
+            }
+            $md5_results | str join (char newline) | save MD5.sum
+        } catch |e| {
+            error make --unspanned { 
+                msg: $"Failed to generate MD5 checksums: ($e.msg)" 
+            }
+        }
+
+        # Generate BLAKE3 checksums (using b3sum command)
+        try {
+            let b3_results = $files | each { |file| 
+                let result = (run-external 'b3sum' $file | complete)
+                if $result.exit_code != 0 {
+                    error make --unspanned { 
+                        msg: $"b3sum failed for ($file): ($result.stderr)" 
+                    }
+                }
+                let hash = ($result.stdout | str trim | split column ' ' | get column1.0)
+                $"($hash)  ./($file | path basename)"
+            }
+            $b3_results | str join (char newline) | save BLAKE3.sum
+        } catch |e| {
+            error make --unspanned { 
+                msg: $"Failed to generate BLAKE3 checksums: ($e.msg)" 
+            }
+        }
+
+        print $"✅ Checksums created in '($dir)'"
+        
+    } catch |e| {
+        error make --unspanned { 
+            msg: $"Checksum generation failed: ($e.msg)" 
+        }
     }
-
-    find . -maxdepth 1 -type f \
-        ! -name "*.sum" \
-        -exec md5sum {} + \
-      > MD5.sum || {
-        echo "Error: failed to write checksums.sha256" >&2
-        exit 1
-    }
-
-    find . -maxdepth 1 -type f \
-        ! -name "*.sum" \
-        -exec b3sum {} + \
-      > BLAKE3.sum || {
-        echo "Error: failed to write checksums.sha256" >&2
-        exit 1
-    }
-
-    echo "✅ checksums.sha256 created in '$dir'"
 
 [doc('Compress all release packages into tar.gz archives')]
 [group('packaging')]
 compress directory=(output_directory):
-    #!/usr/bin/env bash
-    set -e
+    #!/usr/bin/env nu
     
-    echo "🗜️ Compressing release packages..."
+    print "🗜️ Compressing release packages..."
     
-    if [ ! -d "{{directory}}" ]; then
-        echo "Error: Directory '{{directory}}' does not exist" >&2
-        exit 1
-    fi
-    
-    # Process each package directory
-    find "{{directory}}" -mindepth 1 -maxdepth 1 -type d | while read -r pkg_dir; do
-        pkg_name=$(basename "$pkg_dir")
-        echo "Compressing package: $pkg_name"
+    let dir = '{{directory}}'
+    if not ($dir | path exists) {
+        error make --unspanned { 
+            msg: $"Directory '($dir)' does not exist" 
+        }
+    }
+
+    try {
+        # Find all package directories
+        let package_dirs = ls $dir | where type == dir | get name
         
-        # Create archive of the entire directory
-        tar -czf "$pkg_dir.tar.gz" -C "$(dirname "$pkg_dir")" "$pkg_name" || {
-            echo "Error: Failed to create archive for $pkg_name" >&2
-            exit 1
+        if ($package_dirs | length) == 0 {
+            print "No package directories found to compress"
+            return
+        }
+
+        for pkg_dir in $package_dirs {
+            let pkg_name = ($pkg_dir | path basename)
+            print $"Compressing package: ($pkg_name)"
+            
+            try {
+                let parent_dir = ($pkg_dir | path dirname)
+                let archive_name = $'($pkg_dir).tar.gz'
+                
+                # Use tar command to create compressed archive
+                let result = (run-external 'tar' '-czf' $archive_name '-C' $parent_dir $pkg_name | complete)
+                
+                if $result.exit_code != 0 {
+                    error make --unspanned { 
+                        msg: $"Failed to create archive for ($pkg_name): ($result.stderr)" 
+                    }
+                }
+                
+                print $"✅ Successfully compressed ($pkg_name)"
+                
+            } catch |e| {
+                error make --unspanned { 
+                    msg: $"Compression failed for ($pkg_name): ($e.msg)" 
+                }
+            }
         }
         
-        echo "✅ Successfully compressed $pkg_name"
-    done
-    
-    echo "🎉 All packages compressed successfully!"
+        print "🎉 All packages compressed successfully!"
+        
+    } catch |e| {
+        error make --unspanned { 
+            msg: $"Compression process failed: ($e.msg)" 
+        }
+    }
 
 [doc('Complete release pipeline: build, checksum, and compress')]
 [group('packaging')]
@@ -166,13 +272,13 @@ release: build-release
 [group('execution')]
 run package=(main_package) +args="":
     @echo "▶️ Running {{package}} (debug)..."
-    cargo run --bin {{package}} -- {{args}}
+    cargo run --bin '{{package}}' -- '$@'
 
 [doc('Run application in release mode')]
 [group('execution')]
 run-release package=(main_package) +args="":
-    @echo "▶️ Running {{package}} (release)..."
-    cargo run --bin {{package}} --release -- {{args}}
+    @echo "▶️ Running '{{package}}' (release)..."
+    cargo run --bin '{{package}}' --release -- '$@'
 
 # --- Testing --- #
 [doc('Run all workspace tests')]
@@ -184,8 +290,8 @@ test:
 [doc('Run workspace tests with additional arguments')]
 [group('testing')]
 test-with +args: 
-    @echo "🧪 Running workspace tests with args: {{args}}"
-    cargo test --workspace -- {{args}}
+    @echo "🧪 Running workspace tests with args: '$@'"
+    cargo test --workspace -- '$@'
 
 # --- Code Quality --- #
 [doc('Format all Rust code in the workspace')]
@@ -231,46 +337,64 @@ doc-open: doc
 [doc('Extract release notes from changelog for specified tag')]
 [group('common')]
 create-notes raw_tag outfile changelog:
-    #!/usr/bin/env bash
-    
-    tag_v="{{raw_tag}}"
-    tag="${tag_v#v}" # Remove prefix v
+    #!/usr/bin/env nu
+   
+    let tag_v = '{{raw_tag}}'
+    let tag = ($tag_v | str replace --regex '^v' '')  # Remove prefix v
+    let outfile = '{{outfile}}'
+    let changelog_file = '{{changelog}}'
 
-    # Changes header for release notes
-    printf "# What's new\n" > "{{outfile}}"
-
-    if [[ ! -f "{{changelog}}" ]]; then
-      echo "Error: {{changelog}} not found." >&2
-      exit 1
-    fi
-
-    echo "Extracting notes for tag: {{raw_tag}} (searching for section [$tag])"
-    # Use awk to extract the relevant section from the changelog
-    awk -v tag="$tag" '
-      # start printing when we see "## [<tag>]" (escape brackets for regex)
-      $0 ~ ("^## \\[" tag "\\]") { printing = 1; next }
-      # stop as soon as we hit the next "## [" section header
-      printing && /^## \[/       { exit }
-      # otherwise, if printing is enabled, print the current line
-      printing                    { print }
-
-      # Error handling
-      END {
-        if (found_section != 0) {
-          # Print error to stderr
-          print "Error: awk could not find section header ## [" tag "] in " changelog_file > "/dev/stderr"
-          exit 1
+    try {
+        # Verify changelog exists
+        if not ($changelog_file | path exists) {
+            error make --unspanned { 
+                msg: $"($changelog_file) not found." 
+            }
         }
-      }
-    ' "{{changelog}}" >> "{{outfile}}"
 
-    # Check if the output file has content
-    if [[ -s {{outfile}} ]]; then
-      echo "Successfully extracted release notes to '{{outfile}}'."
-    else
-      # Output a warning if no notes were found for the tag
-      echo "Warning: '{{outfile}}' is empty. Is '## [$tag]' present in '{{changelog}}'?" >&2
-    fi
+        print $"Extracting notes for tag: ($tag_v) (searching for section [($tag)])"
+
+        # Write header to output file
+        "# What's new\n" | save $outfile
+
+        # Read and process changelog
+        let content = (open $changelog_file | lines)
+        let section_header = $"## [($tag)]"
+        
+        # Find the start of the target section
+        let start_idx = ($content | enumerate | where item == $section_header | get index | first)
+        
+        if ($start_idx | is-empty) {
+            print --stderr $"Error: Could not find section header ($section_header) in ($changelog_file)"
+            exit 1
+        }
+
+        # Find the end of the target section (next ## [ header)
+        let remaining_lines = ($content | skip ($start_idx + 1))
+        let next_section_idx = ($remaining_lines | enumerate | where item =~ '^## \[' | get index | first)
+        
+        let section_lines = if ($next_section_idx | is-empty) {
+            $remaining_lines
+        } else {
+            $remaining_lines | take $next_section_idx
+        }
+
+        # Append section content to output file
+        $section_lines | str join (char newline) | save --append $outfile
+
+        # Check if output file has meaningful content
+        let output_size = (open $outfile | str length)
+        if $output_size > 20 {  # More than just the header
+            print $"Successfully extracted release notes to '($outfile)'."
+        } else {
+            print --stderr $"Warning: '($outfile)' appears empty. Is '($section_header)' present in '($changelog_file)'?"
+        }
+
+    } catch |e| {
+        error make --unspanned { 
+            msg: $"Failed to extract release notes: ($e.msg)" 
+        }
+    }
 
 [doc('Update Cargo dependencies')]
 [group('maintenance')]
@@ -289,30 +413,13 @@ clean:
 [group('installation')]
 install package=(main_package): build-release 
     @echo "💾 Installing {{main_package}} binary..."
-    cargo install --bin {{package}}
+    cargo install --bin '{{package}}'
 
 [doc('Force install binary')]
 [group('installation')]
 install-force package=(main_package): build-release
     @echo "💾 Force installing {{main_package}} binary..."
-    cargo install --bin {{package}} --force
-
-# --- External Resources --- #
-[doc('Download SPDX license templates from official repository')]
-[group('external')]
-download-templates:
-    mkdir templates
-    cd templates
-    git init
-    git remote add origin https://github.com/spdx/license-list-data.git
-    git config core.sparseCheckout true
-    echo "template/" >> .git/info/sparse-checkout
-    git pull origin main
-
-[doc('Download language configuration file from external source')]
-[group('external')]
-download-languages:
-    xh --download --output="./lic/assets/comment-tokens.json" https://github.com/philocalyst/lang-config/releases/latest/download/languages.json
+    cargo install --bin '{{package}}' --force
 
 # --- Aliases --- #
 alias b    := build
