@@ -47,20 +47,16 @@ build-release target=(system) package=(main_package):
 [group('packaging')]
 package target=(system):
     #!/usr/bin/env nu
-        def build_error_message [
-        msg: string,           # The error message
-        error?: record         # The original error record (optional)
-    ] {
+    def build_error [msg: string, error?: record] {
         if ($error != null) {
-        # give error context
-              let annotated_error = ($error | upsert msg $'($msg): ($error.msg)')
-            $annotated_error.rendered
+            let annotated_error = ($error | upsert msg $'($msg): ($error.msg)')
+            $annotated_error.rendered | print --stderr
         } else {
-        # otherwise just throw with the message
-            build_error               msg: $msg
+            (error make --unspanned { msg: $msg }) | print --stderr
         }
+        exit 1
     }
-    
+
     let target = '{{target}}'
     let prime = '{{main_package}}'
     let out = "{{output_directory}}"
@@ -82,10 +78,8 @@ package target=(system):
         # Create output directory structure
         try {
             mkdir $out
-        } catch {
-            error make --unspanned { 
-                msg: $"Failed to create directory: ($out)" 
-            }
+        } catch {|e| 
+            build_error $"Failed to create directory: ($out)" $e
         }
 
         # Copy completion scripts
@@ -99,52 +93,52 @@ package target=(system):
                 try {
                     cp --force $src $dst # Using force here because default nu copy only works with existing files otherwise
                     print $" - cp ($src) → ($dst)"
-                } catch { |e| 
-                    error make --unspanned { 
-                        msg: $"Failed to copy completion script ($src): ($e.msg)" 
-                    }
+                } catch {|e| 
+                    build_error $"Failed to copy completion script ($src)" $e
                 }
             } else {
                 print --stderr $"Warning: completion script missing: ($src)"
             }
         }
 
-        # Verify output directory exists
+        # Verify output file does not already exist (original logic seemed inverted; keeping semantic: fail if out_path exists)
         if ($out_path | path exists) {
-            error make --unspanned { 
-                msg: $"Output directory ($out_path) was not created properly" 
-            }
+            build_error $"Output file already exists: ($out_path)"
         }
 
         # Copy main binary
         try {
-            cp $bin_path $out_path
+            cp --force $bin_path $out_path
             print $" - cp ($bin_path) → ($out_path)"
-        } catch { |e| 
-            error make --unspanned { 
-                msg: $"Failed to copy binary ($bin_path): ($e.msg)" 
-            }
+        } catch {  |e| 
+            build_error $"Failed to copy binary ($bin_path)" $e
         }
         
-    } catch { |e| 
-        error make { 
-            msg: $"Packaging failed: ($e.msg)" 
-        }
+    } catch {  |e| 
+        build_error "Packaging failed" $e
     }
 
 [doc('Generate checksums for distribution files')]
 [group('packaging')]
 checksum directory=(output_directory):
     #!/usr/bin/env nu
+    def build_error [msg: string, error?: record] {
+        if ($error != null) {
+            let annotated_error = ($error | upsert msg $'($msg): ($error.msg)')
+            $annotated_error.rendered | print --stderr
+            exit 1
+        } else {
+            (error make --unspanned { msg: $msg }) | print --stderr
+            exit 1
+        }
+    }
     
     let dir = '{{directory}}'
     print $"🔒 Generating checksums in '($dir)'…"
 
     # Validate directory exists
     if not ($dir | path exists) {
-        error make --unspanned { 
-            msg: $"'($dir)' is not a directory." 
-        }
+        build_error $"'($dir)' is not a directory."
     }
 
     try {
@@ -160,7 +154,7 @@ checksum directory=(output_directory):
         # Get all files except checksum files
         let files = ls | where type == file | where name !~ '\.sum$' | get name
 
-        if ($files | length) == 0 {
+        if (($files | length) == 0) {
             print --stderr "Warning: No files found to checksum"
             return
         }
@@ -172,10 +166,8 @@ checksum directory=(output_directory):
                 $"($hash)  ./($file | path basename)"
             }
             $sha256_results | str join (char newline) | save SHA256.sum
-        } catch |e| {
-            error make --unspanned { 
-                msg: $"Failed to generate SHA256 checksums: ($e.msg)" 
-            }
+        } catch {|e| 
+            build_error $"Failed to generate SHA256 checksums" $e
         }
 
         # Generate MD5 checksums
@@ -185,10 +177,8 @@ checksum directory=(output_directory):
                 $"($hash)  ./($file | path basename)"
             }
             $md5_results | str join (char newline) | save MD5.sum
-        } catch |e| {
-            error make --unspanned { 
-                msg: $"Failed to generate MD5 checksums: ($e.msg)" 
-            }
+        } catch {|e| 
+            build_error $"Failed to generate MD5 checksums" $e
         }
 
         # Generate BLAKE3 checksums (using b3sum command)
@@ -196,47 +186,49 @@ checksum directory=(output_directory):
             let b3_results = $files | each { |file| 
                 let result = (run-external 'b3sum' $file | complete)
                 if $result.exit_code != 0 {
-                    error make --unspanned { 
-                        msg: $"b3sum failed for ($file): ($result.stderr)" 
-                    }
+                    build_error $"b3sum failed for ($file): ($result.stderr)"
                 }
-                let hash = ($result.stdout | str trim | split column ' ' | get column1.0)
+                let hash = ($result.stdout | str trim | split row ' ' | get 0)
                 $"($hash)  ./($file | path basename)"
             }
             $b3_results | str join (char newline) | save BLAKE3.sum
-        } catch |e| {
-            error make --unspanned { 
-                msg: $"Failed to generate BLAKE3 checksums: ($e.msg)" 
-            }
+        } catch {|e| 
+            build_error $"Failed to generate BLAKE3 checksums" $e
         }
 
         print $"✅ Checksums created in '($dir)'"
         
-    } catch |e| {
-        error make --unspanned { 
-            msg: $"Checksum generation failed: ($e.msg)" 
-        }
+    } catch {|e| 
+        build_error $"Checksum generation failed" $e
     }
 
 [doc('Compress all release packages into tar.gz archives')]
 [group('packaging')]
 compress directory=(output_directory):
     #!/usr/bin/env nu
+    def build_error [msg: string, error?: record] {
+        if ($error != null) {
+            let annotated_error = ($error | upsert msg $'($msg): ($error.msg)')
+            $annotated_error.rendered | print --stderr
+            exit 1
+        } else {
+            (error make --unspanned { msg: $msg }) | print --stderr
+            exit 1
+        }
+    }
     
     print "🗜️ Compressing release packages..."
     
     let dir = '{{directory}}'
     if not ($dir | path exists) {
-        error make --unspanned { 
-            msg: $"Directory '($dir)' does not exist" 
-        }
+        build_error $"Directory '($dir)' does not exist"
     }
 
     try {
         # Find all package directories
         let package_dirs = ls $dir | where type == dir | get name
         
-        if ($package_dirs | length) == 0 {
+        if (($package_dirs | length) == 0) {
             print "No package directories found to compress"
             return
         }
@@ -253,26 +245,20 @@ compress directory=(output_directory):
                 let result = (run-external 'tar' '-czf' $archive_name '-C' $parent_dir $pkg_name | complete)
                 
                 if $result.exit_code != 0 {
-                    error make --unspanned { 
-                        msg: $"Failed to create archive for ($pkg_name): ($result.stderr)" 
-                    }
+                    build_error $"Failed to create archive for ($pkg_name): ($result.stderr)"
                 }
                 
                 print $"✅ Successfully compressed ($pkg_name)"
                 
-            } catch |e| {
-                error make --unspanned { 
-                    msg: $"Compression failed for ($pkg_name): ($e.msg)" 
-                }
+            } catch{ |e| 
+                build_error $"Compression failed for ($pkg_name)" $e
             }
         }
         
         print "🎉 All packages compressed successfully!"
         
-    } catch |e| {
-        error make --unspanned { 
-            msg: $"Compression process failed: ($e.msg)" 
-        }
+    } catch {|e| 
+        build_error $"Compression process failed" $e
     }
 
 [doc('Complete release pipeline: build, checksum, and compress')]
@@ -351,6 +337,16 @@ doc-open: doc
 [group('common')]
 create-notes raw_tag outfile changelog:
     #!/usr/bin/env nu
+    def build_error [msg: string, error?: record] {
+        if ($error != null) {
+            let annotated_error = ($error | upsert msg $'($msg): ($error.msg)')
+            $annotated_error.rendered | print --stderr
+            exit 1
+        } else {
+            (error make --unspanned { msg: $msg }) | print --stderr
+            exit 1
+        }
+    }
    
     let tag_v = '{{raw_tag}}'
     let tag = ($tag_v | str replace --regex '^v' '')  # Remove prefix v
@@ -360,9 +356,7 @@ create-notes raw_tag outfile changelog:
     try {
         # Verify changelog exists
         if not ($changelog_file | path exists) {
-            error make --unspanned { 
-                msg: $"($changelog_file) not found." 
-            }
+            build_error $"($changelog_file) not found."
         }
 
         print $"Extracting notes for tag: ($tag_v) (searching for section [($tag)])"
@@ -378,8 +372,7 @@ create-notes raw_tag outfile changelog:
         let start_idx = ($content | enumerate | where item == $section_header | get index | first)
         
         if ($start_idx | is-empty) {
-            print --stderr $"Error: Could not find section header ($section_header) in ($changelog_file)"
-            exit 1
+            build_error $"Could not find section header ($section_header) in ($changelog_file)"
         }
 
         # Find the end of the target section (next ## [ header)
@@ -403,10 +396,8 @@ create-notes raw_tag outfile changelog:
             print --stderr $"Warning: '($outfile)' appears empty. Is '($section_header)' present in '($changelog_file)'?"
         }
 
-    } catch |e| {
-        error make --unspanned { 
-            msg: $"Failed to extract release notes: ($e.msg)" 
-        }
+    } catch { |e| 
+        build_error $"Failed to extract release notes:" $e
     }
 
 [doc('Update Cargo dependencies')]
