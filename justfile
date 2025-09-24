@@ -47,6 +47,19 @@ build-release target=(system) package=(main_package):
 [group('packaging')]
 package target=(system):
     #!/usr/bin/env nu
+        def build_error_message [
+        msg: string,           # The error message
+        error?: record         # The original error record (optional)
+    ] {
+        if ($error != null) {
+        # give error context
+              let annotated_error = ($error | upsert msg $'($msg): ($error.msg)')
+            $annotated_error.rendered
+        } else {
+        # otherwise just throw with the message
+            build_error               msg: $msg
+        }
+    }
     
     let target = '{{target}}'
     let prime = '{{main_package}}'
