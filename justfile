@@ -110,9 +110,9 @@ package target=(system):
         }
 
         # Verify output directory exists
-        if not ('{{output_directory}}' | path exists) {
+        if ($out_path | path exists) {
             error make --unspanned { 
-                msg: "Output directory '{{output_directory}}' was not created properly" 
+                msg: $"Output directory ($out_path) was not created properly" 
             }
         }
 
