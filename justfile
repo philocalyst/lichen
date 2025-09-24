@@ -92,7 +92,7 @@ package target=(system):
             if ($src | path exists) {
                 try {
                     cp --force $src $dst # Using force here because default nu copy only works with existing files otherwise
-                    print $" - cp ($src) → ($dst)"
+                    print $"('Successfully copied to destination' | ansi gradient --fgstart '0x00ff00' --fgend '0xff0080' --bgstart '0x1a1a1a' --bgend '0x0d0d0d') ($src)"
                 } catch {|e| 
                     build_error $"Failed to copy completion script ($src)" $e
                 }
@@ -101,15 +101,10 @@ package target=(system):
             }
         }
 
-        # Verify output file does not already exist (original logic seemed inverted; keeping semantic: fail if out_path exists)
-        if ($out_path | path exists) {
-            build_error $"Output file already exists: ($out_path)"
-        }
-
         # Copy main binary
         try {
             cp --force $bin_path $out_path
-            print $" - cp ($bin_path) → ($out_path)"
+            print $"('Successfully copied to destination' | ansi gradient --fgstart '0x00ff00' --fgend '0xff0080' --bgstart '0x1a1a1a' --bgend '0x0d0d0d') ($bin_path)"
         } catch {  |e| 
             build_error $"Failed to copy binary ($bin_path)" $e
         }
