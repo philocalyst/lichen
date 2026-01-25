@@ -1,4 +1,3 @@
-// build.rs
 use clap::{CommandFactory, ValueEnum};
 use clap_complete::{Shell, generate_to};
 use std::{env, error::Error, fs, path::Path};

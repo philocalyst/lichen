@@ -117,7 +117,7 @@ impl ApplySettings {
 pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
     debug!("Starting handle_apply with args: {:?}", settings);
 
-    // ▰▰▰ Get options from setting struct ▰▰▰
+    // Get options from setting struct
     let license = settings.license;
     let exclude_pattern = &settings.exclude;
     let targets = &settings.targets;
@@ -126,7 +126,6 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
     let year = &settings.date;
     let dry_run = settings.dry_run;
     let preference = settings.prefer_block;
-    //
 
     debug!(
         "Applying license header for: {} to targets: {:?}",
@@ -136,7 +135,7 @@ pub async fn handle_apply(settings: &ApplySettings) -> Result<(), LichenError> {
     debug!("Exclusion pattern: {:?}", exclude_pattern);
     debug!("Block comments preferred?: {}", preference);
 
-    // ▰▰▰ Get License Header Content ▰▰▰ //
+    // Get License Header Content //
     let template_content = settings.license.template_content();
     debug!(
         "Using embedded template content for {}",

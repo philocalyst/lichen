@@ -112,7 +112,6 @@ impl fmt::Display for Author {
 
 impl fmt::Display for Authors {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        // Simple and easy, just get the string representation of each author, and join with comma.
         let joined = self
             .0
             .iter()
@@ -310,12 +309,10 @@ multiple = "not a boolean" # Invalid type
         let result = Config::load(file.path());
         assert!(result.is_err());
         assert!(matches!(result, Err(LichenError::Msg(_))));
-        assert!(
-            result
-                .unwrap_err()
-                .to_string()
-                .contains("config parse error")
-        );
+        assert!(result
+            .unwrap_err()
+            .to_string()
+            .contains("config parse error"));
     }
 
     #[test]
